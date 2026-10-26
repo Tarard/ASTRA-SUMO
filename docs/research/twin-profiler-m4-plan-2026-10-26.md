@@ -15,6 +15,29 @@ Design v2, the M2 v3 protocol and decisions, and the M2 stage results are commit
 [C3](twin-profiler-m2-c3-result-2026-10-26.md). Section 12 quotes the rules of those documents that this plan relies
 on and summarizes the M2 stages; section 13 defines the terms.
 
+**Revised 2026-10-26 after the reviewer's verdict.** A read-only review of the first version of this plan and of the
+fragility results (archive `codex_review_m4plan.json`, sha256 `a30f2021...9bd0`; good = false) asked for the changes
+below. Nothing had relied on the first version.
+- **Headroom and demand timing** (sections 2.1, 9, 10). The plan no longer says that main130 has no headroom or that
+  M2 cannot be completed on the demand-timing family. Headroom was not demonstrated, and the evidence is weak either
+  way. One failed confirmation at a plug-in power of about 0.47 does not show that the family cannot qualify, and
+  withdrawing flow F2 is an owner choice (OD0 (a)).
+- **Provenance** (section 12; results, section 6). The basis documents are committed snapshots; the first version of
+  section 12 said that they were not in the repository. The selector fix is commit `01f91817`.
+- **T5, new in M4.0** (sections 2.4 and 4). The exact evaluator refuses unequal arms above 20,000 relabelings and
+  K = 17 or more. T5 fixes, before M4.0 freezes, the method for unequal arms and for K up to 24, its known answers,
+  its analysis budget, the margins at those sizes and the outcome when too few healthy draws remain.
+- **T2** (section 4). The routeability draw design and the independence of the arms are frozen, the binomial and
+  Newcombe calculations are tied to that design, and resampling intervals are labelled conditional Monte Carlo
+  uncertainty.
+- **M4.3 persistence labels** (sections 7 and 11). The `effect_basis` threshold, which attributed a gain to fragility
+  or calibration, is replaced by descriptive persistence labels with an explicit `unresolved` category. The plan now
+  states that conditioning on health changes the comparison.
+- **Known-positive check first** (sections 2.1, 6, 7, 8 and 9). The confirmation-scale twin-of-twin check at K = 16
+  moves before the M4.2 loop as a recommended step for each admitted family: M qualified at C2 while none of its 28
+  K = 6 primary screens was `improved`, so qualification alone did not show power at the confirmation gate. Budgets,
+  effort and the owner decisions are updated.
+
 **Names.** The design's flows are written *flow F2 (demand timing)* and *flow F1-lite*. The fragility candidates of
 the [pre-registration](ring1-fragility-prereg-2026-10-26.md) and the
 [owner-delegated decisions](ring1-fragility-owner-decisions-2026-10-26.md) are written *candidate F1* (S03, delete
@@ -33,12 +56,12 @@ numbers M4.0 to M4.3.
 | | design v2 M4 | this plan |
 |---|---|---|
 | precondition | M2 exit criterion and M3 acceptance | M3 acceptance (met, `ae21563`). M2's exit criterion was not met (C3 failed). M4.2 and M4.3 would run without it, which needs owner decision OD0 before M4.0 (section 2.1) |
-| Calibrate loop | flow F2 (demand timing): surrogate `cell_depart_shift` ops, one per round | proposed for withdrawal (section 2.1, OD0); replaced by M4.2, hour-scale structural candidates judged on ms4 |
+| Calibrate loop | flow F2 (demand timing): surrogate `cell_depart_shift` ops, one per round | proposed for withdrawal, an owner choice that the M2 evidence does not force (section 2.1, OD0 (a)); if withdrawn, replaced by M4.2, hour-scale structural candidates judged on ms4 |
 | Build loop | flow F1-lite: single-fact ops on 3 K2 goals | M4.1: the same no-agent loop on the fragility goals of the Calibrate parent; the K2 run stays as its machinery check |
 | parent for calibration work | the original parent | the fixed parent if M4.1 adopts one, else the original parent |
-| tools | as built in M1 to M3 | M4.0 first fixes four limits that the static gate and the runs exposed (T1 to T4); T2 and T3 change rules of design v2 and of the M2 decisions, so their principle is an owner decision (OD2, OD3) |
-| accounting | trial log; one confirmatory comparison on 8 fresh keys | M4.3: the trial log opens before the first M4.1 judgement; one calibration confirmation on disjoint fresh secret keys, 16 per arm (M2 amendment A1.3), with a pre-registered sensitivity analysis that separates a fragility effect from a calibration gain |
-| budget | 2 days plus runtime | about 9.5 days of code (estimate, with an owner stop point for M4.0); 266-282 Calibrate runs plus 15-16 spares, about 7.4-7.8 h and 41-44 GB; static-gate work about 4.2 h at one worker (estimate); section 8 |
+| tools | as built in M1 to M3 | M4.0 first fixes five limits: four that the static gate and the runs exposed (T1 to T4) and the confirmation evaluator's scope (T5), which the review of this plan found; T2 and T3 change rules of design v2 and of the M2 decisions, so their principle is an owner decision (OD2, OD3) |
+| accounting | trial log; one confirmatory comparison on 8 fresh keys | M4.2: a recommended confirmation-scale known-positive check per admitted family before its loop. M4.3: the trial log opens before the first M4.1 judgement; one calibration confirmation on disjoint fresh secret keys, 16 per arm unless OD9 raises K (M2 amendment A1.3), with a pre-registered sensitivity analysis that reports whether the gain persists on the draws without a health failure (descriptive labels, attributing nothing) |
+| budget | 2 days plus runtime | about 10.5 days of code (estimate, with an owner stop point for M4.0); 330-346 Calibrate runs plus 19-20 spares with the recommended known-positive checks (266-282 plus 15-16 without them), about 9.2-9.6 h and 51-53 GB; static-gate work about 4.2 h at one worker (estimate); section 8 |
 
 The parts run in order: M4.0, then M4.1, then M4.2, then M4.3, whose trial log covers M4.1 and M4.2. The agent loop
 stays in M5 (section 10). **Firewall:** M4 adds no SUMO installation path, repository clone or Python environment.
@@ -48,15 +71,21 @@ points from one committed code state, as the fragility check did.
 
 ## 2. The evidence that changes M4
 
-### 2.1 The 15-min objective has no headroom, and demand timing has not confirmed at hour scale
+### 2.1 Headroom on the 15-min objective was not demonstrated, and demand timing has not confirmed at hour scale
 
 - On main130 the parent's distance to the real counts is not larger than its own draw-to-draw distance: PR/PP 0.96
   on k1..k6 (excess -13.3, jackknife SE 27.8, so weak evidence either way) and 0.99 on the 8 fresh draws k7..k14
   (z -0.39). M2 called this the parent's chaos floor; it is a statement about this parent and this day (M2
-  amendment A1.8), and it leaves the gate nothing at 15-min resolution to separate from draw-to-draw spread.
+  amendment A1.8). Headroom at 15-min resolution was therefore not demonstrated. These panels do not show that there
+  is none: a misfit smaller than their resolution would not appear in them.
 - The only qualified demand-timing positive, `cell_depart_shift:107:900` (M; paired ms4 ED 26.27, swap p 1/32), was
   not confirmed at C3: T = -7.745, p = 0.352 on 16 + 16 disjoint secret keys, with H2 and the H3 `post_window` guard
-  also failing. Its plug-in power for the primary test was about 0.47, so C3 says nothing about M's real effect.
+  also failing. Its plug-in power for the primary test was about 0.47, so C3 is weak evidence about M's real effect
+  in either direction. One failed confirmation at that power does not show that M, or the demand-timing family,
+  cannot qualify or confirm.
+- Qualification did not show power at the confirmation gate either: M qualified at C2, yet none of its 28 K = 6
+  primary screens against its own 8-draw truth ensemble was `improved`, and test I failed in all 28 (C2, P1; mean
+  T -28.4, smallest p 0.062).
 - The one hour-scale corridor timing op screened at C2, `cell_depart_shift:101:2700` (X), failed qualification
   (ED 8.27, swap p 9/32, minimum leave-one-key-out ED -8.7, spread-driven). All 9 eligible corridor timing ops had a
   negative predicted ms4 gain, and the queue model over-predicted the effect (ED 25.21 predicted, 8.27 measured).
@@ -70,17 +99,26 @@ never confirmed a known positive: C3 failed at an approximate power of 0.47, so 
 nor that it does not. When M2 fails, the design says that "a human revises K, the family, g_min or the grid under a
 new protocol version". This plan is a proposal for that revision, and the owner decides it as OD0, before M4.0:
 
-- (a) replace design v2's M4 by M4.0 to M4.3, and withdraw flow F2 (demand timing);
+- (a) replace design v2's M4 by M4.0 to M4.3; and, as a separate choice, withdraw flow F2 (demand timing) or keep it.
+  If it is kept, M4.2 does not replace it, and flow F2 needs its own revised protocol outside this plan (for example
+  a confirmation of a demand-timing positive at a larger K);
 - (b) accept M4.2's per-family qualification (section 6) in place of the exit criterion for the M4.2 loop. It is
-  weaker: 2 positives and 2 negative controls per family at K = 6, with no confirmation-scale check, against the
-  criterion's 12 validation nulls, 12 placebos and 4 large positives with a promotion pass;
-- (c) run M4.3 on a confirmation test that has not confirmed a known positive, or first run the confirmation-scale
-  known-positive check of section 7 (a twin-of-twin positive at K = 16, 32 runs).
+  weaker: 2 positives and 2 negative controls per family at K = 6, against the criterion's 12 validation nulls, 12
+  placebos and 4 large positives with a promotion pass. Qualification alone has no confirmation-scale check, and C2
+  showed that it does not imply power at the confirmation gate;
+- (c) run the confirmation-scale known-positive check of section 6 for each admitted family before the M4.2 loop
+  (recommended; a twin-of-twin positive at K = 16, 32 runs per family), or skip it and run M4.2 and M4.3 on a
+  confirmation test that has not confirmed a known positive; and whether a family whose check is not `improved` is
+  looped at all.
 
-The reasons to go on without the exit criterion are that its validation set was built for the demand-timing family,
-which this plan withdraws, and that M2 cannot be completed on that family: its only positive did not confirm and its
-hour-scale op did not qualify. These are reasons for a human to revise the protocol, not a replacement for that
-decision. Demand timing returns only with a qualified family on an objective with headroom (section 10).
+This plan's reasons for going on without the exit criterion are that its validation set was built for the
+demand-timing family, and that the M2 evidence on that family is weak: its only qualified positive did not confirm,
+at a plug-in power of about 0.47, and its hour-scale op did not qualify. That evidence does not show that the family
+cannot qualify or confirm, or that M2 cannot be completed on it, and it does not exclude that a larger confirmation K
+or another hour-scale demand-timing op would. Withdrawing flow F2 is therefore the owner's choice (OD0 (a)), not a
+consequence of the evidence, and these reasons are inputs to the owner's revision of the protocol, not a replacement
+for it. If flow F2 is withdrawn, demand timing returns only with a family that qualifies at hour scale, on an
+objective whose excess the parent panel has shown, as ms4's in C1 (section 10).
 
 ### 2.2 The hour-scale misfit replicates on fresh draws
 
@@ -123,7 +161,7 @@ where the twin now runs late. Part of the hour-scale misfit may therefore be fra
 and M4 does not test it: the new-baseline panel in M4.1 reports a descriptive per-field comparison on those six
 fields, with no rate, before M4.2 picks its targets.
 
-### 2.4 Four tool limits
+### 2.4 Five tool limits
 
 | id | limit | evidence | M4 needs |
 |---|---|---|---|
@@ -131,19 +169,20 @@ fields, with no rate, before M4.2 picks its targets.
 | T2 | The absolute L3 subset rule rejects a candidate for a remote stochastic collision under a chaotic parent | Candidate F2: one junction collision with a collision teleport on `:260305243_0_1`, about 0.6 km outside the edit scope, on routeability seeds 7 and 97; collisions carry no request identity, so L3 can never pass them | deterministic route failures stay hard; remote collision outcomes judged by a rate bound with an owner-set materiality margin, pre-registered and checked on fresh draws. This reverses a design v2 rule (OD3). The round-2 L3 rejection of candidate F2 stays as recorded |
 | T3 | The H2 health rule fails every candidate when the reference arm holds the parent's own failure | C3 reference draw c3-reference-03 is a parent S01 gridlock, a class outside the panel's {collision, teleport}; `m2_stage.health_step` tests classes on both arms, so the C3-reference stage was `unhealthy` for candidate F2, which had 0 unhealthy draws | the reference arm's own failure classes no longer fail the candidate; the candidate side stays as the owner-delegated decision fixed it (OD2) |
 | T4 | S02 has no expressible fix | Each single `set_lane_count` intermediate on -186821026 or -142944318 creates a new fork or merge at 13870881, which INV-AUDIT rejects under one op per round | a compound corridor lane-count op judged on its final state only |
+| T5 | The exact unpaired evaluator covers equal arms of at most 16 draws and small unequal designs only | `ensemble.unpaired_crps_test` refuses unequal arms above 20,000 relabelings, with no random fallback (a 16/15 split has C(31, 16) = 300,540,195), and equal arms above `MAX_UNPAIRED_DRAWS` = 16, so K = 17 is refused; the frozen gates exist for K = 8 and 16 only, and H1 requires equal arms of the gate's K. Found by the review of this plan, not by a run | for M4.3's healthy-subset analysis and OD9's larger K: a stated method for unequal arms and for K up to 24, its known answers, an analysis budget, margins at those sizes and an outcome when too few healthy draws remain |
 
 The fragility review also found a selector-validation gap in the declared-target lint (a signal target's selector
-was not tied to its fact id). It was closed after the F2 run (results, section 6) and is part of the frozen M4.0
-code state, not a separate part.
+was not tied to its fact id). It was closed after the F2 run by commit `01f91817` (results, section 6) and is part
+of the frozen M4.0 code state, not a separate part.
 
 ## 3. Structure and dependencies
 
 | part | content | depends on | hands to the next part |
 |---|---|---|---|
-| M4.0 | tool fixes T1-T4, each with acceptance criteria and known-answer cases; one frozen, reviewed code state | M3 (`ae21563`), the fragility harness and its follow-up; OD0, OD1-OD3, OD8 and OD9 | the frozen code state and the pre-registered rule texts |
+| M4.0 | tool fixes T1-T5, each with acceptance criteria and known-answer cases; one frozen, reviewed code state | M3 (`ae21563`), the fragility harness and its follow-up; OD0, OD1-OD3, OD8 and OD9 | the frozen code state and the pre-registered rule texts |
 | M4.1 | no-agent structural Build loop on the fragility sites; adoption of a fixed parent; a C1-style panel on it | M4.0; owner budget (OD4); owner adoption sign-off (OD5) | the M4 baseline (fixed or original), its 14-draw panel, the gate artifact `m4-gate-<sha8>` |
-| M4.2 | hour-scale structural candidates for the Z11-Z13 and Z4/Z5/0535Z4 corridors, qualified with hour-scale positive controls, screened with the M2 v3 ensemble gate on ms4 | M4.1's baseline and gate artifact; the ms4 re-check on that baseline; OD6 | one frozen final candidate, or `no_candidate` |
-| M4.3 | the append-only trial log (opened at the start of M4.1) and one confirmatory comparison on fresh secret keys | the frozen final candidate; OD0 (c); optionally a second count day (OD7) | the M4 outcome: `accepted_for_review`, `not_confirmed` or `no_candidate` |
+| M4.2 | hour-scale structural candidates for the Z11-Z13 and Z4/Z5/0535Z4 corridors, qualified with hour-scale positive controls, checked at confirmation scale with a known positive per admitted family (recommended), screened with the M2 v3 ensemble gate on ms4 | M4.1's baseline and gate artifact; the ms4 re-check on that baseline; OD0 (c); OD6 | the known-positive check record of each admitted family; one frozen final candidate, or `no_candidate` |
+| M4.3 | the append-only trial log (opened at the start of M4.1) and one confirmatory comparison on fresh secret keys | the frozen final candidate and its family's check record; K (OD9); optionally a second count day (OD7) | the M4 outcome: `accepted_for_review`, `not_confirmed` or `no_candidate`, with its persistence label |
 
 A part starts only after its predecessor meets its acceptance criteria. A part that fails stops the milestone at
 that point and hands the decision to the owner; nothing is relaxed automatically.
@@ -221,20 +260,36 @@ its parameters.
 - **Hard, new.** Any collision or teleport on a lane that the materialization changed: the op pairs, every connection
   in the T1 side-effect list and the internal lanes of the scope junctions.
 - **Rate-based, new.** Every other collision outcome (a *remote* collision). Each routeability draw is a pair
-  (frozen-trip seed, second variation key, for example a keyed departure jitter), so that two parent draws on the same
-  seed can differ. The rule bounds the candidate's per-draw remote-collision rate against the parent's on fresh draws
+  (frozen-trip seed, second variation key, for example a keyed departure jitter). The variation key matters only for the
+  paired or stratified alternatives below, where two draws can share a seed. The rule bounds the candidate's per-draw remote-collision rate against the parent's on fresh draws
   by non-inferiority: the one-sided 95% upper bound of the rate difference, by the Newcombe hybrid score interval,
   must not exceed `delta_coll`. Lack of significance never passes a candidate.
+- **Draw design, frozen before the M4.0 code freeze (OD3).** By default every arm gets fresh, independent draws. For
+  each draw of each arm, the frozen-trip seed is drawn uniformly from the declared range 0 to 2^31 - 1 (SUMO's seed
+  range), excluding every seed in the trial log's prior exposure, and the variation key comes from `os.urandom`. No seed and no key is shared between
+  arms or reused within an arm, and all of them are committed by SHA-256 before the first audit. Each arm's
+  remote-collision indicators are then independent draws with that arm's rate, and the two arms are independent, up
+  to a finite-population effect of sampling a few hundred seeds without replacement from 2^31 values, which is
+  negligible.
+  The Newcombe interval for two independent proportions and the exact binomial pass probabilities below assume this
+  design. Two other designs need different treatment; the owner may choose one of them instead, but only before the
+  freeze:
+  - shared seeds or shared variation keys between arms (common random numbers) pair the draws, so the bound needs an
+    interval for paired proportions (for example a score interval for matched pairs), with pass probabilities
+    recomputed under a declared within-pair dependence;
+  - a fixed set of seed strata used by both arms stratifies the draws, so the bound needs a stratified interval, and
+    the rate it bounds is a rate over those strata, not over the seed distribution.
 - **`delta_coll` is a materiality choice, not a noise quantile.** The proposed value is 0.03: at most 3 more remote
   collision outcomes per 100 frozen-trip draws than the parent, the largest increase this plan proposes to treat as
   immaterial for a Build fix. It is a value judgement for OD3. The parent showed no collision on the 10 frozen-trip
   seeds of the round-2 static gate, so its own rate gives no anchor. The parent-versus-parent panels of acceptance
   case 1 do not set `delta_coll`: they measure the parent's rate and how often a candidate that changes nothing
   passes, and so they set the number of draws. If such a candidate would pass with probability below 0.9 at the
-  measured parent rate, the draws per arm go from 200 to 400 (OD3); `delta_coll` is never widened to fit the noise.
-  This replaces the earlier proposal (Wald bound, `delta_coll` from the parent-versus-parent q99 with a floor of
-  0.05).
-- **Pass probabilities**, computed exactly over the binomial distributions of both arms:
+  measured parent rate (a plug-in value), the draws per arm go from 200 to 400 (OD3); `delta_coll` is never widened
+  to fit the noise. This replaces the earlier proposal (Wald bound, `delta_coll` from the parent-versus-parent q99
+  with a floor of 0.05).
+- **Pass probabilities**, computed exactly over the binomial distributions of both arms, under the default draw
+  design (independent arms, independent draws at a common rate within each arm):
 
 | candidate rate against parent rate | earlier proposal: Wald, 0.05, 200 draws | Newcombe, 0.05, 200 | proposed: Newcombe, 0.03, 200 | Newcombe, 0.03, 400 |
 |---|---|---|---|---|
@@ -254,12 +309,17 @@ remote collisions per draw against a parent at 0 passes with probability 0.61, a
 Wald bound is anti-conservative near 0: at its own margin (0.05 against 0) it passes with probability 0.12. The
 Newcombe bound passes with probability 0.059 at the proposed margin and 200 draws, close to its nominal 0.05. The
 proposed default costs power when the parent rate is not near 0 (0.80 at 0.01), which is what 400 draws are for.
+These probabilities, and the Newcombe bound's nominal level, hold for the default draw design only; a paired or
+stratified design needs its own interval and its own table.
 
 **Acceptance and known-answer cases.**
-1. *Parent against parent.* Two independent parent panels of 200 draws each measure the parent's per-draw
-   remote-collision rate and its parent-versus-parent difference, and fix the number of draws as above. A third
-   check, on fresh draws at that number per arm, runs the parent against a null-effect re-materialization through the
-   same plan path; it must pass. Its false-reject frequency over resamples is reported with a Clopper-Pearson bound.
+1. *Parent against parent.* Two independent parent panels of 200 draws each, under the frozen draw design, measure
+   the parent's per-draw remote-collision rate and its parent-versus-parent difference, and fix the number of draws
+   as above. A third check, on fresh draws at that number per arm, runs the parent against a null-effect
+   re-materialization through the same plan path; it must pass. That pass is one decision on fresh draws. Any
+   false-reject frequency obtained by resampling recorded draws (with a frozen, recorded resampling seed) is reported
+   with its Clopper-Pearson interval labelled *conditional Monte Carlo uncertainty*: it describes the resampling
+   error given those recorded draws, not the rule's false-reject rate on new parent draws.
 2. *In-scope collision.* A synthetic fixture verified to collide: a junction with two crossing internal paths that
    are both green and have no foe relation (a constructed right-of-way error), with frozen trips timed to reach the
    crossing together. It counts as a known answer only after a recorded routeability run shows a collision on a
@@ -372,6 +432,77 @@ inside a junction. Lint refuses:
 changes what `astra network verify-edit` accepts and needs its documentation in the same change, or stays a
 twin-layer composite of the existing `set_lane_count` op applied in one materialization.
 
+### T5: the permutation evaluator for unequal arms and larger K
+
+**Why.** M4.3's healthy-subset analysis (section 7) and M4.1's guard sensitivity compare the draws without a health
+failure, so their arms are in general unequal. OD9 may raise K above 16. The current evaluator supports neither (T5 in
+section 2.4). T5 settles both before the M4.0 code freeze; until it does, neither analysis runs and K stays at 16.
+
+**Required behaviour.**
+- *Equal arms, the claim-bearing test.* The exact linear-form count (the meet-in-the-middle count over the integer
+  coefficients of `unpaired_crps_contributions`) is extended to equal arms of up to K_max = 24 draws, that is
+  2 x 2^24 subset sums. M4.3's primary test stays exact over all C(2K, K) relabelings, as A1.3 requires, and a Monte
+  Carlo p never decides an outcome. OD9 chooses K from {16, 20, 24}. A K above 24 would need an amendment of A1.3,
+  which this plan does not propose.
+- *Unequal arms, report-only.* With unequal arm sizes the fair-CRPS difference is not linear in the labels: the
+  within-arm normalizers differ, so the cross-arm distance sum stays in the statistic as a quadratic term. Neither the
+  meet-in-the-middle count nor a dynamic programme over a linear statistic therefore applies to it. The healthy-subset
+  analyses call the test and the guards directly, outside the stage evaluator, whose H1 keeps requiring equal arms of
+  the gate's K.
+  - When C(n1 + n2, n1) is at most 20,000, the existing direct enumeration gives the exact p.
+  - Above that, the p is a Monte Carlo permutation p: B = 100,000 relabelings, each a uniformly random subset of n1 of
+    the pooled draws, drawn independently by numpy's PCG64 generator from a 64-bit seed. The seed is frozen and hashed
+    with the candidate before any M4.3 key is drawn. The p is (1 + hits) / (1 + B), a valid p value for the
+    permutation null at any B.
+  - Each record carries the seed, B, the hits and the 99% Clopper-Pearson interval of the exact permutation p given
+    the hits (half-width about 0.0018 near p = 0.05). That interval is conditional Monte Carlo uncertainty about the
+    permutation p of these draws, not sampling uncertainty about the arms.
+- *Margins.* The M4.0 gate versions carry the original parent's margins at K = 20 and 24, by the formulas that built
+  `m2-confirmation-K16` from the 14-draw panel k1..k14:
+  - the t-margins t_{0.99,13} s sqrt(2 / K);
+  - N1, the draw-level bootstrap q99 of the largest K-mean row growth;
+  - N3 and N4, the larger of the block-bootstrap q99 at K and the exact K = 5 split q99 scaled by sqrt(5 / K), with
+    N3's floor of 5 vehicles;
+  The H2 count margin is not one of those formulas. At K = 8 and 16 it is the value M2 amendment A2.1 declared as a
+  materiality margin from the parent's observed rate 1/14 (1 and 2; `HEALTH_MARGINS` in `twin/m2_stage.py`). For
+  K = 20 and 24 this plan proposes a new declared rule, written after C3 and decided under OD9: the smallest margin
+  that two equal-rate arms at the pooled parent rate 3/46 exceed with probability at most 0.05 (independent draws on
+  disjoint fresh keys), which gives 3 at K = 20 (0.013; 2 would give 0.052) and 3 at K = 24 (0.020; 2 would give
+  0.068). The rule matches A2.1's declared value only at K = 16 (2, with 0.035), by coincidence; at K = 8 it would
+  give 2, not the declared 1.
+
+  For unequal healthy subsets of sizes n1 and n2, the same formulas apply with sqrt(2 / K) replaced by
+  sqrt(1/n1 + 1/n2), sqrt(5 / K) by sqrt(5 (1/n1 + 1/n2) / 2), and N1's bootstrap run at sizes (n1, n2). The formulas
+  are frozen in M4.0; the values follow from the sizes, which are known only after the runs.
+- *Too few healthy draws.* A healthy-subset analysis needs at least K/2 draws without a health failure in each arm
+  (8 at K = 16). With fewer in either arm it is not computed, and its label is `unresolved` with the reason
+  `too_few_healthy_draws`. In M4.1 the guard sensitivity then cannot support "no calibration regression detected".
+- *Analysis budget.* At most 15 minutes and 4 GB of memory per test at one worker, measured in M4.0 on the largest
+  allowed cases: equal arms at K = 24 and a 24/23 Monte Carlo test. A K whose exact count exceeds the budget is
+  removed from OD9's choices before the freeze.
+
+**Acceptance and known-answer cases.**
+1. *Recorded values.* At K = 16 the extended count reproduces the recorded test I values exactly: C3's T = -7.745 and
+   p = 0.352, and the fragility check's T = -31.383 with p 0.154 and T = -49.558 with p 0.041 (results, section 4.3).
+2. *Linear form against enumeration.* For equal arms of 2 to 8 draws on synthetic counts, the linear-form count equals
+   the direct enumeration of the fair-CRPS difference over every relabeling.
+3. *Counts at large K.* For K = 17, 20 and 24, on synthetic draws with small integer counts, the meet-in-the-middle
+   count equals an independent dynamic-programming count of the size-K subsets by coefficient sum.
+4. *Monte Carlo against exact.* On unequal cases that direct enumeration can still check in a test (for example 6/5,
+   9/7 and 10/8 arms), and on the recorded C3 arms at 16/16 run through the Monte Carlo path, the exact p lies
+   inside the 99.9% interval for each of 10 seeds frozen in the test. A miss fails the case and is investigated; the
+   seeds are never changed to pass. The same seed reproduces the same p.
+5. *Refusals.* K above K_max, an arm of fewer than 2 draws, and a Monte Carlo p for the claim-bearing test are
+   refused.
+6. *Margins.* Rebuilding K = 16 by the frozen margin formulas reproduces every formula-built margin of
+   `m2-confirmation-K16` (`cd7db25e...`), and its H2 count margin equals A2.1's declared value (2). The K = 20 and 24 gates are new gate versions with their own SHA-256, and `m2-confirmation-K8`
+   and `m2-confirmation-K16` stay reproducible.
+7. *Too few.* Synthetic arms with 7 healthy draws of 16 in one arm give `unresolved` with `too_few_healthy_draws`.
+
+**Owner decision (OD9).** K for M4.3 from {16, 20, 24}. For an effect of M's plug-in size, K = 20 and 24 raise the
+approximate power from 0.47 to about 0.55 and 0.61 (normal scaling of C2's P2 value), so even K = 24 leaves the
+power near 0.6 for an effect of that size.
+
 ### Claim boundary of M4.0
 
 M4.0 establishes rule behaviour on known-answer and synthetic cases only. It shows no edit to be correct, and no
@@ -427,7 +558,10 @@ in C3. The arms are P (the original parent), A, B and C. Each test is unpaired a
 can hold against P only because of them. H3 and N1-N4 are therefore also recomputed on the draws without a health
 failure in either arm, and the split of the ms4 fair-CRPS difference into its location and spread parts
 (d_mean_tae = d_crps + d_half_gmd) is reported. The claim "no calibration regression detected" is made only when the
-guards hold on all draws and on the draws without a health failure.
+guards hold on all draws and on the draws without a health failure. The healthy subsets are in general unequal; their
+margins and the rule for too few healthy draws are T5's. Conditioning on health changes the comparison: health is an
+outcome of each arm, so a fix that changes the failure rate changes which draws are compared, and a guard result on
+the subset is reported as it is, not attributed to fragility or calibration.
 
 **Adoption.** The pre-registered order is C, then A: the first accepted candidate becomes the M4 baseline, and only
 after a human signs it (OD5). On adoption, a new Calibrate goal binds:
@@ -449,8 +583,9 @@ The original goal stays as it is. If no candidate is accepted, M4.2 runs on the 
   and Z15 (which S01 spill-back reaches) and 0119Z11 to Z13 (which the diagnosis expects a fix to shift earlier). It
   has no rate, tests nothing and only informs M4.2's targets (section 2.3).
 
-If ms4 fails the re-check, main130 would become primary under A1.2, where no headroom was measured. M4.2 then stops
-for an owner decision instead. The values are frozen into the gate artifact `m4-gate-<sha8>` before any M4.2 run.
+If ms4 fails the re-check, main130 would become primary under A1.2, where the original parent's panels showed no
+excess (headroom not demonstrated, section 2.1). M4.2 then stops for an owner decision instead. The values are
+frozen into the gate artifact `m4-gate-<sha8>` before any M4.2 run.
 
 **Stop and outcome.** The loop ends with one stop_reason:
 - `solved`, when a candidate is adopted;
@@ -511,7 +646,7 @@ has a one-sided Clopper-Pearson lower bound of at least 0.5 over the 14 draws.
 
 **Hour-scale positive and negative controls** (twin of twin, per family). Under OD0 (b) this qualification takes the
 place of design v2's exit criterion for the M4.2 loop. It is weaker (section 2.1): it shows only that the gate can
-see an op of that size at screening scale.
+see an op of that size at screening scale, and the confirmation-scale check below adds what it lacks.
 - For each positive, op* is drawn from the family's admissible ops at the target corridors by a fixed sampler seed,
   without looking at residuals: two distinct ops, where possible a moderate and a large one. The truth is
   y* = baseline + op* on 8 fresh keys, disjoint from the panel.
@@ -527,6 +662,23 @@ see an op of that size at screening scale.
 - **A family is admitted** when at least one positive qualifies and no negative control screens `improved`. A family
   without a qualified positive is not looped, because its gate power at that scale would be unknown.
 
+**Confirmation-scale known-positive check** (recommended, after qualification and before the loop; OD0 (c) may skip
+it). Qualification did not show power at the confirmation gate: M qualified at C2 while none of its 28 K = 6 primary
+screens was `improved` (section 2.1), and it then failed C3. For each admitted family, the qualified positive op* with
+the larger qualification ED runs as a twin-of-twin positive at confirmation scale:
+- the M4 baseline and baseline + op* on 16 + 16 fresh secret keys, committed by SHA-256 before the first run as in
+  C3, judged by the A1.3 test at K = 16 against op*'s 8-draw truth y*, with the margins of `m4-gate-<sha8>` and T3
+  health;
+- its plug-in power, from the qualification draws, is recorded in the trial log before its keys are drawn;
+- its keys enter the trial log and are excluded from every later confirmation.
+
+Outcome per family:
+- `improved`: the family is looped. The record shows that the A1.3 test at K = 16 confirmed one positive of that
+  family at this scale: one demonstration, not a power estimate and not a rate.
+- Not `improved`: the family's power at the confirmation gate is not demonstrated. It is looped only if the owner
+  decides so (OD0 (c)), and a later `not_confirmed` for a candidate of that family says nothing about that
+  candidate's effect.
+
 **Loop** (no agent). It enumerates the admissible ops at the eligible elements, at most 6 per corridor and family. A
 Build op passes the static gate first; a control op passes control lint and a load check. The ops are ranked by a
 declared predictor, the queue model, used for ranking only: C2 measured it about three times optimistic. One op per
@@ -537,7 +689,8 @@ round goes through the screen.
 - stop_reason: `stalled` (no improved screen in a round), `not_expressible` or `budget_exhausted` (60 screen runs).
 
 **Acceptance.**
-- Each family's qualification record (positives, negatives, power, attribution) is in the trial log.
+- Each family's qualification record (positives, negatives, power, attribution) is in the trial log, with its
+  known-positive check record or the owner's decision to skip it.
 - The loop ends with one stop_reason, and every screened candidate is in the trial log with its keys.
 - Every advanced step passed `m4-gate-<sha8>` with no H or N failure, and untranslatable ops are logged
   `not_expressible`.
@@ -548,8 +701,11 @@ round goes through the screen.
 **Budget.**
 - Qualification: 2 families, each with 2 positives (6 + 8 runs) and 2 negatives (6 runs): 80 runs plus 4 spares,
   about 2.2 h and 12.3 GB.
+- Known-positive checks (recommended): 32 runs plus 2 spares per admitted family, at most 64 runs plus 4 spares,
+  about 1.8 h and 9.9 GB.
 - Screens: at most 60 runs plus 3 spares, about 1.7 h and 9.2 GB.
-- M4.2 total: 140 runs, about 3.9 h and 21.6 GB.
+- M4.2 total: 204 runs with two checks, about 5.7 h and 31.4 GB (172 runs with one check; 140 runs, about 3.9 h and
+  21.6 GB, without checks).
 - Static, capacity family only: at most 36 deterministic static gates (6 ops by 3 corridors by 2 rounds, about 47 s
   each, about 28 min) and at most 10 T2 rate panels (2 positives, 2 placebos and 6 screened ops, 200 draws per arm,
   about 2.2 h); about 2.7 h at one worker, estimated.
@@ -578,43 +734,54 @@ and the round-2 routeability seeds. The chain check runs before each confirmatio
 candidate is computed from its existing draws (its M4.2 screen draws, or its M4.1 arm when the final twin is the
 adopted baseline) and the reference panel, by the plug-in approximation used for C3, and recorded in the trial log.
 Below 0.5, a `not_confirmed` outcome is reported as uninformative about the candidate's effect, and the owner may
-raise K (OD9) before the keys are drawn. K never changes after that.
+raise K to 20 or 24 (OD9, T5) before the keys are drawn. K never changes after that.
 
-**Confirmation-scale known-positive check** (only if OD0 (c) asks for it). Before the M4.3 keys are drawn, the
-qualified positive op* of the final candidate's family with the larger qualification ED runs as a twin-of-twin
-positive at confirmation scale: the M4 baseline and baseline + op* on 16 + 16 fresh secret keys, judged by the M4.3
-test against op*'s 8-draw truth y*. It shows whether the A1.3 test at K = 16 can confirm a positive of that family at
-this scale. If it is not `improved`, a later `not_confirmed` says nothing about the final candidate, and the owner
-decides whether M4.3 still runs. Its keys enter the trial log and are excluded from M4.3's.
+**Known-positive check.** It runs before the M4.2 loop (section 6), not here. When the final candidate's family has no
+`improved` check (it failed or was skipped), or when the final twin is the adopted M4.1 baseline, which no family
+check covers, a `not_confirmed` outcome is reported as uninformative about the candidate's effect, and the owner
+decides whether M4.3 still runs.
 
 **Confirmatory comparison** (exactly one per M4 campaign).
 - **Candidate:** the final M4 twin. That is the last accepted M4.2 candidate, or the adopted M4.1 baseline if M4.2
   accepts nothing.
 - **Reference:** the original parent, which is the design's original baseline.
 - **Arms:**
-  - the reference parent, the final twin and a parent negative control, on disjoint fresh secret keys, K = 16 each:
-    48 runs plus 3 spares;
+  - the reference parent, the final twin and a parent negative control, on disjoint fresh secret keys, K each
+    (16 unless OD9 raises it): 48 runs plus 3 spares at K = 16;
   - the adopted M4.1 baseline as a fourth arm, required when M4.1 adopted a baseline and M4.2 produced the final
-    candidate (16 runs plus 1 spare). It separates the gain of the Build fix from that of the M4.2 candidate and does
+    candidate (K runs plus 1 spare). It separates the gain of the Build fix from that of the M4.2 candidate and does
     not enter the outcome.
 - **Keys.** They come from `os.urandom` and are committed by SHA-256 before the first run, with the candidate, target,
   objective, g, K and gate frozen and hashed first, as in C3.
-- **Test** (M2 v3 with A1.3): the exact one-sided permutation over all C(32, 16) relabelings of the fair-CRPS
-  difference on ms4 against the real counts. `improved` holds when p is at most 0.05 and T is at most -g, with H1, H2
-  (T3), H3 and N1-N4 holding. The negative control must not be `improved`. The margins are the original parent's K =
-  16 margins, because the reference arm is the original parent.
+- **Test** (M2 v3 with A1.3): the exact one-sided permutation over all C(2K, K) relabelings (C(32, 16) at K = 16)
+  of the fair-CRPS difference on ms4 against the real counts, by T5's exact count. `improved` holds when p is at
+  most 0.05 and T is at most -g, with H1, H2 (T3), H3 and N1-N4 holding. The negative control must not be
+  `improved`. The margins are the original parent's margins at K (T5 for K = 20 and 24), because the reference arm
+  is the original parent.
 - **Sensitivity analysis** (pre-registered, report-only; it never changes the outcome, because unhealthy draws stay
   in the decision under A2.2):
   - the split d_mean_tae = d_crps + d_half_gmd for the final twin against the reference, against the negative
     control and, when it runs, against the baseline arm;
-  - the same exact permutation test on the draws without a health failure of any class in either arm (the arms may
-    then be unequal, with C(n1 + n2, n1) relabelings);
+  - the same permutation test on the draws without a health failure of any class in either arm, by T5: exact when
+    the arms stay equal or C(n1 + n2, n1) is at most 20,000, else the Monte Carlo p with its frozen seed and its
+    interval; not computed when either arm keeps fewer than K/2 such draws;
   - when the baseline arm runs, the final twin against it and it against the reference, by the same test.
+- **Conditioning on health changes the comparison.** Health is an outcome of each arm, so the subset test compares
+  the arms' healthy draws, which is a different comparison from the confirmation: a Build fix that changes the
+  failure rate changes which draws are compared, and it can also shift the healthy draws themselves. The subset
+  result therefore describes whether the observed gain persists without the failure draws. It does not attribute
+  the gain to fragility or to calibration.
 - **Outcome:** `accepted_for_review` (improved, and the negative control not improved), `not_confirmed`, or
-  `no_candidate`. An `accepted_for_review` record carries `effect_basis = fragility` when the test on the draws
-  without a health failure gives T above -g, so that the observed gain of at least g does not survive without the
-  failure draws; it is then reported as a fragility effect, not a calibration gain. Otherwise it carries
-  `effect_basis = calibration`, with that test's p reported.
+  `no_candidate`. The confirmation record also carries one descriptive persistence label from the healthy-subset
+  test of the final twin against the reference, with its T, p and draw counts:
+  - `persists`: on the subset, T is at most -g and p is at most 0.05 (for a Monte Carlo p, the upper end of its 99%
+    interval is at most 0.05);
+  - `not_observed`: on the subset, T is 0 or above, so no gain is observed without the failure draws;
+  - `unresolved`: every other case, including T at most -g with p above 0.05, T between -g and 0, a Monte Carlo
+    interval that contains 0.05, and too few healthy draws (`too_few_healthy_draws`).
+
+  No label names fragility or calibration as the source of the gain: `persists` does not make the gain a calibration
+  gain, and `not_observed` does not make it a fragility effect.
 - **Second count day** (HO-C3, 2026-10-12, a Monday like 2026-10-19). Only if the owner freezes it before any key is
   drawn (OD7): demand is refitted with the same solver and budget once for the original structure and once for the
   final structure, then both are run and compared. That needs its own pre-registration and budget. The claim would be
@@ -624,12 +791,13 @@ decides whether M4.3 still runs. Its keys enter the trial log and are excluded f
 - The chain check passes, and every M4 judged candidate and key is in the log.
 - The confirmation keys are absent from the log and from both earlier ledgers.
 - The plug-in power is recorded before the keys are drawn.
-- Exactly one calibration confirmation runs, and its outcome, with its effect basis, is recorded.
+- Exactly one calibration confirmation runs, and its outcome, with its persistence label, is recorded.
 - Rejected trials leave no commit and no benchmark bundle.
 
-**Budget.** 48 runs plus 3 spares, about 1.3 h and 7.4 GB; with the required baseline arm, 64 runs plus 4 spares,
-about 1.8 h and 9.9 GB. The known-positive check, if OD0 (c) asks for it: 32 runs plus 2 spares, about 0.9 h and
-4.9 GB.
+**Budget.** At K = 16, 48 runs plus 3 spares, about 1.3 h and 7.4 GB; with the required baseline arm, 64 runs plus 4
+spares, about 1.8 h and 9.9 GB. If OD9 raises K, three arms take 60 runs at K = 20 (about 1.7 h, 9.2 GB) or 72 at
+K = 24 (about 2.0 h, 11.1 GB), and four arms 80 (about 2.2 h, 12.3 GB) or 96 (about 2.7 h, 14.8 GB), plus one spare
+per arm. The healthy-subset analysis stays within T5's analysis budget.
 
 **Claim boundary.**
 - Under the supplied model, the final twin's ensemble rejects equality with the original parent's, with an observed
@@ -637,8 +805,8 @@ about 1.8 h and 9.9 GB. The known-positive check, if OD0 (c) asks for it: 32 run
   composite null "different but not better" is not controlled.
 - The reference arm is the original parent, which gridlocks or collides in about 4 of 46 draws (at least one
   gridlock in 16 draws with probability about 0.30). A Build fix that removes failure draws can gain on ms4 without a
-  better count fit in the healthy draws. An `accepted_for_review` with `effect_basis = fragility` is therefore a
-  fragility effect, not a calibration gain.
+  better count fit in the healthy draws, and a fix can also shift the healthy draws. The persistence label describes
+  the healthy subset only; no label attributes the gain to fragility or to calibration.
 - No campaign-level error rate is claimed beyond the logged count of screening decisions and the decisions below,
   and each claim is read with that count.
 
@@ -648,13 +816,14 @@ about 1.8 h and 9.9 GB. The known-positive check, if OD0 (c) asks for it: 32 run
 |---|---|---|---|---|
 | exploratory S01 test of the fragility check | before M4 | 1, done | 0.05, not selection-adjusted | a false fragility signal behind candidate A |
 | T2 null-effect check | M4.0 | 1 | false reject, reported | a sound rule is rejected (power) |
-| T2 remote-collision bound, one per static gate with a rate panel | M4.1, M4.2 | 4 + 10 | false pass about 0.06 at the margin (Newcombe, 200 draws) | a candidate with a material remote-collision increase passes |
+| T2 remote-collision bound, one per static gate with a rate panel | M4.1, M4.2 | 4 + 10 | false pass about 0.06 at the margin (Newcombe, 200 draws, independent draw design) | a candidate with a material remote-collision increase passes |
 | M4.1 primary tests (A, C) | M4.1 | 2 | 0.05 each | a false `fragility_reduced` |
 | M4.1 test for B | M4.1 | 1 | report-only | none: no decision rests on it |
 | M4.2 qualification (swap p of each positive) | M4.2 | 4 | 0.05 each | a family admitted with overstated gate power (power, not a false claim) |
+| known-positive checks (OD0 c, recommended) | M4.2 | 0 to 2 | not a rate claim; one demonstration per family | power evidence only |
 | M4.3 confirmation | M4.3 | 1 | 0.05 | a false `accepted_for_review` |
 | M4.3 negative control | M4.3 | 1 | 0.05 that the parent-against-parent control is `improved` | a sound pipeline fails (power) |
-| known-positive check (OD0 c) | M4.3 | 0 or 1 | not a rate claim | power evidence only |
+| M4.3 healthy-subset persistence label | M4.3 | 1 | report-only | none: the outcome does not rest on it |
 
 Screens (K = 5 on panel keys, including the negative-control screens of M4.2) carry no rate. The claim-bearing
 decisions are the 3 tests that can produce `fragility_reduced` or `accepted_for_review` (0.15 together at most under
@@ -678,14 +847,15 @@ Spares are for crashed or timed-out runs only. Unhealthy draws are scored as the
 |---|---|---|---|---|
 | M4.0 | 0 | — | — | netconvert, profile builds, about 1,000 routeability audits, the synthetic fixture and probes: about 0.6 h |
 | M4.1 | 64 (+4) dynamic, 14 (+1) panel | about 2.2 h | about 12.0 GB | about 4 profile builds with 200-draw L3 panels per arm: about 0.9 h |
-| M4.2 | 80 (+4) qualification, at most 60 (+3) screens | about 3.9 h | about 21.6 GB | at most 36 deterministic static gates and 10 T2 rate panels: about 2.7 h |
-| M4.3 | 48 (+3), or 64 (+4) with the required baseline arm | 1.3-1.8 h | 7.4-9.9 GB | — |
-| total | 266-282 (+15-16) | about 7.4-7.8 h | about 41-44 GB | about 4.2 h |
+| M4.2 | 80 (+4) qualification, 64 (+4) recommended known-positive checks (0 if OD0 (c) skips them), at most 60 (+3) screens | about 5.7 h (3.9 h without checks) | about 31.4 GB (21.6 GB) | at most 36 deterministic static gates and 10 T2 rate panels: about 2.7 h |
+| M4.3 | 48 (+3), or 64 (+4) with the required baseline arm, at K = 16 | 1.3-1.8 h | 7.4-9.9 GB | — |
+| total | 330-346 (+19-20); 266-282 (+15-16) without checks | about 9.2-9.6 h (7.4-7.8 h) | about 51-53 GB (41-44 GB) | about 4.2 h |
 
-The total compute is therefore about 11.6-12.0 h. At 400 routeability draws per arm (OD3), the static-gate work
-roughly doubles to about 8 h. For comparison: M2 used 106 judge runs and the fragility check 16. Not counted: the
-known-positive check of OD0 (c) (32 runs, about 0.9 h, 4.9 GB), the optional F1 stress check (16 runs) and a
-second-count-day refit.
+The total compute is therefore about 13.4-13.8 h, or 11.6-12.0 h without the known-positive checks. At 400
+routeability draws per arm (OD3), the static-gate work roughly doubles to about 8 h. For comparison: M2 used 106 judge
+runs and the fragility check 16. Not counted: a larger M4.3 K (OD9: 12 more runs at K = 20 and 24 more at K = 24 with
+three arms, 16 and 32 more with four), the optional F1 stress check (16 runs) and a second-count-day refit. T5's
+analyses run no SUMO and stay within its analysis budget.
 
 **Engineering effort**, estimated from the size of the modules each change touches (for example
 `core/routeability_audit.py` 997 lines, `core/network_edit_operations.py` 1554, `twin/m2_stage.py` 911,
@@ -697,27 +867,29 @@ second-count-day refit.
 | T2 | collision identities in the routeability audit; the rate rule; the parent panels; the synthetic fixture | 1.5 | about 500 |
 | T3 | the new gate version and the health step | 0.5 | about 200 |
 | T4 | the compound lane-count op, its lint and its re-index | 1.5 | about 500 |
+| T5 | the exact count for equal arms up to K = 24, the Monte Carlo permutation p for unequal arms, the margins at K = 20 and 24 and at unequal sizes, and their known answers | 1 | about 300 |
 | M4.0 known answers and review | the K1/K2 re-run, the replays and an independent read-only review | 1 | about 300 |
 | M4.1 to M4.3 | the loop driver, the trial log, control-family lint and the sensitivity reports | 3 | about 800 |
-| total | | about 9.5 | about 2,900 |
+| total | | about 10.5 | about 3,200 |
 
-**Stop point.** If M4.0 is not accepted after 10 working days, about 1.5 times its estimate, it stops for the owner,
-who may drop T4 (and with it candidate B), keep T1 to the twin-layer declaration, or end M4.
+**Stop point.** If M4.0 is not accepted after 11 working days, about 1.5 times its estimate of 7.5 days, it stops
+for the owner, who may drop T4 (and with it candidate B), keep T1 to the twin-layer declaration, limit T5 to K = 16,
+or end M4.
 
 ## 9. Owner decisions
 
 | id | decision | needed before |
 |---|---|---|
-| OD0 | revise the protocol after M2's failed exit criterion: (a) replace design v2's M4 by M4.0 to M4.3 and withdraw flow F2 (demand timing); (b) accept M4.2's per-family qualification in place of the exit criterion for the M4.2 loop; (c) run M4.3 on the A1.3 confirmation test, which has not confirmed a known positive (C3, power about 0.47), or first run the confirmation-scale known-positive check (section 7) | M4.0 |
+| OD0 | revise the protocol after M2's failed exit criterion: (a) replace design v2's M4 by M4.0 to M4.3, and, as a separate choice, withdraw flow F2 (demand timing) or keep it under its own revised protocol; the M2 evidence (one failed confirmation at a plug-in power of about 0.47, one unqualified hour-scale op) is weak and does not show that the family cannot qualify; (b) accept M4.2's per-family qualification in place of the exit criterion for the M4.2 loop; (c) run the confirmation-scale known-positive check for each admitted family before the M4.2 loop (recommended, section 6), or skip it and run M4.2 and M4.3 on the A1.3 test, which has not confirmed a known positive (C3, power about 0.47); and whether a family whose check is not `improved` is looped | M4.0 |
 | OD1 | T1 restoration in `core/` (affects every `astra network verify-edit` user) or twin-layer declaration only; T4 as a core scoped edit type with its documentation, or as a twin-layer composite | M4.0 code freeze |
 | OD2 | T3: adopt the default (reference-side fix only, the candidate class clause kept with the C1 classes) as an amendment to A2.1 written after C3 and the candidate-F2 run, for fresh runs only; or admit gridlock on the candidate arm with per-family margins (collision 2, gridlock 1, and 0 for an S01 candidate, at K = 16), which reverses the owner-delegated decision "Health rule for candidate gridlocks" | M4.0 code freeze |
-| OD3 | T2: whether to reverse design v2's hard-only L3 (changelog MP4, case M3(e)) for remote collisions at all; then its parameters: the interval (Newcombe proposed), `delta_coll` as a materiality choice (0.03 proposed), the draws per arm (200, or 400 when a null-effect candidate would pass with probability below 0.9) and the scope of the hard in-scope rule | M4.0 code freeze |
+| OD3 | T2: whether to reverse design v2's hard-only L3 (changelog MP4, case M3(e)) for remote collisions at all; then its parameters: the draw design (fresh independent draws per arm proposed; shared seeds or keys, or fixed seed strata, need a paired or stratified interval), the interval (Newcombe for independent arms proposed), `delta_coll` as a materiality choice (0.03 proposed), the draws per arm (200, or 400 when a null-effect candidate would pass with probability below 0.9) and the scope of the hard in-scope rule | M4.0 code freeze |
 | OD4 | the M4.1 budget (78 runs plus 5 spares); whether candidate F1 and G-S02 enter the composite; whether B's report-only arm runs; the optional F1 stress check | M4.1 dynamic runs |
 | OD5 | sign the adoption of the fixed parent as the M4 Calibrate parent despite its dirty source (`source_dirty`, 25 inherited structural failures) and the model-justified S01 merge; optionally supply official MAP or engineering-plan evidence for 266197536, the only kinds the core release audit accepts for that merge | after M4.1's dynamic stage |
 | OD6 | M4.2 scope: the admitted families, including the control family that design v2 deferred; whether field static programs may change; the positive-control draw; whether M4.2 proceeds on the original parent when nothing is adopted; what happens if ms4 fails the re-check | M4.2 |
 | OD7 | freeze a second count day (2026-10-12) online, with access to the Hamburg SensorThings service, by a human outside any fence; without it, every M4 claim stays on 2026-10-19 | before M4.3 keys are drawn |
-| OD8 | effort and compute: about 9.5 days of code with the M4.0 stop point at 10 working days; about 7.4-7.8 h of Calibrate runs, about 4.2 h of static-gate work and 41-44 GB on E: | M4.0 |
-| OD9 | keep g = 10 on ms4, K = 16 for confirmations and the S branch report-only; a larger K for M4.3 if its plug-in power is below 0.5 | M4.0 code freeze; K for M4.3 before its keys are drawn |
+| OD8 | effort and compute: about 10.5 days of code with the M4.0 stop point at 11 working days; about 9.2-9.6 h of Calibrate runs with the recommended known-positive checks (7.4-7.8 h without), about 4.2 h of static-gate work and 51-53 GB on E: (41-44 GB without) | M4.0 |
+| OD9 | keep g = 10 on ms4, K = 16 for confirmations and the S branch report-only; the K values T5 supports (16, 20, 24) with their margins; K for M4.3 from those values if its plug-in power is below 0.5 | M4.0 code freeze; K for M4.3 before its keys are drawn |
 
 Correspondence locks, `--mode release` and every promotion remain human, as in the design.
 
@@ -729,7 +901,8 @@ Correspondence locks, `--mode release` and every promotion remain human, as in t
 - **Sealing and isolation.** Sealed holdouts with secret-committed keys, held-out approach facts sealed against the
   actor, the isolation acceptance (a disposable clone, refs and worktree checks, Landlock negative tests), ledger
   views and the four schema exports.
-- **Demand timing.** It returns in F3 only with a family that qualifies at hour scale on an objective with headroom.
+- **Demand timing**, if OD0 (a) withdraws flow F2. It returns in F3 only with a family that qualifies at hour scale,
+  on an objective whose excess the parent panel has shown, as ms4's in C1.
 - **Ops M4 does not add.** `extend_boundary_edge` or `move_node` (the S02 insertion braking, S04), `bind_signal_link`
   (266197525), `share_tls_controller` (the two S01 signals that control no crossing movement), and `cell_transfer`.
 - **Later still.** The `od_totals='free'` class, control-class goals beyond the families M4.2 admits, and a public
@@ -745,13 +918,15 @@ on one count day, 2026-10-19 05:30-08:00 UTC.
 |---|---|
 | fewer pre-registered fragility events on fresh secret keys for an adopted fix, by an exact test on an arm-neutral metric | that any edit is the real lane layout or signal program; any traffic-safety property; a gridlock or collision rate |
 | no calibration regression detected within the original parent's noise, on all draws and on the draws without a health failure (guards only reject) | non-inferiority, or neutrality of a Build edit for calibration |
-| at most one confirmed observed ms4 gain of at least g against the real counts, with its effect basis (calibration or fragility) and the logged decisions counted | a calibration gain when the effect basis is fragility; a population gain, field correctness, OD identification, causal attribution, or generalization beyond 2026-10-19 unless a second day is frozen |
+| at most one confirmed observed ms4 gain of at least g against the real counts, with its descriptive persistence label on the draws without a health failure and the logged decisions counted | attribution of the gain to fragility or to calibration, whatever the persistence label; a population gain, field correctness, OD identification, causal attribution, or generalization beyond 2026-10-19 unless a second day is frozen |
 | measured rule behaviour on known-answer cases (M4.0) | a general error guarantee beyond the measured cases; promotion of any kind without a human |
 
 ## 12. Rules this plan relies on
 
-The documents quoted here are local session records of 2026-10-25 and 2026-10-26 and are not in the repository; the
-quotes are exact where marked, and the rest is a close summary.
+The documents quoted here are committed as the dated snapshots linked at the top of this plan. Each snapshot is the
+local archive record of 2026-10-25 or 2026-10-26 with a provenance note inserted after its title (line endings
+aside), so the sha256 values in the headings below, which are the archive records', differ from the snapshots' file
+hashes. The quotes are exact where marked, and the rest is a close summary.
 
 ### 12.1 Design v2 (sha256 `a73d563b...9357`)
 
@@ -860,6 +1035,8 @@ alternative would reverse it for fresh runs.
 - **L2, L3**: Build guards: L2 an all-turn smoke run; L3 frozen-trip routeability on 10 seeds.
 - **op, op\*, y\***: a typed edit or Calibrate operation; in a twin-of-twin known positive, op\* is the hidden op and
   y\* = baseline + op\* run on fresh keys replaces the real counts as the target, so the true answer is known.
+- **persistence label**: M4.3's descriptive record of the healthy-subset test (`persists`, `not_observed` or
+  `unresolved`); it attributes the gain to nothing.
 - **plug-in power**: power computed by a normal approximation with the measured effect and spread plugged in.
 - **S branch**: the gate's simplification rule; report-only.
 - **screen, confirmation**: a screen judges a candidate on panel or public keys and carries no rate; a confirmation

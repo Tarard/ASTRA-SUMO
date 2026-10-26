@@ -7,9 +7,26 @@ before any candidate run. Neither document is changed by this report; section 6 
 made to them.
 
 Explore evidence only: simulated draws under the supplied SUMO model. There is no field claim, no traffic-safety
-claim, no gridlock-rate or collision-rate claim and no promotion authority. Section 9 defines the terms. The rules of
-the twin-profiler design v2 and of the M2 v3 decisions that this check relies on are not in the repository; the
-[M4 plan](twin-profiler-m4-plan-2026-10-26.md) quotes them in its section 12, with a short summary of the M2 stages.
+claim, no gridlock-rate or collision-rate claim and no promotion authority. Section 9 defines the terms. The
+twin-profiler design v2, the M2 v3 protocol and decisions and the M2 stage result notes that this check relies on are
+committed as dated snapshots: [design v2](twin-profiler-design-v2-2026-10-25.md),
+[M2 protocol v3](twin-profiler-m2-protocol-v3-2026-10-26.md), [M2 decisions](twin-profiler-m2-decisions-2026-10-26.md)
+and the stage results [C1](twin-profiler-m2-c1-result-2026-10-26.md), [C2](twin-profiler-m2-c2-result-2026-10-26.md)
+and [C3](twin-profiler-m2-c3-result-2026-10-26.md). The [M4 plan](twin-profiler-m4-plan-2026-10-26.md) quotes the rules
+it uses in its section 12, with a short summary of the M2 stages.
+
+**Revised 2026-10-26 after the reviewer's verdict.** A read-only review of the first version of this report and of the
+M4 plan (archive `codex_review_m4plan.json`, sha256 `a30f2021...9bd0`; good = false) found three errors here, now
+corrected. Nothing had relied on the first version.
+- **S04 timing** (section 2). The three S04 brakings came 3.9, 3.9 and 26.8 s after departure, not 0.3 to 3.9 s, and
+  none at the insertion step; being on the first route edge does not make a braking an insertion braking. The values
+  were rechecked in the native outputs of the three runs. Section 6, item 5, records the pre-registration's wording.
+- **Basis documents.** They are committed as dated snapshots (above and section 1); the first version said that they
+  were not in the repository.
+- **Selector fix** (section 6, item 2). It is commit `01f91817`, before this report's first commit `adf05416`; the
+  first version said that it was committed together with this report.
+
+No number, test or label of the F2 result changes.
 
 ## Context: the twin-profiler effort to date
 
@@ -27,7 +44,8 @@ approximate power of 0.47, so C4 was not run. C3 also showed the parent itself c
 (`twin/m3-build-profiler`, `ae21563`) is the Build profiler (G0 invariants, violation vector V, L2 all-turn smoke, L3
 frozen-trip routeability) with known-answer harnesses K1 (46 cases) and K2 (8 cases) that pass all their checks; its
 round-4 independent review kept it. The design's agent-free loops (M4) need M2's exit criterion, which C3 did not meet,
-so the branch `twin/m4-fragility` (M2 and M3 merge `3ded083`, harness `fbb2fb4`, pre-registration `0276200`) first
+so the branch `twin/m4-fragility` (M2 and M3 merge `3ded083`, harness `fbb2fb4`, pre-registration `0276200`,
+selector fix `01f9181`, first version of this report `adf0541`) first
 localizes the parent's own failures and tests M3 Build fixes for them, as a step before M4. This report is that
 result. The pre-registration's title says "(M4)" only because the check ran on that branch; the
 [M4 plan](twin-profiler-m4-plan-2026-10-26.md) numbers M4's parts M4.0 to M4.3, and this check is not one of them.
@@ -58,6 +76,11 @@ check; it is not in the repository and is not needed to read this report.
 **Archive note.** The review records are, in the order of the last row, `codex_review_frag.json`,
 `codex_review_m1_r2.json`, `codex_review_m3_r4.json`, `codex_review_m2c2.json` and `codex_review_m2v3.json`.
 
+**Committed snapshots.** Design v2, the M2 decisions with amendments A1 and A2, the M2 v3 protocol and the C1 to C3
+result notes (archive `m2-c1-result.md` to `m2-c3-result.md`) are committed as the dated snapshots linked in the
+introduction. Each is its archive record with a provenance note inserted after the title (line endings aside), so its
+file hash differs from the archive hash in the table. The stage result JSON files stay in the archive.
+
 ## 2. What was measured: the parent's fragility sites
 
 The census read the native outputs of all 106 M2 runs; it ran no SUMO. 7 of the 106 runs are unhealthy: 5 collision
@@ -70,7 +93,7 @@ run.
 | S01 | Ring1 signal chain 1966837175 - 244203534 - 266197536 (edges 141050980#1 4.94 m, 603103444 0.158 m) | gridlock | 2 gridlocks, both rooted on 603103444_1; a wrong-lane standstill of 60 s or more on 603103444_1 in 42 of the 104 runs without a gridlock; 247 EB in 93 runs |
 | S02 | 0535 approach 13870881 - 315029332 - 1975693623 | collision | 5 side collisions, each with a collision teleport, in 5 runs, all one signature; 631 EB in all 106 runs |
 | S03 | LSA535_part0 (static program `readme_fixed_A`) | emergency braking | 165 EB in 83 runs, 163 of them on `:LSA535_part0_7_0`; link 5 never green |
-| S04 | entry edges 189764301 and 61578529#1 | emergency braking | 3 EB in 3 runs, at insertion |
+| S04 | entry edges 189764301 and 61578529#1 | emergency braking | 3 EB in 3 runs, on the departure lane, 3.9 to 26.8 s after departure |
 
 - **S01 (gridlock root).** At 266197536, lanes 0 and 1 of 603103444 connect only right to 381750336, which none of the
   8589 demand vehicles uses. All 2582 vehicles on 603103444 continue straight to 73474895, and 1964 of them (76 %;
@@ -93,7 +116,15 @@ run.
   378 s or more, until the end. In the M2 runs the lane-section hold keeps 0535Z8 vehicles on lane 5, so the trap never
   occurs (0 of the 46 parent draws used later as the reference arm). Of the 163 EB on the first part of link 7, 138 fall
   at cycle second 6.0, the red onset; that trigger is unresolved.
-- **S04 (minor).** 3 EB on the first route edge 0.3-3.9 s after departure.
+- **S04 (minor).** 3 EB in 3 runs, each by a vehicle still on its departure lane on the first edge of its route. In
+  the native `tripinfo.xml`, `vehicle-routes.xml` (exit times) and `sumo-errors.log` of each run, the times
+  (departure, braking, leaving that edge) are:
+  - c3-candidate-14, 61578529#1_1 (68.7 m): 5674.2, 5701.0, 5701.3 s, so the braking came 26.8 s after departure;
+  - c3-reference-15, 189764301_2 (31.8 m): 5055.3, 5059.2, 5059.4 s, 3.9 s after departure;
+  - c2-X-u3, 189764301_2: 11188.3, 11192.2, 11194.5 s, 3.9 s after departure.
+
+  None falls at the insertion step, so these are not insertion brakings. Each came 0.2 to 2.3 s before the vehicle
+  left the edge. This recheck did not examine their trigger.
 - **Cross-cutting.** The parent carries 25 network-wide connection-mode structural failures (path endpoint gaps), so
   every Build goal on it is `source_dirty` and promotion needs a human. netconvert renumbers the link indices of an
   edited controller (266197536: 6 of 7 retained links; LSA535_part0: 22 of 27), so the executed control must be
@@ -271,8 +302,9 @@ The dated documents stay as written; these corrections apply to them.
 2. **Lint scope.** The pre-registration says lint refuses any declared entry the typed op does not imply. There was a
    selector-validation gap: changing F2's added signal target selector to another lane pair passes lint, the
    source-aware `implied_errors` and `apply_targets`. The frozen F2 selector is correct, so this diagnostic is not
-   affected. The gap was closed after the F2 run, by a change to `twin/declared_targets.py` committed together with
-   this report: lint, the source-aware check and apply now refuse a target whose selector is not its fact id's own
+   affected. The gap was closed after the F2 run by commit `01f91817` ("Tie each declared target to its own fact id"),
+   which changes `twin/declared_targets.py` and its tests and precedes `adf05416`, the first commit of this report:
+   lint, the source-aware check and apply now refuse a target whose selector is not its fact id's own
    lane or lane pair, with regression tests that include the re-pointed F2 case. The F2 run used the earlier code
    (bound tree `2562999b`). The frozen F2 block is unaffected: its base and applied fact hashes are unchanged, which
    a store-backed regression test checks.
@@ -282,6 +314,9 @@ The dated documents stay as written; these corrections apply to them.
 4. **Health claim limit.** Section 6 of the pre-registration discusses only candidate gridlocks under H2. It does not
    state that H2 also tests the reference arm's classes, so the C3 reference arm's own gridlock fails H2 for every
    candidate (section 4.3). Re-reading the rule now would be outcome-informed; it is an owner decision.
+5. **S04 timing.** The pre-registration's static-gate section calls S04's events "3 insertion EB in 106 runs". The
+   native outputs place them 3.9, 3.9 and 26.8 s after departure, none at the insertion step (section 2). S04 was
+   deferred, so no result changes.
 
 ## 7. What can and cannot be claimed
 
