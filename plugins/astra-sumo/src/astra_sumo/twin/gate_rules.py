@@ -172,7 +172,10 @@ GUARD_LABELS = ("unhealthy", "guard", "row_regress", "init")
 
 
 def verdict(case: dict, *, g: float, dof_lower: bool, guard_failure: str | None = None) -> dict:
-    """Protocol v2 gate label of one ``evaluate_case`` result, in the order of the gate table.
+    """Protocol v2 gate label of one ``evaluate_case`` result, in the order of the gate table (v2 record only).
+
+    Superseded for M2 v3 by ``m2_stage.evaluate_stage``, which has no ``simplified`` verdict: v2's S rule is
+    reported only (decision 5, A1.5).
 
     A failed hard step or guard (``guard_failure``, one of GUARD_LABELS) labels the case first, because guards can
     only reject. Then ``no_effect`` (every scored row equals the reference's on every key), branch I (``improved``,

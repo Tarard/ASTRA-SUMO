@@ -1,14 +1,19 @@
 """Reject-only guards of M2 protocol v3 (H3 entry, braking and post-window; N2 init52; N3 and N4 CRPS margins).
 
-A guard only rejects, so it costs power and never validity. Margins are inputs: the provisional values are those of
-protocol v3 section 5 (re-key t-margins from the parent panel, recomputed on a 14-draw panel before any standard
-tier); nothing here derives a margin from the nominal run, which is excluded from every rule.
+A guard only rejects, so it costs power and never validity; a guard that holds certifies no non-regression. Margins
+are inputs (the frozen M2 values are in ``m2_stage``, recalibrated on the C1 parent panel); nothing here derives a
+margin from the nominal run, which is excluded from every rule.
 
 Entry delay is a departure's ``departDelay`` from tripinfo. An entry edge's p95 is the ceil(0.95 n)-th order
 statistic of its departures. Quiet entries (every parent draw's p95 <= 1 s) are guarded by the candidate's K-mean
-p95; busy entries and the network p95 by a CRN-paired lower confidence bound on the candidate-minus-reference
-differences, so the margin adapts to the case's own pairing. The K-mean backstops and the scalar guards use the
-no-CRN re-key margin t_{0.99, n-1} s sqrt(2 / K) from n parent draws.
+p95. The network p95 and every busy entry given a margin are guarded by the K-mean candidate-minus-reference
+difference against the no-CRN re-key margin t_{0.99, n-1} s sqrt(2 / K) from n parent draws, per entry edge;
+brakings and post-window passages likewise (which busy entries block is the gate's choice; the M2 gate declares
+44532531 only and reports the others through ``kmean_margins``). These K-mean guards need no pairing, so they hold
+for arms on disjoint keys.
+
+The L-type backlog check (a CRN-paired, or for disjoint arms a two-sample, lower confidence bound on the busy-entry
+p95 differences above a floor) is a flag that never blocks (decision 6): a blocking rule would be fitted to one case.
 """
 
 from __future__ import annotations
@@ -80,8 +85,21 @@ def kmean_guard(deltas: Sequence[float], margin: float) -> dict:
             "fires": value > margin}
 
 
+def kmean_difference_guard(candidate_values: Sequence[float], reference_values: Sequence[float],
+                           margin: float) -> dict:
+    """Fires when the candidate's K-mean minus the reference's K-mean exceeds ``margin``; no pairing is needed."""
+    if not candidate_values or not reference_values:
+        raise ValueError("The K-mean guard needs at least one draw per arm")
+    candidate_mean, reference_mean = statistics.fmean(candidate_values), statistics.fmean(reference_values)
+    value = candidate_mean - reference_mean
+    return {"rule": "K-mean candidate - K-mean reference > margin", "draws": [len(candidate_values),
+                                                                            len(reference_values)],
+            "candidate_mean": candidate_mean, "reference_mean": reference_mean, "mean": value, "margin": margin,
+            "fires": value > margin}
+
+
 def paired_t_guard(deltas: Sequence[float], floor: float, *, level: float = 0.95) -> dict:
-    """CRN-paired guard: fires when mean - t_{level, K-1} sd / sqrt(K) exceeds ``floor`` (K >= 2)."""
+    """CRN-paired bound: fires when mean - t_{level, K-1} sd / sqrt(K) exceeds ``floor`` (K >= 2)."""
     size = len(deltas)
     if size < 2:
         raise ValueError("The paired guard needs at least two differences")
@@ -89,6 +107,21 @@ def paired_t_guard(deltas: Sequence[float], floor: float, *, level: float = 0.95
     lcb = value - t_quantile(level, size - 1) * spread / math.sqrt(size)
     return {"rule": f"mean - t_{level} sd / sqrt(K) > floor", "draws": size, "mean": value, "sd": spread,
             "lcb": lcb, "floor": floor, "fires": lcb > floor}
+
+
+def two_sample_t_guard(candidate_values: Sequence[float], reference_values: Sequence[float], floor: float, *,
+                       level: float = 0.95) -> dict:
+    """Two-sample bound for disjoint arms: fires when the mean difference minus t_{level, nC + nR - 2} s_pooled
+    sqrt(1 / nC + 1 / nR) exceeds ``floor`` (at least two draws per arm)."""
+    n_c, n_r = len(candidate_values), len(reference_values)
+    if n_c < 2 or n_r < 2:
+        raise ValueError("The two-sample guard needs at least two draws per arm")
+    value = statistics.fmean(candidate_values) - statistics.fmean(reference_values)
+    pooled = math.sqrt(((n_c - 1) * statistics.variance(candidate_values)
+                        + (n_r - 1) * statistics.variance(reference_values)) / (n_c + n_r - 2))
+    lcb = value - t_quantile(level, n_c + n_r - 2) * pooled * math.sqrt(1 / n_c + 1 / n_r)
+    return {"rule": f"mean difference - t_{level} s_pooled sqrt(1/nC + 1/nR) > floor", "draws": [n_c, n_r],
+            "mean": value, "sd_pooled": pooled, "lcb": lcb, "floor": floor, "fires": lcb > floor}
 
 
 def quiet_entry_guard(candidate_p95s: Sequence[float], *, floor: float = 10.0) -> dict:
@@ -119,54 +152,101 @@ def _stat(stats: dict, name: str) -> float:
     return table[name]
 
 
-def _deltas(candidate: Mapping[str, dict], reference: Mapping[str, dict], keys: list[str], name: str) -> list[float]:
-    return [_stat(candidate[key], name) - _stat(reference[key], name) for key in keys]
+def _values(stats: Sequence[dict], name: str) -> list[float]:
+    return [_stat(row, name) for row in stats]
+
+
+def kmean_margins(candidate_stats: Sequence[dict], reference_stats: Sequence[dict],
+                  margins: Mapping[str, float]) -> dict[str, dict]:
+    """``kmean_difference_guard`` for every ``margins`` entry (a scalar stat or ``entry_p95:<edge>``), by name."""
+    return {name: kmean_difference_guard(_values(candidate_stats, name), _values(reference_stats, name), margin)
+            for name, margin in sorted(margins.items())}
+
+
+def _check_classes(entry_classes: Mapping[str, str]) -> None:
+    unknown = sorted(set(entry_classes.values()) - {"quiet", "busy"})
+    if unknown:
+        raise ValueError(f"Unknown entry classes {unknown}; use quiet or busy")
+    if NETWORK in entry_classes:
+        raise ValueError(f"{NETWORK} is not an entry edge")
+
+
+def h3_guards(candidate_stats: Sequence[dict], reference_stats: Sequence[dict], *, margins: Mapping[str, float],
+              entry_classes: Mapping[str, str], quiet_floor: float) -> dict:
+    """The blocking H3 guards of two arms of draws (paired or on disjoint keys): label ``guard`` when one fires.
+
+    Each draw's stats hold ``entry_p95`` (``entry_p95()`` output), ``brakings`` and ``post_window``. Quiet edges
+    fire when the candidate's K-mean p95 exceeds ``quiet_floor``; ``network_p95``, every ``entry_p95:<edge>`` in
+    ``margins``, ``brakings`` and ``post_window`` fire when the K-mean difference exceeds its re-key margin.
+    """
+    _check_classes(entry_classes)
+    results: dict[str, dict] = {}
+    for edge, kind in sorted(entry_classes.items()):
+        if kind == "quiet":
+            results[f"entry_quiet:{edge}"] = quiet_entry_guard(_values(candidate_stats, f"entry_p95:{edge}"),
+                                                               floor=quiet_floor)
+    checks = [("entry:network", f"entry_p95:{NETWORK}", margins["network_p95"]),
+              *((f"entry:{name.removeprefix('entry_p95:')}", name, margin) for name, margin in sorted(margins.items())
+                if name.startswith("entry_p95:")),
+              ("brakings", "brakings", margins["brakings"]), ("post_window", "post_window", margins["post_window"])]
+    for label, stat, margin in checks:
+        results[label] = kmean_difference_guard(_values(candidate_stats, stat), _values(reference_stats, stat),
+                                                margin)
+    fired = [name for name, result in results.items() if result["fires"]]
+    return {"guards": results, "fired": fired, "passes": not fired, "label": "guard" if fired else None}
+
+
+def backlog_flags(candidate_stats: Mapping[str, dict], reference_stats: Mapping[str, dict], *,
+                  entry_classes: Mapping[str, str], floor: float) -> dict:
+    """L-type backlog flags on the busy entries and the network p95: report only, never a gate label.
+
+    Arms on the same draw keys use the CRN-paired bound ``paired_t_guard`` on the per-key differences; arms on
+    disjoint keys use ``two_sample_t_guard``.
+    """
+    _check_classes(entry_classes)
+    paired = set(candidate_stats) == set(reference_stats)
+    keys_c, keys_r = sorted(candidate_stats), sorted(reference_stats)
+    flags = {}
+    for edge in [*(e for e, kind in sorted(entry_classes.items()) if kind == "busy"), NETWORK]:
+        name = f"entry_p95:{edge}"
+        if paired:
+            flag = paired_t_guard([_stat(candidate_stats[k], name) - _stat(reference_stats[k], name) for k in keys_c],
+                                  floor)
+        else:
+            flag = two_sample_t_guard([_stat(candidate_stats[k], name) for k in keys_c],
+                                      [_stat(reference_stats[k], name) for k in keys_r], floor)
+        flags["network" if edge == NETWORK else edge] = flag
+    return {"rule": "CRN-paired" if paired else "two-sample", "flags": flags,
+            "flagged": [name for name, flag in flags.items() if flag["fires"]], "blocking": False,
+            "claim": "A flag only (decision 6): it never blocks and never labels a case."}
 
 
 def evaluate_guards(candidate_stats: Mapping[str, dict], reference_stats: Mapping[str, dict], *,
                     margins: Mapping[str, float], entry_classes: Mapping[str, str], floors: Mapping[str, float],
                     case: dict | None = None) -> dict:
-    """Every v3 guard of one paired case and the first failing gate label (None when none fires).
+    """The H3 guards, the init52 K-mean guard and the backlog flags of one paired case.
 
-    Per draw key the stats hold ``entry_p95`` (``entry_p95()`` output), ``brakings``, ``post_window`` and
-    ``init52``. ``entry_classes`` comes from ``classify_entries`` on the parent panel. ``margins`` holds the K-mean
-    margins ``network_p95``, ``brakings``, ``post_window`` and ``init52``, optional per-edge backstops
-    ``entry_p95:<edge>``, and, when ``case`` (an ``evaluate_case_v3`` result) is given, ``totals13`` (N3) and
-    ``main130`` (N4) bounds on its paired dCRPS. ``floors`` holds ``paired_entry`` and ``quiet_entry`` in seconds.
-    N1 (max row growth) is not evaluated here; a caller that checks it passes ``row_regress`` to ``verdict_v3``.
+    Per draw key the stats hold ``entry_p95``, ``brakings``, ``post_window`` and ``init52``. ``margins`` holds
+    ``network_p95``, ``brakings``, ``post_window``, ``init52``, optional per-edge ``entry_p95:<edge>`` and, when
+    ``case`` (an ``evaluate_case_v3`` result) is given, ``totals13`` and ``main130`` bounds on its dCRPS.
+    ``floors`` holds ``quiet_entry`` and ``paired_entry`` (the backlog flag's floor) in seconds. ``label`` is the
+    first failing guard label; the backlog flags never set it. Row growth (N1) and every other gate step are in
+    ``m2_stage.evaluate_stage``, the one production verdict.
     """
     if set(candidate_stats) != set(reference_stats):
         raise ValueError(f"Unpaired draw keys: {sorted(set(candidate_stats) ^ set(reference_stats))}")
     keys = sorted(candidate_stats)
-    unknown = sorted(set(entry_classes.values()) - {"quiet", "busy"})
-    if unknown:
-        raise ValueError(f"Unknown entry classes {unknown}; use quiet or busy")
-    results: dict[str, dict] = {}
-    network = f"entry_p95:{NETWORK}"
-    for edge, kind in sorted(entry_classes.items()):
-        name = f"entry_p95:{edge}"
-        if kind == "quiet":
-            values = [_stat(candidate_stats[key], name) for key in keys]
-            results[f"entry_quiet:{edge}"] = {**quiet_entry_guard(values, floor=floors["quiet_entry"]),
-                                              "guard": "entry"}
-        else:
-            results[f"entry_paired:{edge}"] = {**paired_t_guard(_deltas(candidate_stats, reference_stats, keys, name),
-                                                                floors["paired_entry"]), "guard": "entry"}
-    results["entry_paired:network"] = {**paired_t_guard(_deltas(candidate_stats, reference_stats, keys, network),
-                                                        floors["paired_entry"]), "guard": "entry"}
-    results["entry_backstop:network"] = {**kmean_guard(_deltas(candidate_stats, reference_stats, keys, network),
-                                                       margins["network_p95"]), "guard": "entry"}
-    for name, margin in sorted(margins.items()):
-        if name.startswith("entry_p95:"):
-            results[f"entry_backstop:{name.removeprefix('entry_p95:')}"] = {
-                **kmean_guard(_deltas(candidate_stats, reference_stats, keys, name), margin), "guard": "entry"}
-    for name in ("brakings", "post_window", "init52"):
-        results[name] = {**kmean_guard(_deltas(candidate_stats, reference_stats, keys, name), margins[name]),
-                         "guard": name}
+    candidate, reference = [candidate_stats[k] for k in keys], [reference_stats[k] for k in keys]
+    h3 = h3_guards(candidate, reference, margins=margins, entry_classes=entry_classes,
+                   quiet_floor=floors["quiet_entry"])
+    results = {name: {**result, "guard": "entry" if name.startswith("entry") else name}
+               for name, result in h3["guards"].items()}  # entry_quiet:<edge>, entry:<edge>, entry:network
+    results["init52"] = {**kmean_difference_guard(_values(candidate, "init52"), _values(reference, "init52"),
+                                                   margins["init52"]), "guard": "init52"}
     if case is not None:
         for name in ("totals13", "main130"):
             value = case[name]["T"]
-            results[name] = {"rule": "paired dCRPS > margin", "draws": case[name]["draws"], "T": value,
+            results[name] = {"rule": "dCRPS > margin", "draws": case[name]["draws"], "T": value,
                              "t": float(value), "margin": margins[name], "fires": value > margins[name],
                              "guard": name}
     for result in results.values():
@@ -174,7 +254,9 @@ def evaluate_guards(candidate_stats: Mapping[str, dict], reference_stats: Mappin
     fired = [name for name, result in results.items() if result["fires"]]
     order = list(dict.fromkeys(LABELS.values()))
     labels = sorted({results[name]["label"] for name in fired}, key=order.index)
+    backlog = backlog_flags(candidate_stats, reference_stats, entry_classes=entry_classes,
+                            floor=floors["paired_entry"])
     return {"draws": len(keys), "draw_keys": keys, "guards": results, "fired": fired,
-            "label": labels[0] if labels else None,
-            "claim": "Reject-only guards with provisional margins (protocol v3 section 5); a guard that does not "
-                     "fire certifies nothing."}
+            "label": labels[0] if labels else None, "flags": backlog["flags"], "flagged": backlog["flagged"],
+            "claim": "Reject-only guards with provisional margins; a guard that does not fire certifies nothing. "
+                     "The backlog flags never block (decision 6)."}

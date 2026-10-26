@@ -10,12 +10,22 @@ a cause.
 
 from __future__ import annotations
 
+import hashlib
+import json
 import math
 import statistics
 from collections import Counter
 from collections.abc import Mapping, Sequence
 
 ABSENT_RANK = 99
+
+# The corridor-merge rule of the ensemble profile, frozen before confirmation (A1.7) and hashed into the frozen M2
+# gate: a frozen constant, not a rule applied to whatever route edges a draw shows. The two consecutive route edges
+# 24483344#0 and #1 (the Z4/Z5 corridor) are summed under one corridor element before any ranking; every other lead
+# element stays as it is. C1 (13 healthy draws): merged top 5 in 13/13, edge #1 alone in 8/13.
+CORRIDOR_GROUPS: dict[str, tuple[str, ...]] = {"corridor:24483344": ("edge:24483344#0", "edge:24483344#1")}
+CORRIDOR_RULE = ("frozen constant groups of consecutive route edges, summed by lead element before ranking (A1.7); "
+                 "no other merge")
 
 
 def lead_element(hotspot: Mapping) -> str:
@@ -133,6 +143,21 @@ def merge_corridor(weights: Mapping[str, int], groups: Mapping[str, Sequence[str
     for element, weight in weights.items():
         merged[member_of.get(element, element)] += weight
     return merged
+
+
+def corridor_rule() -> dict:
+    """The frozen corridor-merge rule as JSON-native data (hashed by ``corridor_rule_sha256``)."""
+    return {"rule": CORRIDOR_RULE, "groups": {name: list(members) for name, members in sorted(CORRIDOR_GROUPS.items())}}
+
+
+def corridor_rule_sha256() -> str:
+    data = json.dumps(corridor_rule(), sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    return hashlib.sha256(data).hexdigest()
+
+
+def merge_declared_corridors(weights: Mapping[str, int]) -> Counter:
+    """``merge_corridor`` with the frozen ``CORRIDOR_GROUPS`` (the only merge the ensemble profile applies)."""
+    return merge_corridor(weights, CORRIDOR_GROUPS)
 
 
 def _range(values: Sequence[float]) -> dict:

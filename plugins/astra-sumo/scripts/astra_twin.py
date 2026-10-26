@@ -1,14 +1,14 @@
-"""ASTRA twin profiler CLI: doctor, resolve, goal-create, profile calibrate (M1), judge and panel-fixture (M2).
+"""ASTRA twin profiler CLI: doctor, resolve, goal-create, profile calibrate (M1), judge, panel-fixture and stage (M2).
 
 Only ``judge`` starts SUMO runs: full runs of a goal's run block, cached by their effective execution request, at most
 three in parallel, each logged to ``<store>/runs.jsonl``.
 
 Exit codes follow ``astra`` (``cli.py``): 0 for ``pass`` or ``measured``; 3 for ``blocked``, which covers a failed
-doctor or resolve check, a blocked profile and a refused or failed command (its ``reason`` and ``error_type`` say
-which); 2 for an argparse usage error. The CLI writes only to the paths it is given (the store, a new profile
-directory, doctor's scratch inside the clone) and writes no bytecode, so a verifier clone stays as checked out.
-``judge`` keeps its staged inputs, runs, ledger and temporary files inside the store. ``panel-fixture`` only reads a
-store and writes one new fixture file.
+doctor or resolve check, a blocked profile or stage and a refused or failed command (its ``reason`` and
+``error_type`` say which); 2 for an argparse usage error. The CLI writes only to the paths it is given (the store, a
+new profile directory, doctor's scratch inside the clone) and writes no bytecode, so a verifier clone stays as checked
+out. ``judge`` keeps its staged inputs, runs, ledger and temporary files inside the store. ``panel-fixture`` only reads
+a store and writes one new fixture file. ``stage`` only reads a store and writes at most one new verdict file.
 """
 
 from __future__ import annotations
@@ -34,7 +34,7 @@ sys.path.insert(0, str(SRC_ROOT))
 
 try:
     import astra_sumo
-    from astra_sumo.twin import count_profile, doctor, goal, ids, panel, perturb, runner
+    from astra_sumo.twin import count_profile, doctor, goal, ids, m2_stage, panel, perturb, runner
 except ImportError as error:
     print(json.dumps({"status": "blocked", "reason": f"cannot import astra_sumo.twin from {SRC_ROOT}: {error}",
                       "error_type": type(error).__name__}, ensure_ascii=False))
@@ -155,6 +155,35 @@ def _panel_fixture(args: argparse.Namespace) -> int:
     return 0
 
 
+def _stage(args: argparse.Namespace) -> int:
+    """Read the spec's judged runs and print ``m2_stage.evaluate_stage``'s verdict (no SUMO run)."""
+    _clone_code()
+    spec = json.loads(Path(args.spec).read_text(encoding="utf-8"))
+    groups = {name: spec.get(name) or {} for name in ("candidate", "reference", "truth")}
+    found = panel.read_stage_draws(Path(spec["ledger"]), {f"{name}:{key}": run_id for name, runs in groups.items()
+                                                          for key, run_id in runs.items()})
+    arms = {name: {key: found["draws"][f"{name}:{key}"] for key in runs} for name, runs in groups.items()}
+    truth = arms["truth"] if groups["truth"] else None
+    verdict = m2_stage.evaluate_stage(
+        arms["candidate"], arms["reference"], real=found["real"],
+        gate=spec.get("gate") or m2_stage.frozen_gate(spec["draws"]),
+        truth=None if truth is None else {key: draw["counts"] for key, draw in truth.items()},
+        truth_runs=None if truth is None else {key: {"run": draw["run"], "health": draw["health"]}
+                                               for key, draw in truth.items()},
+        mode=spec.get("mode", "screen"), commitment=spec.get("commitment"), ledger_runs=found["ledger_runs"])
+    payload = {"status": verdict["status"], "label": verdict["label"], "first_failure": verdict["first_failure"],
+               "rate": verdict["rate"], "provenance": found["provenance"], "verdict": m2_stage.to_json(verdict)}
+    if args.out:
+        out = Path(args.out)
+        if out.exists():
+            raise FileExistsError(f"{out} exists; write the verdict to a new path")
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_bytes(m2_stage.canonical_json(payload) + b"\n")
+    _emit(payload if args.json else {key: payload[key] for key in ("status", "label", "first_failure", "rate")},
+          args.json)
+    return _code(verdict["status"])
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="ASTRA twin profiler (explore only; only judge starts SUMO runs).")
     commands = parser.add_subparsers(dest="command", required=True)
@@ -210,6 +239,15 @@ def main(argv: list[str] | None = None) -> int:
                                            f"{panel.B0_NOMINAL}.")
     fixture.add_argument("--json", action="store_true")
     fixture.set_defaults(handler=_panel_fixture)
+    stage = commands.add_parser("stage", help="M2 stage verdict of a candidate arm against a reference arm of judged "
+                                              "runs (reads the store only; no SUMO run).")
+    stage.add_argument("--spec", required=True, help="JSON: ledger, candidate/reference (and optional truth) as "
+                                                     "{draw key: ledger id}, draws (K), mode, commitment (with "
+                                                     "ordered keys, spare keys and bindings per arm), and an "
+                                                     "optional screening gate.")
+    stage.add_argument("--out", help="New verdict file (canonical JSON); an existing one is refused.")
+    stage.add_argument("--json", action="store_true")
+    stage.set_defaults(handler=_stage)
     args = parser.parse_args(argv)
     try:
         return args.handler(args)

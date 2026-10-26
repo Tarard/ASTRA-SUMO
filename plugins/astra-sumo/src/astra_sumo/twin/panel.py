@@ -1,4 +1,4 @@
-"""Cached M2 panel (I/O): judged runs of a pilot store turned into the inputs of the v3 statistics, and its fixture.
+"""Cached M2 panel and stage draws (I/O): judged runs of a pilot store turned into the inputs of the v3 statistics.
 
 Thin by design. For every labelled ledger run it reads judge.json, the canonical measurement.json.gz and the native
 outputs it needs, binds them to the judge's own digests and the ledger row, and calls the pure readers:
@@ -16,7 +16,7 @@ from collections.abc import Mapping
 from pathlib import Path, PureWindowsPath
 
 from ..core.benchmark_references import csv_rows
-from . import count_profile, ensemble, goal, guards, runner
+from . import corridor_screen, count_profile, ensemble, goal, guards, m2_stage, perturb, runner, scenario_ops
 
 PANEL_SCHEMA = "astra.twin-m2-panel/v1"
 REFERENCE_ARM = "P"
@@ -55,17 +55,27 @@ def _split_label(label: str) -> tuple[str, str]:
     return arm, key
 
 
-def _run(store: Path, row: dict) -> dict:
-    """One ledger run's judge, canonical measurement and native directory, bound to the ledger row."""
-    if not row.get("healthy") or row.get("status") != "measured":
+def _run(store: Path, row: dict, *, healthy_only: bool = True) -> dict:
+    """One ledger run's judge, canonical measurement and native directory, bound to the ledger row.
+
+    The panel reads healthy runs only. A stage (``healthy_only=False``) also reads a run that completed unhealthy
+    (status ``invalid``) when every bin is scored, because unhealthy draws stay in the ensemble (A2.2); a run without
+    a complete score crashed or timed out and is replaced by a spare, never read.
+    """
+    if healthy_only and (not row.get("healthy") or row.get("status") != "measured"):
         raise ValueError(f"Run {row['id']} is not a healthy measured run")
+    if row.get("status") not in ("measured", "invalid"):
+        raise ValueError(f"Run {row['id']} has status {row.get('status')}: a crashed or timed-out run is replaced by "
+                         "a spare, never scored")
     run_dir = store / "runs" / PureWindowsPath(row["run_dir"]).name
     judge_bytes = (run_dir / "judge.json").read_bytes()
     judge = json.loads(judge_bytes)
     if (judge.get("label"), judge.get("request_sha256")) != (row["id"], row["request_sha256"]):
         raise ValueError(f"{run_dir} judges {judge.get('label')}, not ledger run {row['id']}")
-    if not judge.get("healthy") or judge.get("status") != "measured" or not judge.get("rows"):
+    if healthy_only and (not judge.get("healthy") or judge.get("status") != "measured"):
         raise ValueError(f"Judge {row['id']} is not a healthy scored run")
+    if not judge.get("rows") or (judge.get("status"), judge.get("healthy")) != (row["status"], row.get("healthy")):
+        raise ValueError(f"Judge {row['id']} has no complete score or disagrees with its ledger row")
     measurement = json.loads(gzip.decompress((run_dir / "measurement.json.gz").read_bytes()))
     if runner.digest(measurement["passages"]["full"]) != judge["digests"]["passage_full"]:
         raise ValueError(f"{row['id']}: measurement passages differ from the judge's digest")
@@ -97,6 +107,109 @@ def guard_stats(run: dict) -> dict:
             "brakings": int(braking["summary_count"] or 0),
             "post_window": sum(row[2] >= ensemble.MAIN_END_S for row in run["measurement"]["passages"]["full"]),
             "init52": run["judge"]["score"]["init52_tae"]}
+
+
+def stage_draw(run: dict) -> dict:
+    """One judged run as a ``m2_stage.evaluate_stage`` draw: every scored row, health, guard stats and the run's
+    draw key (fingerprint, publicity and derivation, as the judge and the ledger record them), binding (goal, scenario
+    op, base demand, family, seed) and identity (the judge's measurement code and the request's runtime hashes)."""
+    request = json.loads((run["dir"] / "request.json").read_bytes())
+    if runner.digest(request) != run["row"]["request_sha256"]:
+        raise ValueError(f"{run['row']['id']}: request.json differs from the ledger's request sha256")
+    judge, perturbation = run["judge"], request.get("perturbation") or {}
+    key = ((judge["provenance"].get("perturbation") or {}).get("key")) or {}
+    ledger_key = run["row"].get("draw_key") or {}
+    if {name: key.get(name) for name in ("key_sha256", "public", "derivation")} != {
+            name: ledger_key.get(name) for name in ("key_sha256", "public", "derivation")} or (
+            key.get("key_sha256") != perturbation.get("key_sha256")):
+        raise ValueError(f"{run['row']['id']}: the judge, the request and the ledger record different draw keys")
+    runtime = request.get("runtime") or {}
+    return {"counts": {row: value["measured"] for row, value in sorted(judge["rows"].items())},
+            "health": judge["health"], "guard_stats": guard_stats(run),
+            "run": {"id": run["row"]["id"], "request_sha256": run["row"]["request_sha256"],
+                    "judge_sha256": run["judge_sha256"], "key_sha256": perturbation.get("key_sha256"),
+                    "key_label": key.get("label"), "key_public": key.get("public"),
+                    "key_derivation": key.get("derivation"),
+                    "binding": {"goal_sha256": judge["provenance"]["goal_sha256"],
+                                "scenario_op": request.get("scenario_op"),
+                                "base_demand_sha256": request.get("base_demand_sha256"),
+                                "family": perturbation.get("family"), "seed": request["arguments"]["seed"]},
+                    "identity": {"measurement_code_sha256": judge.get("measurement_code_sha256"),
+                                 "runtime_sha256": runner.digest({name: value for name, value in runtime.items()
+                                                                  if name != "verifier_commit"}),
+                                 "verifier_commit": runtime.get("verifier_commit"),
+                                 "verifier_clean": judge["provenance"].get("verifier_clean"),
+                                 "plan_measurement_code_sha256": judge["provenance"].get("measurement_code_sha256")}}}
+
+
+def read_ledger_rows(path: Path) -> list[dict]:
+    """Every ledger row in file order, repeated ids included (``read_ledger`` keeps the last row per id)."""
+    return [json.loads(line) for line in Path(path).read_text(encoding="utf-8").splitlines() if line.strip()]
+
+
+def ledger_key_runs(store: Path, rows: list[dict]) -> list[dict]:
+    """Every ledger row with a draw key as ``m2_stage.key_use_step`` reads it: id, request, key fingerprint, outcome
+    (``m2_stage.ledger_outcome``; an unscored run's judge health tells a crash or timeout from a gridlock) and the
+    ledger's part of the binding."""
+    found = []
+    for row in rows:
+        key = row.get("draw_key") or {}
+        if not key.get("key_sha256"):
+            continue
+        health = None
+        if row.get("tae_main") is None and row.get("status") != "failed":
+            path = Path(store) / "runs" / PureWindowsPath(row["run_dir"]).name / "judge.json"
+            if path.is_file():
+                judge = json.loads(path.read_bytes())
+                if (judge.get("label"), judge.get("request_sha256")) == (row["id"], row["request_sha256"]):
+                    health = judge.get("health")
+        found.append({"id": row["id"], "request_sha256": row["request_sha256"], "key_sha256": key["key_sha256"],
+                      "public": key.get("public"), "outcome": m2_stage.ledger_outcome(row, health),
+                      "binding": {"scenario_op": row.get("scenario_op"), "seed": row.get("seed"),
+                                  "family": key.get("family")}})
+    return found
+
+
+def read_stage_draws(ledger_path: Path, labels: Mapping[str, str]) -> dict:
+    """``stage_draw`` of every labelled ledger run (healthy or scored unhealthy), plus the real counts they share.
+
+    Labels are free-form (e.g. ``candidate:<key>``); one ledger run under two labels is refused. The real counts are
+    each run's measured - diff and must agree across runs, and every run must be judged against one goal.
+    ``ledger_runs`` lists every ledger row with a draw key (``ledger_key_runs``), so a confirmation can check each
+    committed key's use. The store is only read.
+    """
+    if not labels:
+        raise ValueError("No labelled runs")
+    by_run: dict[str, list[str]] = {}
+    for label, run_id in sorted(labels.items()):
+        by_run.setdefault(run_id, []).append(label)
+    repeated = {run_id: found for run_id, found in sorted(by_run.items()) if len(found) > 1}
+    if repeated:
+        raise ValueError(f"One ledger run under several labels: {repeated}")
+    ledger_path = Path(ledger_path)
+    ledger_bytes = ledger_path.read_bytes()
+    ledger = read_ledger(ledger_path)
+    missing = sorted(run_id for run_id in labels.values() if run_id not in ledger)
+    if missing:
+        raise ValueError(f"Ledger runs not found: {missing}")
+    draws, real, goals = {}, None, set()
+    for label, run_id in sorted(labels.items()):
+        run = _run(ledger_path.parent, ledger[run_id], healthy_only=False)
+        found = {row: value["measured"] - value["diff"] for row, value in sorted(run["judge"]["rows"].items())}
+        real = found if real is None else real
+        if found != real:
+            raise ValueError(f"The real counts differ in run {run_id}")
+        goals.add((run["judge"]["provenance"]["goal"], run["judge"]["provenance"]["goal_sha256"]))
+        draws[label] = stage_draw(run)
+    if len(goals) != 1:
+        raise ValueError("The labelled runs were judged against different goals")
+    (goal_id, goal_sha256), = goals
+    return {"draws": draws, "real": real,
+            "ledger_runs": ledger_key_runs(ledger_path.parent, read_ledger_rows(ledger_path)),
+            "provenance": {"ledger_sha256": sha256(ledger_bytes), "goal": goal_id, "goal_sha256": goal_sha256,
+                           "runs": {label: {key: draw["run"][key] for key in ("id", "request_sha256", "judge_sha256",
+                                                                               "key_sha256", "key_public")}
+                                    for label, draw in draws.items()}}}
 
 
 def _compact_hotspot(hotspot: dict) -> dict:
@@ -226,6 +339,57 @@ def read_panel(ledger_path: Path, labels: Mapping[str, str], *, repository_root:
              "claim": "Explore only: cached simulated runs under the supplied model; panel keys are reused, so any "
                       "statistic on them is a screening or negative-control value with no rate."}
     return panel
+
+
+def read_queue_draws(ledger_path: Path, labels: Mapping[str, str]) -> dict:
+    """``corridor_screen.QueueDraw`` of every labelled ledger run (healthy or scored unhealthy, A2.3): main-row
+    counts, tripinfo insertions (bound to the judge's trace digest) and canonical full passages, plus the real counts
+    on every row. Labels are draw keys; the store is only read."""
+    ledger_path = Path(ledger_path)
+    ledger = read_ledger(ledger_path)
+    missing = sorted(run_id for run_id in labels.values() if run_id not in ledger)
+    if missing:
+        raise ValueError(f"Ledger runs not found: {missing}")
+    draws, real, provenance = [], None, {}
+    for key, run_id in sorted(labels.items()):
+        run = _run(ledger_path.parent, ledger[run_id], healthy_only=False)
+        found = {row: value["measured"] - value["diff"] for row, value in sorted(run["judge"]["rows"].items())}
+        real = found if real is None else real
+        if found != real:
+            raise ValueError(f"The real counts differ in run {run_id}")
+        counts = {row: run["judge"]["rows"][row]["measured"] for row in ensemble.main_rows(list(found))}
+        draws.append(corridor_screen.queue_draw(key, counts, _native(run, "tripinfo.xml"),
+                                                run["measurement"]["passages"]["full"]))
+        provenance[key] = {"id": run_id, "request_sha256": run["row"]["request_sha256"],
+                           "judge_sha256": run["judge_sha256"], "healthy": run["row"].get("healthy")}
+    return {"draws": draws, "real": real, "provenance": {"ledger_sha256": sha256(ledger_path.read_bytes()),
+                                                        "runs": provenance}}
+
+
+def read_demand_schedule(goal_path: Path, repository_root: Path) -> dict:
+    """The goal's demand schedule for a cell screen: per vehicle the nominal depart, free-flow arrival a_v
+    (``count_profile.free_flow_arrivals``) and intended field, the cell table and members, and the run horizon."""
+    loaded, goal_bytes = goal.load_goal(Path(goal_path))
+    reader = goal.case_reader(repository_root, loaded.inputs.packet, loaded.inputs.case)
+    data = {name: reader.read(f"prepared/{name}") for name in goal.PREPARED_FILES}
+    wrong = [name for name, value in data.items() if sha256(value) != loaded.inputs.files[name]]
+    if wrong:
+        raise ValueError(f"Prepared inputs differ from the goal: {wrong}")
+    network = count_profile.parse_network(data["network.net.xml"], data["control.add.xml"])
+    requests = count_profile.parse_demand(data["demand.rou.xml"])
+    intended = count_profile.parse_intentions(data["lane-intentions.json"])
+    arrivals = count_profile.free_flow_arrivals(network, requests, intended,
+                                                count_profile.parse_field_loops(data["field-loops.add.xml"]))
+    demand = perturb.parse_demand(data["demand.rou.xml"])
+    cells = loaded.variable_class.cells
+    table = scenario_ops.cell_table(demand, data["lane-intentions.json"], od_pairs=cells["od_pairs"],
+                                    periods=cells["periods"])
+    members: dict[int, list[str]] = {}
+    for vehicle, cell in sorted(scenario_ops.od_cells(data["lane-intentions.json"]).items()):
+        members.setdefault(cell, []).append(vehicle)
+    return {"goal": loaded.goal_id, "goal_sha256": sha256(goal_bytes), "horizon_s": loaded.run.end_s,
+            "nominal_departs": {v.vehicle_id: float(v.depart) for v in demand.vehicles},
+            "arrivals": arrivals, "intended": intended, "cells": table, "members": members}
 
 
 def write_panel_fixture(panel: dict, path: Path, *, code_commit: str | None) -> dict:

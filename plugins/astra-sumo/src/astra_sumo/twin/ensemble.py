@@ -6,14 +6,23 @@ sum 4 or 3 consecutive bins per field at a stride of one bin (``W:<field>@<begin
 each field over the main window (``T:<field>``). A target is one count dict (the real counts) or a truth ensemble.
 
 The fair CRPS summed over values (the L1 energy score) is CRPS(E, y) = mean_k |E_k - y|_1 - GMD(E) / 2, with the
-Gini mean difference GMD(E) = sum_{k != l} |E_k - E_l|_1 / (m (m - 1)). The rate-bearing statistic is
-T = CRPS(candidate, y) - CRPS(reference, y) on paired draw keys (common random numbers). Under a within-pair swap
-pattern s in {+1, -1}^K the swapped difference is linear in s, T(s) = sum_k s_k v_k (``crps_contributions``), so the
-one-sided p = #{s : T(s) <= T} / 2^K is an exact Fisher-Pitman sign-flip p-value on integer numerators. It is exact
-for the sharp null (within each pair the candidate's and the reference's values are exchangeable) when the keys are
-fresh, secret and drawn after the candidate, reference, target, objective, g, K and alpha are frozen. On panel keys
-the proposer has seen it is a screening statistic with no rate. "Different but not better by g" is a composite null
-that the test does not control exactly.
+Gini mean difference GMD(E) = sum_{k != l} |E_k - E_l|_1 / (m (m - 1)). The statistic is
+T = CRPS(candidate, y) - CRPS(reference, y).
+
+The rate-bearing test (amendment A1.3) is unpaired: candidate and reference run on DISJOINT fresh keys, K each, and
+the one-sided p = #{A : T(A) <= T} / C(2K, K) counts every relabeling A of the pooled 2K draws, the observed one
+included. With equal arms T(A) is linear in the labels (``unpaired_crps_contributions``), so the count is an exact
+subset-sum count by meet in the middle, for K = 16 as well. Under the sharp null that both arms have the same
+distribution the pooled draws are exchangeable by construction when the keys are disjoint, secret and fresh, so the
+p-value is exact given the frozen target. Exposed (public or reused) keys let a split be chosen after the draws are
+seen, which voids that; the stage labels the exchangeability from the run records' key evidence.
+
+The paired common-random-numbers test is reported only. Under a within-pair swap pattern s in {+1, -1}^K the swapped
+difference is linear in s, T(s) = sum_k s_k v_k (``crps_contributions``), and p = #{s : T(s) <= T} / 2^K is an exact
+sign-flip p-value only if the paired values are exchangeable within each pair. Equal marginals under CRN do not give
+that: P = 20 U, C = 20 ((U - 1) mod 100) has identical marginals and the paired rule accepts it at about 92%.
+"Different but not better by g" is a composite null that neither test controls. The gate verdict itself lives in
+``m2_stage``.
 
 Everything here is explore evidence over simulated counts under the supplied model: no field truth, no promotion.
 """
@@ -38,13 +47,17 @@ PRIMARY_OBJECTIVE = "ms4"
 CRN_EFFECTIVE_RHO = 0.35
 MAX_FLIP_DRAWS = 30
 MAX_SWAP_DRAWS = 16
+MAX_UNPAIRED_DRAWS = 16
 
 Counts = Mapping[str, int]
 Target = Union[Counts, Sequence[Counts]]
 
-CLAIM = ("Explore only: simulated counts under the supplied model. The paired sign-flip p is exact under the sharp "
-         "null (within-pair exchangeability) only on fresh secret keys drawn after the freeze; on panel keys it is a "
-         "screening statistic with no rate. No field truth, no composite-null control, no promotion authority.")
+CLAIM = ("Explore only: simulated counts under the supplied model. The paired sign-flip p is reported only: it "
+         "assumes within-pair exchangeability under CRN, which fresh keys do not establish (amendment A1.3). The "
+         "rate-bearing test is the unpaired permutation on disjoint fresh keys (m2_stage). No field truth, no "
+         "composite-null control, no promotion authority.")
+PAIRED_EXCHANGEABILITY = ("assumed, not established: within-pair swap invariance of the paired draws; equal "
+                          "marginals under CRN do not imply it (report only, A1.3)")
 
 
 def _exact(value: float | int | Fraction) -> Fraction:
@@ -238,11 +251,14 @@ def _paired(candidate: Mapping[str, Counts], reference: Mapping[str, Counts]) ->
 
 def paired_crps_test(candidate: Mapping[str, Counts], reference: Mapping[str, Counts], target: Target,
                      keys: Sequence[str], *, g: float, alpha: float) -> dict:
-    """The rate-bearing test: accept iff 2^-K <= alpha, the exact sign-flip p <= alpha and T <= -g.
+    """The v3 paired rule, reported only since A1.3: ``passes`` iff 2^-K <= alpha, sign-flip p <= alpha, T <= -g.
 
-    ``candidate`` and ``reference`` map the same draw keys to count dicts over ``keys``. ``d_mean_tae`` =
-    ``d_crps`` + ``d_half_gmd`` splits the mean TAE change; ``tae_only`` marks a TAE gain of g that the CRPS does not
-    carry (a sharpening, which the CRPS does not reward).
+    ``candidate`` and ``reference`` map the same draw keys to count dicts over ``keys``. The p-value is exact only
+    under within-pair exchangeability (``exchangeability``), which CRN pairing does not establish, so ``passes``
+    never gates. ``d_mean_tae`` = ``d_crps`` + ``d_half_gmd`` splits the mean TAE change; ``tae_only`` marks a TAE
+    gain of g that the CRPS does not carry (a sharpening, which the CRPS does not reward), and ``spread_driven`` a
+    CRPS gain of g that the mean TAE does not carry (a widening, which the fair CRPS rewards when the reference is
+    biased and overconfident).
     """
     draw_keys = _paired(candidate, reference)
     c, p = [candidate[key] for key in draw_keys], [reference[key] for key in draw_keys]
@@ -255,17 +271,18 @@ def paired_crps_test(candidate: Mapping[str, Counts], reference: Mapping[str, Co
     d_mean_tae = mean_distance(c, target, keys) - mean_distance(p, target, keys)
     d_half_gmd = (gini_mean_difference(c, keys) - gini_mean_difference(p, keys)) / 2
     assessable = min_p <= alpha_q
-    return {"rule": "exact one-sided paired sign-flip test on T = fairCRPS(candidate) - fairCRPS(reference)",
-            "draws": size, "draw_keys": draw_keys, "g": g, "alpha": alpha,
+    return {"rule": "one-sided paired sign-flip test on T = fairCRPS(candidate) - fairCRPS(reference) (report only)",
+            "exchangeability": PAIRED_EXCHANGEABILITY, "draws": size, "draw_keys": draw_keys, "g": g, "alpha": alpha,
             "T": statistic, "t": float(statistic), "numerators": numerators, "denominator": denominator,
             "p": p_value, "p_value": float(p_value), "min_p": min_p,
             "size_bound": Fraction(math.floor(alpha_q * 2 ** size), 2 ** size), "assessable": assessable,
             "passes": assessable and p_value <= alpha_q and statistic <= -g_q,
             "d_mean_tae": d_mean_tae, "d_half_gmd": d_half_gmd, "d_crps": statistic,
-            "tae_only": d_mean_tae <= -g_q and statistic > -g_q}
+            "tae_only": d_mean_tae <= -g_q and statistic > -g_q,
+            "spread_driven": statistic <= -g_q and d_mean_tae > -g_q}
 
 
-# --- the paired energy distance and the unpaired test (report only) ------------------------------------------------
+# --- the paired energy distance (report only) ----------------------------------------------------------------------
 
 def energy_pair_terms(candidate: Sequence[Counts], reference: Sequence[Counts],
                       keys: Sequence[str]) -> tuple[list[list[int]], int]:
@@ -323,21 +340,129 @@ def paired_energy_test(candidate: Mapping[str, Counts], reference: Mapping[str, 
             "p_value": float(p_value), "min_p": Fraction(2, 2 ** size)}
 
 
-def unpaired_crps_test(candidate: Sequence[Counts], reference: Sequence[Counts], target: Target,
-                       keys: Sequence[str], *, g: float, alpha: float, max_splits: int = 20000) -> dict:
-    """Label permutation of T = fairCRPS(A) - fairCRPS(B) over all C(nA + nB, nA) splits, the identity included.
+def energy_distance(candidate: Sequence[Counts], reference: Sequence[Counts], keys: Sequence[str]) -> Fraction:
+    """Unbiased L1 energy distance of two independent ensembles: 2 mean D(C, P) - mean D(C, C') - mean D(P, P').
 
-    Valid only when every draw comes from a fresh, independent key and the reference ensemble is one the proposer
-    has not seen; use it only when pairing is impossible. More than ``max_splits`` splits are refused: there is no
-    random fallback.
+    Every cross pair enters, so use it for arms on disjoint keys; same-key CRN pairs belong to ``paired_energy_test``.
+    An estimate, so it can be negative; 0 does not prove equal distributions (report only).
     """
+    if len(candidate) < 2 or len(reference) < 2:
+        raise ValueError("Each arm needs at least two draws")
+    cross = Fraction(sum(l1(c, p, keys) for c in candidate for p in reference), len(candidate) * len(reference))
+    return 2 * cross - gini_mean_difference(candidate, keys) - gini_mean_difference(reference, keys)
+
+
+# --- the unpaired permutation test (rate-bearing on disjoint fresh keys, A1.3) --------------------------------------
+
+UNPAIRED_EXCHANGEABILITY = {
+    "disjoint": "by construction: the run records show disjoint secret keys (every fingerprint present, none public), "
+                "so under the sharp null (equal distributions) the pooled 2K draws are exchangeable given the frozen "
+                "target; a confirmation also checks the keys' use against the ledger",
+    "unverified": "unverified: the arms run under disjoint labels, but the run records do not show disjoint secret "
+                  "keys (a fingerprint is missing or malformed, or a key is public or of unknown publicity), so a "
+                  "split chosen after seeing exposed draws cannot be excluded; a screening statistic with no rate",
+    "shared": "not by construction: the arms share CRN keys, so the pooled draws are dependent in pairs; a screening "
+              "statistic with no rate"}
+
+
+def unpaired_crps_contributions(candidate: Sequence[Counts], reference: Sequence[Counts], target: Target,
+                                keys: Sequence[str]) -> tuple[list[int], int]:
+    """Integer coefficients c_i of the pooled draws (candidate first) and Q = 2K(K - 1)T, for two arms of K draws.
+
+    c_i = 2(K - 1) sum_t D(X_i, y_t) - T sum_j D(X_i, X_j), with D the L1 distance and T truth members. For every
+    relabeling A of K pooled draws as the candidate (B the rest), fairCRPS(A) - fairCRPS(B) =
+    (sum_{i in A} c_i - sum_{i in B} c_i) / Q: the within-arm sums satisfy W_A - W_B = (sum_A r - sum_B r) / 2 with
+    r_i = sum_j D(X_i, X_j), which makes the statistic linear in the labels when the arms have equal size.
+    """
+    size, truths = len(candidate), _truths(target)
+    if size != len(reference) or size < 2:
+        raise ValueError("Use two arms of equal size, at least two draws each")
+    pooled = list(candidate) + list(reference)
+    to_y = [sum(l1(member, truth, keys) for truth in truths) for member in pooled]
+    pair = [[0] * len(pooled) for _ in pooled]
+    for i, j in itertools.combinations(range(len(pooled)), 2):
+        pair[i][j] = pair[j][i] = l1(pooled[i], pooled[j], keys)
+    members = len(truths)
+    return ([2 * (size - 1) * to_y[i] - members * sum(pair[i]) for i in range(len(pooled))],
+            2 * size * (size - 1) * members)
+
+
+def _sums_by_size(values: Sequence[int]) -> list[list[int]]:
+    """The subset sums of ``values`` grouped by subset size (all 2^n subsets)."""
+    groups: list[list[int]] = [[0]] + [[] for _ in values]
+    for count, value in enumerate(values, 1):
+        for size in range(count, 0, -1):
+            groups[size].extend(total + value for total in groups[size - 1])
+    return groups
+
+
+def count_subsets_at_most(values: Sequence[int], size: int, threshold: int) -> int:
+    """#{A subset of the indices : |A| = size, sum_{i in A} values_i <= threshold}, exact.
+
+    Meet in the middle: the subset sums of each half are grouped by size, one half is sorted and counted with
+    bisect, so 2K = 32 values need 2 x 2^16 sums rather than C(32, 16) = 601080390 subsets.
+    """
+    values = list(values)
+    if any(isinstance(v, bool) or not isinstance(v, int) for v in values):
+        raise ValueError("The subset count takes integer values")
+    if not 0 <= size <= len(values):
+        return 0
+    half = len(values) // 2
+    left, right = _sums_by_size(values[:half]), [sorted(group) for group in _sums_by_size(values[half:])]
+    total = 0
+    for chosen, sums in enumerate(left):
+        rest = size - chosen
+        if 0 <= rest < len(right):
+            ordered = right[rest]
+            total += sum(bisect.bisect_right(ordered, threshold - value) for value in sums)
+    return total
+
+
+def unpaired_crps_test(candidate: Sequence[Counts], reference: Sequence[Counts], target: Target,
+                       keys: Sequence[str], *, g: float, alpha: float, max_splits: int = 20000,
+                       keys_relation: Literal["disjoint", "unverified", "shared"] = "disjoint") -> dict:
+    """Exact one-sided permutation p of T = fairCRPS(candidate) - fairCRPS(reference) over all relabelings.
+
+    p = #{A : T(A) <= T} / C(nA + nB, nA), ties against the candidate and the observed labeling included. Equal arms
+    (the A1.3 design, 2 to MAX_UNPAIRED_DRAWS draws each) use the exact linear form and count every one of the
+    C(2K, K) relabelings by meet in the middle. Unequal arms are enumerated directly, and more than ``max_splits``
+    splits are refused: there is no random fallback. ``passes`` iff the smallest attainable p is <= alpha,
+    p <= alpha and T <= -g. ``keys_relation`` only labels the exchangeability, from the caller's key evidence: by
+    construction for disjoint secret keys (``disjoint``), unverified for disjoint labels whose keys the run records
+    do not show as secret and distinct (``unverified``), and not by construction for shared CRN keys (``shared``).
+    """
+    n_a, n_b = len(candidate), len(reference)
+    if n_a < 2 or n_b < 2:
+        raise ValueError("Each arm needs at least two draws")
+    if keys_relation not in UNPAIRED_EXCHANGEABILITY:
+        raise ValueError(f"Unknown keys relation {keys_relation!r}; use {sorted(UNPAIRED_EXCHANGEABILITY)}")
+    splits = math.comb(n_a + n_b, n_a)
+    if n_a == n_b:
+        if n_a > MAX_UNPAIRED_DRAWS:
+            raise ValueError(f"Exact relabeling supports 2 to {MAX_UNPAIRED_DRAWS} draws per arm")
+        coefficients, denominator = unpaired_crps_contributions(candidate, reference, target, keys)
+        chosen = sum(coefficients[:n_a])
+        observed = Fraction(2 * chosen - sum(coefficients), denominator)
+        hits, method = count_subsets_at_most(coefficients, n_a, chosen), "linear form, meet-in-the-middle count"
+    else:
+        if splits > max_splits:
+            raise ValueError(f"{splits} splits exceed max_splits={max_splits}; there is no random fallback")
+        observed, hits = _enumerate_unequal(candidate, reference, target, keys)
+        method = "direct enumeration (unequal arms)"
+    alpha_q, p_value = _exact(alpha), Fraction(hits, splits)
+    assessable = Fraction(1, splits) <= alpha_q
+    return {"rule": "exact one-sided permutation of the fair-CRPS difference over all relabelings of the pooled draws",
+            "method": method, "exchangeability": UNPAIRED_EXCHANGEABILITY[keys_relation],
+            "draws": [n_a, n_b], "g": g, "alpha": alpha, "T": observed, "t": float(observed), "splits": splits,
+            "hits": hits, "p": p_value, "p_value": float(p_value), "min_p": Fraction(1, splits),
+            "size_bound": Fraction(math.floor(alpha_q * splits), splits), "assessable": assessable,
+            "passes": assessable and p_value <= alpha_q and observed <= -_exact(g)}
+
+
+def _enumerate_unequal(candidate: Sequence[Counts], reference: Sequence[Counts], target: Target,
+                       keys: Sequence[str]) -> tuple[Fraction, int]:
     pooled = list(candidate) + list(reference)
     n_a, n = len(candidate), len(pooled)
-    if n_a < 2 or n - n_a < 2:
-        raise ValueError("Each arm needs at least two draws")
-    splits = math.comb(n, n_a)
-    if splits > max_splits:
-        raise ValueError(f"{splits} splits exceed max_splits={max_splits}; there is no random fallback")
     truths = _truths(target)
     to_y = [sum(l1(member, truth, keys) for truth in truths) for member in pooled]
     pair = [[l1(a, b, keys) for b in pooled] for a in pooled]
@@ -352,13 +477,7 @@ def unpaired_crps_test(candidate: Sequence[Counts], reference: Sequence[Counts],
         return crps(chosen) - crps(tuple(i for i in range(n) if i not in members))
 
     observed = split_statistic(tuple(range(n_a)))
-    hits = sum(split_statistic(chosen) <= observed for chosen in itertools.combinations(range(n), n_a))
-    p_value = Fraction(hits, splits)
-    return {"rule": "unpaired label permutation of the fair-CRPS difference (fresh independent keys, unseen "
-                    "reference only)",
-            "draws": [n_a, n - n_a], "T": observed, "t": float(observed), "splits": splits, "p": p_value,
-            "p_value": float(p_value), "min_p": Fraction(1, splits),
-            "passes": p_value <= _exact(alpha) and observed <= -_exact(g)}
+    return observed, sum(split_statistic(chosen) <= observed for chosen in itertools.combinations(range(n), n_a))
 
 
 # --- CRN regime and confirmation size ------------------------------------------------------------------------------
@@ -383,7 +502,7 @@ def confirmation_draws(rho: float) -> int:
     return 8 if rho <= CRN_EFFECTIVE_RHO else 16
 
 
-# --- one v3 case and its gate label --------------------------------------------------------------------------------
+# --- one paired v3 case (report only; the gate verdict is m2_stage.evaluate_stage) --------------------------------
 
 def _transformed(counts_by_key: Mapping[str, Counts], rows: Sequence[str], objective: str) -> dict[str, dict]:
     return {key: objective_values(counts, rows, objective) for key, counts in counts_by_key.items()}
@@ -402,11 +521,13 @@ def _objective_keys(target: Target) -> list[str]:
 def evaluate_case_v3(candidate: Mapping[str, Counts], reference: Mapping[str, Counts], target: Target,
                      rows: Sequence[str], *, g: float, alpha: float, delta: float,
                      objective: str = PRIMARY_OBJECTIVE) -> dict:
-    """One paired case on the counts of ``rows``: the primary test on ``objective`` plus everything v3 reports.
+    """The paired statistics of one case on the counts of ``rows``, all report only (A1.3, A1.5).
 
-    ``main130`` and ``totals13`` are the paired CRPS results that guards N4 and N3 read. ``v2_sign_rule`` and
-    ``noninferiority`` are v2's exact sign rules on the per-key TAE on the objective (branch S reads the second).
-    ``energy`` and the median distances are report only.
+    ``primary``, ``main130`` and ``totals13`` are paired CRPS sign-flip results on draws paired by key (CRN) or by
+    another declared pairing; their ``passes`` never gates. ``v2_sign_rule`` and ``noninferiority`` are v2's exact
+    sign rules on the per-key TAE on the objective; the second is v2's S rule, reported without any
+    ``simplified`` verdict (decision 5). ``energy`` and the median distances are diagnostics. The gate verdict, with
+    its unpaired test and every guard, is ``m2_stage.evaluate_stage``.
     """
     draw_keys = _paired(candidate, reference)
     results = {}
@@ -433,40 +554,3 @@ def evaluate_case_v3(candidate: Mapping[str, Counts], reference: Mapping[str, Co
             "no_effect": all(_count(candidate[key], row) == _count(reference[key], row)
                              for key in draw_keys for row in rows),
             "claim": CLAIM}
-
-
-GUARD_LABELS_V3 = ("unhealthy", "guard", "row_regress", "init", "level_regress", "fine_regress")
-
-
-def verdict_v3(case: dict, *, g: float, delta: float, dof_lower: bool, guard_failure: str | None = None,
-               mode: Literal["screen", "confirm"] = "screen") -> dict:
-    """Protocol v3 gate label of one ``evaluate_case_v3`` result, in the order of the gate table.
-
-    A failed guard (one of GUARD_LABELS_V3) labels the case first, because guards only reject. Then ``no_effect``,
-    ``improved`` (the primary test passes), ``simplified`` (fewer timing DoF, v2's non-inferiority rule and
-    T < delta), and the descriptive rest: ``not_significant`` (T <= -g without the test), ``worse`` (T >= g) or
-    ``not_material``. A rate (alpha) is attached only to an ``improved`` label in confirmation mode.
-    """
-    if mode not in ("screen", "confirm"):
-        raise ValueError(f"Unknown mode {mode!r}; use 'screen' or 'confirm'.")
-    if guard_failure is not None and guard_failure not in GUARD_LABELS_V3:
-        raise ValueError(f"Unknown guard label {guard_failure!r}; use one of {GUARD_LABELS_V3}.")
-    primary = case["primary"]
-    statistic, g_q, delta_q = primary["T"], _exact(g), _exact(delta)
-    if guard_failure is not None:
-        label = guard_failure
-    elif case["no_effect"]:
-        label = "no_effect"
-    elif primary["passes"]:
-        label = "improved"
-    elif dof_lower and case["noninferiority"]["passes"] and statistic < delta_q:
-        label = "simplified"
-    elif statistic <= -g_q:
-        label = "not_significant"
-    elif statistic >= g_q:
-        label = "worse"
-    else:
-        label = "not_material"
-    return {"label": label, "note": "tae_only" if primary["tae_only"] and label != "improved" else None,
-            "rate": "alpha" if mode == "confirm" and label == "improved" else "none", "mode": mode,
-            "guard_failure": guard_failure, "dof_lower": dof_lower}

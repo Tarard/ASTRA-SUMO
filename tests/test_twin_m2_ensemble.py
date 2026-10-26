@@ -18,7 +18,8 @@ from pathlib import Path
 import pytest
 
 from astra_sumo.core.benchmark_references import csv_rows
-from astra_sumo.twin import count_profile, ensemble, ensemble_profile, gate_rules, goal, guards, panel, runner
+from astra_sumo.twin import (count_profile, ensemble, ensemble_profile, gate_rules, goal, guards, m2_stage, panel,
+                             runner)
 
 from test_twin_judge import CASE, PACKET, ROOT
 
@@ -330,8 +331,11 @@ def test_unpaired_three_plus_three_rekey_splits(b0, objective):
                for chosen in itertools.combinations(range(6), 3)]
     assert len(results) == 20 and all(r["splits"] == 20 for r in results)
     assert sum(r["passes"] for r in results) == 1 and min(r["p"] for r in results) == Fraction(1, 20)
+    assert all(r["method"].startswith("linear form") for r in results)
+    unequal = ensemble.unpaired_crps_test(parent[:2], parent[2:], y, keys, g=G, alpha=ALPHA)
+    assert unequal["splits"] == 15 and unequal["method"].startswith("direct enumeration")
     with pytest.raises(ValueError, match="no random fallback"):
-        ensemble.unpaired_crps_test(parent[:3], parent[3:], y, keys, g=G, alpha=ALPHA, max_splits=19)
+        ensemble.unpaired_crps_test(parent[:2], parent[2:], y, keys, g=G, alpha=ALPHA, max_splits=14)
 
 
 # --- T9 CRN regime --------------------------------------------------------------------------------------------------
@@ -414,12 +418,15 @@ def test_entry_p95_classes_and_the_evaluated_guard_set(b0):
                                       floors=floors)
 
     lop, mop = judged("L"), judged("M")
-    assert lop["label"] == "guard" and lop["fired"] == ["entry_paired:network"]
-    assert lop["guards"]["entry_paired:network"]["lcb"] > 10 > lop["guards"]["entry_paired:44532531"]["lcb"]
-    assert not lop["guards"]["entry_backstop:network"]["fires"]  # the no-CRN backstop misses L's paired backlog
-    assert mop["label"] is None and mop["fired"] == []
+    # Decision 6: L's paired backlog is a flag that never blocks; the no-CRN re-key guards hold.
+    assert lop["label"] is None and lop["fired"] == [] and lop["flagged"] == ["network"]
+    assert lop["flags"]["network"]["lcb"] > 10 > lop["flags"]["44532531"]["lcb"]
+    assert not lop["guards"]["entry:network"]["fires"] and not lop["guards"]["entry:44532531"]["fires"]
+    assert lop["guards"]["entry:44532531"]["margin"] == 256.0 and "entry:-142944318" not in lop["guards"]
+    assert mop["label"] is None and mop["fired"] == [] and mop["flagged"] == []
     quiet = next(name for name in mop["guards"] if name.startswith("entry_quiet:"))
     assert mop["guards"][quiet]["mean"] < 1.0
+    assert not any(name.startswith("entry_paired") for name in lop["guards"])
     case = ensemble.evaluate_case_v3({k: b0["arms"]["N"][k] for k in first}, {k: b0["arms"]["P"][k] for k in first},
                                      b0["arms"]["P"]["k6"], b0["main_rows"], g=G, alpha=ALPHA, delta=5)
     with_case = guards.evaluate_guards({k: b0["guard_inputs"]["N"][k] for k in first}, {k: parent[k] for k in first},
@@ -487,7 +494,7 @@ def test_ensemble_field_balance_flags_the_three_fields_above_every_draw(b0):
     assert balance["0119Z5"]["sign_stable"] and not balance["0119Z13"]["sign_stable"]
 
 
-# --- T13 verdict_v3 ------------------------------------------------------------------------------------------------
+# --- T13 the paired case is a report (A1.3, A1.5); the verdict is m2_stage -----------------------------------------
 
 def _synthetic(values: list[int], *, reference_values: tuple[int, ...] = (20, 21, 22, 23, 24)) -> dict:
     rows = ["R:A@3600", "R:A@4500", "R:A@5400", "R:A@6300"]
@@ -497,31 +504,21 @@ def _synthetic(values: list[int], *, reference_values: tuple[int, ...] = (20, 21
                                      delta=5, objective="ms4")
 
 
-def test_verdict_v3_follows_the_gate_table_order():
+def test_the_paired_case_is_a_report_without_a_verdict_or_a_simplified_branch():
     improved = _synthetic([5, 6, 7, 8, 9])
     assert improved["primary"]["passes"] and improved["values"] == 1 and improved["energy"]["draws"] == 5
-    assert ensemble.verdict_v3(improved, g=10, delta=5, dof_lower=False)["label"] == "improved"
-    screen = ensemble.verdict_v3(improved, g=10, delta=5, dof_lower=False)
-    confirm = ensemble.verdict_v3(improved, g=10, delta=5, dof_lower=False, mode="confirm")
-    assert (screen["rate"], confirm["rate"]) == ("none", "alpha")
-    guarded = ensemble.verdict_v3(improved, g=10, delta=5, dof_lower=False, guard_failure="fine_regress",
-                                  mode="confirm")
-    assert (guarded["label"], guarded["rate"]) == ("fine_regress", "none")
+    assert improved["primary"]["exchangeability"] == ensemble.PAIRED_EXCHANGEABILITY
+    assert "report only" in improved["primary"]["rule"]
     same = _synthetic([20, 21, 22, 23, 24])
-    assert same["no_effect"] and ensemble.verdict_v3(same, g=10, delta=5, dof_lower=True)["label"] == "no_effect"
+    assert same["no_effect"]
     near = _synthetic([21, 21, 22, 23, 24])
+    # v2's S rule is still computed and reported, but no simplified verdict exists anywhere (decision 5, A1.5).
     assert near["per_key_d"] == [4, 0, 0, 0, 0] and near["noninferiority"]["passes"] and near["primary"]["T"] < 5
-    assert ensemble.verdict_v3(near, g=10, delta=5, dof_lower=True)["label"] == "simplified"
-    assert ensemble.verdict_v3(near, g=10, delta=5, dof_lower=False)["label"] == "not_material"
     noisy = _synthetic([5, 6, 7, 8, 30])
     assert noisy["primary"]["T"] <= -10 and not noisy["primary"]["passes"]
-    assert ensemble.verdict_v3(noisy, g=10, delta=5, dof_lower=False)["label"] == "not_significant"
-    worse = _synthetic([40, 41, 42, 43, 44])
-    assert ensemble.verdict_v3(worse, g=10, delta=5, dof_lower=True)["label"] == "worse"
-    with pytest.raises(ValueError, match="Unknown guard"):
-        ensemble.verdict_v3(improved, g=10, delta=5, dof_lower=False, guard_failure="blocked?")
-    with pytest.raises(ValueError, match="Unknown mode"):
-        ensemble.verdict_v3(improved, g=10, delta=5, dof_lower=False, mode="release")
+    for superseded in ("verdict_v3", "GUARD_LABELS_V3"):
+        assert not hasattr(ensemble, superseded)
+    assert "simplified" not in m2_stage.LABELS
 
 
 def test_tae_only_note_marks_a_sharpening_that_crps_does_not_reward():
@@ -533,9 +530,19 @@ def test_tae_only_note_marks_a_sharpening_that_crps_does_not_reward():
                                      objective="main130")
     primary = case["primary"]
     assert (primary["d_mean_tae"], primary["T"], primary["d_half_gmd"]) == (-28, -4, -24) and primary["tae_only"]
-    verdict = ensemble.verdict_v3(case, g=10, delta=5, dof_lower=False)
-    assert verdict["label"] != "improved" and verdict["note"] == "tae_only"
+    assert not primary["passes"] and not primary["spread_driven"]
     assert case["v2_sign_rule"]["passes"]  # v2's TAE sign rule would have accepted the sharpening
+
+
+def test_spread_driven_marks_a_widening_that_the_crps_rewards():
+    """The fair CRPS rewards widening a biased, overconfident reference: same mean TAE, T = -24 <= -g."""
+    rows = ["R:A@3600", "R:A@4500", "R:A@5400", "R:A@6300"]
+    biased = {f"k{i}": {row: 17 for row in rows} for i in range(6)}
+    wide = {f"k{i}": {row: (7, 27)[i % 2] for row in rows} for i in range(6)}
+    primary = ensemble.evaluate_case_v3(wide, biased, {row: 7 for row in rows}, rows, g=10, alpha=0.05, delta=5,
+                                        objective="main130")["primary"]
+    assert (primary["d_mean_tae"], primary["T"], primary["d_half_gmd"]) == (0, -24, 24)
+    assert primary["spread_driven"] and not primary["tae_only"]
 
 
 def test_evaluate_case_v3_reports_every_v3_statistic(b0):
@@ -549,7 +556,6 @@ def test_evaluate_case_v3_reports_every_v3_statistic(b0):
     truth = ensemble.evaluate_case_v3(b0["arms"]["M"], b0["arms"]["P"], [b0["arms"]["P"][k] for k in ("k1", "k2")],
                                       b0["main_rows"], g=G, alpha=ALPHA, delta=5)
     assert truth["median_distance"] is None and truth["primary"]["denominator"] == 2 * 6 * 5 * 2
-    assert ensemble.verdict_v3(case, g=G, delta=5, dof_lower=False)["label"] == "not_material"
 
 
 # --- T14 store parity ----------------------------------------------------------------------------------------------
