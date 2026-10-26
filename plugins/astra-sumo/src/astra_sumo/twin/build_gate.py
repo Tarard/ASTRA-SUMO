@@ -47,7 +47,9 @@ L2_RULE = ("L2: on every touched junction, no probe or smoke failure on the cand
            "(after the declared lane remap); a failure is an expected movement (frozen movement facts) that is not "
            "driven or probed or does not arrive, a driven movement that does not arrive, a failed SUMO run, or a "
            "teleport or collision in a run; an expected movement on the op's targets that fails on both nets is "
-           "unprobed and L2 stays unverified")
+           "unprobed and L2 stays unverified; a probe or smoke run that is missing or did not execute cleanly on "
+           "either net (a failed, nonzero or timed-out command, or missing or unreadable outputs) is no evidence, "
+           "so nothing is compared there and L2 stays unverified")
 L2_NOT_RUN = "no L2 movement-guard record was supplied; L2 never passes unrun"
 
 
@@ -258,6 +260,8 @@ def l3_rule(pairs: list[tuple[int, dict | None, dict | None]], declared_seeds: l
 
 MOVEMENT_GUARD_SCHEMA = "astra.twin-movement-guard/v1"
 NETWORK_RUN = "*"
+# Failure tokens of a run that is no evidence: missing, or not executed cleanly (``run_ok`` false).
+UNCLEAN_RUN = frozenset({"run:missing", "run:failed"})
 
 
 def l2_not_run(reason: str = L2_NOT_RUN) -> dict:
@@ -275,9 +279,10 @@ def l2_failing(run: dict | None, expected: list) -> set[str]:
 
     ``movement:<from lane>><to lane>`` for an expected movement that is not driven (absent, or not permitted for
     the probe vehicle) or does not arrive, and for a driven movement that does not arrive; ``run:failed`` when SUMO
-    did not run cleanly (then nothing counts as arrived); ``run:teleports`` and ``run:collisions`` when the run had
-    any (the smoke records no per-vehicle identity for them); ``junction:absent`` when the net lacks a junction at
-    which movements are expected (a junction an op merged away expects none: its movements belong to the new one).
+    did not run cleanly (``run_ok`` false: a probe or smoke command failed, exited nonzero or timed out, or its outputs
+    are missing or unreadable; then nothing counts as arrived); ``run:teleports`` and ``run:collisions`` when the run
+    had any (the smoke records no per-vehicle identity for them); ``junction:absent`` when the net lacks a junction
+    at which movements are expected (a junction an op merged away expects none: its movements belong to the new one).
     """
     expected_pairs = {tuple(pair) for pair in expected}
     if run is None:
@@ -334,9 +339,13 @@ def l2_rule(record: dict | None, *, parent_sha256: str, candidate_sha256: str, j
     """L2 over a movement-guard record: pass only when it binds the parent and candidate nets (and, when given, the
     verify-edit report and the ``method`` the goal requires), covers exactly the touched ``junctions`` with the
     ``expected`` movements the profile derives from the frozen facts (``{"parent": {junction: pairs}, "candidate":
-    {...}}``), no junction shows a failure on the candidate that the parent (remapped) does not have, and no expected
-    movement on the op's ``targets`` (its edges and junctions) fails on both nets: such a movement is never compared,
-    so a candidate that breaks it is invisible to the differential rule (``unprobed``, unverified)."""
+    {...}}``), every run on both nets executed cleanly, no junction shows a failure on the candidate that the parent
+    (remapped) does not have, and no expected movement on the op's ``targets`` (its edges and junctions) fails on both
+    nets: such a movement is never compared, so a candidate that breaks it is invisible to the differential rule
+    (``unprobed``, unverified). A run that is missing or did not execute cleanly on EITHER net (``UNCLEAN_RUN``) is
+    no evidence: nothing is compared at its junction (its tokens count neither as new nor as unprobed), and L2 is
+    unverified unless a cleanly run junction shows a new failure, so identical execution failures on the two nets
+    never cancel out into a pass, whatever movements the frozen facts expect."""
     if record is None:
         return l2_not_run()
     problems = []
@@ -378,21 +387,24 @@ def l2_rule(record: dict | None, *, parent_sha256: str, candidate_sha256: str, j
         mapped = {token for token in (_remapped_token(row, lane_mapping or {}) for row in parent) if token}
         fresh = sorted(candidate - mapped)
         both = sorted(candidate & mapped & {_pair(pair) for pair in wanted["candidate"]})
+        unclean = [role for role, tokens in (("parent", parent), ("candidate", candidate)) if UNCLEAN_RUN & tokens]
         rows.append({"junction": key, "parent_failing": sorted(parent), "candidate_failing": sorted(candidate),
-                     "new": fresh, "unprobed": both})
+                     "new": fresh, "unprobed": both, "unclean_runs": unclean})
+        # A run that is missing or did not execute cleanly on either net leaves nothing to compare, as an L3 source
+        # that failed to route: its tokens are no evidence and it never passes.
+        if unclean:
+            unrun.append(f"{key} ({', '.join(unclean)})")
+            continue
         new += [f"{key}:{token}" for token in fresh]
         unprobed += [f"{key}:{token}" for token in both
                      if _touches(token, junction_of.get(token, key), targets or {})]
-        # A parent run that did not run cleanly leaves nothing to compare against, as an L3 source that failed to
-        # route: it never passes.
-        if {"run:missing", "run:failed"} & parent:
-            unrun.append(key)
     if new:
         return {**base, "status": "blocked", "result": "new_failures", "junctions": rows, "new_failures": new,
                 "reason": f"{len(new)} failure(s) only on the candidate: {', '.join(new[:3])}"}
     if unrun:
-        return {**base, "status": "blocked", "result": "unverified", "junctions": rows,
-                "reason": f"the parent's probes did not run cleanly at {', '.join(unrun[:3])}; nothing is compared"}
+        return {**base, "status": "blocked", "result": "unverified", "junctions": rows, "unclean": unrun,
+                "reason": f"the probes or smoke did not execute cleanly at {', '.join(unrun[:3])}; nothing is "
+                          "compared there"}
     if unprobed:
         return {**base, "status": "blocked", "result": "unverified", "junctions": rows, "unprobed": unprobed,
                 "reason": f"{len(unprobed)} expected movement(s) on the op's targets fail on both nets, so L2 compares "

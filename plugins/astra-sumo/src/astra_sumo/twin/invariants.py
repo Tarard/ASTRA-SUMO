@@ -183,7 +183,7 @@ MEASURE_EPSILON_M = 1e-9
 INHERITED_VERTEX_M = 0.01
 INHERITED_TURN_DEG = 0.5
 # Decision D2: a convBoundary must equal the bounding box recomputed from the candidate's own geometry within this
-# distance on each of its four values (an unchanged one: the recomputed box must equal the parent's).
+# distance on each of its four values, whether it changed or not (no exception for a parent already off its box).
 CONV_BOUNDARY_TOLERANCE_M = 0.01
 # Decision D2: <location> attributes that must be byte-identical to the parent's (every attribute but convBoundary).
 FRAME_DERIVED = "convBoundary"
@@ -592,13 +592,6 @@ def _boundary(text: str | None) -> list[float] | None:
     return values if len(values) == 4 and all(math.isfinite(value) for value in values) else None
 
 
-def _box_deviation(first: list[float] | None, second: list[float] | None) -> float | None:
-    """Largest difference of two boxes' four values (0 when both are missing, None when one is)."""
-    if first is None or second is None:
-        return 0.0 if first is None and second is None else None
-    return max(abs(a - b) for a, b in zip(first, second))
-
-
 def _distance(first: tuple[float, float], second: tuple[float, float]) -> float:
     return math.hypot(first[0] - second[0], first[1] - second[1])
 
@@ -627,8 +620,7 @@ def frame_anchor(parent: dict[str, tuple[float, float]], candidate: dict[str, tu
 
 
 def inv_frame(parent_locations: list[dict], candidate_locations: list[dict],
-              recomputed_boundary: list[float] | None, *, parent_boundary: list[float] | None = None,
-              anchor: dict | None = None) -> dict:
+              recomputed_boundary: list[float] | None, *, anchor: dict | None = None) -> dict:
     """The candidate's ``<location>`` frame is the parent's (decision D2).
 
     Every ``<location>`` element of each net counts (``root.iter``, nested ones too): SUMO applies the last one while
@@ -637,9 +629,8 @@ def inv_frame(parent_locations: list[dict], candidate_locations: list[dict],
     attribute but convBoundary) must be byte-identical to the parent's. convBoundary must be ``recomputed_boundary``,
     the bounding box ``build_profile`` recomputes from the candidate's own geometry, within
     ``CONV_BOUNDARY_TOLERANCE_M`` on each value, whether it changed or not: an unchanged convBoundary behind geometry
-    that grew past it is stale. Only when the parent's own convBoundary is already off its geometry box
-    (``parent_boundary``) by more than that may it stay unchanged, and then the recomputed box may not move from the
-    parent's by more than the same distance.
+    that grew past it is stale, and a parent convBoundary already off its own box is no exception (it would let the
+    box drift step by step while convBoundary stays wrong).
 
     ``anchor`` holds the non-internal junction positions ``{"parent": {id: (x, y)}, "candidate": {...}, "source":
     {...}}`` and the step's mutable junctions (``"scope"``): a translation of all geometry with netOffset kept changes
@@ -650,10 +641,6 @@ def inv_frame(parent_locations: list[dict], candidate_locations: list[dict],
     if len(candidate_locations) != len(parent_locations) or len(candidate_locations) > 1:
         witnesses.append("location:element")
     parent_conv = before.get(FRAME_DERIVED)
-    parent_values = _boundary(parent_conv)
-    parent_gap = (None if parent_values is None or parent_boundary is None else
-                  max(abs(a - b) for a, b in zip(parent_values, parent_boundary)))
-    parent_off = parent_conv is not None and (parent_gap is None or parent_gap > CONV_BOUNDARY_TOLERANCE_M + EPSILON)
     shown = "none" if recomputed_boundary is None else ",".join(f"{value:.6f}" for value in recomputed_boundary)
     conv = []
     for after in copies:
@@ -663,10 +650,6 @@ def inv_frame(parent_locations: list[dict], candidate_locations: list[dict],
         if value is None:
             deviation = 0.0 if parent_conv is None else None
             conv.append("absent on both" if parent_conv is None else f"removed (was {parent_conv})")
-        elif value == parent_conv and parent_off:
-            deviation = _box_deviation(recomputed_boundary, parent_boundary)
-            conv.append(f"unchanged and already off the parent's geometry box; recomputed {shown} moved "
-                        + ("unmeasured" if deviation is None else f"{deviation:.6f} m") + " from the parent's")
         else:
             values = _boundary(value)
             deviation = (None if values is None or recomputed_boundary is None else

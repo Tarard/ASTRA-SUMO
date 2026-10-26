@@ -114,8 +114,9 @@ DECISIONS = {
                       "derived from those and reach beyond convBoundary (4.32 m on clean Ring1 nominal), so a box "
                       "that included them could never match a netconvert output within 0.01 m. An unchanged "
                       "convBoundary must be that box too, so geometry that grows past a stale convBoundary is a "
-                      "witness; only when the parent's own convBoundary is already off its box may it stay, and then "
-                      "the box may not move from the parent's by more than 0.01 m. Every <location> element counts: "
+                      "witness, and so is a convBoundary the parent (or the goal source) already carried off its box: "
+                      "there is no stale-parent exception, so every candidate's convBoundary is its own recomputed "
+                      "box within 0.01 m and cannot drift along a chain. Every <location> element counts: "
                       "SUMO applies the last one and netconvert the first, so the candidate must carry exactly one, "
                       "as the parent does. Translating all geometry with netOffset kept is the frame change netOffset "
                       "identity forbids: every junction outside the step's mutable scope keeps its parent position "
@@ -1122,7 +1123,6 @@ def _verify_edit_gate(goal: BuildGoal, *, table: NetworkFactTable, facts_sha: st
         invariants.inv_coverage(improved),
         invariants.inv_shape(changes, goal.g0_shape.model_dump()),
         invariants.inv_frame(locations(parent_root), locations(root), geometry_boundary(root),
-                             parent_boundary=geometry_boundary(parent_root),
                              anchor={"parent": junction_positions(parent_root), "candidate": junction_positions(root),
                                      "source": junction_positions(source_root), "scope": goal_junctions}),
         invariants.inv_artifacts(artifacts, lane_artifacts if lane_artifacts and "files" in lane_artifacts else None),

@@ -8,7 +8,10 @@ listed as skipped). The expected movements per junction come from the frozen sco
 through each net's effective fact table, so a lane-count remap keeps physical lanes. The caller
 (``build_profile.run_movement_guard``) derives the junctions, expected movements and lane remap; this module only runs
 SUMO and writes one record, ``movement-guard.json``, into a new directory. ``build_gate.l2_rule`` judges it: no new
-probe or smoke failure on the candidate against the parent.
+probe or smoke failure on the candidate against the parent, and every run on both nets executed cleanly. A probe or
+smoke command that failed, exited nonzero or timed out, or left its outputs missing or unreadable, makes that run not
+ok (``run_ok`` false), whatever the frozen movement facts expect, so L2 is unverified and never passes: identical
+execution failures on the two nets cannot cancel out.
 
 Explore evidence only: a smoke vehicle that arrives shows a drivable movement under the net's own signals, not field
 legality, signal timing or safety.
@@ -54,19 +57,29 @@ def _lane(edge: str, index: Any) -> str:
 
 
 def smoke_summary(report: dict) -> dict:
-    """The parts of one ``run_all_turn_movement_smoke`` report that ``build_gate.l2_failing`` reads."""
+    """The parts of one ``run_all_turn_movement_smoke`` report that ``build_gate.l2_failing`` reads.
+
+    ``run_ok`` is false, with the reasons in ``execution_errors``, when the SUMO command failed, exited nonzero or timed
+    out, the source net changed, the summary or tripinfo output is missing or unreadable, or the summary has no final
+    step counts: such a run is no evidence (its arrivals are not read)."""
     driven = [[_lane(row["from"], row["from_lane"]), _lane(row["to"], row["to_lane"])] for row in report["movements"]]
     arrived_ids = set(report.get("arrived_vehicle_ids") or ())
     arrived = [pair for pair, vehicle in zip(driven, report["expected_vehicle_ids"]) if vehicle in arrived_ids]
     skipped = [[_lane(a, b), _lane(c, d)] for a, b, c, d in report.get("skipped_movements", [])]
     classes = Counter(row.get("vehicle_class", "passenger") for row in report["movements"])
     checks = report["checks"]
-    summary = (report.get("inspection") or {}).get("summary") or {}
+    inspection = report.get("inspection") or {}
+    summary = inspection.get("summary") or {}
     events = {key: summary.get(key) for key in EVENT_KEYS}
-    run_ok = bool(checks.get("sumo_command") and checks.get("source_immutable")
-                  and all(value is not None for value in events.values()))
-    return {"status": "ran", "run_ok": run_ok, "driven": sorted(driven), "arrived": sorted(arrived),
-            "skipped": sorted(skipped), "events": events, "vehicle_classes": dict(sorted(classes.items())),
+    command = report.get("command_result") or {}
+    errors = [reason for reason, ok in (
+        (f"sumo command {command.get('status')}, returncode {command.get('returncode')}", checks.get("sumo_command")),
+        ("source net changed", checks.get("source_immutable")),
+        ("summary or tripinfo output missing or unreadable", inspection.get("status") in ("pass", "warn")),
+        ("summary has no final step counts", all(value is not None for value in events.values()))) if not ok]
+    return {"status": "ran", "run_ok": not errors, "execution_errors": errors, "driven": sorted(driven),
+            "arrived": sorted(arrived), "skipped": sorted(skipped), "events": events,
+            "vehicle_classes": dict(sorted(classes.items())),
             "smoke": {"status": report["status"], "failed_checks": sorted(key for key, ok in checks.items() if not ok)},
             "report": {"path": report["report_file"], "sha256": file_sha256(Path(report["report_file"]))}}
 
@@ -75,12 +88,42 @@ def _connection_pair(connection) -> list[str]:
     return [_lane(*connection[:2]), _lane(*connection[2:4])]
 
 
+def probe_execution_error(row: dict) -> str | None:
+    """Why one probe's SUMO run is no evidence: its command failed, exited nonzero or timed out, or its outputs are
+    missing, unreadable or empty. None for a probe that ran cleanly, and for one the core never ran (no unique
+    structurally valid internal chain, or no permitted vehicle class): that is a movement failure, not an execution
+    error."""
+    if "command" not in row:
+        return None
+    command = row["command"]
+    if not isinstance(command, dict):
+        return "command record unreadable"
+    if command.get("status") != "pass" or command.get("returncode") != 0:
+        detail = f": {command['error']}" if command.get("error") else ""
+        return f"command {command.get('status')}, returncode {command.get('returncode')}{detail}"
+    if row.get("parse_error"):
+        return f"outputs missing or unreadable: {row['parse_error']}"
+    if not row.get("summary"):
+        return "summary output empty"
+    return None
+
+
 def probe_summary(report: dict) -> dict:
     """The parts of one ``run_candidate_movement_probes`` report that ``build_gate.l2_failing`` reads: the movements
-    it probed (``tested``), those that did not pass (``failing``) and those it lists as not tested."""
+    it probed (``tested``), those that did not pass (``failing``) and those it lists as not tested.
+
+    ``run_ok`` is false when the net changed during the probes or any probe has an execution error
+    (``probe_execution_error``, listed in ``execution_errors``), independently of the movements the frozen facts
+    expect: identical failed commands on the parent and the candidate are no evidence and never cancel out."""
     results = [row for row in report["results"] if row.get("sumo_connection")]
     not_tested = report.get("not_tested") or []
-    return {"status": "ran", "run_ok": bool(report.get("source_immutable")),
+    errors = []
+    for index, row in enumerate(report["results"]):
+        if (reason := probe_execution_error(row)) is not None:
+            name = ">".join(_connection_pair(row["sumo_connection"])) if row.get("sumo_connection") else f"#{index}"
+            errors.append(f"{name}: {reason}")
+    return {"status": "ran", "run_ok": bool(report.get("source_immutable")) and not errors,
+            "execution_errors": sorted(errors),
             "failing": sorted(_connection_pair(row["sumo_connection"]) for row in results
                               if row.get("status") != "pass"),
             "tested": sorted(_connection_pair(row["sumo_connection"]) for row in results),

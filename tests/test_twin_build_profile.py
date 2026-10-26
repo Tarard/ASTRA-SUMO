@@ -110,11 +110,11 @@ def _judge(tmp_path: Path, built, candidate: ET.Element, *, operation: dict | No
            artifacts: list[Path] | None = None, affected: tuple[str, ...] = (), parent_net: Path | None = None,
            parent_profile: Path | None = None, out: Path | None = None, seeds: bool = False,
            structural: int = 0, l2: bool = False, broken: tuple[tuple[str, str], ...] = (),
-           plan: dict | None = None, everywhere: bool = False) -> dict:
+           plan: dict | None = None, everywhere: bool = False, smoke=None) -> dict:
     """Profile ``candidate`` through a fabricated verify-edit report whose construction checks all pass, so only the
     twin's own G0, V, L2 and L3 decide (no SUMO). ``seeds`` adds clean routeability audits on the goal's frozen trips;
     ``l2`` runs the real movement guard with a fake smoke (``broken`` lane pairs fail on the candidate, or on both
-    nets with ``everywhere``); ``out`` writes
+    nets with ``everywhere``; ``smoke`` replaces that fake smoke); ``out`` writes
     the profile directory (``profile.full.json``) instead of returning it in memory. Like ``run_verify_edit``, the
     report is made with the parent's effective fact table, and a ``set_lane_count`` op records verify-edit's own
     selector remap of it under ``plan["lane_index_mapping"]``."""
@@ -163,7 +163,7 @@ def _judge(tmp_path: Path, built, candidate: ET.Element, *, operation: dict | No
         build_profile.run_movement_guard(loaded, data, facts_bytes, facts_path=facts_path, verify_edit=work,
                                          output_dir=guard, verifier=VERIFIER, repository_root=ROOT,
                                          parent_profile=parent_profile,
-                                         smoke=_fake_smoke(broken, None if everywhere else net))
+                                         smoke=smoke or _fake_smoke(broken, None if everywhere else net))
     if out is not None:
         return build_profile.write_build_profile(loaded, data, facts_bytes, facts_path=facts_path, repository_root=ROOT,
                                                  out_dir=out, verifier=VERIFIER, verify_edit=work,
@@ -648,12 +648,37 @@ def test_d2_convboundary_may_change_only_to_the_recomputed_geometry_box(tmp_path
     assert _failed(profile) == {"INV-FRAME": ["location:convBoundary"]}
     assert "unchanged -100,-100,100,100; recomputed -130.000000,-100.000000,100.000000,100.000000; deviation " \
            "30.000000 m" in next(row for row in profile["invariants"] if row["id"] == "INV-FRAME")["reason"]
-    # A parent whose own convBoundary is already off its geometry box may keep it while the box stays put.
-    box = [-100.0, -100.0, 100.0, 100.0]
-    off = [{"convBoundary": "-90,-100,100,100"}]
-    assert invariants.inv_frame(off, off, box, parent_boundary=box)["pass"]
-    assert invariants.inv_frame(off, off, [-100.02, -100.0, 100.0, 100.0], parent_boundary=box)["witness_ids"] == [
-        "location:convBoundary"]
+
+
+def test_d2_has_no_stale_parent_exception_so_a_wrong_convboundary_cannot_drift_along_a_chain(tmp_path):
+    # Review finding (P2): a parent convBoundary already off its geometry box could stay unchanged while the box moved
+    # at most 0.01 m from the immediate parent's. Reproduction: convBoundary xmax = 90 over source geometry to
+    # xmax = 100, then 50 successive 0.01 m extensions each passed INV-FRAME, ending at xmax = 100.5.
+    wrong = [{"convBoundary": "-100,-100,90,100"}]
+    for step in range(51):
+        box = [-100.0, -100.0, round(100.0 + 0.01 * step, 2), 100.0]
+        result = invariants.inv_frame(wrong, wrong, box)
+        assert result["witness_ids"] == ["location:convBoundary"], step
+        # The same step with convBoundary rewritten to its own box passes.
+        right = [{"convBoundary": ",".join(f"{value:.2f}" for value in box)}]
+        assert invariants.inv_frame(wrong, right, box)["pass"], step
+    # End to end: a goal source whose convBoundary is off its geometry box. An honest speed repair that keeps it is a
+    # frame witness; the same repair with convBoundary set to the recomputed box passes INV-FRAME.
+    clean = _x4()
+    source = copy.deepcopy(clean)
+    _lane(source, "W_in_1").set("speed", "10")
+    source.find("location").set("convBoundary", "-100,-100,90,100")
+    assert build_profile.geometry_boundary(source) == [-100.0, -100.0, 100.0, 100.0]
+    built = _goal(tmp_path, source, reference=clean)
+    speed = {"id": "op", "operation": "set_speed", "params": {"lane_id": "W_in_1", "speed_m_s": 13.89}}
+    kept = copy.deepcopy(source)
+    _lane(kept, "W_in_1").set("speed", "13.89")
+    profile = _judge(tmp_path, built, kept, operation=speed)
+    assert _failed(profile)["INV-FRAME"] == ["location:convBoundary"] and profile["gate"]["G0"] == "fail"
+    assert "deviation 10.000000 m" in next(row for row in profile["invariants"] if row["id"] == "INV-FRAME")["reason"]
+    fixed = copy.deepcopy(kept)
+    fixed.find("location").set("convBoundary", "-100.00,-100.00,100.00,100.00")
+    assert "INV-FRAME" not in _failed(_judge(tmp_path, built, fixed, operation=speed))
 
 
 def _translated(root: ET.Element, dx: float, dy: float) -> ET.Element:
@@ -1916,6 +1941,141 @@ def test_a_goal_movement_manifest_runs_the_l2_probes_on_manifests_bound_to_each_
     assert [row["sumo_connection"] for row in audit["ambiguous"]] == [["N_in", 2, "E_out", 2]]
     assert build_gate.l2_failing({"failing": [], "tested": [], "not_tested": [["a_0", "b_0"]], "run_ok": True},
                                  [["a_0", "b_0"]]) == {"movement:a_0>b_0"}
+
+
+def _speed_goal_without_movement_facts(tmp_path: Path, **kwargs):
+    """X4 with a W_in_1 speed fault, a goal whose frozen facts are speed facts only (no scored movement_inventory
+    fact, so L2 expects no movement anywhere), the honest repair and its op."""
+    clean = _x4()
+    faulted = copy.deepcopy(clean)
+    _lane(faulted, "W_in_1").set("speed", "10")
+    facts = _facts_for_kinds(tmp_path, clean, ("speed",), ("W_in",))
+    built = _goal(tmp_path, faulted, reference=clean, facts=facts, **kwargs)
+    assert {fact["kind"] for fact in json.loads(built[2])["facts"]} == {"speed"}
+    repaired = copy.deepcopy(faulted)
+    _lane(repaired, "W_in_1").set("speed", "13.89")
+    return built, repaired, {"id": "op", "operation": "set_speed", "params": {"lane_id": "W_in_1", "speed_m_s": 13.89}}
+
+
+def test_failed_l2_probe_commands_never_permit_acceptance_without_movement_facts(tmp_path, monkeypatch):
+    # Review finding (P1): probe_summary set run_ok from source_immutable alone. With no scored movement_inventory
+    # fact, a review_required probe whose SUMO command exited 1 on parent and candidate alike cancelled out and L2
+    # passed (no_new_failures). Any execution failure on either net makes that run not ok: L2 is unverified.
+    from astra_sumo.core import movement_routeability
+
+    faulted = _x4()
+    _lane(faulted, "W_in_1").set("speed", "10")
+    manifest = _movement_manifest(_write(faulted, tmp_path / "manifest-source.net.xml"), tmp_path / "manifest.json")
+    built, repaired, speed = _speed_goal_without_movement_facts(tmp_path, movement_manifest=manifest)
+    failure = {"parent": None, "candidate": None}
+    commands = {"returncode": {"status": "fail", "returncode": 1, "error": "command exited with return code 1"},
+                "timeout": {"status": "timeout", "returncode": None, "error": "command timed out after 120 seconds"}}
+
+    def probes(*, candidate_manifest, output_dir, sumo_binary):
+        document = json.loads(Path(candidate_manifest).read_text(encoding="utf-8"))
+        Path(output_dir).mkdir(parents=True)
+        report = Path(output_dir) / "summary.json"
+        report.write_text("{}", encoding="utf-8")
+        mode = failure["candidate" if "candidate" in Path(output_dir).name else "parent"]
+        rows = []
+        for index, row in enumerate(document["official_connection_audit"]["required"]):
+            ran = {"sumo_connection": row["sumo_connection"], "status": "pass", "parse_error": None,
+                   "command": {"status": "pass", "returncode": 0, "error": ""}, "summary": {"arrived": "1"}}
+            if index == 0 and mode in commands:
+                ran.update(status="review_required", command=commands[mode], summary={})
+            elif index == 0 and mode == "unreadable":
+                ran.update(status="review_required", summary={}, parse_error="no element found: line 1, column 0")
+            rows.append(ran)
+        return {"source_immutable": True, "probe_count": len(rows), "not_tested": [], "report_file": str(report),
+                "results": rows}
+
+    monkeypatch.setattr(movement_routeability, "run_candidate_movement_probes", probes)
+    good = _judge(tmp_path, built, repaired, operation=speed, seeds=True, l2=True)
+    assert good["gate"]["screening"] == "improved" and good["gate"]["L2"]["method"] == "movement_probes"
+    record = json.loads(Path(good["inputs"]["movement_guard"]["path"]).read_text(encoding="utf-8"))
+    assert record["expected"] == {"parent": {}, "candidate": {}}
+    # Codex's reproduction first: the same probe exits 1 on both nets.
+    for parent_mode, candidate_mode in (("returncode", "returncode"), ("timeout", "timeout"),
+                                        ("unreadable", "unreadable"), (None, "returncode"), ("returncode", None)):
+        failure.update(parent=parent_mode, candidate=candidate_mode)
+        judged = _judge(tmp_path, built, repaired, operation=speed, seeds=True, l2=True)
+        label = (parent_mode, candidate_mode)
+        assert judged["gate"]["screening"] == "l2_unverified", label
+        assert (judged["gate"]["L2"]["status"], judged["gate"]["L2"]["result"]) == ("blocked", "unverified"), label
+        record = json.loads(Path(judged["inputs"]["movement_guard"]["path"]).read_text(encoding="utf-8"))
+        for role, mode in (("parent", parent_mode), ("candidate", candidate_mode)):
+            run = record["runs"][role][build_gate.NETWORK_RUN]
+            assert run["run_ok"] is (mode is None) and bool(run["execution_errors"]) is (mode is not None), label
+        assert judged["gate"]["L2"]["junctions"][0]["unclean_runs"] == [
+            role for role, mode in (("parent", parent_mode), ("candidate", candidate_mode)) if mode], label
+    # A probe the core never ran (no unique internal chain) is a movement failure, not an execution error.
+    assert movement_guard.probe_execution_error({"status": "review_required",
+                                                 "reason": "no_unique_structurally_valid_internal_chain"}) is None
+    assert movement_guard.probe_execution_error({"status": "pass", "command": {"status": "pass", "returncode": 0},
+                                                 "summary": {"arrived": "1"}, "parse_error": None}) is None
+
+
+def _core_smoke(failure: dict):
+    """``run_all_turn_movement_smoke`` without SUMO, in the real report shape: every direct movement of the junction
+    is driven and arrives, unless ``failure`` names an execution failure for the net's role ("returncode",
+    "timeout", or "tripinfo" for a run whose tripinfo output is missing)."""
+    def smoke(*, net_file, target_junction_id, output_dir, **_):
+        root = ET.parse(net_file).getroot()
+        ends = {edge.get("id"): (edge.get("from"), edge.get("to")) for edge in root.findall("edge")
+                if edge.get("function") != "internal"}
+        movements = [{"from": row.get("from"), "from_lane": row.get("fromLane"), "to": row.get("to"),
+                      "to_lane": row.get("toLane"), "vehicle_class": "passenger"} for row in root.findall("connection")
+                     if ends.get(row.get("from"), (None, None))[1] == target_junction_id
+                     and ends.get(row.get("to"), (None, None))[0] == target_junction_id]
+        ids = [f"movement_{index:02d}" for index in range(len(movements))]
+        mode = failure["candidate" if Path(net_file).name == "candidate.net.xml" else "parent"]
+        commands = {"returncode": {"status": "fail", "returncode": 1}, "timeout": {"status": "timeout",
+                                                                                  "returncode": None}}
+        command = commands.get(mode, {"status": "pass", "returncode": 0})
+        Path(output_dir).mkdir(parents=True)
+        report = Path(output_dir) / "all-turns.report.json"
+        report.write_text("{}", encoding="utf-8")
+        arrived = [] if mode else ids
+        events = {key: 0 for key in movement_guard.EVENT_KEYS}
+        checks = {"sumo_command": mode not in commands, "source_immutable": True,
+                  "all_expected_vehicles_arrived": not mode, "runtime_outputs": not mode}
+        return {"status": "fail" if mode else "pass", "movements": movements, "expected_vehicle_ids": ids,
+                "arrived_vehicle_ids": arrived, "vehicle_class_per_movement": True, "skipped_movements": [],
+                "checks": checks, "command_result": command, "report_file": str(report),
+                "inspection": {"status": "fail" if mode == "tripinfo" else "pass",
+                               "summary": {**events, "arrived": len(arrived)}}}
+    return smoke
+
+
+def test_failed_all_turn_smoke_runs_never_permit_acceptance_without_movement_facts(tmp_path, monkeypatch):
+    # Review finding (P1), the all-turn smoke path: with no scored movement_inventory fact, a smoke whose tripinfo
+    # output was missing (nothing read as arrived on either net) cancelled out and passed, and a smoke command that
+    # failed only on the candidate read as new movement failures. Any execution failure on either net: unverified.
+    from astra_sumo.core import movement_routeability
+
+    built, repaired, speed = _speed_goal_without_movement_facts(tmp_path)
+    failure = {"parent": None, "candidate": None}
+    monkeypatch.setattr(movement_routeability, "run_all_turn_movement_smoke", _core_smoke(failure))
+
+    def smoke(net, junction, pairs, out):
+        return movement_guard.junction_smoke(net, junction, pairs, out, "sumo")
+
+    good = _judge(tmp_path, built, repaired, operation=speed, seeds=True, l2=True, smoke=smoke)
+    assert good["gate"]["screening"] == "improved" and good["gate"]["L2"]["method"] == "all_turn_smoke"
+    record = json.loads(Path(good["inputs"]["movement_guard"]["path"]).read_text(encoding="utf-8"))
+    assert record["expected"] == {"parent": {}, "candidate": {}} and record["junctions"] == ["J0", "W"]
+    for parent_mode, candidate_mode in (("returncode", "returncode"), ("tripinfo", "tripinfo"),
+                                        ("timeout", "timeout"), (None, "returncode"), (None, "tripinfo"),
+                                        ("tripinfo", None)):
+        failure.update(parent=parent_mode, candidate=candidate_mode)
+        judged = _judge(tmp_path, built, repaired, operation=speed, seeds=True, l2=True, smoke=smoke)
+        label = (parent_mode, candidate_mode)
+        assert judged["gate"]["screening"] == "l2_unverified", label
+        assert (judged["gate"]["L2"]["result"], judged["gate"]["L2"]["new_failures"]) == ("unverified", []), label
+        record = json.loads(Path(judged["inputs"]["movement_guard"]["path"]).read_text(encoding="utf-8"))
+        for role, mode in (("parent", parent_mode), ("candidate", candidate_mode)):
+            assert all(run["run_ok"] is (mode is None) and bool(run["execution_errors"]) is (mode is not None)
+                       for run in record["runs"][role].values()), label
 
 
 # ---- views, determinism and the CLI ------------------------------------------------------------------------------
