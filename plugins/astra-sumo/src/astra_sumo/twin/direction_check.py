@@ -20,6 +20,7 @@ import xml.etree.ElementTree as ET
 
 from ..core.standard_nema_binding import _normalize_signed_angle, _turn_from_delta
 from .ids import connection_key
+from .junction_integrity import remap_lane
 
 RULE = "sumo_edge_node_angle"
 RULE_REASON = ("delta = heading of the outgoing edge's first geometry segment minus heading of the incoming edge's "
@@ -112,17 +113,19 @@ def direction_baseline(report: dict, net_sha256: str) -> dict:
 
 def new_direction_findings(baseline: dict, candidate: dict, lane_index_mapping: dict | None = None) -> list[dict]:
     """Candidate findings whose (connection, dir, geometry turn) the source baseline does not hold;
-    ``lane_index_mapping`` is {edge_id: {old: new}}."""
+    ``lane_index_mapping`` is {edge_id: {old: new}}.
+
+    Baseline connections follow that remap lane by lane, as INT rows do (``junction_integrity.remap_lane``): a
+    finding on a removed lane is dropped, so a surviving lane renumbered into the removed lane's index cannot
+    inherit it and a wrong label on that survivor is new."""
     if baseline.get("rule") != candidate.get("rule"):
         raise ValueError("Direction findings compare only under the same rule.")
     mapping = lane_index_mapping or {}
-
-    def remapped(identity: str) -> str:
-        start, end = identity[len("dir:"):].split(">")
-        parts = [part.rsplit("_", 1) for part in (start, end)]
-        return "dir:" + ">".join(f"{edge}_{mapping.get(edge, {}).get(index, index)}" for edge, index in parts)
-
     labels = baseline.get("finding_labels") or {}
-    known = {remapped(identity): labels.get(identity) for identity in baseline["finding_ids"]}
+    known = {}
+    for identity in baseline["finding_ids"]:
+        lanes = [remap_lane(lane, mapping) for lane in identity[len("dir:"):].split(">")]
+        if None not in lanes:
+            known["dir:" + ">".join(lanes)] = labels.get(identity)
     return [row for row in candidate["findings"]
             if row["id"] not in known or known[row["id"]] != [row["dir"], row["geometry_turn"]]]

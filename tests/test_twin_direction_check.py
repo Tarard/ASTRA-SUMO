@@ -128,6 +128,31 @@ def test_a_changed_contradicting_label_on_an_already_flagged_connection_is_new()
     assert new_direction_findings(baseline, source) == []
 
 
+def test_a_finding_on_a_removed_lane_cannot_mask_a_new_one_on_the_survivor_that_takes_its_index():
+    # Review finding: a baseline finding naming a removed lane kept its old index through the remap, so after
+    # S_in_0 was removed and S_in_1 renumbered to S_in_0, a new wrong label on that survivor matched it and passed.
+    two = _net(_connection("S_in", "N_out", "l") + _connection("S_in", "N_out", "s").replace('fromLane="0"',
+                                                                                             'fromLane="1"'))
+    two.find("edge[@id='S_in']").append(ET.fromstring('<lane id="S_in_1" index="1" length="95" shape="1,-100 1,-5"/>'))
+    baseline = direction_baseline(check_connection_directions(two), "a" * 64)
+    assert baseline["finding_labels"] == {"dir:S_in_0>N_out_0": ["l", "s"]}
+    removed = {"S_in": {"1": "0"}}
+    wrong = check_connection_directions(_net(_connection("S_in", "N_out", "l")))
+    assert [row["id"] for row in wrong["findings"]] == ["dir:S_in_0>N_out_0"]
+    assert [row["id"] for row in new_direction_findings(baseline, wrong, removed)] == ["dir:S_in_0>N_out_0"]
+    # The removed lane's own finding leaves with it; a correct survivor stays clean.
+    assert new_direction_findings(baseline, check_connection_directions(_net(_connection("S_in", "N_out", "s"))),
+                                  removed) == []
+    # A survivor's own finding is still inherited under its new index.
+    flagged = _net(_connection("S_in", "N_out", "s") + _connection("S_in", "N_out", "l").replace('fromLane="0"',
+                                                                                                 'fromLane="1"'))
+    flagged.find("edge[@id='S_in']").append(
+        ET.fromstring('<lane id="S_in_1" index="1" length="95" shape="1,-100 1,-5"/>'))
+    survivor = direction_baseline(check_connection_directions(flagged), "a" * 64)
+    assert survivor["finding_ids"] == ["dir:S_in_1>N_out_0"]
+    assert new_direction_findings(survivor, wrong, removed) == []
+
+
 def test_clean_ring1_nominal_baseline_is_frozen_with_zero_findings():
     raw = RING1.read_bytes()
     digest = hashlib.sha256(raw).hexdigest()

@@ -792,6 +792,50 @@ def test_g0_rejects_a_new_wrong_label_on_a_connection_the_parent_already_flags(t
     assert "INV-DIR" not in _failed(_judge(tmp_path, built, copy.deepcopy(wrong)))
 
 
+def _without_w_in_0(root: ET.Element, label: str) -> ET.Element:
+    """``root`` with W_in_0 removed and W_in_1, W_in_2 renumbered to W_in_0, W_in_1 (``remove_index`` 0); the right
+    turn to S_out_0 (its internal lane starting at the survivor's end) moves onto the survivor now at index 0,
+    labelled ``label``."""
+    result = copy.deepcopy(root)
+    edge = result.find("edge[@id='W_in']")
+    edge.remove(_lane(result, "W_in_0"))
+    for lane in edge.findall("lane"):
+        index = int(lane.get("index")) - 1
+        lane.set("index", str(index))
+        lane.set("id", f"W_in_{index}")
+    turn = _lane(result, ":J0_0_0")
+    turn.set("shape", " ".join([_lane(result, "W_in_0").get("shape").split()[-1], *turn.get("shape").split()[1:]]))
+    junction = result.find("junction[@id='J0']")
+    junction.set("incLanes", junction.get("incLanes").replace("W_in_0 W_in_1 W_in_2", "W_in_0 W_in_1"))
+    for row in result.findall("connection"):
+        if row.get("from") == "W_in" and row.get("fromLane") == "0":
+            row.set("dir", label)
+        elif row.get("from") == "W_in":
+            row.set("fromLane", str(int(row.get("fromLane")) - 1))
+    return result
+
+
+def test_g0_rejects_a_new_wrong_label_on_a_survivor_renumbered_into_a_removed_lane_index(tmp_path):
+    # Review finding: INV-DIR kept a baseline finding on a removed lane under its old index, so removing W_in_0
+    # (whose right turn the wrong-turn source labels l) and renumbering the clean W_in_1 into index 0 let the same
+    # wrong label on that survivor match the removed lane's finding and pass.
+    wrong = apply_synthetic_mutation(_x4(), "wrong-turn")
+    table = _facts_for_kinds(tmp_path, _x4(), ("lane_count",), ("W_in",))
+    next(fact for fact in table["facts"] if fact["kind"] == "lane_count")["expected"] = 1
+    built = _goal(tmp_path, wrong, reference=_x4(), facts=table)
+    remove = {"id": "op", "operation": "set_lane_count", "params": {"edge_id": "W_in", "num_lanes": 2,
+                                                                    "remove_index": 0}}
+    plan = {"lane_index_mapping": {"1": 0, "2": 1}}
+    # The removed lane takes its finding with it: the survivor labelled r is clean and passes G0.
+    correct = _judge(tmp_path, built, _without_w_in_0(wrong, "r"), operation=remove, plan=plan)
+    assert _failed(correct) == {} and correct["gate"]["G0"] == "pass", correct["gate"]["first_fail"]
+    # The survivor labelled l carries a new finding under the removed lane's former identity.
+    relabelled = _judge(tmp_path, built, _without_w_in_0(wrong, "l"), operation=remove, plan=plan)
+    assert _failed(relabelled) == {"INV-DIR": ["dir:W_in_0>S_out_0"]}
+    assert (relabelled["gate"]["G0"], relabelled["gate"]["screening"]) == ("fail", "g0_rejected")
+    assert [row["id"] for row in relabelled["gate"]["new_direction_findings"]] == ["dir:W_in_0>S_out_0"]
+
+
 def test_structural_failures_carry_measured_gaps_that_inv_materialize_compares(tmp_path):
     # Review finding: a pre-existing endpoint gap that grew was invisible to INV-MATERIALIZE; the identity now keeps
     # its measured length beside it.
