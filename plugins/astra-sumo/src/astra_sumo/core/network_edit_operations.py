@@ -844,8 +844,55 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
     return {**plan, "plan_file": plan_file}
 
 
+def check_lane_artifact_positions(root: ET.Element, artifact_files, affected_lane_ids=()) -> dict:
+    """Check that lane-bound artifacts (detectors, stops, parking areas, accesses) lie inside their lane length."""
+    lengths = {lane.get("id"): float(lane.get("length", "nan"))
+               for edge in root.findall("edge") for lane in edge.findall("lane")}
+    affected, files, rows = set(affected_lane_ids), [], []
+    for value in artifact_files:
+        path = Path(value).resolve(strict=True)
+        files.append({"path": str(path), "sha256": file_sha256(path)})
+        for element in ET.parse(path).getroot().iter():
+            row = {"file": str(path), "tag": element.tag, "id": element.get("id"), "lane_id": element.get("lane")}
+            if element.get("lanes") is not None:
+                rows.append({**row, "lane_id": None, "inside": None, "reason": "multi_lane_artifact_not_checked"})
+                continue
+            if row["lane_id"] is None:
+                continue
+            row["lane_coordinates_changed"] = row["lane_id"] in affected
+            length = lengths.get(row["lane_id"])
+            if length is None or not math.isfinite(length):
+                rows.append({**row, "inside": False, "reason": "lane_missing_or_without_length"})
+                continue
+            positions = {}
+            try:
+                for name in ("pos", "startPos", "endPos"):
+                    if element.get(name) is not None:
+                        number = float(element.get(name))
+                        # SUMO counts a negative lane position back from the lane end.
+                        positions[name] = number + length if number < 0 else number
+                if (element.tag == "laneAreaDetector" and element.get("length") is not None
+                        and "endPos" not in positions):
+                    positions["end_from_length"] = positions.get("pos", 0.0) + float(element.get("length"))
+            except ValueError:
+                rows.append({**row, "inside": False, "reason": "position_not_numeric"})
+                continue
+            inside = all(math.isfinite(number) and 0 <= number <= length for number in positions.values())
+            rows.append({**row, "lane_length_m": length, "positions_m": positions, "inside": inside,
+                         "friendly_pos": element.get("friendlyPos", "false").lower() in {"true", "1", "yes"},
+                         "reason": None if inside else "position_outside_lane_length"})
+    outside = [row for row in rows if row["inside"] is False]
+    unchecked = [row for row in rows if row["inside"] is None]
+    status = "blocked" if outside else "not_checked" if unchecked else "pass" if rows else "not_applicable"
+    return {"status": status, "files": files, "artifacts": rows, "outside_count": len(outside),
+            "unchecked_count": len(unchecked), "checked_count": len(rows) - len(unchecked),
+            "reason": ("Supplied lane-bound artifacts were checked against the candidate lane lengths; "
+                       "friendlyPos does not excuse a position outside the lane.")}
+
+
 def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
-                      netconvert_binary: str, timeout_seconds: float, command_runner, mode: str = "release") -> dict:
+                      netconvert_binary: str, timeout_seconds: float, command_runner, mode: str = "release",
+                      lane_artifact_files=None) -> dict:
     """Restore the declared exterior and verify the requested local effect."""
     source = Path(plan["source"]["path"])
     proposal = output_dir / "native-scoped-proposal.net.xml"
@@ -1135,7 +1182,12 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     dependent = {"status": "not_checked" if coordinate_changes else "not_applicable",
                  "affected_lane_ids": sorted(coordinate_changes),
                  "reason": "This network edit does not check the positions of detectors, stops, parking areas, or other lane references."}
+    if lane_artifact_files:
+        checked_positions = check_lane_artifact_positions(after, lane_artifact_files, coordinate_changes)
+        dependent.update(checked_positions)
+        passed &= checked_positions["status"] != "blocked"
     physical = load["status"] == "pass" and integrity["status"] == "pass" and path_repair["remaining_endpoint_gap_count"] == 0
+    physical &= dependent["status"] != "blocked"
     lane_service = (_new_lane_service(before, after, plan, old_access, new_access) if kind == "set_lane_count" else
                     {"status": "not_applicable", "lanes": []})
     movements = (_lane_count_road_movements(old_access, new_access, params) if kind == "set_lane_count" else
@@ -1148,6 +1200,9 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     release_status = "pass" if release_passed else "review_required" if passed and (service_review or movement_review) else "blocked"
     exploration_status = "blocked" if not physical else "measured" if effect else "no_effect"
     warnings = [] if passed else ["Some release checks failed. Inspect the recorded measurements."]
+    if dependent["status"] == "blocked":
+        warnings.append(f"{dependent['outside_count']} supplied lane artifacts lie outside "
+                        "their candidate lane length.")
     if green_conflicts:
         warnings.append(f"Protected-green foe findings: {len(green_comparison['new'])} new and "
                         f"{len(green_comparison['inherited'])} inherited. Existing conflicts still require release review.")
@@ -1209,8 +1264,14 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             "claim_boundary": "Typed construction and source preservation only. Field legality, historical control and mixed-demand completion require their separate evidence."}
 
 
-def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconvert", facts_file=None):
-    """Build a daily candidate and report release warnings without requiring approval evidence."""
+def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconvert", facts_file=None,
+                         routeability_seeds=(42,), lane_artifact_files=None, routeability_trip_files=None):
+    """Build a daily candidate and report release warnings without requiring approval evidence.
+
+    routeability_seeds runs one source/candidate routeability pair per seed; () skips the pair.
+    lane_artifact_files are additional files whose lane positions are checked on the candidate.
+    routeability_trip_files maps a seed to fixed trips that its source audit runs instead of new source requests.
+    """
     import json
     from .command_runner import run_command
     from .routeability_audit import run_routeability_audit
@@ -1223,6 +1284,16 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
         raise ValueError("Use a new output directory separate from the source and ledger.")
     if facts_path is not None and facts_path.is_relative_to(destination):
         raise ValueError("The output directory must not contain the fact table.")
+    seeds = tuple(routeability_seeds)
+    if any(type(seed) is not int or seed < 0 for seed in seeds) or len(set(seeds)) != len(seeds):
+        raise ValueError("routeability_seeds must be distinct nonnegative integers.")
+    artifact_paths = [Path(path).resolve(strict=True) for path in lane_artifact_files or ()]
+    if any(path.is_relative_to(destination) for path in artifact_paths):
+        raise ValueError("The output directory must not contain lane artifact files.")
+    trip_paths = {seed: Path(path).resolve(strict=True) for seed, path in (routeability_trip_files or {}).items()}
+    if set(trip_paths) - set(seeds) or any(path.is_relative_to(destination) for path in trip_paths.values()):
+        raise ValueError("routeability_trip_files needs requested seeds and files outside the output directory.")
+    trip_hashes = {seed: file_sha256(path) for seed, path in trip_paths.items()}
     operations = ledger.get("operations", [])
     if len(operations) != 1 or operations[0].get("operation") not in SCOPED_EDIT_TYPES:
         raise ValueError("Explore requires one typed road edit.")
@@ -1281,7 +1352,8 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
     report["source_baseline"] = {"status": "not_run", "scope": "synthetic_passenger_driving_diagnostic"}
     if command_result.get("returncode") == 0 and candidate.is_file():
         checked = check_scoped_edit(plan=plan, candidate_file=candidate, output_dir=destination,
-            netconvert_binary=netconvert_binary, timeout_seconds=240, command_runner=run_command, mode="explore")
+            netconvert_binary=netconvert_binary, timeout_seconds=240, command_runner=run_command, mode="explore",
+            lane_artifact_files=artifact_paths)
         report["construction"] = checked
         report["native_conversion_elapsed_seconds"] = (0 if plan["materialization_method"] != "netconvert" else
             None if operation["operation"] in _JOIN_EDITS else report["command_elapsed_seconds"] + sum(
@@ -1293,33 +1365,60 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
         if report["status"] in {"measured", "no_effect"}:
             sumo = _sumo_binary(netconvert_binary)
             binaries = {"sumo": sumo, "duarouter": str(Path(sumo).with_name("duarouter" + Path(sumo).suffix))}
-            # Generate from the source alone so edited endpoints cannot disappear from the requests.
-            baseline = run_routeability_audit(net_file=source, output_dir=destination / "source-routes", binaries=binaries)
-            report["source_routeability"] = baseline
-            report["source_baseline"].update(status=("clean" if baseline["status"] == "pass" else "dirty")
-                if baseline.get("attempts") else "not_run", diagnostic_status=baseline["status"],
-                reason=baseline.get("routeability_status"), report_file=baseline.get("report_file"))
-            if baseline.get("attempts") and baseline["status"] != "pass":
-                warnings.append("Source driving checks failed. Candidate differences do not establish a valid improvement.")
-            if (baseline.get("route_generation", {}).get("status") == "pass"
-                    and Path(baseline.get("trip_file", "")).is_file()):
-                trip_file = Path(baseline["trip_file"])
-                lane_indices = ({operation["params"]["edge_id"]: {str(old): str(new)
-                    for old, new in plan["lane_index_mapping"].items()}} if operation["operation"] == "set_lane_count" else {})
-                routed = run_routeability_audit(net_file=candidate, output_dir=destination / "candidate-routes",
-                    binaries=binaries, frozen_trip_file=trip_file, expected_frozen_trip_sha256=file_sha256(trip_file),
-                    od_reference_net_file=source, source_lane_indices=lane_indices)
-                report["candidate_routeability"] = routed
-                if routed.get("od_policy", {}).get("endpoint_mapping", {}).get("status") == "review_required":
-                    removed = routed.get("cohort_coverage", {}).get("removed_endpoint_count", 0)
-                    warnings.append(f"Original endpoint evidence is incomplete. Routing status: {routed.get('route_generation', {}).get('status', 'not_run')}. Removed-endpoint requests: {removed}. The original cohort remains recorded.")
-                if (routed.get("route_generation", {}).get("status") != "pass"
-                        and routed.get("reason") != "all_source_endpoints_removed"):
-                    report["status"] = "blocked"
-                if routed.get("attempts") and routed["status"] != "pass":
-                    warnings.append("Candidate driving checks failed. Inspect collisions, teleports, and completion separately from missing routes.")
-            else:
-                warnings.append("Source route requests could not be validated. Route preservation was not checked.")
+            # The default single seed keeps the original report layout; other seed lists report per seed.
+            default_layout = seeds == (42,)
+            if not default_layout:
+                report["routeability_seeds"] = list(seeds)
+                report["routeability_by_seed"] = []
+            if not seeds:
+                report["source_baseline"]["reason"] = "routeability_seeds_empty"
+                warnings.append("Routeability was skipped because no routeability seeds were requested. "
+                                "Route preservation was not checked.")
+            for seed in seeds:
+                entry = report if default_layout else {"seed": seed, "source_baseline": {
+                    "status": "not_run", "scope": "synthetic_passenger_driving_diagnostic"}}
+                suffix, note = ("", "") if default_layout else (f"-seed{seed}", f"Seed {seed}: ")
+                if not default_layout:
+                    report["routeability_by_seed"].append(entry)
+                # Generate from the source alone so edited endpoints cannot disappear from the requests.
+                fixed = ({"frozen_trip_file": trip_paths[seed], "expected_frozen_trip_sha256": trip_hashes[seed]}
+                         if seed in trip_paths else {})
+                baseline = run_routeability_audit(net_file=source, output_dir=destination / f"source-routes{suffix}",
+                    binaries=binaries, seed=seed, **fixed)
+                entry["source_routeability"] = baseline
+                entry["source_baseline"].update(status=("clean" if baseline["status"] == "pass" else "dirty")
+                    if baseline.get("attempts") else "not_run", diagnostic_status=baseline["status"],
+                    reason=baseline.get("routeability_status"), report_file=baseline.get("report_file"))
+                if baseline.get("attempts") and baseline["status"] != "pass":
+                    warnings.append(f"{note}Source driving checks failed. "
+                                    "Candidate differences do not establish a valid improvement.")
+                if (baseline.get("route_generation", {}).get("status") == "pass"
+                        and Path(baseline.get("trip_file", "")).is_file()):
+                    trip_file = Path(baseline["trip_file"])
+                    lane_indices = ({operation["params"]["edge_id"]: {str(old): str(new)
+                        for old, new in plan["lane_index_mapping"].items()}} if operation["operation"] == "set_lane_count" else {})
+                    routed = run_routeability_audit(net_file=candidate,
+                        output_dir=destination / f"candidate-routes{suffix}", binaries=binaries, seed=seed,
+                        frozen_trip_file=trip_file,
+                        expected_frozen_trip_sha256=file_sha256(trip_file),
+                        od_reference_net_file=source, source_lane_indices=lane_indices)
+                    entry["candidate_routeability"] = routed
+                    if routed.get("od_policy", {}).get("endpoint_mapping", {}).get("status") == "review_required":
+                        removed = routed.get("cohort_coverage", {}).get("removed_endpoint_count", 0)
+                        warnings.append(f"{note}Original endpoint evidence is incomplete. Routing status: {routed.get('route_generation', {}).get('status', 'not_run')}. Removed-endpoint requests: {removed}. The original cohort remains recorded.")
+                    if (routed.get("route_generation", {}).get("status") != "pass"
+                            and routed.get("reason") != "all_source_endpoints_removed"):
+                        report["status"] = "blocked"
+                    if routed.get("attempts") and routed["status"] != "pass":
+                        warnings.append(f"{note}Candidate driving checks failed. Inspect collisions, teleports, "
+                                        "and completion separately from missing routes.")
+                else:
+                    warnings.append(f"{note}Source route requests could not be validated. "
+                                    "Route preservation was not checked.")
+            if not default_layout and seeds:
+                states = {row["source_baseline"]["status"] for row in report["routeability_by_seed"]}
+                report["source_baseline"].update(status="dirty" if "dirty" in states else "clean" if "clean" in states
+                    else "not_run", reason="per_seed_results_in_routeability_by_seed")
         report["candidate_sha256"] = file_sha256(candidate)
         if baseline_score is not None:
             from .network_calibration import compare_calibration_scorecards, evaluate_network_calibration

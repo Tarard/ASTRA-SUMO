@@ -17,6 +17,12 @@ from .candidate_contracts import file_sha256
 from .command_runner import run_command
 from .connection_mode_audit import audit_network_connection_mode
 
+# Vehicle classes the all-turn smoke may drive a movement with (vehicle_class_per_movement), in order of preference;
+# pedestrians and ships never drive a road movement.
+SMOKE_VEHICLE_CLASSES = ("passenger", "private", "taxi", "delivery", "bus", "coach", "truck", "trailer", "emergency",
+                         "authority", "army", "vip", "hov", "evehicle", "motorcycle", "moped", "bicycle", "scooter",
+                         "tram", "rail_urban", "rail", "rail_electric", "rail_fast", "custom1", "custom2")
+
 
 class CommandRunner(Protocol):
     def __call__(
@@ -258,8 +264,17 @@ def run_all_turn_movement_smoke(
     end_time_s: int = 600,
     timeout_seconds: float = 120.0,
     command_runner: CommandRunner = run_command,
+    permitted_movements_only: bool = False,
+    vehicle_class_per_movement: bool = False,
 ) -> dict[str, Any]:
-    """Run one vehicle through every direct movement of one physical junction."""
+    """Run one vehicle through every direct movement of one physical junction.
+
+    permitted_movements_only drives only movements whose loaded turn permissions admit the smoke's passenger
+    vehicle; the others are listed as skipped instead of making SUMO refuse the whole route file.
+    vehicle_class_per_movement drives each movement with the first vehicle class of SMOKE_VEHICLE_CLASSES that its
+    loaded turn permissions admit (passenger first, so a passenger movement is driven exactly as before); only a
+    movement no listed class may use is skipped.
+    """
 
     expected_turn_distribution = dict(
         expected_turn_counts or {"r": 4, "s": 4, "l": 4}
@@ -289,7 +304,11 @@ def run_all_turn_movement_smoke(
         and edge.attrib.get("function", "")
         not in {"internal", "crossing", "walkingarea"}
     }
-    movements = []
+    movements, skipped = [], []
+    permissions = None
+    if permitted_movements_only or vehicle_class_per_movement:
+        from .local_network_conversion import loaded_turn_permissions
+        permissions = loaded_turn_permissions(root)
     for connection_index, connection in enumerate(root.findall("connection")):
         source_edge = external_edges.get(connection.attrib.get("from", ""))
         target_edge = external_edges.get(connection.attrib.get("to", ""))
@@ -299,6 +318,17 @@ def run_all_turn_movement_smoke(
             source_edge.attrib.get("to") != target_junction_id
             or target_edge.attrib.get("from") != target_junction_id
         ):
+            continue
+        vehicle_class = "passenger"
+        if permissions is not None:
+            allowed = permissions.get((
+                connection.attrib.get("from", ""), int(connection.attrib.get("fromLane", "-1")),
+                connection.attrib.get("to", ""), int(connection.attrib.get("toLane", "-1"))), set())
+            classes = SMOKE_VEHICLE_CLASSES if vehicle_class_per_movement else ("passenger",)
+            vehicle_class = next((name for name in classes if name in allowed), None)
+        if vehicle_class is None:
+            skipped.append([connection.attrib.get("from", ""), connection.attrib.get("fromLane", ""),
+                            connection.attrib.get("to", ""), connection.attrib.get("toLane", "")])
             continue
         movements.append(
             {
@@ -311,6 +341,7 @@ def run_all_turn_movement_smoke(
                 "turn": connection.attrib.get("dir", ""),
                 "controller_id": connection.attrib.get("tl", ""),
                 "link_index": connection.attrib.get("linkIndex", ""),
+                **({"vehicle_class": vehicle_class} if vehicle_class_per_movement else {}),
             }
         )
 
@@ -330,6 +361,16 @@ def run_all_turn_movement_smoke(
         length="5",
         maxSpeed="13.9",
     )
+    for vehicle_class in sorted(
+        {movement.get("vehicle_class", "passenger") for movement in movements} - {"passenger"}
+    ):
+        ET.SubElement(
+            route_root,
+            "vType",
+            id=f"junction_smoke_{vehicle_class}",
+            vClass=vehicle_class,
+            sigma="0",
+        )
     for index, (vehicle_id, movement) in enumerate(
         zip(expected_vehicle_ids, movements, strict=True)
     ):
@@ -337,7 +378,7 @@ def run_all_turn_movement_smoke(
             route_root,
             "vehicle",
             id=vehicle_id,
-            type="junction_smoke_passenger",
+            type=f"junction_smoke_{movement.get('vehicle_class', 'passenger')}",
             depart=str(index * departure_interval_s),
             departLane=str(movement["from_lane"]),
             arrivalLane=str(movement["to_lane"]),
@@ -444,6 +485,8 @@ def run_all_turn_movement_smoke(
         "turn_counts": turn_counts,
         "expected_controller_ids": sorted(allowed_controller_ids),
         "movements": movements,
+        **({"permitted_movements_only": True, "skipped_movements": skipped} if permitted_movements_only else {}),
+        **({"vehicle_class_per_movement": True, "skipped_movements": skipped} if vehicle_class_per_movement else {}),
         "expected_vehicle_ids": expected_vehicle_ids,
         "arrived_vehicle_ids": arrived_ids,
         "checks": checks,

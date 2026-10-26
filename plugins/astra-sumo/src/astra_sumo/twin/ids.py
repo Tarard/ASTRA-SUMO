@@ -40,3 +40,18 @@ def candidate_id(net_sha256: str, control_sha256: str, demand_sha256: str, addit
 
 def goal_reference(goal_id: str, goal_bytes: bytes) -> str:
     return f"{goal_id}@{hashlib.sha256(goal_bytes).hexdigest()[:8]}"
+
+
+def cas_reference(sha256: str) -> str:
+    return f"cas:sha256:{sha256}"
+
+
+def connection_lanes(connection) -> tuple[str, str]:
+    """``(<from>_<fromLane>, <to>_<toLane>)`` of one ``<connection>`` element."""
+    return (f"{connection.get('from')}_{connection.get('fromLane')}",
+            f"{connection.get('to')}_{connection.get('toLane')}")
+
+
+def connection_key(connection) -> str:
+    """``<from>_<fromLane>><to>_<toLane>``: the order-free name of a connection in every twin id."""
+    return ">".join(connection_lanes(connection))
