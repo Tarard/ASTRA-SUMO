@@ -1,10 +1,11 @@
 """Declared target deltas of fragility-fix Build goals (twin/declared_targets.py, goal.create_build_goal(declared=)):
 derivation, application, lint, the model-justified merge slot and the frozen goal block. No test starts SUMO; the
-store-backed check reads the real F2 gate profile (skipped when the fragility store is absent)."""
+store-backed checks read the real F2 goal, candidates and gate profile (skipped when the fragility store is absent)."""
 
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -197,6 +198,79 @@ def test_lint_refuses_entries_the_declared_op_does_not_imply(tmp_path):
     without_removal = [entry for entry in entries if entry["reason"] != "link_removed"]
     found = dt.implied_errors(without_removal, ops, base=before)
     assert any("without a link_removed entry" in e for e in found) and any("not a bijection" in e for e in found)
+
+
+def test_targets_must_fit_their_fact_ids(tmp_path):
+    """A target's selector is its fact id's own lane or lane pair, and a signal target's controller and index are the
+    source's (set, remove) or its incoming edge's controller (add): lint, the source-aware check and apply refuse
+    anything else, so no target scores another connection than the one it names."""
+    source = _x4()
+    _, before, after = _tables(tmp_path, source, _without_link(source, "W_in_1", "E_out_1"))
+    block = _added_block(before)
+    ops, _ = dt.declared_ops(block)
+    assert dt.lint_targets(block, SCOPE) == [] and dt.implied_errors(block["entries"], ops, base=before) == []
+    dt.apply_targets(before, block["entries"])
+
+    def refused(entries: list[dict], text: str, *, lint: bool = True) -> None:
+        assert not lint or any(text in e for e in dt.lint_targets({**block, "entries": entries}, SCOPE))
+        assert any(text in e for e in dt.implied_errors(entries, ops, base=before))
+        with pytest.raises(ValueError, match=text):
+            dt.apply_targets(before, entries)
+
+    movement, signal = block["entries"]
+    # The added W_in_1 -> N_out_2 target re-pointed to the source link W_in_2 -> N_out_2, widened or dropped.
+    refused([movement, {**signal, "selector": {"lane_pair": ["W_in_2", "N_out_2"]}}], "is not the fact id's own")
+    refused([movement, {**signal, "selector": {"lane_pair": ["W_in_1", "N_out_2"], "tls_id": "J0"}}],
+            "is not the fact id's own")
+    refused([movement, {key: value for key, value in signal.items() if key != "selector"}], "is not the fact id's own")
+    refused([{**movement, "selector": {"incoming_lane_ids": ["W_in_0"]}}, signal], "is not the fact id's own")
+    refused([movement, {**signal, "expected": {"tls_id": "J0", "link_index": "12"}}], "not a signal binding")
+    # An added link at a controller that binds none of W_in's source links passes lint (its sibling is declared
+    # there too) but not the source-aware check or apply.
+    elsewhere = {**block, "control": {**block["control"], "added_links": [
+        {**block["control"]["added_links"][0], "tls_id": "J9"}]}}
+    moved = [movement, {**signal, "expected": {"tls_id": "J9", "link_index": 0}}]
+    assert dt.lint_targets({**elsewhere, "entries": moved}, SCOPE) == []
+    refused(moved, "is not one that binds the source links of incoming edge W_in", lint=False)
+    # A renumbered link declares the source's own controller and index as its parent; a removal's control
+    # declaration names the removed link's controller.
+    entries = dt.derive_targets(before, after, edge_to=_edge_to(source), junctions={"J0"})
+    delete_ops, _ = dt.declared_ops(_block(entries))
+    renumbered = next(entry for entry in entries if entry["reason"] == "link_renumbered")
+    wrong = [({**row, "parent_expected": {**row["parent_expected"], "link_index": 0}} if row is renumbered else row)
+             for row in entries]
+    assert any("differs from the declared parent value" in e for e in dt.implied_errors(wrong, delete_ops, base=before))
+    removal = {**_block(entries), "control": {"removed_links": [{"pair": ["W_in_1", "E_out_1"], "tls_id": "J9"}],
+                                              "added_links": []}}
+    assert any("not at the removed link's controller" in e for e in dt.lint_targets(removal, SCOPE))
+
+
+@pytest.mark.skipif(not (STORE / "goals/fragility-f2-266197536-lane1/goal.json").is_file(),
+                    reason="the fragility store E:\\twin-store\\fragility has no F2 goal")
+def test_the_real_f2_block_refuses_a_re_pointed_added_selector():
+    """Codex's in-memory case: F2's added signal target re-pointed to another lane pair passed lint, the
+    source-aware check and apply. The frozen block still reproduces its base and applied fact hashes."""
+    document = json.loads((STORE / "goals/fragility-f2-266197536-lane1/goal.json").read_text(encoding="utf-8"))
+    net = Path(document["source"]["net"])
+    if not net.is_file():
+        pytest.skip("the F2 goal source net is absent")
+    block, scope = document["reference"]["declared_targets"], document["scope"]
+    base, _ = build_reference_net_facts(net, site_id=document["reference"]["site_id"],
+                                        target_date=document["reference"]["target_date"],
+                                        source_path=str(net.resolve()))
+    ops, _ = dt.declared_ops(block)
+    assert hashlib.sha256(goal._facts_bytes(base)).hexdigest() == block["base_facts_sha256"]
+    applied = goal._facts_bytes(dt.apply_targets(base, block["entries"]))
+    assert f"cas:sha256:{hashlib.sha256(applied).hexdigest()}" == document["reference"]["facts"]
+    assert dt.implied_errors(block["entries"], ops, base=base) == [] and dt.lint_targets(block, scope) == []
+    re_pointed = copy.deepcopy(block)
+    added = next(entry for entry in re_pointed["entries"] if entry["action"] == "add")
+    assert added["fact"] == "pair:603103444_1>73474895_0:signal_group"
+    added["selector"] = {"lane_pair": ["603103444_2", "73474895_0"]}
+    assert any("is not the fact id's own" in e for e in dt.lint_targets(re_pointed, scope))
+    assert any("is not the fact id's own" in e for e in dt.implied_errors(re_pointed["entries"], ops, base=base))
+    with pytest.raises(ValueError, match="is not the fact id's own"):
+        dt.apply_targets(base, re_pointed["entries"])
 
 
 def test_goal_create_refuses_a_delta_the_ops_do_not_imply(tmp_path):

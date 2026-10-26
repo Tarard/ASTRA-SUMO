@@ -17,7 +17,11 @@ edit is right. So lint (``lint_targets``, ``implied_errors``) refuses every entr
 plus or minus that op's pair; a removed or added signal link only for a delete or add op's own pair; a renumbered
 link only at the same controller, and together a bijection of the controller's links onto 0..n-1 (the control
 re-index checks it against netconvert's own map, ``control_reindex.crosscheck_declared``); never a changed
-controller.
+controller. Every entry is also tied to its fact id (``entry_errors``, ``source_errors``): a declared selector is the
+producer's own for the id (the id's incoming lane or lane pair), so a target never scores another connection than the
+one it names; a signal entry declares bindings (``tls_id``, nonnegative integer ``link_index``); a set or remove
+declares the source fact's own value as its parent (for a signal link, its controller and index); and an added link
+sits at a controller that binds the source links of the id's incoming edge.
 
 A merge the op creates on purpose is declared in ``evidence_justified_destination_merges`` with the core audit's key
 (``source|target|toLane``) and exact source lanes (``core/connection_mode_audit.py``), basis
@@ -65,6 +69,91 @@ def _incoming_lane(fact_id: str, kind: str) -> str | None:
 
 def _facts_by_id(table: Mapping) -> dict[str, dict]:
     return {fact["id"]: fact for fact in table["facts"]}
+
+
+def _mapping(value: Any) -> Mapping:
+    return value if isinstance(value, Mapping) else {}
+
+
+def fact_selector(fact_id: str, kind: Any) -> dict | None:
+    """The selector ``core/reference_net_facts.py`` writes for a movement or signal fact id: the id's incoming lane
+    (``incoming_lane_ids``) or lane pair (``lane_pair``); ``None`` for any other id."""
+    if kind == "movement_inventory":
+        match = _MOVEMENT_ID.match(fact_id)
+        return {"incoming_lane_ids": [match["lane"]]} if match else None
+    if kind == "signal_group":
+        match = _SIGNAL_ID.match(fact_id)
+        return {"lane_pair": [match["a"], match["b"]]} if match else None
+    return None
+
+
+def _binding(value: Any) -> bool:
+    """A signal binding as the scorer accepts it: exactly a controller id and a nonnegative integer link index."""
+    return (isinstance(value, Mapping) and set(value) == {"tls_id", "link_index"}
+            and isinstance(value["tls_id"], str) and bool(value["tls_id"])
+            and type(value["link_index"]) is int and value["link_index"] >= 0)
+
+
+def _binding_fields(action: Any) -> tuple[str, ...]:
+    return {"set": ("parent_expected", "expected"), "add": ("expected",), "remove": ("parent_expected",)}.get(
+        action, ())
+
+
+def entry_errors(entry: Mapping) -> list[str]:
+    """One entry against its own fact id: a declared selector (required for an add) is the producer's own for the id,
+    so it scores the lane or lane pair the id names, and a signal entry's declared values are bindings."""
+    fact, kind, action = str(entry.get("fact")), entry.get("kind"), entry.get("action")
+    wanted = fact_selector(fact, kind)
+    if wanted is None:
+        return []
+    errors = []
+    selector = entry.get("selector")
+    if (action == "add" or selector is not None) and selector != wanted:
+        errors.append(f"{fact}: the selector {selector} is not the fact id's own {wanted}")
+    if kind == "signal_group":
+        errors += [f"{fact}: {field} is not a signal binding (tls_id and a nonnegative integer link_index)"
+                   for field in _binding_fields(action) if not _binding(entry.get(field))]
+    return errors
+
+
+def _edge_controllers(base: Mapping) -> dict[str, set[str]]:
+    """Per incoming edge, the controllers that bind one of its source links."""
+    found: dict[str, set[str]] = defaultdict(set)
+    for fact in base.get("facts") or []:
+        match = _SIGNAL_ID.match(str(fact.get("id"))) if fact.get("kind") == "signal_group" else None
+        if match is not None:
+            found[_lane_edge(match["a"])].add(str(_mapping(fact.get("expected")).get("tls_id")))
+    return found
+
+
+def source_errors(entry: Mapping, facts: Mapping[str, Mapping], controllers: Mapping[str, set[str]]) -> list[str]:
+    """One entry against the base table (the goal source's facts by id, ``controllers`` from ``_edge_controllers``): a
+    set or remove names a base fact of its kind, with the producer's selector for the id, whose value is the declared
+    parent value (for a signal link, its tls_id and link_index); an add names a new fact, and an added signal link sits
+    at a controller that binds the source links of the id's incoming edge (any source controller when none does)."""
+    fact_id, kind, action = str(entry.get("fact")), entry.get("kind"), entry.get("action")
+    found = facts.get(fact_id)
+    if action == "add":
+        if found is not None:
+            return [f"{fact_id}: an add target names an existing fact of the base table"]
+        lane = _incoming_lane(fact_id, kind) if kind == "signal_group" else None
+        if lane is None:
+            return []
+        tls = _mapping(entry.get("expected")).get("tls_id")
+        allowed = controllers.get(_lane_edge(lane)) or {name for names in controllers.values() for name in names}
+        if tls not in allowed:
+            return [f"{fact_id}: the added link's controller {tls} is not one that binds the source links of incoming "
+                    f"edge {_lane_edge(lane)} {sorted(allowed)}"]
+        return []
+    if action not in ("set", "remove"):
+        return []
+    if found is None or found.get("kind") != kind:
+        return [f"{fact_id}: a {action} target names no {kind} fact of the base table"]
+    if found.get("selector") != fact_selector(fact_id, kind):
+        return [f"{fact_id}: the base fact's selector {found.get('selector')} is not the fact id's own"]
+    if found.get("expected") != entry.get("parent_expected"):
+        return [f"{fact_id}: the base table's value differs from the declared parent value"]
+    return []
 
 
 def derive_targets(parent_table: Mapping, candidate_table: Mapping, *, edge_to: Mapping[str, str],
@@ -127,13 +216,19 @@ def merge_entries(*groups: list[dict]) -> list[dict]:
 def apply_targets(table: Mapping, entries: list[dict]) -> dict:
     """``table`` (an ``astra.network-facts/v1`` dict) with the declared targets applied, facts kept in the producer's
     order (kind, then id). A ``set`` or ``remove`` must name an existing fact whose value equals ``parent_expected``;
-    an ``add`` must name a new one. Applied facts carry the delta's tag and reason in their mapping diagnostics."""
+    an ``add`` must name a new one. Every entry must also fit its fact id (``entry_errors``, ``source_errors``), so an
+    add never writes a selector that scores another lane or lane pair than its id names. Applied facts carry the
+    delta's tag and reason in their mapping diagnostics."""
     result = copy.deepcopy(dict(table))
     facts = _facts_by_id(result)
+    source, controllers = _facts_by_id(table), _edge_controllers(table)
     kinds = list(dict.fromkeys(fact["kind"] for fact in result["facts"]))
     template = next((fact for fact in result["facts"] if fact["kind"] in KINDS), None)
     for entry in entries:
         fact_id, action = entry["fact"], entry["action"]
+        problems = entry_errors(entry) + source_errors(entry, source, controllers)
+        if problems:
+            raise ValueError("; ".join(problems))
         marker = {"declared_target": {"tag": entry["tag"], "reason": entry["reason"], "action": action}}
         if action in ("set", "remove"):
             fact = facts.get(fact_id)
@@ -198,7 +293,8 @@ def _signal_layouts(base: Mapping) -> dict[str, dict[tuple[str, str], int]]:
 
 
 def implied_errors(entries: list[Mapping], ops: list[Mapping], *, base: Mapping | None = None) -> list[str]:
-    """Entries the declared ops do not imply, and (with ``base``, the goal source's reference facts) controller
+    """Entries the declared ops do not imply or that do not fit their fact id (``entry_errors``), and (with ``base``,
+    the goal source's reference facts) entries that do not fit the source's facts (``source_errors``) and controller
     layouts the declared signal entries do not keep a bijection. An empty list means the delta is the ops' own."""
     errors: list[str] = []
     change: dict[str, dict[str, set]] = defaultdict(lambda: {"add": set(), "remove": set()})
@@ -212,6 +308,7 @@ def implied_errors(entries: list[Mapping], ops: list[Mapping], *, base: Mapping 
     for entry in entries:
         fact, kind, reason, action = (str(entry.get("fact")), entry.get("kind"), entry.get("reason"),
                                       entry.get("action"))
+        errors += entry_errors(entry)
         if kind == "movement_inventory":
             lane = _incoming_lane(fact, kind)
             if reason != "movement_changed":
@@ -238,7 +335,7 @@ def implied_errors(entries: list[Mapping], ops: list[Mapping], *, base: Mapping 
         if match is None:
             continue
         pair = (match["a"], match["b"])
-        old, new = entry.get("parent_expected") or {}, entry.get("expected") or {}
+        old, new = _mapping(entry.get("parent_expected")), _mapping(entry.get("expected"))
         if reason == "link_removed":
             if pair not in removed or action != "remove":
                 errors.append(f"{fact}: a removed link must be a delete op's own pair")
@@ -257,6 +354,10 @@ def implied_errors(entries: list[Mapping], ops: list[Mapping], *, base: Mapping 
             errors.append(f"op from-lane {lane}: the delta declares no movement change for it")
     if base is None:
         return errors
+    facts, controllers = {fact.get("id"): fact for fact in base.get("facts") or []}, _edge_controllers(base)
+    for entry in entries:
+        if entry.get("kind") in KINDS:
+            errors += source_errors(entry, facts, controllers)
     layouts = _signal_layouts(base)
     declared = {pair for rows in signals.values() for entry, pair in rows if entry.get("reason") == "link_removed"}
     for pair in sorted(removed):
@@ -270,14 +371,13 @@ def implied_errors(entries: list[Mapping], ops: list[Mapping], *, base: Mapping 
             if reason == "link_removed":
                 if layout.pop(pair, None) is None:
                     errors.append(f"{tls}: removed link {pair} is not a source link")
-            elif reason == "link_added":
-                if pair in layout:
+            elif reason in ("link_added", "link_renumbered") and _binding(entry.get("expected")):
+                # A malformed binding is refused above (entry_errors or the reason check); it never enters the layout.
+                if reason == "link_added" and pair in layout:
                     errors.append(f"{tls}: added link {pair} is already a source link")
-                layout[pair] = int(entry["expected"]["link_index"])
-            elif reason == "link_renumbered":
-                if pair not in layout:
+                if reason == "link_renumbered" and pair not in layout:
                     errors.append(f"{tls}: renumbered link {pair} is not a source link")
-                layout[pair] = int(entry["expected"]["link_index"])
+                layout[pair] = entry["expected"]["link_index"]
         indices = sorted(layout.values())
         if len(set(indices)) != len(indices) or (contiguous and indices != list(range(len(indices)))):
             errors.append(f"{tls}: the declared links are not a bijection of the controller's links onto "
@@ -294,12 +394,15 @@ def lint_targets(block: Mapping, scope: Mapping) -> list[str]:
     """GOAL LINT of a declared-target block against the goal's scope; an empty list means it may be written.
 
     Every entry is a movement or signal fact tagged ``fragility_fix`` whose anchor junction is a mutable junction and
-    whose incoming lane lies on a mutable edge; set and add declare a value, remove declares none; every added or
-    removed signal binding has its control declaration (an added link names a sibling at the same controller and a
-    copy rule); every declared merge has the model-justified basis, a site, a label saying there is no field evidence
-    and exact source lanes on a mutable source edge, and is the destination of an add op. ``derived_from.steps`` names
-    the typed ops, each starting on a mutable edge, and every entry and control declaration is one the ops imply
-    (``implied_errors``; the controller bijection needs the source's facts and is checked by goal-create)."""
+    whose incoming lane lies on a mutable edge; set and add declare a value, remove declares none; every entry fits
+    its fact id (``entry_errors`` through ``implied_errors``: an add's selector, and any other declared selector, is
+    the id's own incoming lane or lane pair, and a signal entry declares bindings); every added or removed signal
+    binding has its control declaration at the link's own controller (an added link names a sibling and a copy rule);
+    every declared merge has the model-justified basis, a site, a label saying there is no field evidence and exact
+    source lanes on a mutable source edge, and is the destination of an add op. ``derived_from.steps`` names the typed
+    ops, each starting on a mutable edge, and every entry and control declaration is one the ops imply
+    (``implied_errors``; the source-fact checks and the controller bijection need the source's facts and are checked
+    by goal-create)."""
     errors = []
     edges, junctions = set(scope.get("mutable_edge_ids") or []), set(scope.get("mutable_junction_ids") or [])
     if block.get("tag") != TAG:
@@ -335,8 +438,6 @@ def lint_targets(block: Mapping, scope: Mapping) -> list[str]:
             errors.append(f"{fact}: a {action} target declares no value")
         if action == "remove" and entry.get("expected") is not None:
             errors.append(f"{fact}: a remove target declares a value")
-        if action == "add" and not isinstance(entry.get("selector"), Mapping):
-            errors.append(f"{fact}: an add target declares no selector")
     ops, op_errors = declared_ops(block)
     errors += op_errors
     for op in ops:
@@ -347,7 +448,7 @@ def lint_targets(block: Mapping, scope: Mapping) -> list[str]:
     errors += implied_errors([entry for entry in entries if isinstance(entry, Mapping)], ops)
     control = block.get("control") or {}
     added = {tuple(row.get("pair") or ()): row for row in control.get("added_links") or []}
-    removed = {tuple(row.get("pair") or ()) for row in control.get("removed_links") or []}
+    removed = {tuple(row.get("pair") or ()): row for row in control.get("removed_links") or []}
     op_pairs = {(op["from_lane"], op["to_lane"]): op["operation"] for op in ops}
     for pair in sorted(added):
         if op_pairs.get(pair) != "add_lane_connection":
@@ -366,10 +467,15 @@ def lint_targets(block: Mapping, scope: Mapping) -> list[str]:
                 errors.append(f"{entry.get('fact')}: an added link without a control declaration")
             elif row.get("copy_rule") not in COPY_RULES or len(row.get("sibling_pair") or ()) != 2:
                 errors.append(f"{entry.get('fact')}: an added link needs a sibling pair and a copy rule {COPY_RULES}")
-            elif row.get("tls_id") != (entry.get("expected") or {}).get("tls_id"):
+            elif row.get("tls_id") != _mapping(entry.get("expected")).get("tls_id"):
                 errors.append(f"{entry.get('fact')}: the declared sibling is not at the added link's controller")
-        if entry.get("reason") == "link_removed" and pair not in removed:
-            errors.append(f"{entry.get('fact')}: a removed link without a control declaration")
+        if entry.get("reason") == "link_removed":
+            row = removed.get(pair)
+            if row is None:
+                errors.append(f"{entry.get('fact')}: a removed link without a control declaration")
+            elif row.get("tls_id") != _mapping(entry.get("parent_expected")).get("tls_id"):
+                errors.append(f"{entry.get('fact')}: the removal's control declaration is not at the removed link's "
+                              "controller")
     for key, evidence in sorted((block.get("evidence_justified_destination_merges") or {}).items()):
         parts = str(key).split("|")
         if len(parts) != 3 or not parts[2].isdigit():
@@ -610,4 +716,3 @@ def materialized_side_effects(parent_root, candidate_root, junctions: list[str] 
             "changed": sum(row["changed"] for row in rows), "summary": summary,
             "connections": [row for row in rows if row["changed"]],
             "claim": "Model-relative geometry of the materialized candidate; no field claim."}
-
