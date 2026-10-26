@@ -1,8 +1,20 @@
 """Offline Build profile (M3) of one SUMO net against a frozen Build goal.
 
 Per-kind acceptance over the frozen scored set, classes TOP/CTL/GEO/ATTR/INT with the escalations COR/SRC/OPX/UNK that
-goal-create froze, hotspots by anchor element with suggested typed ops, and, for a verify-edit candidate, the G0 hard
-checks, the lexicographic V against its parent and the L2/L3 guards (``twin/build_gate.py``).
+goal-create froze, the derived sg_partition CTL check (``twin/signal_partition.py``), hotspots by anchor element with
+suggested typed ops, and, for a verify-edit candidate, the G0 hard checks, the lexicographic V against its parent and
+the L2/L3 guards (``twin/build_gate.py``; L2 runs in ``run_movement_guard``, L3 inside verify-edit explore on the goal's
+frozen per-seed trips).
+
+G0 applies the owner-delegated binding decisions ``DECISIONS`` (recorded in every profile as ``binding_decisions``):
+D1 structural failures a subset of the goal source's (a dirty source sets ``source_dirty`` and blocks promotion
+without a human), D2 the location frame with a recomputed convBoundary, D3 inherited unchanged bends in INV-SHAPE.
+
+Every profile scores its net with its effective fact table: the goal table, or the selector remap a lane-count step
+declared, composed along the verified parent chain and hash-bound in ``inputs.effective_facts`` (with the composed lane
+mapping, which also renames the goal's INT baseline and the parent's INT rows), so later steps keep the physical lanes
+the facts and findings refer to. A parent profile is accepted only when it re-derives from its bound inputs
+(``verified_parent``), so an edited profile never carries a forged verdict, net, fact table or L2 record into a chain.
 
 Everything is explore evidence against the goal's reference facts: it measures how far a net is from those facts under
 their declared correspondence, never field correctness.
@@ -26,7 +38,7 @@ from ..core.candidate_contracts import file_sha256
 from ..core.connection_mode_audit import audit_network_connection_mode
 from ..core.network_calibration import (NetworkFactTable, _coordinate_transform, _network_root, _points, _score,
                                         _shape, centerline_overlap_metrics, compare_calibration_scorecards)
-from . import build_gate, ids, invariants, junction_integrity, render
+from . import build_gate, ids, invariants, junction_integrity, movement_guard, render, signal_partition
 from .count_profile import write_staged_profile
 from .direction_check import RULE as DIRECTION_RULE, check_connection_directions, direction_baseline
 from .direction_check import new_direction_findings
@@ -45,6 +57,8 @@ TARGET_CLASSES = build_gate.TARGET_CLASSES
 ESCALATION_CLASSES = ("COR", "SRC", "OPX", "UNK")
 CLASS_RANK = {"INT": 0, "TOP": 1, "CTL": 2, "GEO": 3, "ATTR": 4}
 LANE_KINDS = {"stop_line", "lane_centerline", "lane_width", "speed", "lane_permissions"}
+# Edge functions whose lanes netconvert derives from junction geometry: never road lanes.
+JUNCTION_DERIVED = frozenset({"internal", "crossing", "walkingarea"})
 REPRESENTATION_STEP = 0.01
 SOURCE_DATE_GAP_DAYS = 365
 MAX_PARENT_CHAIN = 64
@@ -65,26 +79,72 @@ SRC_TEXT = "source conflict: values are never averaged; resolve by authority ran
 UNK_TEXT = "unknown: no expected value or no measurement on the source; never a task"
 CLAIM = ("Explore only. Model-relative comparison against the goal's reference facts under their frozen "
          "correspondence; no field truth, no traffic-safety claim, no promotion authority.")
+DIRTY_CLAIM = (" Dirty source (D1): the goal source carries {count} structural failure(s) (source_structure); a "
+               "candidate that inherits them may screen as improved in explore, but it is not promotable without a "
+               "human.")
 LOOKUPS = (FileNotFoundError, KeyError, TypeError, ValueError, json.JSONDecodeError, ET.ParseError)
-# Deviations from the approved design text, recorded in every Build profile until a human signs them off.
-AMENDMENTS = {
-    "G0-materialize-differential": "INV-MATERIALIZE requires no structural failure the parent lacks and none whose "
-                                   "measured gap grew by more than 0.1 m, instead of 'structural failures 0' (clean "
-                                   "Ring1 nominal already carries 5 endpoint gaps at LSA535_part0)",
-    "G0-frame-convboundary": "INV-FRAME treats <location convBoundary> as derived: netconvert recomputes it on every "
-                             "netconvert-based op; netOffset, projParameter and origBoundary stay strict",
-    "G0-shape-local-turns": "INV-SHAPE allows a turn above max_heading_change_deg only at a parent vertex within "
-                            "max_directed_hausdorff_m that turns at most 5 deg less sharply (one candidate vertex "
-                            "each); the lanes of a set_lane_count edge are judged through the remapped facts",
-    "L2-not-implemented": "L2 movement probes are not implemented; a candidate that passes G0, V and L3 screens as "
-                          "improved_l2_not_run, never improved",
-    "L3-frozen-trips": "L3 checks every seed's requests against the trips goal-create generated from the goal source; "
-                       "verify-edit explore still generates them from the ledger source, so a chained step whose trips "
-                       "differ is identities_unavailable (passing goal trips into explore needs a core kwarg outside "
-                       "the approved small edits)",
-    "parent-scorecard-cache": "a judged profile whose parent is the goal source reuses the goal-create scorecard "
-                              "(content-addressed and bound by the goal) when the scorer fingerprint is unchanged, "
-                              "instead of rescoring the parent (acceptance f)",
+# Owner-delegated decisions on questions the approved design text left open. They are binding on G0 and replace the
+# former non-binding proposals G0-materialize-differential, G0-frame-convboundary and G0-shape-local-turns.
+DECISIONS = {
+    "D1": {"title": "Structural failures with a dirty source", "invariant": "INV-MATERIALIZE",
+           "replaces": "G0-materialize-differential",
+           "text": "The design requires \"structural failures 0\", which no candidate on a source that already has "
+                   "structural failures can meet (clean Ring1 carries 5 endpoint gaps at LSA535_part0), and the "
+                   "design itself treats dirty sources for routeability as \"the candidate's failing requests must "
+                   "be a subset of the source's; the result cannot be promoted without a human\". Apply the same "
+                   "pattern: G0 requires the candidate's structural failures (and verify-edit's structural failure "
+                   "identities) to be a subset of the SOURCE's (the goal source, through the composed lane remap), "
+                   "with no growth of any inherited measure beyond MEASURE_EPSILON_M; a clean source still requires "
+                   "exactly 0. When the source has any structural failure, the profile carries source_dirty = true "
+                   "with the inherited list, screening may still be 'improved' (explore), and promotion is blocked "
+                   "without a human (the claim boundary says so). Comparing against the immediate parent is not "
+                   "enough: the subset is against the goal source, so a chain cannot accumulate new failures step by "
+                   "step.",
+           "applied": "the goal source's network-wide connection-mode structural failures (the hash-checked goal "
+                      "source net, never the parent) renamed through the candidate's composed lane remap; "
+                      "verify-edit records only structural_failure_count, so its identities are the recount of the "
+                      "same audit on the hash-bound candidate bytes, which must equal that count"},
+    "D2": {"title": "Location frame", "invariant": "INV-FRAME", "replaces": "G0-frame-convboundary",
+           "text": "netOffset, origBoundary and projParameter must be byte-identical to the parent. convBoundary may "
+                   "change only to the bounding box recomputed from the candidate net's own geometry (all "
+                   "edge/lane/junction shapes), within 0.01 m; any other convBoundary change is a frame witness.",
+           "applied": "the bounding box is recomputed as netconvert computes convBoundary (geometry_boundary): every "
+                      "non-internal junction position and every road edge geometry (its shape attribute; an edge "
+                      "without one runs between its junction positions). Lane shapes and junction outlines are "
+                      "derived from those and reach beyond convBoundary (4.32 m on clean Ring1 nominal), so a box "
+                      "that included them could never match a netconvert output within 0.01 m. An unchanged "
+                      "convBoundary must be that box too, so geometry that grows past a stale convBoundary is a "
+                      "witness; only when the parent's own convBoundary is already off its box may it stay, and then "
+                      "the box may not move from the parent's by more than 0.01 m. Every <location> element counts: "
+                      "SUMO applies the last one and netconvert the first, so the candidate must carry exactly one, "
+                      "as the parent does. Translating all geometry with netOffset kept is the frame change netOffset "
+                      "identity forbids: every junction outside the step's mutable scope keeps its parent position "
+                      "within 0.005 m (half netconvert's 0.01 m coordinate step) and, while the chain has kept it at "
+                      "the goal source's position, that position too (so the epsilon cannot accumulate along a "
+                      "chain); at least one junction keeps its position"},
+    "D3": {"title": "Inherited bends in INV-SHAPE", "invariant": "INV-SHAPE", "replaces": "G0-shape-local-turns",
+           "text": "A candidate vertex that coincides with a parent vertex of the same lane (through the remap) "
+                   "within 0.01 m AND whose turn angle equals the parent's turn at that vertex within 0.5 deg is "
+                   "inherited and exempt from max_heading_change_deg; every other vertex and turn of a changed lane "
+                   "is bounded strictly, and the directed Hausdorff bound, the progress (no backtracking) rule and "
+                   "the added-lane rule stay as they are. This excuses only unchanged geometry, unlike the rejected "
+                   "\"within 3 m and up to 5 deg less sharp\" excuse.",
+           "applied": "each parent vertex exempts at most one candidate vertex (the nearest); a lane without a parent "
+                      "counterpart (added by a lane-count edit) inherits no bend. The turn is signed, so a bend "
+                      "mirrored to the other side at the same vertex is not the parent's. The same vertex and turn "
+                      "must also match the goal source's lane (renamed through the composed lane remap) within the "
+                      "same 0.01 m and 0.5 deg, as D1 anchors to the goal source: otherwise a chain could sharpen an "
+                      "exempt bend 0.5 deg per step, and a lane the goal source lacks inherits no bend. Only a turn "
+                      "the goal source itself makes above max_heading_change_deg is inherited (a 34.6 deg turn there "
+                      "cannot become an exempt 35.05 deg one against a 35 deg limit). Walking-area "
+                      "and crossing outlines are junction-derived like internal lanes, so INV-SHAPE judges road lanes "
+                      "only"},
+}
+# Implementation choices that do not change any acceptance result.
+IMPLEMENTATION_NOTES = {
+    "parent-scorecard-cache": "a judged profile whose parent is the goal source, scored with the goal table, reuses "
+                              "the goal-create scorecard (content-addressed and bound by the goal) when the scorer "
+                              "fingerprint is unchanged, instead of rescoring the parent (acceptance f)",
     "core-vectorized-sampling": "core network_calibration centerline sampling uses vectorized shapely calls, "
                                 "bit-identical to per-sample interpolate(), beyond the SMALL CORE EDITS list",
 }
@@ -606,13 +666,92 @@ def goal_source_path(goal: BuildGoal, repository_root: Path) -> Path:
     return path if path.is_absolute() else Path(repository_root) / path
 
 
-def _location(root: ET.Element) -> dict | None:
-    element = root.find("location")
-    return dict(element.attrib) if element is not None else None
+def locations(root: ET.Element) -> list[dict]:
+    """Every ``<location>`` element of a net, nested ones included, in document order (SUMO applies the last one,
+    netconvert and the scorer read the first; decision D2 requires exactly one)."""
+    return [dict(element.attrib) for element in root.iter("location")]
+
+
+def junction_positions(root: ET.Element) -> dict[str, tuple[float, float]]:
+    """``{id: (x, y)}`` of every non-internal junction with a readable position (the D2 frame anchor)."""
+    result = {}
+    for junction in root.findall("junction"):
+        if junction.get("type") == "internal":
+            continue
+        try:
+            result[junction.get("id")] = (float(junction.get("x")), float(junction.get("y")))
+        except (TypeError, ValueError):
+            continue
+    return result
+
+
+def geometry_boundary(root: ET.Element) -> list[float] | None:
+    """``[xmin, ymin, xmax, ymax]`` of a net's own geometry as netconvert computes ``<location convBoundary>``
+    (decision D2): every non-internal junction position and every point of every road edge ``shape`` (an edge without
+    one runs between its junction positions; internal, crossing and walking-area edges are junction-derived). None
+    when the net has no such point or one is unreadable."""
+    points = []
+    try:
+        for junction in root.findall("junction"):
+            if junction.get("type") != "internal" and junction.get("x") is not None:
+                points.append((float(junction.get("x")), float(junction.get("y"))))
+        for edge in root.findall("edge"):
+            if edge.get("function") not in JUNCTION_DERIVED and edge.get("shape"):
+                points += _shape(edge)
+    except (TypeError, ValueError):
+        return None
+    if not points:
+        return None
+    xs, ys = [point[0] for point in points], [point[1] for point in points]
+    return [min(xs), min(ys), max(xs), max(ys)]
+
+
+def goal_source_root(goal: BuildGoal, repository_root: Path,
+                     known: dict[str, ET.Element] | None = None) -> ET.Element:
+    """The parsed goal source: the net the caller already holds under the goal source's sha256 in ``known``, else the
+    hash-checked goal source file (then cached in ``known``)."""
+    root = (known or {}).get(goal.source.sha256)
+    if root is None:
+        root = _network_root(_read_bytes(goal_source_path(goal, repository_root), goal.source.sha256,
+                                         "goal source net"))
+        if known is not None:
+            known[goal.source.sha256] = root
+    return root
+
+
+def goal_source_structure(goal: BuildGoal, repository_root: Path,
+                          known: dict[str, ET.Element] | None = None) -> list[tuple[str, float | None]]:
+    """The goal source's network-wide structural failures in its own lane naming (decision D1), read from
+    ``goal_source_root``."""
+    return structural_failures(goal_source_root(goal, repository_root, known))
+
+
+def source_structure_view(goal: BuildGoal, source_rows: list, inherited: list) -> dict:
+    """The profile's dirty-source record (decision D1): the goal source's failure count and the inherited list in
+    the profiled net's lane naming (``inherited``: the source rows after its composed lane remap)."""
+    view = {"decision": "D1", "net_sha256": goal.source.sha256, "source_dirty": bool(source_rows),
+            "count": len(source_rows), "inherited": invariants.failure_rows(inherited),
+            "rule": "a candidate's structural failures must be a subset of these (no measure grown); a clean goal "
+                    "source requires 0"}
+    if source_rows:
+        view["promotion"] = "blocked without a human: the goal source has structural failures"
+    return view
+
+
+def _source_structure(goal: BuildGoal, repository_root: Path, known: dict[str, ET.Element],
+                      effective: dict) -> tuple[list, list]:
+    """``(source rows, inherited rows)``: the goal source's structural failures and the same rows renamed into a
+    net's lanes through its composed lane remap (``effective["lane_mapping"]``), a row on a removed lane dropped."""
+    rows = goal_source_structure(goal, repository_root, known)
+    mapping = effective.get("lane_mapping") or {}
+    renamed = ((junction_integrity.remap_identity(identity, mapping), measure) for identity, measure in rows)
+    return rows, [(identity, measure) for identity, measure in renamed if identity is not None]
 
 
 def _road_lane_shapes(root: ET.Element) -> dict[str, list[tuple[float, float]]]:
-    return {lane.get("id"): _shape(lane) for edge in root.findall("edge") if edge.get("function") != "internal"
+    """Lane shapes of road edges: internal lanes, crossings and walking-area outlines are junction-derived (as in
+    ``geometry_boundary`` and ``junction_integrity.road_lane_index``), never road lanes INV-SHAPE judges."""
+    return {lane.get("id"): _shape(lane) for edge in root.findall("edge") if edge.get("function") not in JUNCTION_DERIVED
             for lane in edge.findall("lane") if lane.get("shape")}
 
 
@@ -645,8 +784,9 @@ def _op_text(operation: dict | None, root: ET.Element | None) -> str | None:
 
 
 def _remapped_facts(report: dict, facts_path: Path, scratch_dir: Path | None) -> tuple[bytes | None, dict]:
-    """The lane-count selector remap verify-edit declared, reproduced from the goal table and the recorded plan in a
-    transient directory under ``scratch_dir`` (the system temp directory when None)."""
+    """The lane-count selector remap verify-edit declared, reproduced from ``facts_path`` (the parent's effective fact
+    table) and the recorded plan in a transient directory under ``scratch_dir`` (the system temp directory when
+    None)."""
     from ..core.network_edit_operations import _remap_lane_count_facts
 
     declared = report.get("fact_selector_remap") or {}
@@ -697,11 +837,221 @@ def _goal_scorecard(goal: BuildGoal, facts_path: Path, facts_sha: str) -> tuple[
     return card, f"goal-create scorecard {record.ref[:24]} (scorer unchanged)"
 
 
+# ---- effective fact tables along the parent chain ---------------------------------------------------------------
+
+def goal_effective_facts(facts_path: Path, facts_sha: str) -> dict:
+    """The effective fact table of the goal source: the goal's own table."""
+    return {"path": str(Path(facts_path)), "sha256": facts_sha, "basis": "goal", "verified": True, "remaps": 0}
+
+
+def parent_effective_facts(parent: dict | None, goal_record: dict, goal_bytes: bytes) -> tuple[dict, bytes]:
+    """``(record, bytes)`` of the fact table a parent profile scored its net with, re-read and hash-checked: the goal
+    table for the goal source, else the parent's recorded ``inputs.effective_facts``."""
+    if parent is None or parent.get("subject") == "source":
+        return goal_record, goal_bytes
+    record = (parent.get("inputs") or {}).get("effective_facts")
+    try:
+        data = Path(record["path"]).read_bytes()
+    except (KeyError, OSError, TypeError):
+        data = None
+    if data is None or hashlib.sha256(data).hexdigest() != record.get("sha256"):
+        raise ValueError(f"profile refused: the effective fact table of parent {parent.get('cand')} changed or is "
+                         "missing")
+    return record, data
+
+
+def lane_index_mapping(operation: dict, plan: dict) -> dict[str, dict[str, str]]:
+    """``{edge: {old index: new index}}`` that a lane-count step declares (``{}`` for every other op)."""
+    if operation.get("operation") != "set_lane_count":
+        return {}
+    return {str(operation["params"]["edge_id"]): {str(old): str(new)
+                                                  for old, new in (plan.get("lane_index_mapping") or {}).items()}}
+
+
+def compose_lane_mappings(first: dict[str, dict[str, str]],
+                          second: dict[str, dict[str, str]]) -> dict[str, dict[str, str]]:
+    """``first`` (goal -> parent lane indices) followed by ``second`` (parent -> candidate): goal -> candidate per
+    remapped edge; a lane either step removed is absent, and an edge only one step remaps keeps that step's map."""
+    result = {}
+    for edge in sorted(set(first) | set(second)):
+        if edge not in second:
+            result[edge] = dict(first[edge])
+        elif edge not in first:
+            result[edge] = dict(second[edge])
+        else:
+            result[edge] = {old: second[edge][mid] for old, mid in first[edge].items() if mid in second[edge]}
+    return result
+
+
+def curb_renumbered(mapping: dict[str, dict[str, str]], parent_root: ET.Element, root: ET.Element) -> set[str]:
+    """Remapped edges on which a surviving lane changes its ordinal from the curb (lane index in right-hand traffic,
+    lane count - 1 - index in left-hand traffic): independent-safety identities name lanes by that ordinal, so only
+    there they stop identifying the same physical finding (``junction_integrity.comparable``)."""
+    left = str(root.get("lefthand", "")).lower() in {"true", "1"}
+    counts = [{edge.get("id"): len(edge.findall("lane")) for edge in net.findall("edge")} for net in (parent_root, root)]
+    result = set()
+    for edge, rows in mapping.items():
+        for old, new in rows.items():
+            curb = (counts[0].get(edge, 0) - 1 - int(old), counts[1].get(edge, 0) - 1 - int(new)) if left else (
+                int(old), int(new))
+            if curb[0] != curb[1]:
+                result.add(edge)
+    return result
+
+
+def remapped_baseline(goal: BuildGoal, mapping: dict[str, dict[str, str]]) -> dict[str, float | None]:
+    """The goal's frozen INT baseline ``{identity: measure}`` in a net's lane naming: its identities remapped through
+    that net's composed lane mapping (``inputs.effective_facts.lane_mapping``), dropping removed lanes."""
+    result = {}
+    for identity in goal.int_baseline.finding_ids:
+        renamed = junction_integrity.remap_identity(identity, mapping)
+        if renamed is not None:
+            result[renamed] = goal.int_baseline.measures.get(identity)
+    return result
+
+
+def _step(goal: BuildGoal, *, table: NetworkFactTable, facts_path: Path, facts_sha: str, facts_bytes: bytes,
+          report: dict, ledger: dict, parent: dict | None, scratch_dir: Path | None) -> dict:
+    """One verify-edit step: its op and plan, the parent's effective fact table, and the candidate's, which is the
+    parent's remapped by a lane-count step's declared lane mapping (reproduced, never trusted) and the parent's
+    otherwise, so mappings compose along the chain."""
+    parent_facts, parent_bytes = parent_effective_facts(parent, goal_effective_facts(facts_path, facts_sha),
+                                                        facts_bytes)
+    parent_table = table if parent_facts["basis"] == "goal" else parse_table(parent_bytes)
+    operations = ledger.get("operations", [])
+    operation = operations[0] if operations else {}
+    plan = json.loads(Path(report["plan_file"]).read_text(encoding="utf-8")) if report.get("plan_file") else {}
+    candidate_table = parent_table
+    candidate_facts = {**parent_facts, "basis": "goal" if parent_facts["basis"] == "goal" else "inherited"}
+    mapping = lane_index_mapping(operation, plan)
+    if operation.get("operation") == "set_lane_count":
+        remapped, remap = _remapped_facts(report, Path(parent_facts["path"]), scratch_dir)
+        candidate_table = parse_table(remapped)
+        declared = (report.get("fact_selector_remap") or {}).get("candidate_facts") or {}
+        candidate_facts = {"path": declared.get("path"), "sha256": remap["sha256"], "basis": "declared_remap",
+                           "verified": remap["verified"], "recorded_sha256": remap["recorded_sha256"],
+                           "remaps": parent_facts["remaps"] + 1,
+                           "lane_mapping": compose_lane_mappings(parent_facts.get("lane_mapping") or {}, mapping)}
+    return {"operation": operation, "operations": operations, "plan": plan, "lane_mapping": mapping,
+            "parent_facts": parent_facts, "parent_table": parent_table,
+            "candidate_facts": candidate_facts, "candidate_table": candidate_table}
+
+
+def _counterpart(lane: str, lane_edge: dict[str, str], mapping: dict[str, dict[str, str]]) -> str | None:
+    """The id ``lane`` had before ``mapping`` (``{edge: {old index: new index}}``); None for a lane the mapping
+    added."""
+    if lane_edge.get(lane) not in mapping:
+        return lane
+    inverse = {f"{edge}_{new}": f"{edge}_{old}" for edge, rows in mapping.items() for old, new in rows.items()}
+    return inverse.get(lane)
+
+
+def shape_changes(parent_root: ET.Element, root: ET.Element, mapping: dict[str, dict[str, str]],
+                  limit_m: float | None = None, *, source_root: ET.Element | None = None,
+                  source_mapping: dict[str, dict[str, str]] | None = None) -> dict[str, dict]:
+    """Changed road-lane shapes, each against the parent lane it is physically (a lane-count edge's lanes through
+    the declared lane mapping); a lane with no parent counterpart is judged against the parent lanes of its edge
+    (``invariants.shape_change``, its distance bound refined near ``limit_m``).
+
+    ``source_root`` is the goal source and ``source_mapping`` the candidate's composed lane remap from it
+    (``inputs.effective_facts.lane_mapping``): each changed lane also carries its goal-source counterpart's turns, which
+    anchor decision D3's inherited bends. Without ``source_root`` the parent is the goal source."""
+    parent_shapes, shapes = _road_lane_shapes(parent_root), _road_lane_shapes(root)
+    source_shapes = _road_lane_shapes(source_root) if source_root is not None else None
+    lane_edge, parent_lane_edge = _lane_maps(root)[0], _lane_maps(parent_root)[0]
+    widths = {lane.get("id"): lane.get("width") for lane in root.iter("lane")}
+    changes = {}
+    for lane in sorted(shapes):
+        before = _counterpart(lane, lane_edge, mapping)
+        parent_shape = parent_shapes.get(before) if before else None
+        if parent_shape != shapes[lane]:
+            edge_lanes = None
+            if parent_shape is None:
+                edge_lanes = [shape for other, shape in sorted(parent_shapes.items())
+                              if parent_lane_edge.get(other) == lane_edge.get(lane)]
+            source: Any = ...
+            if source_shapes is not None:
+                origin = _counterpart(lane, lane_edge, source_mapping or {})
+                source = source_shapes.get(origin) if origin else None
+            width = widths.get(lane)
+            changes[ids.element_id("lane", lane)] = invariants.shape_change(
+                parent_shape, shapes[lane], edge_lanes=edge_lanes, width_m=float(width) if width else None,
+                limit_m=limit_m, source=source)
+    return changes
+
+
+def touched_junctions(operation: dict, plan: dict, parent_root: ET.Element, root: ET.Element) -> list[str]:
+    """The junctions an op touches (L2 scope): its target junctions, both ends of its target edges and verify-edit's
+    mutable junctions, as present on the parent or the candidate."""
+    targets = op_targets(operation, parent_root)
+    nodes = set(targets["junctions"]) | {str(node) for node in plan.get("mutable_junction_ids", [])}
+    present = set()
+    for net in (parent_root, root):
+        for edge in net.findall("edge"):
+            if edge.get("id") in targets["edges"]:
+                nodes |= {edge.get("from"), edge.get("to")}
+        present |= {row.get("id") for row in net.findall("junction") if row.get("type") != "internal"}
+    return sorted(node for node in nodes if node in present)
+
+
+def expected_movements(entries: list[dict], table: NetworkFactTable, junctions: list[str],
+                       *roots: ET.Element) -> dict[str, list[list[str]]]:
+    """Per touched junction, the lane pairs that frozen scored movement_inventory facts expect there, read through
+    ``table`` (a net's effective fact table); a pair belongs to the to-junction of its incoming lane's edge in the
+    first of ``roots`` that has the edge."""
+    scored = {entry["id"] for entry in entries if entry["kind"] == "movement_inventory"}
+    ends: dict[str, str] = {}
+    for net in reversed(roots):
+        ends.update({edge.get("id"): edge.get("to") for edge in net.findall("edge")})
+    wanted, result = set(junctions), defaultdict(set)
+    for fact in table.facts:
+        if fact.id not in scored or not isinstance(fact.expected, list):
+            continue
+        for pair in fact.expected:
+            if isinstance(pair, list) and len(pair) == 2 and all(isinstance(value, str) for value in pair):
+                node = ends.get(pair[0].rpartition("_")[0])
+                if node in wanted:
+                    result[node].add(tuple(pair))
+    return {node: [list(pair) for pair in sorted(result[node])] for node in sorted(result)}
+
+
+def l2_scope(entries: list[dict], step: dict, parent_root: ET.Element, root: ET.Element) -> dict:
+    """Touched junctions, expected movements of both nets, the lane remap and the op targets that L2 binds."""
+    junctions = touched_junctions(step["operation"], step["plan"], parent_root, root)
+    return {"junctions": junctions, "lane_mapping": step["lane_mapping"],
+            "targets": op_targets(step["operation"], parent_root),
+            "expected": {"parent": expected_movements(entries, step["parent_table"], junctions, parent_root, root),
+                         "candidate": expected_movements(entries, step["candidate_table"], junctions, root,
+                                                         parent_root)}}
+
+
+def l2_method(goal: BuildGoal) -> str:
+    """The L2 method a goal requires: the movement probes when it declares a movement manifest, else the smoke."""
+    return "movement_probes" if goal.guards.movement_manifest is not None else "all_turn_smoke"
+
+
+def sg_partition(goal: BuildGoal, table: NetworkFactTable, root: ET.Element) -> dict:
+    """The sg_partition check of one net under one effective fact table (``twin/signal_partition.py``)."""
+    if goal.sg_partition is None:
+        return signal_partition.not_applicable("the goal declares no MAP connections, so no binding is evidenced")
+    connections = [row.model_dump() for row in goal.sg_partition.connections]
+    return signal_partition.check(root, signal_partition.evidenced_bindings(
+        connections, signal_partition.map_lane_locks(table)))
+
+
+def _sg_view(result: dict) -> dict:
+    return {key: result[key] for key in ("status", "rule", "claim", "evidenced_bindings", "locked_bindings",
+                                         "unresolved_bindings", "groups", "reason") if key in result}
+
+
 def _verify_edit_gate(goal: BuildGoal, *, table: NetworkFactTable, facts_sha: str, frozen_recomputed: str,
-                      report: dict, ledger: dict, parent_root: ET.Element, parent_sha: str, root: ET.Element,
-                      net_sha: str, parent_card: dict, candidate_facts: dict, candidate_table: NetworkFactTable,
-                      entries: list[dict], rows: dict[str, dict], card: dict) -> dict:
-    """G0, V, L2 and L3 of one verify-edit candidate against its parent."""
+                      report: dict, report_sha: str, step: dict, parent_root: ET.Element, parent_sha: str,
+                      root: ET.Element, net_sha: str, parent_card: dict, entries: list[dict], rows: dict[str, dict],
+                      card: dict, guard: dict | None, sg_candidate: dict, source_structure: list, source_dirty: bool,
+                      source_root: ET.Element) -> dict:
+    """G0, V, L2 and L3 of one verify-edit candidate against its parent; ``source_structure`` is the goal source's
+    structural failures in the candidate's lane naming and ``source_dirty`` whether the goal source has any (decision
+    D1); ``source_root`` is the goal source, whose lanes anchor D3's inherited bends."""
     parent_by_id = {row["id"]: row for row in parent_card["facts"]}
     card_by_id = {row["id"]: row for row in card["facts"]}
     parent_rows = {entry["id"]: fact_row(entry, parent_by_id[entry["id"]]) for entry in entries}
@@ -725,34 +1075,35 @@ def _verify_edit_gate(goal: BuildGoal, *, table: NetworkFactTable, facts_sha: st
             improved.append((entry["id"], invariants.coverage_measures(parent_by_id[entry["id"]].get("metrics") or {}),
                              invariants.coverage_measures(card_by_id[entry["id"]].get("metrics") or {})))
     construction = report.get("construction") or {}
-    operations = ledger.get("operations", [])
-    operation = operations[0] if operations else {}
-    # A lane-count edit re-lays out and renumbers its edge's lanes; they are judged through the remapped facts.
-    relaid = (str(operation["params"]["edge_id"]) if operation.get("operation") == "set_lane_count" else None)
-    parent_shapes, shapes = _road_lane_shapes(parent_root), _road_lane_shapes(root)
-    lane_edge = _lane_maps(parent_root)[0]
-    changes = {ids.element_id("lane", lane): invariants.shape_change(parent_shapes[lane], shapes[lane])
-               for lane in sorted(parent_shapes.keys() & shapes.keys())
-               if parent_shapes[lane] != shapes[lane] and lane_edge.get(lane) != relaid}
-    plan = json.loads(Path(report["plan_file"]).read_text(encoding="utf-8")) if report.get("plan_file") else {}
-    junctions = sorted(set(scope_junctions(parent_root, goal.scope.mutable_edge_ids, goal.scope.mutable_junction_ids))
-                       | set(plan.get("mutable_junction_ids", [])))
+    operation, plan, mapping = step["operation"], step["plan"], step["lane_mapping"]
+    changes = shape_changes(parent_root, root, mapping, goal.g0_shape.max_directed_hausdorff_m,
+                            source_root=source_root, source_mapping=step["candidate_facts"].get("lane_mapping") or {})
+    # The goal's own scope (both ends of its mutable edges, its mutable junctions): the only junctions a step may
+    # move (D2 frame anchor; INV-OPSCOPE keeps every op target inside it). verify-edit's derived scope widens the audit.
+    goal_junctions = scope_junctions(parent_root, goal.scope.mutable_edge_ids, goal.scope.mutable_junction_ids)
+    junctions = sorted(set(goal_junctions) | set(plan.get("mutable_junction_ids", [])))
     parent_int, parent_direction = int_findings(parent_root, [j for j in junctions if j in _junction_ids(parent_root)])
     candidate_int, candidate_direction = int_findings(root, [j for j in junctions if j in _junction_ids(root)])
-    lane_mapping = ({str(operation["params"]["edge_id"]): {str(old): str(new) for old, new in
-                                                          (plan.get("lane_index_mapping") or {}).items()}}
-                    if operation.get("operation") == "set_lane_count" else None)
     new_direction = new_direction_findings(direction_baseline(parent_direction, parent_sha), candidate_direction,
-                                           lane_mapping)
-    bound = facts_sha in _scorecard_facts_sha(report, "source_scorecard")
+                                           mapping or None)
+    # verify-edit measured outside fact changes with the fact table it was given: it must be the parent's effective one.
+    bound = step["parent_facts"]["sha256"] in _scorecard_facts_sha(report, "source_scorecard")
     outside = report.get("outside_fact_changes") if bound else None
     artifacts = [row.model_dump() for row in goal.guards.lane_artifacts]
     lane_artifacts = construction.get("lane_coordinate_artifacts")
-    baseline = {identity: goal.int_baseline.measures.get(identity) for identity in goal.int_baseline.finding_ids}
+    # INT rows compare across the step's declared lane remap (the parent's rows renamed into candidate lanes), and the
+    # goal baseline through the candidate's composed chain mapping, as INV-DIR does.
+    baseline = remapped_baseline(goal, step["candidate_facts"].get("lane_mapping") or {})
+    renumbered = curb_renumbered(mapping, parent_root, root)
+    audit_rows = {"parent": junction_integrity.comparable([row for row in parent_int if row["source"] != "direction"],
+                                                          mapping, remap=True, renumbered=renumbered),
+                  "candidate": junction_integrity.comparable(
+                      [row for row in candidate_int if row["source"] != "direction"], mapping, remap=False,
+                      renumbered=renumbered)}
     checks = [
         invariants.inv_facts(goal_facts_sha256=goal.reference.facts.removeprefix("cas:sha256:"), facts_sha256=facts_sha,
                              frozen_sha256=goal.frozen.sha256, frozen_recomputed=frozen_recomputed,
-                             candidate_facts=candidate_facts),
+                             candidate_facts=step["candidate_facts"], parent_facts=step["parent_facts"]),
         invariants.inv_materialize(report_status=report.get("status"), candidate_sha256=net_sha,
                                    declared_sha256=report.get("candidate_sha256"),
                                    structural_failures=construction.get("structural_failure_count"),
@@ -760,35 +1111,48 @@ def _verify_edit_gate(goal: BuildGoal, *, table: NetworkFactTable, facts_sha: st
                                    source_immutable=bool(report.get("source_immutable"))
                                    and bool(construction.get("source_immutable")),
                                    source_sha256=(report.get("source") or {}).get("sha256"), parent_sha256=parent_sha,
-                                   structure={"parent": structural_failures(parent_root),
-                                              "candidate": structural_failures(root)}),
-        invariants.inv_opscope(operations=operations, goal_ops=goal.scope.ops, max_ops=goal.scope.max_ops_per_round,
-                               targets=op_targets(operation, parent_root), goal_edges=goal.scope.mutable_edge_ids,
-                               goal_junctions=goal.scope.mutable_junction_ids, outside_fact_changes=outside),
+                                   structure={"source": source_structure, "candidate": structural_failures(root)},
+                                   source_dirty=source_dirty),
+        invariants.inv_opscope(operations=step["operations"], goal_ops=goal.scope.ops,
+                               max_ops=goal.scope.max_ops_per_round, targets=op_targets(operation, parent_root),
+                               goal_edges=goal.scope.mutable_edge_ids, goal_junctions=goal.scope.mutable_junction_ids,
+                               outside_fact_changes=outside),
         invariants.inv_measurable(lost=lost, lost_components=lost_components),
         build_gate.g0_regressed(regressed),
         invariants.inv_coverage(improved),
         invariants.inv_shape(changes, goal.g0_shape.model_dump()),
-        invariants.inv_frame(_location(parent_root), _location(root)),
+        invariants.inv_frame(locations(parent_root), locations(root), geometry_boundary(root),
+                             parent_boundary=geometry_boundary(parent_root),
+                             anchor={"parent": junction_positions(parent_root), "candidate": junction_positions(root),
+                                     "source": junction_positions(source_root), "scope": goal_junctions}),
         invariants.inv_artifacts(artifacts, lane_artifacts if lane_artifacts and "files" in lane_artifacts else None),
         invariants.inv_e1_lane(artifacts, lane_artifacts if lane_artifacts and "files" in lane_artifacts else None),
         invariants.inv_cor({entry["id"]: entry["class"] for entry in entries},
-                           _mapping_changes(table, candidate_table)),
+                           _mapping_changes(table, step["candidate_table"])),
         invariants.inv_green(construction.get("new_protected_green_conflicts") or []),
-        invariants.inv_audit([(row["id"], row["measure"]) for row in parent_int if row["source"] != "direction"],
-                             [(row["id"], row["measure"]) for row in candidate_int if row["source"] != "direction"],
-                             junctions, baseline),
+        invariants.inv_audit(audit_rows["parent"], audit_rows["candidate"], junctions, baseline),
         invariants.inv_dir(new_direction, DIRECTION_RULE)]
     g0 = build_gate.g0(checks)
     v = build_gate.compare_v(parent_rows, rows, goal.objective.materiality.model_dump())
     trips = {row.seed: row.sha256 for row in goal.guards.routeability.trips}
     l3 = build_gate.l3_rule(build_gate.routeability_pairs(report), goal.guards.routeability.seeds, trips)
-    l2 = build_gate.l2_not_run()
+    scope = l2_scope(entries, step, parent_root, root)
+    l2 = build_gate.l2_rule(guard, parent_sha256=parent_sha, candidate_sha256=net_sha, junctions=scope["junctions"],
+                            expected=scope["expected"], lane_mapping=scope["lane_mapping"],
+                            verify_edit_sha256=report_sha, method=l2_method(goal), targets=scope["targets"])
     label, first_fail = build_gate.screening(g0, v, l3, l2)
+    sg_parent = sg_partition(goal, step["parent_table"], parent_root)
+    inconsistent = {row["id"] for row in sg_parent["groups"] if row["status"] == "inconsistent"}
+    sg = {"parent": sg_parent["status"], "candidate": sg_candidate["status"], "rule": signal_partition.RULE,
+          "new_inconsistent": sorted(row["id"] for row in sg_candidate["groups"]
+                                     if row["status"] == "inconsistent" and row["id"] not in inconsistent),
+          "use": "derived CTL check: ranked in hotspots, reported here, never in V or G0 (not a frozen fact)"}
     return {"g0": g0, "v": v, "l3": l3, "l2": l2, "screening": label, "first_fail": first_fail,
             "parent_rows": parent_rows, "lost": lost, "regressed": regressed, "outside": outside,
-            "shape_changes": changes, "new_direction": new_direction,
-            "parent_int_ids": sorted(row["id"] for row in parent_int), "candidate_int": candidate_int,
+            "shape_changes": changes, "new_direction": new_direction, "sg_partition": sg,
+            "parent_int_ids": sorted(identity for identity, _ in junction_integrity.comparable(
+                parent_int, mapping, remap=True, renumbered=renumbered)), "renumbered": renumbered,
+            "candidate_int": candidate_int,
             "candidate_direction": candidate_direction}
 
 
@@ -803,107 +1167,199 @@ def _load_report(path: Path) -> tuple[dict, Path]:
     return json.loads(path.read_text(encoding="utf-8")), path
 
 
-def verified_parent(goal: BuildGoal, goal_ref: str, verifier: dict, path: Path) -> tuple[dict, dict]:
-    """Read a parent profile and walk its recorded chain back to the goal source; returns ``(parent, record)``.
+# Hash-bound inputs every accepted candidate in a parent chain must still match.
+CHAIN_INPUTS = (("net", "candidate net"), ("verify_edit", "verify-edit report"),
+                ("effective_facts", "effective fact table"), ("movement_guard", "movement-guard record"))
+
+
+# Fields write_build_profile adds beside the built profile (view files and wall time); a re-derivation omits them.
+WRITTEN_ONLY = ("details", "compact", "timing")
+
+
+def _canonical(value: Any) -> str:
+    return json.dumps(json.loads(json.dumps(value)), sort_keys=True, ensure_ascii=False)
+
+
+def _json_file(row: dict | None) -> dict:
+    try:
+        return json.loads(Path(row["path"]).read_text(encoding="utf-8"))
+    except (OSError, *LOOKUPS):
+        return {}
+
+
+def verified_parent(goal: BuildGoal, goal_ref: str, verifier: dict, path: Path, *, goal_bytes: bytes,
+                    facts_bytes: bytes, facts_path: Path, repository_root: Path, scratch_dir: Path | None = None,
+                    chain_depth: int = 0) -> tuple[dict, dict]:
+    """Read a parent profile and re-derive it from its bound inputs, down to the goal source; returns
+    ``(parent, record)``.
 
     A parent is the goal source's own profile, or a judged candidate that passed G0 and screened as accepted
-    (``build_gate.ACCEPTED_SCREENINGS``) whose candidate net and verify-edit report still hash to what it recorded,
-    and whose own parent (by recorded path and sha256) is again such a profile, down to the goal source. A raw-net,
-    blocked or rejected profile is never a parent, so a G0 exploit cannot be laundered through an unjudged hop.
+    (``build_gate.ACCEPTED_SCREENINGS``: G0, V, L2 and L3 all hold). For a candidate every recorded input must still
+    hash to what it recorded (net, verify-edit report, effective fact table, movement-guard record and its own parent
+    profile); its net must be the candidate its verify-edit report materialized from its recorded parent net; its
+    movement-guard record must bind those nets and that report; and the profile itself must re-derive: it is rebuilt
+    from those bound inputs (its own parent verified the same way, recursively) and must equal the recorded profile
+    field for field. A profile edited after it was written (a forged gate, net, fact table or L2 record) is therefore
+    refused even as the immediate parent, and a raw-net, blocked or rejected profile is never a parent, so a G0
+    exploit cannot be laundered through an unjudged hop. ``chain_depth`` counts the hops already being re-derived.
     """
-    current, expected, chain, first = Path(path), None, [], None
-    while True:
-        data = current.read_bytes()
-        digest = hashlib.sha256(data).hexdigest()
-        if expected is not None and digest != expected:
-            raise ValueError(f"profile refused: parent chain profile {current} does not match its recorded sha256")
-        profile = json.loads(data)
-        first = profile if first is None else first
-        if profile.get("kind") != "build" or profile.get("goal") != goal_ref:
-            raise ValueError("profile refused: the parent profile belongs to another goal; diffs across goal_ids are "
-                             "refused")
-        if (profile.get("verifier") or {}).get("commit") != verifier.get("commit"):
-            raise ValueError("profile refused: the parent profile was made by another verifier commit")
-        inputs, gate = profile.get("inputs") or {}, profile.get("gate") or {}
-        chain.append({"cand": profile.get("cand"), "subject": profile.get("subject"), "sha256": digest})
-        if profile.get("subject") == "source":
-            if (inputs.get("net") or {}).get("sha256") != goal.source.sha256 or gate.get("screening") != "source_profile":
-                raise ValueError("profile refused: the parent chain does not reach the goal source")
-            break
-        if profile.get("subject") != "candidate":
-            raise ValueError(f"profile refused: a {profile.get('subject')} profile is never a parent; only the goal "
-                             "source profile or an accepted candidate is")
-        if (profile.get("status") != "measured" or gate.get("G0") != "pass"
-                or gate.get("screening") not in build_gate.ACCEPTED_SCREENINGS):
-            raise ValueError(f"profile refused: parent {profile.get('cand')} was not accepted (status "
-                             f"{profile.get('status')}, G0 {gate.get('G0')}, screening {gate.get('screening')})")
-        for key, label in (("net", "candidate net"), ("verify_edit", "verify-edit report")):
-            row = inputs.get(key) or {}
-            try:
-                intact = file_sha256(Path(row["path"])) == row.get("sha256")
-            except (KeyError, OSError, TypeError):
-                intact = False
-            if not intact:
-                raise ValueError(f"profile refused: the {label} of parent {profile.get('cand')} changed or is missing")
-        grand = inputs.get("parent_profile")
-        if grand is None:
-            if (inputs.get("parent_net") or {}).get("sha256") != goal.source.sha256:
-                raise ValueError("profile refused: the parent chain does not reach the goal source")
-            break
-        if len(chain) > MAX_PARENT_CHAIN:
-            raise ValueError(f"profile refused: the parent chain is longer than {MAX_PARENT_CHAIN} steps")
-        current, expected = Path(grand["path"]), grand.get("sha256")
-    record = {"path": str(Path(path)), "sha256": chain[0]["sha256"], "cand": first.get("cand"),
-              "subject": first.get("subject"), "depth": len(chain) - 1, "chain": [row["cand"] for row in chain]}
-    return first, record
+    path = Path(path)
+    data = path.read_bytes()
+    digest = hashlib.sha256(data).hexdigest()
+    profile = json.loads(data)
+    if profile.get("kind") != "build" or profile.get("goal") != goal_ref:
+        raise ValueError("profile refused: the parent profile belongs to another goal; diffs across goal_ids are "
+                         "refused")
+    if (profile.get("verifier") or {}).get("commit") != verifier.get("commit"):
+        raise ValueError("profile refused: the parent profile was made by another verifier commit")
+    inputs, gate, cand = profile.get("inputs") or {}, profile.get("gate") or {}, profile.get("cand")
+    record = {"path": str(path), "sha256": digest, "cand": cand, "subject": profile.get("subject"), "depth": 0,
+              "chain": [cand]}
+    if profile.get("subject") == "source":
+        if (inputs.get("net") or {}).get("sha256") != goal.source.sha256 or gate.get("screening") != "source_profile":
+            raise ValueError("profile refused: the parent chain does not reach the goal source")
+        return profile, record
+    if profile.get("subject") != "candidate":
+        raise ValueError(f"profile refused: a {profile.get('subject')} profile is never a parent; only the goal "
+                         "source profile or an accepted candidate is")
+    if (profile.get("status") != "measured" or gate.get("G0") != "pass"
+            or gate.get("screening") not in build_gate.ACCEPTED_SCREENINGS):
+        raise ValueError(f"profile refused: parent {cand} was not accepted (status {profile.get('status')}, G0 "
+                         f"{gate.get('G0')}, screening {gate.get('screening')})")
+    if chain_depth >= MAX_PARENT_CHAIN:
+        raise ValueError(f"profile refused: the parent chain is longer than {MAX_PARENT_CHAIN} steps")
+    for key, label in CHAIN_INPUTS:
+        row = inputs.get(key) or {}
+        try:
+            intact = file_sha256(Path(row["path"])) == row.get("sha256")
+        except (KeyError, OSError, TypeError):
+            intact = False
+        if not intact:
+            raise ValueError(f"profile refused: the {label} of parent {cand} changed or is missing")
+    grand = inputs.get("parent_profile")
+    if grand is None:
+        if (inputs.get("parent_net") or {}).get("sha256") != goal.source.sha256:
+            raise ValueError("profile refused: the parent chain does not reach the goal source")
+    else:
+        try:
+            intact = file_sha256(Path(grand["path"])) == grand.get("sha256")
+        except (KeyError, OSError, TypeError):
+            intact = False
+        if not intact:
+            raise ValueError(f"profile refused: parent chain profile {grand.get('path')} does not match its recorded "
+                             "sha256")
+    report, guard = _json_file(inputs.get("verify_edit")), _json_file(inputs.get("movement_guard"))
+    net_sha, parent_sha = (inputs.get("net") or {}).get("sha256"), (inputs.get("parent_net") or {}).get("sha256")
+    if report.get("candidate_sha256") != net_sha or (report.get("source") or {}).get("sha256") != parent_sha:
+        raise ValueError(f"profile refused: the net of parent {cand} is not the candidate its hash-bound verify-edit "
+                         "report materialized from its recorded parent net")
+    bound = {"parent": parent_sha, "candidate": net_sha, "verify_edit": inputs["verify_edit"].get("sha256")}
+    if any((guard.get(key) or {}).get("sha256") != value for key, value in bound.items()):
+        raise ValueError(f"profile refused: the movement-guard record of parent {cand} does not bind its nets and "
+                         "verify-edit report (L2 did not run on this candidate)")
+    rebuilt, _ = build_build_profile(
+        goal, goal_bytes, facts_bytes, facts_path=facts_path, repository_root=repository_root,
+        verifier=profile.get("verifier") or {}, verify_edit=Path(inputs["verify_edit"]["path"]),
+        parent_profile=Path(grand["path"]) if grand is not None else None,
+        movement_guard_record=Path(inputs["movement_guard"]["path"]), scratch_dir=scratch_dir,
+        chain_depth=chain_depth + 1)
+    stored = {key: value for key, value in profile.items() if key not in WRITTEN_ONLY}
+    if _canonical(rebuilt) != _canonical(stored):
+        differ = sorted(key for key in set(rebuilt) | set(stored)
+                        if _canonical(rebuilt.get(key)) != _canonical(stored.get(key)))
+        raise ValueError(f"profile refused: parent {cand} does not re-derive from its bound inputs (it differs in "
+                         f"{', '.join(differ[:6])}; rebuilt screening {rebuilt['gate'].get('screening')})")
+    above = rebuilt["inputs"].get("parent_profile") or {}
+    record.update(depth=above.get("depth", -1) + 1, chain=[cand, *above.get("chain", [])])
+    return profile, record
 
 
-def build_build_profile(goal: BuildGoal, goal_bytes: bytes, facts_bytes: bytes, *, facts_path: Path,
-                        repository_root: Path, verifier: dict, net: Path | None = None,
-                        verify_edit: Path | None = None, parent_profile: Path | None = None,
-                        scratch_dir: Path | None = None) -> tuple[dict, dict]:
-    """Profile the goal source (default), a raw net (``net``, never judged) or a verify-edit candidate.
+def _effective_anchors(entries: list[dict], goal_table: NetworkFactTable, table: NetworkFactTable,
+                       root: ET.Element) -> dict[str, str]:
+    """Hotspot anchors of the scored facts whose effective selector differs from the goal's (a lane-count remap):
+    re-derived on ``root`` so a hotspot names the lane the fact now selects."""
+    if table is goal_table:
+        return {}
+    lane_edge, edge_to, _ = _lane_maps(root)
+    before = {fact.id: fact.selector for fact in goal_table.facts}
+    scored = {entry["id"] for entry in entries}
+    return {fact.id: fact_anchor(fact.kind, fact.selector, fact.expected, lane_edge, edge_to)
+            for fact in table.facts if fact.id in scored and fact.selector != before.get(fact.id)}
 
-    ``parent_profile`` is a parent's ``profile.full.json`` (``verified_parent``); without one a candidate's parent is
-    the goal source. ``scratch_dir`` holds the transient lane-count remap (default: the system temp directory).
-    """
-    if net is not None and verify_edit is not None:
-        raise ValueError("Profile either a raw net or a verify-edit candidate, not both.")
+
+def _resolve(goal: BuildGoal, goal_bytes: bytes, facts_bytes: bytes, *, facts_path: Path, verifier: dict,
+             verify_edit: Path | None, parent_profile: Path | None, repository_root: Path,
+             scratch_dir: Path | None = None, chain_depth: int = 0) -> dict:
     goal_ref = ids.goal_reference(goal.goal_id, goal_bytes)
     facts_sha = hashlib.sha256(facts_bytes).hexdigest()
     if ids.cas_reference(facts_sha) != goal.reference.facts:
         raise ValueError("profile refused: the fact table does not match the goal's cas reference")
     table = parse_table(facts_bytes)
     entries = [entry.model_dump(by_alias=True, exclude_none=True) for entry in goal.frozen.scored_facts]
+    report = report_path = None
+    ledger: dict = {}
+    if verify_edit is not None:
+        report, report_path = _load_report(verify_edit)
+        ledger = json.loads(_read_bytes(Path(report["ledger"]["path"]), report["ledger"]["sha256"], "ledger"))
+    parent, parent_record = (verified_parent(goal, goal_ref, verifier, Path(parent_profile), goal_bytes=goal_bytes,
+                                             facts_bytes=facts_bytes, facts_path=facts_path,
+                                             repository_root=repository_root, scratch_dir=scratch_dir,
+                                             chain_depth=chain_depth)
+                             if parent_profile is not None else (None, None))
+    parent_sha = parent["inputs"]["net"]["sha256"] if parent is not None else goal.source.sha256
+    return {"goal_ref": goal_ref, "facts_sha": facts_sha, "table": table, "entries": entries, "report": report,
+            "report_path": report_path, "ledger": ledger, "parent": parent, "parent_record": parent_record,
+            "parent_sha": parent_sha}
+
+
+def build_build_profile(goal: BuildGoal, goal_bytes: bytes, facts_bytes: bytes, *, facts_path: Path,
+                        repository_root: Path, verifier: dict, net: Path | None = None,
+                        verify_edit: Path | None = None, parent_profile: Path | None = None,
+                        movement_guard_record: Path | None = None,
+                        scratch_dir: Path | None = None, chain_depth: int = 0) -> tuple[dict, dict]:
+    """Profile the goal source (default), a raw net (``net``, never judged) or a verify-edit candidate.
+
+    ``parent_profile`` is a parent's ``profile.full.json`` (``verified_parent``, which re-derives it); without one a
+    candidate's parent is the goal source. ``movement_guard_record`` is the L2 record ``run_movement_guard`` wrote for
+    this candidate (without one L2 is not run and the candidate is never accepted). ``scratch_dir`` holds the
+    transient lane-count remap (default: the system temp directory). ``chain_depth`` is internal: the parent hops
+    already being re-derived above this profile.
+    """
+    if net is not None and verify_edit is not None:
+        raise ValueError("Profile either a raw net or a verify-edit candidate, not both.")
+    if movement_guard_record is not None and verify_edit is None:
+        raise ValueError("A movement-guard record belongs to a verify-edit candidate.")
+    resolved = _resolve(goal, goal_bytes, facts_bytes, facts_path=facts_path, verifier=verifier,
+                        verify_edit=verify_edit, parent_profile=parent_profile, repository_root=repository_root,
+                        scratch_dir=scratch_dir, chain_depth=chain_depth)
+    goal_ref, facts_sha, table, entries = (resolved[key] for key in ("goal_ref", "facts_sha", "table", "entries"))
+    report, report_path, ledger = resolved["report"], resolved["report_path"], resolved["ledger"]
+    parent, parent_record, parent_sha = resolved["parent"], resolved["parent_record"], resolved["parent_sha"]
     excluded = {key: value.model_dump(by_alias=True, exclude_none=True) for key, value in goal.frozen.excluded.items()}
     recomputed = frozen_sha256(entries, excluded)
-    subject, report, ledger, report_path = "source", None, {}, None
-    if verify_edit is not None:
-        subject = "candidate"
-        report, report_path = _load_report(verify_edit)
-        ledger_path = Path(report["ledger"]["path"])
-        ledger = json.loads(_read_bytes(ledger_path, report["ledger"]["sha256"], "ledger"))
-        net_path = Path(report["candidate_net_file"])
+    subject = "source"
+    if report is not None:
+        subject, net_path = "candidate", Path(report["candidate_net_file"])
     elif net is not None:
         subject, net_path = "raw_net", Path(net)
     else:
         net_path = goal_source_path(goal, repository_root)
     if parent_profile is not None and subject == "source":
         raise ValueError("profile refused: the goal source has no parent")
-    parent, parent_record = (verified_parent(goal, goal_ref, verifier, Path(parent_profile))
-                             if parent_profile is not None else (None, None))
     net_bytes = _read_bytes(net_path, goal.source.sha256 if subject == "source" else None, "net")
     net_sha = hashlib.sha256(net_bytes).hexdigest()
-    parent_sha = parent["inputs"]["net"]["sha256"] if parent is not None else goal.source.sha256
-    candidate_table, candidate_facts = table, {"sha256": facts_sha, "basis": "goal", "verified": True}
-    if report is not None and ledger.get("operations", [{}])[0].get("operation") == "set_lane_count":
-        remapped, candidate_facts = _remapped_facts(report, facts_path, scratch_dir)
-        candidate_table = parse_table(remapped)
+    step, effective, candidate_table = None, goal_effective_facts(facts_path, facts_sha), table
+    if report is not None:
+        step = _step(goal, table=table, facts_path=facts_path, facts_sha=facts_sha, facts_bytes=facts_bytes,
+                     report=report, ledger=ledger, parent=parent, scratch_dir=scratch_dir)
+        candidate_table, effective = step["candidate_table"], step["candidate_facts"]
     root = _network_root(net_bytes)
     card = score_root(root, candidate_table)
     card_by_id = {row["id"]: row for row in card["facts"]}
     facts_by_id = {fact.id: fact for fact in candidate_table.facts}
-    rows = {entry["id"]: fact_row(entry, card_by_id[entry["id"]]) for entry in entries}
+    anchors = _effective_anchors(entries, table, candidate_table, root)
+    rows = {entry["id"]: fact_row({**entry, "anchor": anchors.get(entry["id"], entry["anchor"])},
+                                  card_by_id[entry["id"]]) for entry in entries}
     index = _NetIndex(root)
     suggestions = {fact: suggested_ops(facts_by_id[fact], card_by_id[fact], index)
                    for fact, row in rows.items() if row["status"] == "mismatched"}
@@ -911,10 +1367,14 @@ def build_build_profile(goal: BuildGoal, goal_bytes: bytes, facts_bytes: bytes, 
         rows[fact]["suggested_ops"] = ops
         rows[fact]["est_le"] = {"class": rows[fact]["class"], "count": -1,
                                 "excess": None if rows[fact]["excess"] is None else -round(rows[fact]["excess"], 9)}
+    sg = sg_partition(goal, candidate_table, root)
     gate: dict[str, Any]
     invariants_rows: list[dict] = []
     parent_v = parent_root = None
-    parent_net = None
+    parent_net = guard_input = None
+    # Decision D1: the goal source's structural failures, renamed into this net's lanes by its composed lane remap;
+    # the parsed goal source also anchors D3's inherited bends (``known`` caches parsed nets by sha256).
+    known = {net_sha: root}
     if report is not None:
         parent_path = Path(report["source"]["path"])
         if report["source"].get("sha256") != parent_sha:
@@ -922,15 +1382,28 @@ def build_build_profile(goal: BuildGoal, goal_bytes: bytes, facts_bytes: bytes, 
                              "net")
         parent_bytes = _read_bytes(parent_path, parent_sha, "parent net")
         parent_root = _network_root(parent_bytes)
+        known[parent_sha] = parent_root
         parent_net = {"path": str(parent_path), "sha256": parent_sha}
-        cached, parent_net["scorecard"] = (_goal_scorecard(goal, facts_path, facts_sha) if parent_sha ==
-                                           goal.source.sha256 else (None, "rescored: the parent is not the goal "
-                                                                          "source"))
-        parent_card = cached if cached is not None else score_root(parent_root, table)
-        judged = _verify_edit_gate(goal, table=table, facts_sha=facts_sha, frozen_recomputed=recomputed, report=report,
-                                   ledger=ledger, parent_root=parent_root, parent_sha=parent_sha, root=root,
-                                   net_sha=net_sha, parent_card=parent_card, candidate_facts=candidate_facts,
-                                   candidate_table=candidate_table, entries=entries, rows=rows, card=card)
+        cached, parent_net["scorecard"] = (
+            _goal_scorecard(goal, facts_path, facts_sha) if parent_sha == goal.source.sha256
+            and step["parent_facts"]["basis"] == "goal" else (None, "rescored: the parent is not the goal source"
+                                                               if parent_sha != goal.source.sha256 else
+                                                               "rescored: the parent's effective fact table is not "
+                                                               "the goal's"))
+        parent_card = cached if cached is not None else score_root(parent_root, step["parent_table"])
+        guard = None
+        if movement_guard_record is not None:
+            guard, guard_sha = movement_guard.load_record(movement_guard_record)
+            guard_path = Path(movement_guard_record)
+            guard_input = {"path": str(guard_path / movement_guard.RECORD if guard_path.is_dir() else guard_path),
+                           "sha256": guard_sha}
+        source_rows, inherited = _source_structure(goal, repository_root, known, effective)
+        judged = _verify_edit_gate(goal, table=table, facts_sha=facts_sha, frozen_recomputed=recomputed,
+                                   report=report, report_sha=file_sha256(report_path), step=step,
+                                   parent_root=parent_root, parent_sha=parent_sha, root=root, net_sha=net_sha,
+                                   parent_card=parent_card, entries=entries, rows=rows, card=card, guard=guard,
+                                   sg_candidate=sg, source_structure=inherited, source_dirty=bool(source_rows),
+                                   source_root=goal_source_root(goal, repository_root, known))
         invariants_rows, parent_v = judged["g0"]["checks"], judged["v"]["parent"]
         fixed = [fact for fact, row in rows.items() if judged["parent_rows"][fact]["status"] == "mismatched"
                  and row["status"] == "matched"]
@@ -941,7 +1414,7 @@ def build_build_profile(goal: BuildGoal, goal_bytes: bytes, facts_bytes: bytes, 
                 "fixed_rows": [{"fact": fact, "parent": _row_value(judged["parent_rows"][fact]),
                                 "candidate": _row_value(rows[fact])} for fact in fixed],
                 "shape_changes": len(judged["shape_changes"]), "new_direction_findings": judged["new_direction"],
-                "verify_edit_status": report.get("status")}
+                "sg_partition": judged["sg_partition"], "verify_edit_status": report.get("status")}
         # no_effect only when nothing materialized; verify-edit's own status stays in the gate.
         status = ("blocked" if not judged["g0"]["pass"] or report.get("status") == "blocked"
                   else "no_effect" if net_sha == parent_sha else "measured")
@@ -953,6 +1426,8 @@ def build_build_profile(goal: BuildGoal, goal_bytes: bytes, facts_bytes: bytes, 
         gate = {"screening": "source_profile", "G0": "not_run",
                 "first_fail": "the goal source is profiled; there is no candidate to judge"}
         status = "measured"
+    if report is None:
+        source_rows, inherited = _source_structure(goal, repository_root, known, effective)
     junctions = scope_junctions(root, goal.scope.mutable_edge_ids, goal.scope.mutable_junction_ids)
     if report is not None:
         # The gate already audited a superset of these junctions on this net; the audit is per junction.
@@ -961,13 +1436,18 @@ def build_build_profile(goal: BuildGoal, goal_bytes: bytes, facts_bytes: bytes, 
         direction = judged["candidate_direction"]
     else:
         found, direction = int_findings(root, junctions)
-    baseline = {identity: goal.int_baseline.measures.get(identity) for identity in goal.int_baseline.finding_ids}
+    # The goal baseline in this net's lane naming (its composed lane-count remap); the parent's rows after the step's.
+    baseline = remapped_baseline(goal, effective.get("lane_mapping") or {})
     parent_int = set(judged["parent_int_ids"]) if report is not None else set()
-    int_rows = [{**row, **({"new_vs_parent": row["id"] not in parent_int} if report is not None else {})}
+    step_mapping = step["lane_mapping"] if step is not None else {}
+    renumbered = judged["renumbered"] if report is not None else set()
+    int_rows = [{**row, **({"new_vs_parent": junction_integrity.comparable(
+                    [row], step_mapping, remap=False, renumbered=renumbered)[0][0] not in parent_int}
+                           if report is not None else {})}
                 for row in found if row["id"] not in baseline
                 or (row["measure"] is not None and baseline[row["id"]] is not None
-                    and row["measure"] > baseline[row["id"]] + invariants.MEASURE_TOLERANCE_M)]
-    hotspots = rank_hotspots(list(rows.values()), int_rows)
+                    and row["measure"] > baseline[row["id"]] + invariants.MEASURE_EPSILON_M)]
+    hotspots = rank_hotspots(list(rows.values()) + list(sg["rows"].values()), int_rows)
     escalations = escalation_rows(excluded, card_by_id)
     v_cand = build_gate.v_vector(rows)
     operation = (ledger.get("operations") or [None])[0]
@@ -988,6 +1468,7 @@ def build_build_profile(goal: BuildGoal, goal_bytes: bytes, facts_bytes: bytes, 
                                     if fact in before and before[fact][1] != _rounded(row["excess"])},
                  "hotspots_new": sorted({h["id"] for h in hotspots} - set(parent.get("hotspot_ids", []))),
                  "hotspots_gone": sorted(set(parent.get("hotspot_ids", [])) - {h["id"] for h in hotspots})}
+    structure = source_structure_view(goal, source_rows, inherited)
     profile = {
         "schema": PROFILE_SCHEMA, "kind": "build", "view": "full", "status": status, "goal": goal_ref,
         "goal_id": goal.goal_id, "verifier": verifier, "subject": subject,
@@ -996,10 +1477,12 @@ def build_build_profile(goal: BuildGoal, goal_bytes: bytes, facts_bytes: bytes, 
         "op": operation, "op_text": _op_text(operation, parent_root),
         "inputs": {"net": {"path": str(net_path), "sha256": net_sha},
                    "facts": {"ref": goal.reference.facts, "rows": len(table.facts)},
+                   "effective_facts": effective,
                    "source": {"path": goal.source.net, "sha256": goal.source.sha256},
                    "verify_edit": None if report is None else {"path": str(report_path),
                                                                "sha256": file_sha256(report_path),
                                                                "status": report.get("status")},
+                   "movement_guard": guard_input,
                    "parent_net": parent_net, "parent_profile": parent_record},
         "invariants": invariants_rows, "gate": gate,
         "V": {"order": list(build_gate.ORDER), "cand": v_cand, "parent": parent_v,
@@ -1012,9 +1495,13 @@ def build_build_profile(goal: BuildGoal, goal_bytes: bytes, facts_bytes: bytes, 
         "int_findings": int_rows,
         "direction": {key: direction[key] for key in ("rule", "checked_count", "finding_count", "ambiguous_count",
                                                        "unsupported_count")},
+        "sg_partition": _sg_view(sg),
         "hotspots": [{**h, "rows": [_public_row(row) for row in h["rows"]]} for h in hotspots],
         "hotspot_ids": [h["id"] for h in hotspots],
-        "escalations": escalations, "delta": delta, "amendments": AMENDMENTS, "claim": CLAIM}
+        "escalations": escalations, "delta": delta,
+        "source_dirty": structure["source_dirty"], "source_structure": structure,
+        "binding_decisions": DECISIONS, "implementation_notes": IMPLEMENTATION_NOTES,
+        "claim": CLAIM + (DIRTY_CLAIM.format(count=structure["count"]) if structure["source_dirty"] else "")}
     details = {"facts.csv": [_csv_row(rows.get(fact), excluded.get(fact), card_by_id[fact]) for fact in
                              [fact.id for fact in table.facts]],
                "int-findings.csv": [{key: (" ".join(row[key]) if key == "lanes" else row.get(key))
@@ -1060,7 +1547,8 @@ def _csv_row(row: dict | None, frozen: dict | None, card_row: dict) -> dict:
 
 def write_build_profile(goal: BuildGoal, goal_bytes: bytes, facts_bytes: bytes, *, facts_path: Path,
                         repository_root: Path, out_dir: Path, verifier: dict, net: Path | None = None,
-                        verify_edit: Path | None = None, parent_profile: Path | None = None) -> dict:
+                        verify_edit: Path | None = None, parent_profile: Path | None = None,
+                        movement_guard_record: Path | None = None) -> dict:
     """Write a NEW build profile directory (full JSON, capped compact JSON and text, detail CSVs); every transient
     file stays beside ``out_dir``."""
     started = time.perf_counter()
@@ -1071,7 +1559,7 @@ def write_build_profile(goal: BuildGoal, goal_bytes: bytes, facts_bytes: bytes, 
     profile, details = build_build_profile(goal, goal_bytes, facts_bytes, facts_path=facts_path,
                                            repository_root=repository_root, verifier=verifier, net=net,
                                            verify_edit=verify_edit, parent_profile=parent_profile,
-                                           scratch_dir=out_dir.parent)
+                                           movement_guard_record=movement_guard_record, scratch_dir=out_dir.parent)
     compact = dict(zip(("profile.compact.json", "profile.compact.txt"), render.render_build_compact(profile)))
     write_staged_profile(out_dir, profile, details, compact, started=started, empty_header="id")
     return profile
@@ -1083,10 +1571,32 @@ def lane_artifact_path(path: str, repository_root: Path) -> Path:
     return candidate if candidate.is_absolute() else Path(repository_root) / candidate
 
 
+def frozen_trip_files(goal: BuildGoal, facts_path: Path, seeds: tuple[int, ...]) -> dict[int, Path]:
+    """The goal's frozen per-seed trip files in its store (beside the fact table), hash-checked, for the requested
+    seeds that goal-create generated trips for."""
+    from .goal import TRIP_SUFFIX
+
+    records = {row.seed: row for row in goal.guards.routeability.trips if row.status == "generated" and row.sha256}
+    result = {}
+    for seed in seeds:
+        if seed not in records:
+            continue
+        path = Path(facts_path).parent / f"{records[seed].sha256}{TRIP_SUFFIX}"
+        if not path.is_file() or file_sha256(path) != records[seed].sha256:
+            raise ValueError(f"profile refused: the frozen trips of seed {seed} are missing from the goal store or "
+                             "changed")
+        result[seed] = path
+    return result
+
+
 def run_verify_edit(goal: BuildGoal, *, ledger_file: Path, facts_path: Path, output_dir: Path,
                     repository_root: Path, netconvert_binary: str = "netconvert",
-                    routeability_seeds: tuple[int, ...] | None = None) -> dict:
-    """``verify_network_edit`` in explore mode with the goal's facts, seeds and lane artifacts (unchanged).
+                    routeability_seeds: tuple[int, ...] | None = None, parent_profile: Path | None = None,
+                    goal_bytes: bytes | None = None, verifier: dict | None = None) -> dict:
+    """``verify_network_edit`` in explore mode with the goal's seeds, lane artifacts and frozen per-seed trips (the
+    source audit of every seed runs exactly the trips goal-create generated from the goal source) and the parent's
+    effective fact table (the goal table, or the lane-count remap of ``parent_profile`` once ``verified_parent`` has
+    re-derived it, which needs ``goal_bytes`` and ``verifier``).
 
     Its command runner writes transient ``astra-command-*`` directories under the system temp directory."""
     from ..core.network_edit_applicability import verify_network_edit
@@ -1096,6 +1606,62 @@ def run_verify_edit(goal: BuildGoal, *, ledger_file: Path, facts_path: Path, out
         if file_sha256(path) != row.sha256:
             raise ValueError(f"profile refused: lane artifact {row.path} changed since goal-create")
     seeds = tuple(goal.guards.routeability.seeds) if routeability_seeds is None else tuple(routeability_seeds)
+    facts_file = Path(facts_path)
+    if parent_profile is not None:
+        if goal_bytes is None or verifier is None:
+            raise ValueError("run_verify_edit needs goal_bytes and verifier to verify parent_profile")
+        facts_bytes = facts_file.read_bytes()
+        parent, _ = verified_parent(goal, ids.goal_reference(goal.goal_id, goal_bytes), verifier,
+                                    Path(parent_profile), goal_bytes=goal_bytes, facts_bytes=facts_bytes,
+                                    facts_path=facts_file, repository_root=repository_root,
+                                    scratch_dir=Path(output_dir).parent)
+        record, _ = parent_effective_facts(parent, goal_effective_facts(facts_file, file_sha256(facts_file)),
+                                           facts_bytes)
+        facts_file = Path(record["path"])
     return verify_network_edit(ledger_file=ledger_file, output_dir=output_dir, netconvert_binary=netconvert_binary,
-                               mode="explore", facts_file=facts_path, routeability_seeds=seeds,
-                               lane_artifact_files=artifacts or None)
+                               mode="explore", facts_file=facts_file, routeability_seeds=seeds,
+                               lane_artifact_files=artifacts or None,
+                               routeability_trip_files=frozen_trip_files(goal, facts_path, seeds) or None)
+
+
+def sumo_beside(netconvert_binary: str) -> str:
+    """The sumo binary verify-edit pairs with ``netconvert_binary`` (``core/network_edit_operations._sumo_binary``)."""
+    from ..core.network_edit_operations import _sumo_binary
+    return _sumo_binary(netconvert_binary)
+
+
+def run_movement_guard(goal: BuildGoal, goal_bytes: bytes, facts_bytes: bytes, *, facts_path: Path,
+                       verify_edit: Path, output_dir: Path, verifier: dict, repository_root: Path,
+                       parent_profile: Path | None = None, sumo_binary: str = "sumo", smoke=None) -> dict:
+    """L2 of one verify-edit candidate into a NEW ``output_dir``: the touched junctions, the expected movements of
+    both nets (frozen movement facts through each net's effective fact table) and the lane remap are derived exactly
+    as the profile derives them, then ``twin/movement_guard.py`` runs the probes on the parent and the candidate: the
+    movement probes on manifests re-bound from the goal's frozen movement manifest (each net's composed lane remap)
+    when the goal declares one, otherwise the all-turn smoke."""
+    import shutil
+
+    resolved = _resolve(goal, goal_bytes, facts_bytes, facts_path=facts_path, verifier=verifier,
+                        verify_edit=verify_edit, parent_profile=parent_profile, repository_root=repository_root,
+                        scratch_dir=Path(output_dir).parent)
+    report, report_path, parent_sha = resolved["report"], resolved["report_path"], resolved["parent_sha"]
+    if report["source"].get("sha256") != parent_sha:
+        raise ValueError("movement guard refused: the ledger source is neither the goal source nor the parent net")
+    candidate = Path(report["candidate_net_file"])
+    parent_root = _network_root(_read_bytes(Path(report["source"]["path"]), parent_sha, "parent net"))
+    root = _network_root(_read_bytes(candidate, report.get("candidate_sha256"), "candidate net"))
+    step = _step(goal, table=resolved["table"], facts_path=facts_path, facts_sha=resolved["facts_sha"],
+                 facts_bytes=facts_bytes, report=report, ledger=resolved["ledger"], parent=resolved["parent"],
+                 scratch_dir=Path(output_dir).parent)
+    scope = l2_scope(resolved["entries"], step, parent_root, root)
+    manifest = None
+    if goal.guards.movement_manifest is not None:
+        record = goal.guards.movement_manifest
+        manifest = {"path": lane_artifact_path(record.path, repository_root), "sha256": record.sha256,
+                    "lane_mapping": {"parent": step["parent_facts"].get("lane_mapping") or {},
+                                     "candidate": step["candidate_facts"].get("lane_mapping") or {}}}
+    return movement_guard.run_movement_guard(
+        parent_net=Path(report["source"]["path"]), candidate_net=candidate, junctions=scope["junctions"],
+        expected=scope["expected"], lane_mapping=scope["lane_mapping"], output_dir=output_dir,
+        sumo_binary=shutil.which(sumo_binary) or sumo_binary,
+        verify_edit={"path": str(report_path), "sha256": file_sha256(report_path)}, manifest=manifest,
+        smoke=smoke)

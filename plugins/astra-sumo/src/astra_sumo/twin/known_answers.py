@@ -12,8 +12,10 @@ routeability seeds); they are a mechanics test of the profiler and the gate, not
 same typed-op vocabulary makes the fault and suggests the fix. Raw-XML perturbations edit the net bytes directly.
 Each faulted net becomes a goal source with the clean net as its reference and every junction within 100 m of the
 injected element in scope (so INT rows can fall outside it); its hotspots must be exactly the injected elements, and
-the inverse typed op must reach V = 0 with no outside fact change. Acceptance (f) is timed separately: timings never
-enter the deterministic report, so ``run_k2`` returns ``timing_checks`` beside it.
+the inverse typed op must reach V = 0 with no outside fact change. Every repair step is judged in full: verify-edit
+explore runs L3 on the goal's frozen per-seed trips, ``build_profile.run_movement_guard`` runs L2 on the touched
+junctions, and a step is accepted (and may be the next parent) only when G0, V, L2 and L3 all hold. Acceptance (f) is
+timed separately: timings never enter the deterministic report, so ``run_k2`` returns ``timing_checks`` beside it.
 
 Reports are deterministic JSON without absolute paths or timings (those go to a separate timing file). Everything is
 explore evidence against model-relative known answers; no field claim.
@@ -538,15 +540,37 @@ def _ledger(path: Path, source: Path, identity: str, operation: dict) -> Path:
     return _write_new(path, (json.dumps(payload, indent=2, sort_keys=True) + "\n").encode("utf-8"))
 
 
+def _frozen(row: dict) -> bool:
+    trips = row.get("trips") or {}
+    return trips.get("goal") is not None and trips.get("source") == trips.get("goal") == trips.get("candidate")
+
+
+def _dynamic(gate: dict) -> dict:
+    """The L2 and L3 results of one judged step, without paths."""
+    l2, l3 = gate["L2"], gate["L3"]
+    return {"L2": {"status": l2["status"], "result": l2["result"], "method": l2.get("method"),
+                   "new_failures": l2.get("new_failures", []),
+                   "junctions": [{"junction": row["junction"], "parent_failing": len(row["parent_failing"]),
+                                  "candidate_failing": len(row["candidate_failing"]), "new": row["new"],
+                                  "unprobed": row.get("unprobed", [])}
+                                 for row in l2.get("junctions", [])]},
+            "L3": {"status": l3["status"], "result": l3["result"], "source_state": l3["source_state"],
+                   "seeds": [{"seed": row["seed"], "result": row["result"], "new_failing": row["new_failing"],
+                              "source_failing": len(row["source"]["failing"]),
+                              "candidate_failing": len(row["candidate"]["failing"]),
+                              "trips_are_frozen": _frozen(row)} for row in l3["seeds"]]}}
+
+
 def _step_record(profile: dict, operation: dict, basis: str) -> dict:
     gate = profile["gate"]
     return {"op": operation["operation"], "params": operation["params"], "basis": basis,
             "verify_edit_status": gate.get("verify_edit_status"), "status": profile["status"],
-            "screening": gate["screening"], "G0": gate["G0"],
+            "screening": gate["screening"], "first_fail": gate.get("first_fail"), "G0": gate["G0"],
             "failed_invariants": {row["id"]: row["witness_ids"][:6] for row in profile["invariants"] if not row["pass"]},
+            "source_dirty": profile["source_dirty"],
             "outside_fact_changes": gate.get("outside_fact_changes"), "V": profile["V"]["cand"],
             "V_parent": profile["V"]["parent"], "V_verdict": gate["V"]["verdict"], "fixed": len(gate.get("fixed", [])),
-            "cand": profile["cand"], "hotspot_ids": profile["hotspot_ids"]}
+            **_dynamic(gate), "cand": profile["cand"], "hotspot_ids": profile["hotspot_ids"]}
 
 
 def _k2_case(repository_root: Path, *, case: dict, ledger: bool, clean: Path, clean_root: ET.Element,
@@ -605,17 +629,28 @@ def _k2_case(repository_root: Path, *, case: dict, ledger: bool, clean: Path, cl
             break
         step_dir = case_dir / f"step-{step}"
         tick = time.perf_counter()
-        build_profile.run_verify_edit(goal, ledger_file=_ledger(step_dir / "ledger.json", parent_net,
-                                                                f"{case['id']}-step{step}", operation),
-                                      facts_path=facts_path, output_dir=step_dir / "verify-edit",
-                                      repository_root=repository_root, netconvert_binary=netconvert_binary,
-                                      routeability_seeds=())
+        # The goal's seeds on its frozen trips (L3), with the parent's effective fact table.
+        verified = build_profile.run_verify_edit(
+            goal, ledger_file=_ledger(step_dir / "ledger.json", parent_net, f"{case['id']}-step{step}", operation),
+            facts_path=facts_path, output_dir=step_dir / "verify-edit", repository_root=repository_root,
+            netconvert_binary=netconvert_binary, parent_profile=parent_profile, goal_bytes=goal_bytes,
+            verifier=verifier)
         timing[f"{case['id']}.step{step}.verify_edit_s"] = round(time.perf_counter() - tick, 3)
+        guard = None
+        if verified["status"] in {"measured", "no_effect"} and Path(verified["candidate_net_file"]).is_file():
+            tick = time.perf_counter()
+            build_profile.run_movement_guard(goal, goal_bytes, table_bytes, facts_path=facts_path,
+                                             verify_edit=step_dir / "verify-edit",
+                                             output_dir=step_dir / "movement-guard", verifier=verifier,
+                                             repository_root=repository_root, parent_profile=parent_profile,
+                                             sumo_binary=build_profile.sumo_beside(netconvert_binary))
+            timing[f"{case['id']}.step{step}.movement_guard_s"] = round(time.perf_counter() - tick, 3)
+            guard = step_dir / "movement-guard"
         tick = time.perf_counter()
         profile = build_profile.write_build_profile(
             goal, goal_bytes, table_bytes, facts_path=facts_path, repository_root=repository_root,
             out_dir=step_dir / "profile", verifier=verifier, verify_edit=step_dir / "verify-edit",
-            parent_profile=parent_profile)
+            parent_profile=parent_profile, movement_guard_record=guard)
         timing[f"{case['id']}.step{step}.profile_s"] = round(time.perf_counter() - tick, 3)
         steps.append(_step_record(profile, operation, basis))
         if profile["V"]["cand"] == ZERO_V or profile["gate"]["G0"] != "pass":
@@ -637,10 +672,13 @@ def _k2_case(repository_root: Path, *, case: dict, ledger: bool, clean: Path, cl
         checks["every_step_outside_fact_changes_0"] = bool(steps) and all(
             row["outside_fact_changes"] == [] for row in steps)
         checks["every_step_passes_G0"] = bool(steps) and all(row["G0"] == "pass" for row in steps)
+        checks["every_step_accepted"] = bool(steps) and all(
+            row["screening"] in build_gate.ACCEPTED_SCREENINGS for row in steps)
     return {"id": case["id"], "ledger": ledger, "fault": fault, "scope": {**targets, "junctions_in_scope": scope},
             "expect": case["expect"],
             "source": {"V": source["V"]["cand"], "status": source["status"], "counts": summary["counts"],
-                       "excluded": source["excluded"], **hot},
+                       "excluded": source["excluded"], "source_dirty": source["source_dirty"],
+                       "structural_failures": source["source_structure"]["count"], **hot},
             "steps": steps, "inverse_note": inverse_note, "chain_stopped": chain_stopped, "checks": checks,
             "status": "pass" if all(checks.values()) else "blocked"}
 
@@ -765,7 +803,9 @@ def run_k2(out_dir: Path, *, repository_root: Path, verifier: dict, netconvert_b
         "checks": checks, "failed_checks": sorted(name for name, ok in checks.items() if not ok),
         "net": {"path": RING1_NOMINAL, "sha256": _sha(data), "lane_elements": sum(1 for _ in clean_root.iter("lane"))},
         "labels": {"ledger": LEDGER_LABEL, "raw": RAW_LABEL},
-        "routeability": "not run (routeability_seeds=()): K2 does not exercise L3, so screening is dynamic_not_run",
+        "routeability": ("every repair step runs L3 on the goal's frozen trips (K2 goals declare seed 42) and L2 "
+                         "(all-turn smoke on the touched junctions, each movement driven by a vehicle class its turn "
+                         "permissions admit); fault injection runs no routeability seed"),
         "timing_checks": (f"acceptance (f), both 800 internal-path profiles within {PERF_LIMIT_S:g} s, is evaluated "
                           "outside this deterministic report: run_k2's timing_checks, the CLI status and "
                           "k2-timing.json" if perf else "not run (--no-perf)"),

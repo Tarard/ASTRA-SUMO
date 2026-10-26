@@ -493,7 +493,13 @@ DEFAULT_SEEDS = (17, 42, 104, 7, 23, 37, 59, 71, 83, 97)
 DEFAULT_G0_SHAPE = {"max_vertex_delta": 8, "max_heading_change_deg": 35.0, "max_directed_hausdorff_m": 3.0,
                     "status": "declared, not calibrated"}
 CATEGORICAL_KINDS = ("lane_count", "lane_permissions", "movement_inventory", "signal_group")
-BUILD_CLAIM = "Model-relative known-answer or reference goal; explore only; no field claim."
+BUILD_CLAIM = ("Model-relative known-answer or reference goal; explore only; no field claim. A goal source with any "
+               "structural failure (decision D1) or failing routeability request makes every candidate on it not "
+               "promotable without a human.")
+MOVEMENT_PROBES = ("manifest_if_supported_else_all_turn_smoke: run_candidate_movement_probes when the parent and the "
+                   "candidate both have a supported movement manifest, otherwise run_all_turn_movement_smoke on every "
+                   "touched junction with the frozen movement facts as expected movements; L2 passes only with no new "
+                   "probe or smoke failure against the parent")
 REFERENCE_PRODUCER = Path(__file__).resolve().parents[1] / "core" / "reference_net_facts.py"
 
 
@@ -629,6 +635,24 @@ class Guards(_Strict):
     movement_probes: str
     routeability: Routeability
     lane_artifacts: list[FileRef]
+    # A supported movement manifest of the goal source (``twin/movement_guard.py`` MANIFEST_SCHEMAS); when declared,
+    # L2 runs ``run_candidate_movement_probes`` on manifests derived from it for both nets of every step.
+    movement_manifest: FileRef | None = None
+
+
+class MapConnectionRecord(_Strict):
+    node_id: str
+    connection_id: str
+    ingress_lane_id: str
+    egress_lane_id: str
+    signal_group: str
+
+
+class SgPartition(_Strict):
+    """The MAP connections sg_partition reads (frozen at goal-create from one MAP XML)."""
+    map_xml: FileRef
+    connections: list[MapConnectionRecord]
+    rule: str
 
 
 class BuildGoal(_Strict):
@@ -644,6 +668,7 @@ class BuildGoal(_Strict):
     objective: BuildObjective
     g0_shape: G0Shape
     guards: Guards
+    sg_partition: SgPartition | None = None
     claim_boundary: str
 
     @field_validator("goal_id")
@@ -779,12 +804,15 @@ def create_build_goal(repository_root: Path, *, net: Path, facts: Path | None = 
                       goal_id: str | None = None, mutable_edge_ids: list[str] | tuple[str, ...] = (),
                       mutable_junction_ids: list[str] | tuple[str, ...] = (), ops: list[str] | None = None,
                       seeds: list[int] | None = None, lane_artifacts: list[Path] | tuple[Path, ...] = (),
-                      sigma_m: float = 0.0, g0_shape: dict | None = None,
-                      scratch_dir: Path | None = None) -> tuple[BuildGoal, dict[str, bytes], dict]:
+                      sigma_m: float = 0.0, g0_shape: dict | None = None, map_xml: Path | None = None,
+                      scratch_dir: Path | None = None,
+                      movement_manifest: Path | None = None) -> tuple[BuildGoal, dict[str, bytes], dict]:
     """Freeze a Build goal; returns ``(goal, content-addressed payloads by cas reference, summary)``. The payloads
     are the fact table, the source scorecard and the per-seed frozen trips, all bound by the goal; paths in the goal
     are repository-relative when inside the repository, so equal inputs give equal goals. Lint failures refuse the
-    goal; ``scratch_dir`` holds the transient trip generation (default: the system temp directory)."""
+    goal; ``scratch_dir`` holds the transient trip generation (default: the system temp directory). ``map_xml`` freezes
+    its MAP connections (node, lanes, signal group) for the sg_partition check. ``movement_manifest`` is a supported
+    movement manifest bound to the source net; L2 then runs the movement probes instead of the all-turn smoke."""
     from ..core.network_calibration import _network_root
     from ..core.reference_net_facts import build_reference_net_facts
 
@@ -852,7 +880,7 @@ def create_build_goal(repository_root: Path, *, net: Path, facts: Path | None = 
         "objective": {"order": list(build_gate.ORDER), "tie": "reject", "materiality": dict(build_gate.MATERIALITY),
                       "rule": build_gate.V_RULE, "excess": dict(build_gate.EXCESS_RULE)},
         "g0_shape": dict(DEFAULT_G0_SHAPE if g0_shape is None else g0_shape),
-        "guards": {"movement_probes": "manifest_if_supported_else_all_turn_smoke (L2, not run by the M3 profiler)",
+        "guards": {"movement_probes": MOVEMENT_PROBES,
                    "routeability": {
                        "seeds": seed_list, "vehicle_count": TRIP_VEHICLES,
                        "frozen_trips": "per seed, generated from the goal source alone at goal-create; every judged "
@@ -865,6 +893,26 @@ def create_build_goal(repository_root: Path, *, net: Path, facts: Path | None = 
                    "lane_artifacts": [{"path": _stored_path(path, repository_root), "sha256": file_sha256(Path(path))}
                                       for path in lane_artifacts]},
         "claim_boundary": BUILD_CLAIM}
+    if map_xml is not None:
+        from ..core.digital_twin import parse_mapem
+        from .signal_partition import RULE as SG_RULE
+
+        _, map_connections = parse_mapem(Path(map_xml))
+        document["sg_partition"] = {
+            "map_xml": {"path": _stored_path(map_xml, repository_root), "sha256": file_sha256(Path(map_xml))},
+            "connections": sorted(({"node_id": row.node_id, "connection_id": row.connection_id,
+                                    "ingress_lane_id": row.ingress_lane_id, "egress_lane_id": row.egress_lane_id,
+                                    "signal_group": row.signal_group} for row in map_connections),
+                                  key=lambda row: (row["node_id"], row["connection_id"], row["ingress_lane_id"])),
+            "rule": SG_RULE}
+    if movement_manifest is not None:
+        from .movement_guard import supported_manifest
+
+        if not supported_manifest(Path(movement_manifest), document["source"]["sha256"]):
+            raise ValueError("goal-create refused: the movement manifest is not a supported manifest whose network is "
+                             "the source net")
+        document["guards"]["movement_manifest"] = {"path": _stored_path(movement_manifest, repository_root),
+                                                   "sha256": file_sha256(Path(movement_manifest))}
     errors = lint_build_goal(document)
     if errors:
         raise ValueError(f"goal-create refused: lint failed ({len(errors)}): " + "; ".join(errors[:5]))

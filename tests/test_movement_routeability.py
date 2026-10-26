@@ -124,3 +124,58 @@ def test_public_movement_probe_runs_a_permitted_vehicle_and_checks_full_chain(tm
     assert missing["probe_count"] == 2
     assert missing["additional_boundary_probe_count"] == 1
     assert missing["results"][1]["status"] == "review_required"
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+def test_all_turn_smoke_can_drive_only_the_movements_its_passenger_may_use(tmp_path):
+    # Twin L2 needs the smoke on real junctions with bicycle-only movements; by default the passenger route file
+    # SUMO refuses still fails the whole smoke, as before.
+    from pathlib import Path
+    from astra_sumo.core.movement_routeability import run_all_turn_movement_smoke
+
+    nodes, edges, network = tmp_path / 'nodes.xml', tmp_path / 'edges.xml', tmp_path / 'net.xml'
+    nodes.write_text('<nodes><node id="w" x="0" y="0"/><node id="j" x="50" y="0"/><node id="n" x="50" y="50"/>'
+                     '<node id="e" x="100" y="0"/></nodes>', encoding='utf-8')
+    edges.write_text('<edges><edge id="a" from="w" to="j"/><edge id="bike" from="n" to="j" allow="bicycle"/>'
+                     '<edge id="out" from="j" to="e"/></edges>', encoding='utf-8')
+    subprocess.run(['netconvert', '-n', str(nodes), '-e', str(edges), '-o', str(network)], check=True,
+                   capture_output=True, timeout=30)
+    sumo = shutil.which('sumo')
+    default = run_all_turn_movement_smoke(net_file=Path(network), target_junction_id='j', output_dir=tmp_path / 'all',
+                                          sumo_binary=sumo)
+    assert 'skipped_movements' not in default and len(default['movements']) == 2
+    assert not default['checks']['all_expected_vehicles_arrived']
+    permitted = run_all_turn_movement_smoke(net_file=Path(network), target_junction_id='j',
+                                            output_dir=tmp_path / 'permitted', sumo_binary=sumo,
+                                            permitted_movements_only=True)
+    assert [(row['from'], row['to']) for row in permitted['movements']] == [('a', 'out')]
+    assert permitted['skipped_movements'] == [['bike', '0', 'out', '0']] and permitted['permitted_movements_only']
+    assert permitted['checks']['sumo_command'] and permitted['checks']['all_expected_vehicles_arrived']
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+def test_all_turn_smoke_can_drive_each_movement_with_a_class_its_permissions_admit(tmp_path):
+    # Twin review finding: the passenger smoke skipped every non-passenger movement, so L2 never compared a bicycle
+    # or bus movement. With vehicle_class_per_movement each movement gets the first admitted class; passenger
+    # movements are driven exactly as before, and only a movement no road class may use is skipped.
+    from pathlib import Path
+    from xml.etree import ElementTree as ET
+    from astra_sumo.core.movement_routeability import SMOKE_VEHICLE_CLASSES, run_all_turn_movement_smoke
+
+    nodes, edges, network = tmp_path / 'nodes.xml', tmp_path / 'edges.xml', tmp_path / 'net.xml'
+    nodes.write_text('<nodes><node id="w" x="0" y="0"/><node id="j" x="50" y="0"/><node id="n" x="50" y="50"/>'
+                     '<node id="s" x="50" y="-50"/><node id="e" x="100" y="0"/></nodes>', encoding='utf-8')
+    edges.write_text('<edges><edge id="a" from="w" to="j"/><edge id="bike" from="n" to="j" allow="bicycle"/>'
+                     '<edge id="walk" from="s" to="j" allow="pedestrian"/><edge id="out" from="j" to="e"/></edges>',
+                     encoding='utf-8')
+    subprocess.run(['netconvert', '-n', str(nodes), '-e', str(edges), '-o', str(network)], check=True,
+                   capture_output=True, timeout=30)
+    assert SMOKE_VEHICLE_CLASSES[0] == 'passenger' and 'pedestrian' not in SMOKE_VEHICLE_CLASSES
+    smoke = run_all_turn_movement_smoke(net_file=Path(network), target_junction_id='j', output_dir=tmp_path / 'each',
+                                        sumo_binary=shutil.which('sumo'), vehicle_class_per_movement=True)
+    assert [(row['from'], row['vehicle_class']) for row in smoke['movements']] == [('a', 'passenger'),
+                                                                                   ('bike', 'bicycle')]
+    assert smoke['vehicle_class_per_movement'] and all(row[0] != 'bike' for row in smoke['skipped_movements'])
+    assert smoke['checks']['sumo_command'] and smoke['checks']['all_expected_vehicles_arrived']
+    types = {row.get('id'): row.get('vClass') for row in ET.parse(smoke['route_file']).getroot().findall('vType')}
+    assert types == {'junction_smoke_passenger': 'passenger', 'junction_smoke_bicycle': 'bicycle'}

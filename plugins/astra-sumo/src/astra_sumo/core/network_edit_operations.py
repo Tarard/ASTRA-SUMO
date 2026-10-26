@@ -1265,11 +1265,12 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
 
 
 def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconvert", facts_file=None,
-                         routeability_seeds=(42,), lane_artifact_files=None):
+                         routeability_seeds=(42,), lane_artifact_files=None, routeability_trip_files=None):
     """Build a daily candidate and report release warnings without requiring approval evidence.
 
     routeability_seeds runs one source/candidate routeability pair per seed; () skips the pair.
     lane_artifact_files are additional files whose lane positions are checked on the candidate.
+    routeability_trip_files maps a seed to fixed trips that its source audit runs instead of new source requests.
     """
     import json
     from .command_runner import run_command
@@ -1289,6 +1290,10 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
     artifact_paths = [Path(path).resolve(strict=True) for path in lane_artifact_files or ()]
     if any(path.is_relative_to(destination) for path in artifact_paths):
         raise ValueError("The output directory must not contain lane artifact files.")
+    trip_paths = {seed: Path(path).resolve(strict=True) for seed, path in (routeability_trip_files or {}).items()}
+    if set(trip_paths) - set(seeds) or any(path.is_relative_to(destination) for path in trip_paths.values()):
+        raise ValueError("routeability_trip_files needs requested seeds and files outside the output directory.")
+    trip_hashes = {seed: file_sha256(path) for seed, path in trip_paths.items()}
     operations = ledger.get("operations", [])
     if len(operations) != 1 or operations[0].get("operation") not in SCOPED_EDIT_TYPES:
         raise ValueError("Explore requires one typed road edit.")
@@ -1376,8 +1381,10 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
                 if not default_layout:
                     report["routeability_by_seed"].append(entry)
                 # Generate from the source alone so edited endpoints cannot disappear from the requests.
+                fixed = ({"frozen_trip_file": trip_paths[seed], "expected_frozen_trip_sha256": trip_hashes[seed]}
+                         if seed in trip_paths else {})
                 baseline = run_routeability_audit(net_file=source, output_dir=destination / f"source-routes{suffix}",
-                    binaries=binaries, seed=seed)
+                    binaries=binaries, seed=seed, **fixed)
                 entry["source_routeability"] = baseline
                 entry["source_baseline"].update(status=("clean" if baseline["status"] == "pass" else "dirty")
                     if baseline.get("attempts") else "not_run", diagnostic_status=baseline["status"],

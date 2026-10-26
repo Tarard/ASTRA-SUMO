@@ -7,6 +7,7 @@ import hashlib
 import importlib.util
 import io
 import json
+import math
 import shutil
 import sys
 import xml.etree.ElementTree as ET
@@ -16,11 +17,12 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from astra_sumo.core.network_edit_operations import check_lane_artifact_positions
-from astra_sumo.core.reference_net_facts import build_reference_net_facts
+from astra_sumo.core.network_edit_operations import _remap_lane_count_facts, check_lane_artifact_positions
+from astra_sumo.core.reference_net_facts import ReferenceFactParameters, build_reference_net_facts
 from astra_sumo.corridor.enums import TrafficSide
 from astra_sumo.corridor.synthetic_networks import apply_synthetic_mutation, build_synthetic_fixture
-from astra_sumo.twin import build_gate, build_profile, direction_check, goal, ids, invariants, render
+from astra_sumo.twin import (build_gate, build_profile, direction_check, goal, ids, invariants, junction_integrity,
+                             movement_guard, render, signal_partition)
 
 ROOT = Path(__file__).resolve().parents[1]
 RING1 = ROOT / "benchmarks/hamburg_ring1_119_control_diagnosis_20261022_v1/nominal-inputs/network.net.xml"
@@ -82,13 +84,40 @@ def _passing_audit(trip_sha256: str, *, frozen: bool) -> dict:
                               "inspection": {"summary": {"collisions": 0, "teleports": 0}}}}
 
 
+def _fake_smoke(broken: tuple[tuple[str, str], ...] = (), on: Path | None = None):
+    """A movement-guard smoke without SUMO: every direct movement of the junction is driven and arrives, except the
+    ``broken`` lane pairs on the net ``on`` (every net when None)."""
+    def smoke(net: Path, junction: str, pairs: list, out: Path) -> dict:
+        root = ET.parse(net).getroot()
+        ends = {edge.get("id"): (edge.get("from"), edge.get("to")) for edge in root.findall("edge")
+                if edge.get("function") != "internal"}
+        driven = sorted([f"{row.get('from')}_{row.get('fromLane')}", f"{row.get('to')}_{row.get('toLane')}"]
+                        for row in root.findall("connection")
+                        if ends.get(row.get("from"), (None, None))[1] == junction
+                        and ends.get(row.get("to"), (None, None))[0] == junction)
+        bad = set(broken) if on is None or Path(net).resolve() == Path(on).resolve() else set()
+        return {"status": "ran", "run_ok": True, "driven": driven,
+                "arrived": [pair for pair in driven if tuple(pair) not in bad], "skipped": [],
+                "events": {key: 0 for key in movement_guard.EVENT_KEYS}}
+    return smoke
+
+
+def file_sha(path: Path) -> str:
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
 def _judge(tmp_path: Path, built, candidate: ET.Element, *, operation: dict | None = None,
            artifacts: list[Path] | None = None, affected: tuple[str, ...] = (), parent_net: Path | None = None,
            parent_profile: Path | None = None, out: Path | None = None, seeds: bool = False,
-           structural: int = 0) -> dict:
+           structural: int = 0, l2: bool = False, broken: tuple[tuple[str, str], ...] = (),
+           plan: dict | None = None, everywhere: bool = False) -> dict:
     """Profile ``candidate`` through a fabricated verify-edit report whose construction checks all pass, so only the
-    twin's own G0, V and L3 decide (no SUMO). ``seeds`` adds clean routeability audits on the goal's frozen trips;
-    ``out`` writes the profile directory (``profile.full.json``) instead of returning it in memory."""
+    twin's own G0, V, L2 and L3 decide (no SUMO). ``seeds`` adds clean routeability audits on the goal's frozen trips;
+    ``l2`` runs the real movement guard with a fake smoke (``broken`` lane pairs fail on the candidate, or on both
+    nets with ``everywhere``); ``out`` writes
+    the profile directory (``profile.full.json``) instead of returning it in memory. Like ``run_verify_edit``, the
+    report is made with the parent's effective fact table, and a ``set_lane_count`` op records verify-edit's own
+    selector remap of it under ``plan["lane_index_mapping"]``."""
     loaded, data, facts_bytes, facts_path, source = built
     parent = parent_net or source
     work = tmp_path / f"judge-{len(list(tmp_path.glob('judge-*')))}"
@@ -98,10 +127,17 @@ def _judge(tmp_path: Path, built, candidate: ET.Element, *, operation: dict | No
                               "params": {"edge_id": "W_in", "shape": [[-100, 0], [-5, 0]]}}
     ledger = work / "ledger.json"
     ledger.write_bytes(json.dumps({"source_net_file": str(parent), "operations": [operation]}).encode("utf-8"))
-    plan = work / "plan.json"
-    plan.write_bytes(json.dumps({"mutable_junction_ids": ["J0", "W"], "mutable_edge_ids": ["W_in"]}).encode("utf-8"))
+    plan_doc = {"mutable_junction_ids": ["J0", "W"], "mutable_edge_ids": ["W_in"], **(plan or {}),
+                "operation": operation, "source": {"path": str(parent)}}
+    plan_file = work / "plan.json"
+    plan_file.write_bytes(json.dumps(plan_doc).encode("utf-8"))
+    verify_facts = facts_path
+    if parent_profile is not None:
+        recorded = json.loads(Path(parent_profile).read_text(encoding="utf-8"))
+        if recorded["subject"] == "candidate":
+            verify_facts = Path(recorded["inputs"]["effective_facts"]["path"])
     scorecard = work / "source-scorecard.json"
-    scorecard.write_bytes(json.dumps({"inputs": {str(facts_path): hashlib.sha256(facts_bytes).hexdigest()}}).encode())
+    scorecard.write_bytes(json.dumps({"inputs": {str(verify_facts): file_sha(verify_facts)}}).encode())
     lane_artifacts = {"status": "not_applicable", "affected_lane_ids": list(affected)}
     if artifacts:
         lane_artifacts.update(check_lane_artifact_positions(candidate, artifacts, affected))
@@ -110,7 +146,7 @@ def _judge(tmp_path: Path, built, candidate: ET.Element, *, operation: dict | No
     report = {"status": "measured", "candidate_net_file": str(net), "candidate_sha256": sha,
               "source": {"path": str(parent), "sha256": hashlib.sha256(parent.read_bytes()).hexdigest()},
               "ledger": {"path": str(ledger), "sha256": hashlib.sha256(ledger.read_bytes()).hexdigest()},
-              "plan_file": str(plan), "source_immutable": True, "source_scorecard": str(scorecard),
+              "plan_file": str(plan_file), "source_immutable": True, "source_scorecard": str(scorecard),
               "outside_fact_changes": [], "routeability_seeds": [row.seed for row in trips],
               "routeability_by_seed": [{"seed": row.seed, "source_routeability": _passing_audit(row.sha256, frozen=False),
                                         "candidate_routeability": _passing_audit(row.sha256, frozen=True)}
@@ -118,12 +154,21 @@ def _judge(tmp_path: Path, built, candidate: ET.Element, *, operation: dict | No
               "construction": {"structural_failure_count": structural, "sumo_load": {"status": "pass"},
                                "source_immutable": True, "new_protected_green_conflicts": [],
                                "lane_coordinate_artifacts": lane_artifacts}}
+    if operation["operation"] == "set_lane_count":
+        report["fact_selector_remap"] = _remap_lane_count_facts(verify_facts, plan_doc, work / "candidate-facts.json")
     (work / "edit-verification.json").write_bytes(json.dumps(report).encode("utf-8"))
+    guard = None
+    if l2:
+        guard = work / "movement-guard"
+        build_profile.run_movement_guard(loaded, data, facts_bytes, facts_path=facts_path, verify_edit=work,
+                                         output_dir=guard, verifier=VERIFIER, repository_root=ROOT,
+                                         parent_profile=parent_profile,
+                                         smoke=_fake_smoke(broken, None if everywhere else net))
     if out is not None:
         return build_profile.write_build_profile(loaded, data, facts_bytes, facts_path=facts_path, repository_root=ROOT,
                                                  out_dir=out, verifier=VERIFIER, verify_edit=work,
-                                                 parent_profile=parent_profile)
-    return _profile(built, verify_edit=work, parent_profile=parent_profile)
+                                                 parent_profile=parent_profile, movement_guard_record=guard)
+    return _profile(built, verify_edit=work, parent_profile=parent_profile, movement_guard_record=guard)
 
 
 def _failed(profile: dict) -> dict[str, list[str]]:
@@ -489,11 +534,20 @@ def test_g0_rejects_a_zigzag_next_to_an_existing_sharp_bend(tmp_path):
     change = invariants.shape_change(_shape(bent, "W_in_1"), _shape(zigzag, "W_in_1"))
     assert change["max_turn_parent_deg"] == pytest.approx(60.0) and change["max_turn_candidate_deg"] < 60.5
     assert change["vertex_delta"] == 5 and change["directed_hausdorff_m"] == pytest.approx(1.2)
-    assert "heading:lane:W_in_1" in _failed(_judge(tmp_path, built, zigzag))["INV-SHAPE"]
-    # The existing bend itself, re-drawn with one more collinear vertex, is excused by the parent's own bend.
+    zigzagged = _judge(tmp_path, built, zigzag)
+    assert "heading:lane:W_in_1" in _failed(zigzagged)["INV-SHAPE"]
+    # Decision D3: the parent's own 60 deg vertex (a clockwise turn, signed -60) is inherited there, but the new 60 deg
+    # zigzag turns are bounded.
+    shape = next(row for row in zigzagged["invariants"] if row["id"] == "INV-SHAPE")
+    assert shape["inherited_bends"] == {"lane:W_in_1": [[-50.0, 0.0, pytest.approx(-60.0, abs=1e-4)]]}
+    # The existing 60 deg bend re-drawn with one more collinear vertex is unchanged geometry: exempt, G0 passes.
     redrawn = copy.deepcopy(bent)
     _lane(redrawn, "W_in_1").set("shape", "-75.0,-43.30127 -50.0,0.0 -20.0,0.0 -5.0,0.0")
-    assert "INV-SHAPE" not in _failed(_judge(tmp_path, built, redrawn))
+    profile = _judge(tmp_path, built, redrawn)
+    assert _failed(profile) == {} and profile["gate"]["G0"] == "pass"
+    shape = next(row for row in profile["invariants"] if row["id"] == "INV-SHAPE")
+    assert shape["decision"] == "D3" and list(shape["inherited_bends"]) == ["lane:W_in_1"]
+    assert "proposals" not in profile and profile["binding_decisions"]["D3"]["invariant"] == "INV-SHAPE"
 
 
 def test_g0_rejects_lane_shortening_that_hides_tail_offsets(tmp_path):
@@ -526,9 +580,150 @@ def test_g0_rejects_a_net_offset_shift(tmp_path):
     failed = _failed(_judge(tmp_path, built, candidate))
     assert failed["INV-FRAME"] == ["location:netOffset"]
     assert len(failed["INV-MEASURABLE"]) >= 164
+    # Decision D2: a convBoundary that is not the box of the candidate's own geometry is a frame witness.
     moved = copy.deepcopy(clean)
     moved.find("location").set("convBoundary", "-120,-100,100,100")
-    assert "INV-FRAME" not in _failed(_judge(tmp_path, built, moved))
+    profile = _judge(tmp_path, built, moved)
+    assert _failed(profile) == {"INV-FRAME": ["location:convBoundary"]} and profile["gate"]["G0"] == "fail"
+    frame = next(row for row in profile["invariants"] if row["id"] == "INV-FRAME")
+    assert frame["decision"] == "D2" and "deviation 20.000000 m" in frame["reason"]
+
+
+def test_d2_convboundary_may_change_only_to_the_recomputed_geometry_box(tmp_path):
+    clean = _x4()
+    built = _goal(tmp_path, clean)
+    assert build_profile.geometry_boundary(clean) == [-100.0, -100.0, 100.0, 100.0]
+    # netconvert rewrites the same box in its own number format: a byte change equal to the recomputed box passes.
+    reformatted = copy.deepcopy(clean)
+    reformatted.find("location").set("convBoundary", "-100.000000,-100.000000,100.000000,100.000000")
+    profile = _judge(tmp_path, built, reformatted)
+    assert _failed(profile) == {} and profile["gate"]["G0"] == "pass"
+    # Geometry that reaches further out (an edge shape to x = -110) moves the recomputed box with it.
+    extended = copy.deepcopy(clean)
+    extended.find("edge[@id='W_in']").set("shape", "-110.00,0.00 0.00,0.00")
+    assert build_profile.geometry_boundary(extended) == [-110.0, -100.0, 100.0, 100.0]
+    extended.find("location").set("convBoundary", "-110.00,-100.00,100.00,100.00")
+    assert "INV-FRAME" not in _failed(_judge(tmp_path, built, extended))
+    # Within 0.01 m of the box passes; 0.02 m off, or a box shifted with no geometry behind it, is a witness.
+    near = copy.deepcopy(extended)
+    near.find("location").set("convBoundary", "-110.005,-100.00,100.00,100.00")
+    assert "INV-FRAME" not in _failed(_judge(tmp_path, built, near))
+    off = copy.deepcopy(extended)
+    off.find("location").set("convBoundary", "-110.02,-100.00,100.00,100.00")
+    assert _failed(_judge(tmp_path, built, off))["INV-FRAME"] == ["location:convBoundary"]
+    shifted = copy.deepcopy(clean)
+    shifted.find("location").set("convBoundary", "-90,-100,110,100")
+    assert _failed(_judge(tmp_path, built, shifted))["INV-FRAME"] == ["location:convBoundary"]
+    # netOffset, origBoundary and projParameter stay byte-identical: any change, even a reformatting, is a witness.
+    for key, value in (("netOffset", "0.0,0.0"), ("origBoundary", "-100,-100,100,101"),
+                       ("projParameter", "+proj=utm +zone=32 +ellps=WGS84 +datum=WGS84 +units=m +no_defs")):
+        changed = copy.deepcopy(clean)
+        changed.find("location").set(key, value)
+        assert f"location:{key}" in _failed(_judge(tmp_path, built, changed)).get("INV-FRAME", []), key
+    assert invariants.inv_frame([], [{"netOffset": "0,0"}], None)["witness_ids"] == ["location:element",
+                                                                                     "location:netOffset"]
+    unreadable = invariants.inv_frame([{"convBoundary": "0,0,1,1"}], [{"convBoundary": "0,0,1"}], [0.0, 0.0, 1.0, 1.0])
+    assert unreadable["witness_ids"] == ["location:convBoundary"] and "unmeasured" in unreadable["reason"]
+    # Attack: a second <location> whose first copy is the parent's shifted netOffset by 1000 m where SUMO looks (it
+    # applies the last copy; netconvert and the scorer read the first). Every copy counts, nested ones too.
+    doubled = copy.deepcopy(clean)
+    second = copy.deepcopy(doubled.find("location"))
+    second.set("netOffset", "1000.00,0.00")
+    doubled.insert(list(doubled).index(doubled.find("location")) + 1, second)
+    assert build_profile.locations(doubled)[0] == build_profile.locations(clean)[0]
+    assert _failed(_judge(tmp_path, built, doubled))["INV-FRAME"] == ["location:element", "location:netOffset"]
+    copied = copy.deepcopy(clean)
+    copied.insert(1, copy.deepcopy(clean.find("location")))
+    assert _failed(_judge(tmp_path, built, copied)) == {"INV-FRAME": ["location:element"]}
+    nested = copy.deepcopy(clean)
+    nested.find("edge[@id='W_in']").append(copy.deepcopy(second))
+    assert len(build_profile.locations(nested)) == 2
+    assert "location:element" in _failed(_judge(tmp_path, built, nested))["INV-FRAME"]
+    # Attack: geometry grown to x = -130 behind a byte-identical convBoundary; an unchanged convBoundary is the box only
+    # while the recomputed box stays the parent's.
+    stale = copy.deepcopy(clean)
+    stale.find("edge[@id='W_in']").set("shape", "-130.00,0.00 -5.00,0.00")
+    assert build_profile.geometry_boundary(stale) == [-130.0, -100.0, 100.0, 100.0]
+    profile = _judge(tmp_path, built, stale)
+    assert _failed(profile) == {"INV-FRAME": ["location:convBoundary"]}
+    assert "unchanged -100,-100,100,100; recomputed -130.000000,-100.000000,100.000000,100.000000; deviation " \
+           "30.000000 m" in next(row for row in profile["invariants"] if row["id"] == "INV-FRAME")["reason"]
+    # A parent whose own convBoundary is already off its geometry box may keep it while the box stays put.
+    box = [-100.0, -100.0, 100.0, 100.0]
+    off = [{"convBoundary": "-90,-100,100,100"}]
+    assert invariants.inv_frame(off, off, box, parent_boundary=box)["pass"]
+    assert invariants.inv_frame(off, off, [-100.02, -100.0, 100.0, 100.0], parent_boundary=box)["witness_ids"] == [
+        "location:convBoundary"]
+
+
+def _translated(root: ET.Element, dx: float, dy: float) -> ET.Element:
+    """A copy of ``root`` with every junction position and every junction, edge and lane shape moved by (dx, dy) and
+    convBoundary set to the moved geometry box: the frame shifted while netOffset stays byte-identical."""
+    result = copy.deepcopy(root)
+
+    def moved(text: str) -> str:
+        return " ".join(f"{float(x) + dx:.6f},{float(y) + dy:.6f}"
+                        for x, y in (point.split(",")[:2] for point in text.split()))
+
+    for junction in result.iter("junction"):
+        if junction.get("x") is not None:
+            junction.set("x", f"{float(junction.get('x')) + dx:.6f}")
+            junction.set("y", f"{float(junction.get('y')) + dy:.6f}")
+    for element in [*result.iter("junction"), *result.iter("edge"), *result.iter("lane")]:
+        if element.get("shape"):
+            element.set("shape", moved(element.get("shape")))
+    result.find("location").set("convBoundary",
+                                ",".join(f"{value:.6f}" for value in build_profile.geometry_boundary(result)))
+    return result
+
+
+def test_d2_a_translated_frame_is_a_frame_change(tmp_path):
+    # Attack: every coordinate moved by (0.04, 0.04) m, netOffset kept and convBoundary set to the moved box passed
+    # INV-FRAME and INV-SHAPE, and 0.04 m stays below V's materiality, so a speed fix carried the frame shift into an
+    # improved candidate. Moving all geometry under a fixed netOffset is the frame change netOffset identity forbids.
+    clean = _x4()
+    source = copy.deepcopy(clean)
+    _lane(source, "W_in_1").set("speed", "10")
+    built = _goal(tmp_path, source, reference=clean)
+    speed = {"id": "op", "operation": "set_speed", "params": {"lane_id": "W_in_1", "speed_m_s": 13.89}}
+    for offset in (0.04, 0.3, 2.0):
+        shifted = _translated(source, offset, offset)
+        _lane(shifted, "W_in_1").set("speed", "13.89")
+        profile = _judge(tmp_path, built, shifted, operation=speed, seeds=offset == 0.04, l2=offset == 0.04)
+        # W and J0 are the step's mutable junctions; the three outside them anchor the frame, and none stayed.
+        assert _failed(profile)["INV-FRAME"] == ["anchor:junction:E", "anchor:junction:N", "anchor:junction:S",
+                                                 "anchor:none_fixed"]
+        assert profile["gate"]["G0"] == "fail" and profile["gate"]["screening"] == "g0_rejected"
+    # verify-edit's derived scope (the plan) cannot widen the anchor: only the goal's own scope may move.
+    widened = _judge(tmp_path, built, _translated(source, 0.04, 0.04), operation=speed,
+                     plan={"mutable_junction_ids": ["E", "J0", "N", "S", "W"]})
+    assert _failed(widened)["INV-FRAME"][:3] == ["anchor:junction:E", "anchor:junction:N", "anchor:junction:S"]
+    # The honest repair keeps every position and passes.
+    repaired = copy.deepcopy(source)
+    _lane(repaired, "W_in_1").set("speed", "13.89")
+    assert _failed(_judge(tmp_path, built, repaired, operation=speed)) == {}
+    positions = build_profile.junction_positions(source)
+    assert sorted(positions) == ["E", "J0", "N", "S", "W"]
+    shifted = build_profile.junction_positions(_translated(source, 0.04, 0.04))
+    # A scope that holds every junction still needs one junction to keep its position.
+    every = invariants.inv_frame([], [], None, anchor={"parent": positions, "candidate": shifted,
+                                                       "scope": sorted(positions)})
+    assert every["witness_ids"] == ["anchor:none_fixed"]
+    # A junction inside the scope may move; netconvert's 0.01 m rewrite of a position (at most 0.005 m) is no shift.
+    local = {**positions, "W": (-101.0, 0.0), "E": (100.004, 0.0)}
+    assert invariants.inv_frame([], [], None, anchor={"parent": positions, "candidate": local,
+                                                      "scope": ["J0", "W"]})["pass"]
+    far = {**positions, "E": (100.006, 0.0)}
+    assert invariants.inv_frame([], [], None, anchor={"parent": positions, "candidate": far,
+                                                      "scope": ["J0", "W"]})["witness_ids"] == ["anchor:junction:E"]
+    # The epsilon does not accumulate along a chain: a junction the chain kept at the goal source's position keeps it.
+    step1 = {**positions, "E": (100.004, 0.0)}
+    step2 = {**positions, "E": (100.008, 0.0)}
+    drift = invariants.frame_anchor(step1, step2, ["J0", "W"], source=positions)
+    assert drift[0] == ["anchor:junction:E"] and "1 drifted from the goal source's" in drift[1]
+    # One an earlier step moved inside its own scope only keeps its parent position.
+    joined = {**positions, "E": (101.0, 0.0)}
+    assert invariants.frame_anchor(joined, {**joined, "E": (101.004, 0.0)}, ["J0", "W"], source=positions)[0] == []
 
 
 def test_g0_rejects_a_coordinate_change_on_an_e1_lane(tmp_path):
@@ -586,10 +781,13 @@ def test_structural_failures_carry_measured_gaps_that_inv_materialize_compares(t
     small, large = (build_profile.structural_failures(gapped(offset)) for offset in (0.5, 2.0))
     assert [identity for identity, _ in small] == [identity for identity, _ in large] and small
     assert all(measure is not None for _, measure in small + large)
-    assert max(m for _, m in large) > max(m for _, m in small) + invariants.MEASURE_TOLERANCE_M
+    assert max(m for _, m in large) > max(m for _, m in small) + invariants.MEASURE_EPSILON_M
     built = _goal(tmp_path, gapped(0.5), reference=gapped(0.5))
-    failed = _failed(_judge(tmp_path, built, gapped(2.0), structural=len(large)))
-    assert any(witness.startswith("worse:") for witness in failed["INV-MATERIALIZE"])
+    profile = _judge(tmp_path, built, gapped(2.0), structural=len(large))
+    materialize = next(row for row in profile["invariants"] if row["id"] == "INV-MATERIALIZE")
+    # Decision D1 on a dirty source: the inherited gap may stay, but it may not grow.
+    assert not materialize["pass"] and materialize["source_dirty"] and profile["source_dirty"]
+    assert materialize["witness_ids"] and all(witness.startswith("worse:") for witness in materialize["witness_ids"])
 
 
 # ---- L3 hard rule (synthetic, acceptance (e)) ----------------------------------------------------------------------
@@ -627,7 +825,8 @@ def test_l3_rejects_lost_arrivals_and_a_fix_that_breaks_another_request():
     assert traded["result"] == "new_failing_requests" and traded["seeds"][0]["new_failing"] == ["b"]
     unroutable = build_gate.l3_rule([(42, _audit(), _audit(removed=["c"]))], [42])
     assert unroutable["result"] == "new_failing_requests"
-    assert build_gate.screening({"pass": True}, {"verdict": "improved"}, traded)[0] == "dynamic_hard"
+    assert build_gate.screening({"pass": True}, {"verdict": "improved"}, traded, {"status": "pass"})[0] == \
+        "dynamic_hard"
 
 
 def test_l3_dirty_sources_pass_only_identified_subsets_and_never_unidentified_events():
@@ -639,7 +838,8 @@ def test_l3_dirty_sources_pass_only_identified_subsets_and_never_unidentified_ev
     assert build_gate.IDENTITY_REASON in collided["seeds"][0]["reason"]
     hidden = build_gate.l3_rule([(42, _audit(teleports=2), _audit(["x"]))], [42])
     assert hidden["result"] == "identities_unavailable"
-    assert build_gate.screening({"pass": True}, {"verdict": "improved"}, hidden)[0] == "dynamic_unverified"
+    assert build_gate.screening({"pass": True}, {"verdict": "improved"}, hidden, {"status": "pass"})[0] == \
+        "dynamic_unverified"
     assert build_gate.l3_rule([], [42])["result"] == "not_run"
     assert build_gate.l3_rule([(42, _audit(), _audit())], [42, 17])["result"] == "seeds_differ"
     assert build_gate.l3_rule([(42, _audit(), _audit(routes="fail"))], [42])["result"] == "new_failing_requests"
@@ -675,14 +875,1047 @@ def test_l3_requires_the_goal_frozen_trips_on_every_seed():
     assert build_gate.l3_rule(drifted, [42])["result"] == "subset_holds"
 
 
-def test_screening_never_says_improved_while_l2_has_not_run():
-    # Review finding: L2 was not implemented and the gate had no L2 field, yet screening said improved.
+def test_screening_never_accepts_an_unrun_or_failed_l2():
+    # Review finding (P1-b): L2 never ran, yet improved_l2_not_run was an accepted parent state, and any non-pass L2
+    # mapped to that accepted label.
     passing = build_gate.l3_rule([(42, _audit(), _audit())], [42])
-    label, reason = build_gate.screening({"pass": True}, {"verdict": "improved"}, passing)
-    assert (label, reason) == ("improved_l2_not_run", build_gate.L2_REASON)
-    assert build_gate.screening({"pass": True}, {"verdict": "improved"}, passing, {"status": "pass"}) == (
-        "improved", None)
-    assert build_gate.l2_not_run()["status"] == "not_run" and "improved" not in build_gate.ACCEPTED_SCREENINGS[1:]
+    improved, g0 = {"verdict": "improved"}, {"pass": True}
+    assert build_gate.ACCEPTED_SCREENINGS == ("improved",)
+    assert build_gate.screening(g0, improved, passing) == ("l2_not_run", build_gate.L2_NOT_RUN)
+    assert build_gate.screening(g0, improved, passing, {"status": "pass"}) == ("improved", None)
+    for result, label in (("new_failures", "l2_new_failures"), ("unverified", "l2_unverified"),
+                          ("not_run", "l2_not_run")):
+        assert build_gate.screening(g0, improved, passing, {"status": "blocked", "result": result,
+                                                            "reason": "x"}) == (label, "x")
+        assert label not in build_gate.ACCEPTED_SCREENINGS
+    # L2 comes before L3 (the design's tier order); a failing L3 still blocks after a passing L2.
+    hard = build_gate.l3_rule([(42, _audit(), _audit(["v"]))], [42])
+    assert build_gate.screening(g0, improved, hard, {"status": "pass"})[0] == "dynamic_hard"
+
+
+# ---- review round 2 regressions (P1-a lane remap chain, P1-b L2, P1-c Hausdorff, P1-d G0, frozen trips, sg) -----
+
+def _add_right_lane(root: ET.Element, edge_id: str, offset: float = 3.2) -> ET.Element:
+    """``root`` with one more lane on the right of ``edge_id`` (new index 0, every old lane one index up), as a
+    lane-count step lays it out ``offset`` metres right of the old lane 0; the old lanes keep their shapes and their
+    connections follow them. The new lane is a bicycle lane, so the connection audit does not ask for a motor
+    connection onto it."""
+    result = copy.deepcopy(root)
+    edge = result.find(f"edge[@id='{edge_id}']")
+    lanes = edge.findall("lane")
+    for lane in reversed(lanes):
+        index = int(lane.get("index")) + 1
+        lane.set("index", str(index))
+        lane.set("id", f"{edge_id}_{index}")
+    added = copy.deepcopy(lanes[0])
+    points = [[float(value) for value in token.split(",")] for token in lanes[0].get("shape").split()]
+    added.set("index", "0")
+    added.set("id", f"{edge_id}_0")
+    added.set("allow", "bicycle")
+    added.set("shape", " ".join(f"{x},{y - offset}" for x, y in points))
+    edge.insert(list(edge).index(lanes[0]), added)
+    for row in result.findall("connection"):
+        for side in ("from", "to"):
+            if row.get(side) == edge_id:
+                row.set(f"{side}Lane", str(int(row.get(f"{side}Lane")) + 1))
+    return result
+
+
+def test_lane_count_remaps_compose_along_the_parent_chain(tmp_path):
+    # Review finding (P1-a): after a set_lane_count step the next step reset the candidate table to the goal's and
+    # rescored the parent with it, so renaming E_out_1 to E_out_2 turned a matched width fact into a 0.6 m mismatch
+    # on E_out_1, and editing that wrong physical lane scored as improved.
+    source = _x4()
+    _lane(source, "E_out_0").set("width", "3.0")
+    _lane(source, "E_out_1").set("width", "3.6")
+    table = _facts_for_kinds(tmp_path, source, ("lane_width", "lane_count"), ("E_out",))
+    # The reference expects one bicycle lane on E_out, which the source lacks.
+    next(fact for fact in table["facts"] if fact["kind"] == "lane_count")["expected"] = 1
+    built = _goal(tmp_path, source, facts=table, mutable_edge_ids=["E_out"], mutable_junction_ids=["J0"])
+    root_profile = _written(built, tmp_path / "source")
+    add = {"id": "op", "operation": "set_lane_count", "params": {"edge_id": "E_out", "num_lanes": 4,
+                                                                 "add_side": "right"}}
+    plan = {"mutable_junction_ids": ["E", "J0"], "mutable_edge_ids": ["E_out"],
+            "lane_index_mapping": {"0": 1, "1": 2, "2": 3}}
+    first = _add_right_lane(source, "E_out")
+    step1 = _judge(tmp_path, built, first, operation=add, plan=plan, seeds=True, l2=True, parent_profile=root_profile,
+                   out=tmp_path / "s1")
+    assert _failed(step1) == {} and step1["gate"]["screening"] == "improved", step1["gate"]["first_fail"]
+    assert step1["V"]["parent"] == [1, 0, 0, 0, 0.0] and step1["V"]["cand"] == [0, 0, 0, 0, 0.0]
+    effective = step1["inputs"]["effective_facts"]
+    assert (effective["basis"], effective["verified"], effective["remaps"]) == ("declared_remap", True, 1)
+    # Scored with the goal's selectors instead, E_out_1 is physically the old E_out_0: the reviewer's 0.6 m mismatch.
+    loaded, _, facts_bytes, _, _ = built
+    stale = build_profile.score(_write(first, tmp_path / "first.net.xml").read_bytes(),
+                                build_profile.parse_table(facts_bytes))
+    width = next(row for row in stale["facts"] if row["id"] == "lane:E_out_1:width")
+    assert width["status"] == "mismatched" and width["metrics"]["absolute_width_error_m"] == pytest.approx(0.6)
+    # Step 2 "repairs" E_out_1 as that stale score suggests: it edits the wrong physical lane and must not improve.
+    wrong = copy.deepcopy(first)
+    _lane(wrong, "E_out_1").set("width", "3.6")
+    edit = {"id": "op", "operation": "set_lane_width", "params": {"lane_id": "E_out_1", "width_m": 3.6}}
+    step2 = _judge(tmp_path, built, wrong, operation=edit, plan={"mutable_edge_ids": ["E_out"]}, seeds=True, l2=True,
+                   parent_net=Path(step1["inputs"]["net"]["path"]), parent_profile=tmp_path / "s1" / "profile.full.json",
+                   out=tmp_path / "s2")
+    assert step2["V"]["parent"] == step1["V"]["cand"] == [0, 0, 0, 0, 0.0]
+    assert step2["gate"]["regressed_facts"] == ["lane:E_out_0:width"] and step2["gate"]["screening"] == "g0_rejected"
+    assert step2["facts"]["lane:E_out_1:width"] == ["matched", 0.0]
+    assert step2["inputs"]["effective_facts"]["basis"] == "inherited"
+    assert step2["inputs"]["effective_facts"]["sha256"] == effective["sha256"]
+    # A second lane-count step composes with the first: lane:E_out_1:width now selects E_out_3.
+    again = _add_right_lane(first, "E_out")
+    plan["lane_index_mapping"] = {"0": 1, "1": 2, "2": 3, "3": 4}
+    step3 = _judge(tmp_path, built, again, operation={**add, "params": {**add["params"], "num_lanes": 5}}, plan=plan,
+                   seeds=True, l2=True, parent_net=Path(step1["inputs"]["net"]["path"]),
+                   parent_profile=tmp_path / "s1" / "profile.full.json", out=tmp_path / "s3")
+    composed = step3["inputs"]["effective_facts"]
+    assert (composed["remaps"], composed["verified"]) == (2, True)
+    selectors = {fact["id"]: fact["selector"] for fact in json.loads(Path(composed["path"]).read_text())["facts"]}
+    assert selectors["lane:E_out_1:width"] == {"lane_id": "E_out_3"}
+    assert step3["facts"]["lane:E_out_1:width"][0] == "matched"
+    assert step3["facts"]["edges:E_out:lane_count:bicycle"][0] == "mismatched"
+    # A changed effective table breaks the chain like a changed net.
+    Path(effective["path"]).write_bytes(Path(effective["path"]).read_bytes() + b"\n")
+    with pytest.raises(ValueError, match="effective fact table of parent"):
+        _judge(tmp_path, built, wrong, operation=edit, parent_net=Path(step1["inputs"]["net"]["path"]),
+               parent_profile=tmp_path / "s1" / "profile.full.json")
+
+
+def _facts_for_kinds(tmp_path: Path, root: ET.Element, kinds: tuple[str, ...], edges: tuple[str, ...]) -> dict:
+    net = _write(root, tmp_path / "kinds-reference.net.xml")
+    parameters = ReferenceFactParameters(kinds=kinds, edge_ids=edges, lane_count_vehicle_class="bicycle")
+    return build_reference_net_facts(net, site_id="x4", target_date="2026-10-25", parameters=parameters)[0]
+
+
+def test_l2_new_failures_are_differential_after_the_lane_remap_and_bound_to_the_candidate():
+    # Review finding (P1-b): L2 never ran. The rule compares failure tokens of both nets per touched junction.
+    run = {"status": "ran", "run_ok": True, "driven": [["a_0", "b_0"], ["a_1", "b_0"]], "arrived": [["a_0", "b_0"]],
+           "skipped": [], "events": {"teleports": 0, "collisions": 1}}
+    assert build_gate.l2_failing(run, [["a_0", "b_0"], ["c_0", "b_0"]]) == {
+        "movement:a_1>b_0", "movement:c_0>b_0", "run:collisions"}
+    assert build_gate.l2_failing({**run, "run_ok": False}, []) == {"run:failed", "movement:a_0>b_0",
+                                                                   "movement:a_1>b_0", "run:collisions"}
+    assert build_gate.l2_failing({"status": "absent"}, [["a_0", "b_0"]]) == {"junction:absent", "movement:a_0>b_0"}
+    ok = {"status": "ran", "run_ok": True, "driven": [], "arrived": [], "skipped": [], "events": {}}
+
+    def record(parent_run, candidate_run, **extra):
+        return {"schema": build_gate.MOVEMENT_GUARD_SCHEMA, "method": "all_turn_smoke", "parent": {"sha256": "p"},
+                "candidate": {"sha256": "c"}, "verify_edit": {"sha256": "v"}, "junctions": ["J"],
+                "expected": {"parent": {}, "candidate": {}}, "lane_mapping": {"e": {"0": "1", "1": "2"}},
+                "runs": {"parent": {"J": parent_run}, "candidate": {"J": candidate_run}}, "nets_unchanged": True,
+                **extra}
+
+    bound = {"parent_sha256": "p", "candidate_sha256": "c", "junctions": ["J"],
+             "expected": {"parent": {}, "candidate": {}}, "lane_mapping": {"e": {"0": "1", "1": "2"}},
+             "verify_edit_sha256": "v"}
+    # The parent's e_0 failure is the candidate's e_1 failure after the remap: not new.
+    parent = {**ok, "driven": [["e_0", "x_0"]]}
+    same = {**ok, "driven": [["e_1", "x_0"]]}
+    assert build_gate.l2_rule(record(parent, same), **bound)["status"] == "pass"
+    fresh = build_gate.l2_rule(record(parent, {**ok, "driven": [["e_2", "x_0"]]}), **bound)
+    assert (fresh["result"], fresh["new_failures"]) == ("new_failures", ["J:movement:e_2>x_0"])
+    unbound = build_gate.l2_rule(record(ok, ok), **{**bound, "candidate_sha256": "other"})
+    assert (unbound["status"], unbound["result"]) == ("blocked", "unverified")
+    assert build_gate.l2_rule(record(ok, ok, nets_unchanged=False), **bound)["result"] == "unverified"
+    assert build_gate.l2_rule(record(ok, ok), **{**bound, "verify_edit_sha256": "w"})["result"] == "unverified"
+    assert build_gate.l2_rule(None, **bound)["result"] == "not_run"
+    # A parent whose smoke did not run cleanly leaves nothing to compare: never a pass.
+    assert build_gate.l2_rule(record({**ok, "run_ok": False}, ok), **bound)["result"] == "unverified"
+    # A junction a join merged away expects no movement there: its absence alone is no failure.
+    assert build_gate.l2_failing({"status": "absent"}, []) == set()
+
+
+def test_l2_runs_on_every_touched_junction_and_a_broken_movement_blocks_the_candidate(tmp_path):
+    clean = _x4()
+    faulted = copy.deepcopy(clean)
+    _lane(faulted, "W_in_1").set("speed", "10")
+    built = _goal(tmp_path, faulted, reference=clean)
+    speed = {"id": "op", "operation": "set_speed", "params": {"lane_id": "W_in_1", "speed_m_s": 13.89}}
+    repaired = copy.deepcopy(faulted)
+    _lane(repaired, "W_in_1").set("speed", "13.89")
+    good = _judge(tmp_path, built, repaired, operation=speed, seeds=True, l2=True)
+    assert good["gate"]["screening"] == "improved"
+    rows = good["gate"]["L2"]["junctions"]
+    assert [row["junction"] for row in rows] == ["J0", "W"] and all(not row["new"] for row in rows)
+    guard = json.loads(Path(good["inputs"]["movement_guard"]["path"]).read_text(encoding="utf-8"))
+    # Expected movements are the frozen movement facts at each touched junction: 12 at J0, none at the fringe W.
+    assert sorted(guard["expected"]["candidate"]) == ["J0"] and len(guard["expected"]["candidate"]["J0"]) == 12
+    broken = _judge(tmp_path, built, repaired, operation=speed, seeds=True, l2=True,
+                    broken=(("W_in_1", "E_out_1"),))
+    assert broken["gate"]["screening"] == "l2_new_failures" and broken["status"] == "measured"
+    assert broken["gate"]["L2"]["new_failures"] == ["J0:movement:W_in_1>E_out_1"]
+
+
+def test_l2_uses_the_movement_probes_when_both_nets_have_a_supported_manifest(tmp_path, monkeypatch):
+    # The design's L2 branch: run_candidate_movement_probes on supported manifests, else the all-turn smoke.
+    from astra_sumo.core import movement_routeability
+
+    nets = {role: _write(_x4(), tmp_path / f"{role}.net.xml") for role in ("parent", "candidate")}
+    _lane(root := _x4(), "W_in_1").set("speed", "10")
+    nets["candidate"] = _write(root, tmp_path / "candidate.net.xml")
+    manifests = {}
+    for role, net in nets.items():
+        manifests[role] = tmp_path / f"{role}.manifest.json"
+        manifests[role].write_text(json.dumps({"schema": movement_guard.MANIFEST_SCHEMAS[0], "artifacts": {
+            "network": {"path": str(net), "sha256": file_sha(net)}}}), encoding="utf-8")
+
+    def probes(*, candidate_manifest, output_dir, sumo_binary):
+        output_dir.mkdir(parents=True)
+        report = output_dir / "summary.json"
+        report.write_text("{}", encoding="utf-8")
+        broken = "candidate" in Path(candidate_manifest).name
+        return {"source_immutable": True, "probe_count": 2, "not_tested": [], "report_file": str(report),
+                "results": [{"sumo_connection": ["W_in", 1, "E_out", 1], "status": "review_required" if broken
+                             else "pass"}, {"sumo_connection": ["W_in", 0, "S_out", 0], "status": "pass"}]}
+
+    monkeypatch.setattr(movement_routeability, "run_candidate_movement_probes", probes)
+    expected = {"parent": {}, "candidate": {}}
+    record = movement_guard.run_movement_guard(parent_net=nets["parent"], candidate_net=nets["candidate"],
+                                               junctions=["J0"], expected=expected, lane_mapping={},
+                                               output_dir=tmp_path / "guard", sumo_binary="sumo",
+                                               verify_edit={"sha256": "v"}, manifests=manifests)
+    assert record["method"] == "movement_probes" and list(record["runs"]["candidate"]) == [build_gate.NETWORK_RUN]
+    result = build_gate.l2_rule(record, parent_sha256=file_sha(nets["parent"]),
+                                candidate_sha256=file_sha(nets["candidate"]), junctions=["J0"], expected=expected)
+    assert result["new_failures"] == ["*:movement:W_in_1>E_out_1"] and result["result"] == "new_failures"
+    # A manifest bound to another net is unsupported: the smoke runs instead.
+    assert not movement_guard.supported_manifest(manifests["parent"], file_sha(nets["candidate"]))
+
+
+def test_inv_shape_counts_endpoint_projections_in_the_directed_hausdorff_distance():
+    # Review finding (P1-c): samples whose nearest parent point was an endpoint were dropped, so an extension
+    # beyond the parent end (200, 50) measured 0 m and passed; the true distance is 111.803 m.
+    parent, candidate = [(0.0, 0.0), (100.0, 0.0)], [(0.0, 0.0), (100.0, 0.0), (200.0, 50.0)]
+    assert invariants.directed_hausdorff_m(candidate, parent) == pytest.approx(111.80339887)
+    change = invariants.shape_change(parent, candidate)
+    result = invariants.inv_shape({"lane:x_0": change}, dict(goal.DEFAULT_G0_SHAPE))
+    assert not result["pass"] and "hausdorff:lane:x_0" in result["witness_ids"]
+    # A lane added on an edge the parent lacks has no reference: only its own turns count.
+    added = invariants.shape_change(None, [(0.0, 0.0), (50.0, 0.0), (100.0, 0.0)])
+    assert added["directed_hausdorff_m"] is None and added["vertex_delta"] is None
+    assert invariants.inv_shape({"lane:x_1": added}, dict(goal.DEFAULT_G0_SHAPE))["pass"]
+
+
+BEND = [(-75.0, -43.30127), (-50.0, 0.0), (-5.0, 0.0)]
+
+
+def test_d3_only_an_unchanged_bend_is_inherited():
+    shape = dict(goal.DEFAULT_G0_SHAPE)
+
+    def judged(candidate, parent=BEND):
+        return invariants.inv_shape({"lane:x_1": invariants.shape_change(parent, candidate)}, shape)
+
+    # The parent's 60 deg bend, unchanged (one collinear vertex added after it): inherited, exempt.
+    same = judged([(-75.0, -43.30127), (-50.0, 0.0), (-20.0, 0.0), (-5.0, 0.0)])
+    assert same["pass"] and same["inherited_bends"] == {"lane:x_1": [[-50.0, 0.0, pytest.approx(-60.0, abs=1e-4)]]}
+    # Within 0.01 m of the parent vertex and 0.5 deg of its turn it is still the parent's bend.
+    assert judged([(-75.0, -43.30127), (-50.005, 0.0), (-5.0, 0.0)])["pass"]
+    # A new 40 deg turn next to the inherited bend is bounded strictly.
+    turned = judged([(-75.0, -43.30127), (-50.0, 0.0), (-7.0, 0.0), (-5.0, 2 * math.tan(math.radians(40)))])
+    assert turned["witness_ids"] == ["heading:lane:x_1"] and list(turned["inherited_bends"]) == ["lane:x_1"]
+    # The bend vertex moved 0.05 m is no longer the parent's: its 60 deg turn is bounded.
+    moved = judged([(-75.0, -43.30127), (-50.05, 0.0), (-5.0, 0.0)])
+    assert moved["witness_ids"] == ["heading:lane:x_1"] and moved["inherited_bends"] == {}
+    # The same vertex turning 2.9 deg more sharply (its next vertex moved) is not inherited either.
+    assert judged([(-75.0, -43.30127), (-50.0, 0.0), (-30.0, -1.0), (-5.0, 0.0)])["witness_ids"] == [
+        "heading:lane:x_1"]
+    # A lane without a parent counterpart inherits no bend.
+    added = invariants.shape_change(None, [(0.0, 0.0), (10.0, 0.0), (15.0, 8.660254)])
+    assert invariants.inv_shape({"lane:x_2": added}, shape)["witness_ids"] == ["heading:lane:x_2"]
+    # Attack: the same vertex turning by the same angle the other way (signed -60 -> +60 deg; its 2.5 m first segment
+    # stays inside the 3 m Hausdorff bound) matched the unsigned turn and passed as the parent's bend.
+    vertex, length = (-98.0, 0.0), 2.5
+    start = (vertex[0] - length * math.cos(math.radians(60)), -length * math.sin(math.radians(60)))
+    parent = [start, vertex, (-5.0, 0.0)]
+    assert invariants._turns(parent)[0][2] == pytest.approx(-60.0)
+    mirrored = judged([(start[0], -start[1]), vertex, (-5.0, 0.0)], parent)
+    assert mirrored["witness_ids"] == ["heading:lane:x_1"] and mirrored["inherited_bends"] == {}
+    assert invariants.turn_difference_deg(179.9, -179.9) == pytest.approx(0.2)
+
+
+def _sharpened(extra_deg: float, base=BEND, length: float = 1.0) -> list[tuple[float, float]]:
+    """``base`` (a clockwise bend at its middle vertex) with a vertex ``length`` m after the bend that turns the lane
+    ``extra_deg`` further clockwise there: the bend vertex stays, its turn grows by ``extra_deg``."""
+    (ax, ay), (vx, vy), end = base
+    heading = math.radians(-extra_deg)
+    return [(ax, ay), (vx, vy), (vx + length * math.cos(heading), vy + length * math.sin(heading)), end]
+
+
+def test_d3_an_inherited_bend_is_anchored_to_the_goal_source():
+    # Attack: the exemption matched the immediate parent only, so a chain kept the bend vertex and sharpened its turn
+    # 0.45 deg per step, every step passing against its parent (60 -> 65.4 deg over 12 steps; up to about 32 deg over
+    # MAX_PARENT_CHAIN steps). D3 is now anchored to the goal source as D1 is.
+    shape = dict(goal.DEFAULT_G0_SHAPE)
+    steps = [BEND] + [_sharpened(0.45 * k) for k in range(1, 13)]
+    turns = [invariants._turns(points)[0][2] for points in steps]
+    assert turns[0] == pytest.approx(-60.0) and turns[-1] == pytest.approx(-65.4)
+
+    def judged(parent, candidate, source=BEND):
+        return invariants.inv_shape({"lane:x_1": invariants.shape_change(parent, candidate, source=source)}, shape)
+
+    chained = [judged(parent, candidate) for parent, candidate in zip(steps, steps[1:])]
+    assert chained[0]["pass"] and chained[0]["inherited_bends"]["lane:x_1"][0][2] == pytest.approx(-60.45)
+    assert [row["witness_ids"] for row in chained[1:]] == [["heading:lane:x_1"]] * 11
+    # Returning towards the goal source's bend is inherited again; a lane the goal source lacks inherits nothing.
+    assert judged(steps[1], [BEND[0], BEND[1], (-20.0, 0.0), BEND[2]])["pass"]
+    assert judged(BEND, [BEND[0], BEND[1], (-20.0, 0.0), BEND[2]], source=None)["witness_ids"] == ["heading:lane:x_1"]
+    # Attack: a turn within the limit on the goal source (34.6 deg, limit 35) driven past it (35.05 deg) was exempt in
+    # one step. Only a violation the goal source already has is inherited.
+    gentle = [(-50.0 - 75.0, -75.0 * math.tan(math.radians(34.6))), (-50.0, 0.0), (-5.0, 0.0)]
+    assert shape["max_heading_change_deg"] == 35
+    over = judged(gentle, _sharpened(0.45, base=gentle), source=gentle)
+    assert over["witness_ids"] == ["heading:lane:x_1"] and over["inherited_bends"] == {}
+    assert judged(gentle, _sharpened(0.3, base=gentle), source=gentle)["pass"]
+
+
+def test_d3_a_judged_chain_cannot_drift_an_inherited_bend(tmp_path):
+    bent = _x4()
+    _lane(bent, "W_in_1").set("shape", " ".join(f"{x},{y}" for x, y in BEND))
+    source = copy.deepcopy(bent)
+    for lane in ("W_in_0", "W_in_2"):
+        _lane(source, lane).set("speed", "10")
+    built = _goal(tmp_path, source, reference=bent, mutable_edge_ids=["W_in"])
+    parent_profile, parent_net, current, results = _written(built, tmp_path / "source"), None, source, []
+    for step, lane in enumerate(("W_in_0", "W_in_2"), start=1):
+        candidate = copy.deepcopy(current)
+        _lane(candidate, lane).set("speed", "13.89")
+        _lane(candidate, "W_in_1").set("shape", " ".join(f"{x:.6f},{y:.6f}" for x, y in _sharpened(0.45 * step)))
+        operation = {"id": "op", "operation": "set_speed", "params": {"lane_id": lane, "speed_m_s": 13.89}}
+        profile = _judge(tmp_path, built, candidate, operation=operation, seeds=True, l2=True,
+                         parent_profile=parent_profile, parent_net=parent_net, out=tmp_path / f"s{step}")
+        results.append(profile)
+        parent_profile, parent_net, current = (tmp_path / f"s{step}" / "profile.full.json",
+                                               Path(profile["inputs"]["net"]["path"]), candidate)
+    # Step 1 keeps the goal source's bend within 0.45 deg: inherited, accepted. Step 2 is 0.45 deg from its parent
+    # but 0.9 deg from the goal source: bounded.
+    assert _failed(results[0]) == {} and results[0]["gate"]["screening"] == "improved"
+    assert _failed(results[1]) == {"INV-SHAPE": ["heading:lane:W_in_1"]}
+    assert results[1]["gate"]["screening"] == "g0_rejected"
+
+
+def test_inv_shape_judges_road_lanes_not_walking_areas_or_crossings():
+    # Review finding (D3 control): an honest verify-edit set_lane_width next to a sidewalk on Ring1 moved walking-area
+    # corners 0.024-0.401 m with unchanged turns; INV-SHAPE judged those outlines as road lanes (heading and direction
+    # witnesses) and rejected the candidate. They are junction-derived, like internal lanes.
+    ring1 = ET.parse(RING1).getroot()
+    function = {lane.get("id"): edge.get("function") for edge in ring1.findall("edge") for lane in edge.findall("lane")}
+    pedestrian = sorted(lane for lane, kind in function.items() if kind in {"walkingarea", "crossing"})
+    assert {function[lane] for lane in pedestrian} == {"walkingarea", "crossing"}
+    candidate = copy.deepcopy(ring1)
+    for lane in candidate.iter("lane"):
+        if lane.get("id") in pedestrian:
+            points = [list(point) for point in _shape(candidate, lane.get("id"))]
+            points[0][0] += 0.4
+            lane.set("shape", " ".join(f"{x:.2f},{y:.2f}" for x, y in points))
+    assert set(build_profile._road_lane_shapes(ring1)) == {lane for lane, kind in function.items() if kind is None}
+    assert build_profile.shape_changes(ring1, candidate, {}, 3.0) == {}
+    # A road lane in the same pair is still judged.
+    road = "-1189704921_1"
+    assert function[road] is None
+    points = _shape(candidate, road)
+    _lane(candidate, road).set("shape", " ".join(f"{x:.2f},{y + 4.0:.2f}" for x, y in points))
+    changes = build_profile.shape_changes(ring1, candidate, {}, 3.0)
+    assert list(changes) == [f"lane:{road}"]
+    assert invariants.inv_shape(changes, dict(goal.DEFAULT_G0_SHAPE))["witness_ids"] == [f"hausdorff:lane:{road}"]
+
+
+def test_d3_on_a_judged_candidate(tmp_path):
+    bent = _x4()
+    _lane(bent, "W_in_1").set("shape", " ".join(f"{x},{y}" for x, y in BEND))
+    built = _goal(tmp_path, bent, reference=bent, mutable_edge_ids=["W_in"])
+
+    def shape_witnesses(points) -> list[str]:
+        candidate = copy.deepcopy(bent)
+        _lane(candidate, "W_in_1").set("shape", " ".join(f"{x},{y}" for x, y in points))
+        return _failed(_judge(tmp_path, built, candidate)).get("INV-SHAPE", [])
+
+    assert shape_witnesses([(-75.0, -43.30127), (-50.0, 0.0), (-20.0, 0.0), (-5.0, 0.0)]) == []
+    assert shape_witnesses([(-75.0, -43.30127), (-50.0, 0.0), (-7.0, 0.0),
+                            (-5.0, 2 * math.tan(math.radians(40)))]) == ["heading:lane:W_in_1"]
+    assert shape_witnesses([(-75.0, -43.30127), (-50.05, 0.0), (-5.0, 0.0)]) == ["heading:lane:W_in_1"]
+
+
+def _gap(root: ET.Element, lane_id: str = ":J0_0_0", offset: float = 2.0) -> ET.Element:
+    """A copy of ``root`` whose internal lane ``lane_id`` ends ``offset`` metres off its exit lane (a connection-mode
+    path_endpoint_gap structural failure)."""
+    result = copy.deepcopy(root)
+    points = _shape(result, lane_id)
+    points[-1] = [points[-1][0], points[-1][1] - offset]
+    _lane(result, lane_id).set("shape", " ".join(f"{x},{y}" for x, y in points))
+    return result
+
+
+GAP_W = "J0:connection_mode:path_endpoint_gap:W_in_0>S_out_0:exit"
+GAP_E = "J0:connection_mode:path_endpoint_gap:E_in_2>S_out_2:exit"
+
+
+def _materialize(profile: dict) -> dict:
+    return next(row for row in profile["invariants"] if row["id"] == "INV-MATERIALIZE")
+
+
+def test_d1_a_clean_source_still_requires_zero_structural_failures(tmp_path):
+    clean = _x4()
+    built = _goal(tmp_path, clean)
+    gapped = _gap(clean)
+    assert build_profile.structural_failures(clean) == [] and build_profile.structural_failures(gapped) == [
+        (GAP_W, 2.0)]
+    profile = _judge(tmp_path, built, gapped, structural=1)
+    materialize = _materialize(profile)
+    assert not materialize["pass"] and profile["gate"]["G0"] == "fail"
+    assert materialize["witness_ids"] == sorted([f"structure:{GAP_W}", "structure:count:1"])
+    assert (materialize["decision"], materialize["source_dirty"], materialize["inherited"]) == ("D1", False, [])
+    assert profile["source_dirty"] is False and profile["source_structure"]["count"] == 0
+    assert "promotion" not in profile["source_structure"] and "Dirty source" not in profile["claim"]
+    assert "promotion" not in json.loads(render.render_build_compact(profile)[0])["source_structure"]
+    # Zero failures pass; verify-edit's count must still equal the recount.
+    assert _failed(_judge(tmp_path, built, copy.deepcopy(clean))) == {}
+    assert _failed(_judge(tmp_path, built, copy.deepcopy(clean), structural=2))["INV-MATERIALIZE"] == [
+        "structure:count:2", "structure:recount:0"]
+
+
+def test_d1_a_dirty_source_accepts_inherited_unchanged_failures_and_blocks_promotion(tmp_path, monkeypatch):
+    # Decision D1: the design's "structural failures 0" left every Ring1 repair failing on the source's own 5 gaps.
+    reference = _gap(_x4())
+    source = copy.deepcopy(reference)
+    _lane(source, "W_in_1").set("speed", "10")
+    built = _goal(tmp_path, source, reference=reference)
+    assert "not promotable without a human" in built[0].claim_boundary
+    speed = {"id": "op", "operation": "set_speed", "params": {"lane_id": "W_in_1", "speed_m_s": 13.89}}
+    repaired = copy.deepcopy(source)
+    _lane(repaired, "W_in_1").set("speed", "13.89")
+    work = tmp_path / f"judge-{len(list(tmp_path.glob('judge-*')))}"
+    profile = _judge(tmp_path, built, repaired, operation=speed, structural=1, seeds=True, l2=True)
+    assert _failed(profile) == {} and profile["gate"]["screening"] == "improved"
+    # Attack: the CLI summary printed status measured and screening improved with no trace of the promotion block.
+    monkeypatch.setattr(sys, "dont_write_bytecode", sys.dont_write_bytecode)
+    code, summary = _run(_cli(), ["profile", "build", "--goal", str(next((tmp_path / "store").rglob("goal.json"))),
+                                  "--verify-edit", str(work), "--movement-guard", str(work / "movement-guard"),
+                                  "--out", str(tmp_path / "cli"), "--json"])
+    assert (code, summary["status"], summary["screening"]) == (0, "measured", "improved")
+    assert summary["source_dirty"] is True and summary["source_structure"]["count"] == 1
+    assert summary["source_structure"]["promotion"].startswith("blocked without a human")
+    assert "not promotable without a human" in summary["claim"]
+    compact = json.loads((tmp_path / "cli" / "profile.compact.json").read_text(encoding="utf-8"))
+    assert compact["source_structure"]["promotion"] == "blocked without a human (D1)"
+    materialize = _materialize(profile)
+    assert materialize["source_dirty"] and materialize["inherited"] == [{"id": GAP_W, "measure": 2.0}]
+    assert profile["source_dirty"] is True and profile["source_structure"]["inherited"] == materialize["inherited"]
+    assert profile["source_structure"]["promotion"].startswith("blocked without a human")
+    assert "not promotable without a human" in profile["claim"]
+    assert profile["binding_decisions"]["D1"]["invariant"] == "INV-MATERIALIZE" and "proposals" not in profile
+    assert "SOURCE dirty: 1 structural failure(s)" in render.render_build_compact(profile)[1]
+    # The goal source's own profile carries the flag too.
+    source_profile = _profile(built)
+    assert source_profile["source_dirty"] and source_profile["source_structure"]["inherited"] == materialize["inherited"]
+    # A verify-edit count that is not the recount stays a witness on a dirty source.
+    assert _failed(_judge(tmp_path, built, repaired, operation=speed, structural=0))["INV-MATERIALIZE"] == [
+        "structure:recount:1"]
+
+
+def test_d1_a_dirty_source_rejects_a_new_failure_and_any_growth(tmp_path):
+    source = _gap(_x4())
+    built = _goal(tmp_path, source, reference=source)
+    more = _gap(source, ":J0_5_0")
+    assert build_profile.structural_failures(more) == [(GAP_E, 2.0), (GAP_W, 2.0)]
+    assert _failed(_judge(tmp_path, built, more, structural=2))["INV-MATERIALIZE"] == [f"structure:{GAP_E}"]
+    grown = _gap(_x4(), offset=2.5)
+    assert build_profile.structural_failures(grown) == [(GAP_W, 2.5)]
+    assert _failed(_judge(tmp_path, built, grown, structural=1))["INV-MATERIALIZE"] == [f"worse:{GAP_W}"]
+    # Any growth of an inherited measured finding counts: the numerical epsilon is no tolerance.
+    assert invariants.measured_regressions([("gap", 2.0)], [("gap", 2.001)]) == ([], ["gap"])
+    assert invariants.measured_regressions([("gap", 2.0)], [("gap", 2.0)]) == ([], [])
+
+
+def test_d1_a_source_whose_failures_all_sit_on_removed_lanes_stays_dirty(tmp_path, monkeypatch):
+    # Review finding: when the composed lane remap removed every lane the goal source's failures name, INV-MATERIALIZE
+    # derived its flag from the empty renamed list and said "clean goal source" while the profile said dirty.
+    common = {"report_status": "measured", "candidate_sha256": "a", "declared_sha256": "a", "load_status": "pass",
+              "source_immutable": True, "source_sha256": "p", "parent_sha256": "p"}
+    row = invariants.inv_materialize(structural_failures=0, structure={"source": [], "candidate": []},
+                                     source_dirty=True, **common)
+    assert row["pass"] and row["source_dirty"] is True and row["inherited"] == []
+    assert "dirty source" in row["reason"] and "clean goal source" not in row["reason"]
+    # With nothing inherited, any candidate failure is new.
+    gapped = invariants.inv_materialize(structural_failures=1, structure={"source": [], "candidate": [(GAP_W, 2.0)]},
+                                        source_dirty=True, **common)
+    assert gapped["witness_ids"] == [f"structure:{GAP_W}"]
+    # The profile passes the goal source's own flag, not the renamed list's.
+    reference = _gap(_x4())
+    source = copy.deepcopy(reference)
+    _lane(source, "W_in_1").set("speed", "10")
+    built = _goal(tmp_path, source, reference=reference)
+    original = build_profile._source_structure
+    monkeypatch.setattr(build_profile, "_source_structure",
+                        lambda *args: (original(*args)[0], []))
+    speed = {"id": "op", "operation": "set_speed", "params": {"lane_id": "W_in_1", "speed_m_s": 13.89}}
+    repaired = _gap(_x4())
+    profile = _judge(tmp_path, built, repaired, operation=speed, structural=1)
+    materialize = _materialize(profile)
+    assert profile["source_dirty"] is True and materialize["source_dirty"] is True
+    assert materialize["witness_ids"] == [f"structure:{GAP_W}"] and "clean goal source" not in materialize["reason"]
+
+
+def test_d1_a_chain_cannot_add_a_failure_the_goal_source_lacks(tmp_path):
+    reference = _gap(_x4())
+    source = copy.deepcopy(reference)
+    _lane(source, "W_in_1").set("speed", "10")
+    _lane(source, "S_in_0").set("width", "3.5")
+    built = _goal(tmp_path, source, reference=reference, mutable_edge_ids=["W_in", "S_in"])
+    speed = {"id": "op", "operation": "set_speed", "params": {"lane_id": "W_in_1", "speed_m_s": 13.89}}
+    first = copy.deepcopy(source)
+    _lane(first, "W_in_1").set("speed", "13.89")
+    step1 = _judge(tmp_path, built, first, operation=speed, structural=1, seeds=True, l2=True,
+                   parent_profile=_written(built, tmp_path / "source"), out=tmp_path / "s1")
+    assert step1["gate"]["screening"] == "improved" and step1["source_dirty"]
+    width = {"id": "op", "operation": "set_lane_width", "params": {"lane_id": "S_in_0", "width_m": 3.2}}
+    chained = {"operation": width, "plan": {"mutable_junction_ids": ["J0", "S"], "mutable_edge_ids": ["S_in"]},
+               "seeds": True, "l2": True, "parent_net": Path(step1["inputs"]["net"]["path"]),
+               "parent_profile": tmp_path / "s1" / "profile.full.json"}
+    second = copy.deepcopy(first)
+    _lane(second, "S_in_0").set("width", "3.2")
+    good = _judge(tmp_path, built, second, structural=1, **chained)
+    assert _failed(good) == {} and good["gate"]["screening"] == "improved" and good["V"]["cand"][:4] == [0, 0, 0, 0]
+    # The parent is a candidate, so the baseline is read from the hash-checked goal source, not the parent.
+    assert good["inputs"]["parent_net"]["sha256"] != built[0].source.sha256
+    assert _materialize(good)["inherited"] == [{"id": GAP_W, "measure": 2.0}]
+    # Step 2 adds a failure the goal source lacks: rejected.
+    broken = _gap(second, ":J0_5_0")
+    bad = _judge(tmp_path, built, broken, structural=2, **chained)
+    assert f"structure:{GAP_E}" in _failed(bad)["INV-MATERIALIZE"] and bad["gate"]["G0"] == "fail"
+
+
+def test_run_verify_edit_runs_the_goal_frozen_trips_with_the_parent_effective_facts(tmp_path, monkeypatch):
+    # Review finding (Missing-1): verify-edit regenerated each seed's requests from the ledger source and the twin
+    # only compared hashes afterwards; the goal's frozen trip files are now the source audit's input.
+    from astra_sumo.core import network_edit_applicability
+
+    built = _goal(tmp_path, _x4(), seeds=[42, 17])
+    loaded, _, _, facts_path, _ = built
+    seen = {}
+    monkeypatch.setattr(network_edit_applicability, "verify_network_edit", lambda **kwargs: seen.update(kwargs) or {})
+    build_profile.run_verify_edit(loaded, ledger_file=tmp_path / "ledger.json", facts_path=facts_path,
+                                  output_dir=tmp_path / "ve", repository_root=ROOT)
+    trips = {row.seed: row.sha256 for row in loaded.guards.routeability.trips}
+    assert seen["routeability_seeds"] == (42, 17) and sorted(seen["routeability_trip_files"]) == [17, 42]
+    assert {seed: file_sha(path) for seed, path in seen["routeability_trip_files"].items()} == trips
+    assert seen["facts_file"] == facts_path
+    build_profile.run_verify_edit(loaded, ledger_file=tmp_path / "ledger.json", facts_path=facts_path,
+                                  output_dir=tmp_path / "ve2", repository_root=ROOT, routeability_seeds=(5,))
+    assert seen["routeability_trip_files"] is None
+    tampered = next(iter({seed: path for seed, path in
+                          build_profile.frozen_trip_files(loaded, facts_path, (42,)).items()}.values()))
+    tampered.write_bytes(tampered.read_bytes() + b"\n")
+    with pytest.raises(ValueError, match="frozen trips of seed 42"):
+        build_profile.run_verify_edit(loaded, ledger_file=tmp_path / "ledger.json", facts_path=facts_path,
+                                      output_dir=tmp_path / "ve3", repository_root=ROOT)
+
+
+def _map_facts(table: dict, locks: dict[str, str]) -> dict:
+    """Hamburg-producer style lane facts ``M:lane:<MAP lane>:...`` locked on the given SUMO lanes."""
+    rows = [dict(fact) for fact in table["facts"]]
+    for map_lane, sumo_lane in locks.items():
+        stop = next(fact for fact in table["facts"] if fact["id"] == f"lane:{sumo_lane}:stop_line")
+        rows.append({**stop, "id": f"M:lane:{map_lane}:stop_line"})
+    return {**table, "facts": rows}
+
+
+def test_sg_partition_checks_evidenced_map_groups_only(tmp_path, monkeypatch):
+    # Review finding (Missing-2): the evidenced sg_partition colour check was absent.
+    root = _x4()
+    connections = [{"node_id": "M", "connection_id": "1", "ingress_lane_id": "w1", "egress_lane_id": "e1",
+                    "signal_group": "2"},
+                   {"node_id": "M", "connection_id": "2", "ingress_lane_id": "s0", "egress_lane_id": "e0",
+                    "signal_group": "2"},
+                   {"node_id": "M", "connection_id": "3", "ingress_lane_id": "w0", "egress_lane_id": "s9",
+                    "signal_group": "5"}]
+    table = build_profile.parse_table(json.dumps(_map_facts(_facts_for(tmp_path, root), {
+        "w1": "W_in_1", "e1": "E_out_1", "s0": "S_in_0", "e0": "E_out_0", "w0": "W_in_0"})).encode())
+    locks = signal_partition.map_lane_locks(table)
+    assert locks == {("M", "e0"): "E_out_0", ("M", "e1"): "E_out_1", ("M", "s0"): "S_in_0",
+                     ("M", "w0"): "W_in_0", ("M", "w1"): "W_in_1"}
+    bindings = signal_partition.evidenced_bindings(connections, locks)
+    # Connection 3 has an unlocked egress lane (s9): not evidenced.
+    assert [row["connection_id"] for row in bindings] == ["1", "2"]
+    logic = root.find("tlLogic")
+    for phase, state in zip(logic.findall("phase"), ("rGrrrrGrrrrr", "rrrrrrrrrrrr")):
+        phase.set("state", state)
+    consistent = signal_partition.check(root, bindings)
+    assert consistent["status"] == "pass" and consistent["rows"]["sg:M:2"]["status"] == "matched"
+    # G against g is priority, not colour; G against r in one phase is a conflict.
+    logic.findall("phase")[0].set("state", "rGrrrrgrrrrr")
+    assert signal_partition.check(root, bindings)["status"] == "pass"
+    logic.findall("phase")[0].set("state", "rGrrrrrrrrrr")
+    conflict = signal_partition.check(root, bindings)
+    assert conflict["status"] == "inconsistent" and conflict["groups"][0]["conflicts"] == [
+        {"program": logic.get("programID"), "phase": 0, "states": {"S_in_0>E_out_0": "r", "W_in_1>E_out_1": "G"}}]
+    # o, O and s need a declared mapping: that phase is unscored, never a conflict.
+    logic.findall("phase")[0].set("state", "rGrrrrOrrrrr")
+    unscored = signal_partition.check(root, bindings)
+    assert unscored["status"] == "pass" and unscored["groups"][0]["unscored_phases"] == 1
+    # No evidenced binding (the Ring1 reference nets): not_applicable, never pass.
+    assert signal_partition.check(root, [])["status"] == "not_applicable"
+    built = _goal(tmp_path, _x4())
+    assert _profile(built)["sg_partition"]["status"] == "not_applicable"
+    # A goal with MAP connections ranks an inconsistent group as a CTL hotspot (never in V).
+    logic.findall("phase")[0].set("state", "rGrrrrrrrrrr")
+    from astra_sumo.core import digital_twin
+
+    monkeypatch.setattr(digital_twin, "parse_mapem", lambda _: ([], [digital_twin.MapConnection(
+        row["node_id"], row["connection_id"], row["ingress_lane_id"], row["egress_lane_id"], row["signal_group"], "")
+        for row in connections]))
+    map_xml = tmp_path / "map.xml"
+    map_xml.write_bytes(b"<MapData/>")
+    built = _goal(tmp_path / "map", root, map_xml=map_xml, facts=_map_facts(_facts_for(tmp_path, root), {
+        "w1": "W_in_1", "e1": "E_out_1", "s0": "S_in_0", "e0": "E_out_0"}))
+    frozen = built[0].sg_partition
+    assert [row.connection_id for row in frozen.connections] == ["1", "2", "3"]
+    assert frozen.map_xml.sha256 == file_sha(map_xml)
+    profile = _profile(built)
+    assert profile["sg_partition"]["status"] == "inconsistent" and "H:CTL:tls:J0" in profile["hotspot_ids"]
+    assert profile["V"]["cand"][1] == 0
+
+
+# ---- attack round regressions (shape direction, added lanes, audit remap, parent re-derivation, sg, L2) ------------
+
+def _loop_with_parent_vertex_count() -> tuple[list, list]:
+    """A straight 21-vertex parent and a candidate with 21 vertices that loops 360 deg (radius 0.15 m, 30 deg steps)
+    at x = 50 and is straight elsewhere."""
+    parent = [(float(x), 0.0) for x in range(0, 101, 5)]
+    radius = 0.15
+    loop = [(50 + radius * math.cos(-math.pi / 2 + k * math.pi / 6),
+             radius + radius * math.sin(-math.pi / 2 + k * math.pi / 6)) for k in range(12)]
+    left, middle, right = [(0.0, 0.0), (25.0, 0.0), (45.0, 0.0)], loop + [(50.0, 0.0)], [(75.0, 0.0), (100.0, 0.0)]
+    pad = len(parent) - len(left) - len(middle) - len(right)
+    return parent, left + middle + [(55.0 + 18.0 * (i + 1) / (pad + 1), 0.0) for i in range(pad)] + right
+
+
+def test_inv_shape_rejects_a_lane_that_loops_or_runs_reversed_within_every_turn_limit():
+    # Attack finding: a 360 deg loop of radius 0.15 m in 30 deg steps that kept the parent's 21 vertices passed
+    # (vertex_delta 0, max turn 30 deg, Hausdorff 0.3 m), and so did a lane reversed vertex for vertex.
+    shape = dict(goal.DEFAULT_G0_SHAPE)
+    parent, looped = _loop_with_parent_vertex_count()
+    change = invariants.shape_change(parent, looped)
+    assert (len(looped), change["vertex_delta"], round(change["max_turn_candidate_deg"], 6)) == (21, 0, 30.0)
+    assert change["directed_hausdorff_bound_m"] < shape["max_directed_hausdorff_m"]
+    assert change["backward_m"] == pytest.approx(0.3, abs=0.01) and change["backward_samples"] > 0
+    assert invariants.inv_shape({"lane:x_0": change}, shape)["witness_ids"] == ["direction:lane:x_0"]
+    reversed_lane = invariants.shape_change(parent, parent[::-1])
+    assert reversed_lane["directed_hausdorff_m"] == 0 and reversed_lane["vertex_delta"] == 0
+    assert invariants.inv_shape({"lane:x_0": reversed_lane}, shape)["witness_ids"] == ["direction:lane:x_0"]
+    # Forward shapes never fall behind: straightening a jittered lane, the jitter itself, a corner cut.
+    jitter = [(5.0 * i, 0.0 if i in (0, 20) else (1.0 if i % 2 else -1.0)) for i in range(21)]
+    assert invariants.shape_change(jitter, [(0.0, 0.0), (100.0, 0.0)])["backward_m"] == 0
+    assert invariants.shape_change([(0.0, 0.0), (100.0, 0.0)], jitter)["backward_m"] == 0
+    corner = invariants.shape_change([(0.0, -50.0), (0.0, 0.0), (50.0, 0.0)],
+                                     [(0.0, -50.0), (0.0, -2.0), (2.0, 0.0), (50.0, 0.0)])
+    assert corner["backward_m"] == pytest.approx(0.0, abs=1e-9)
+
+
+def test_inv_shape_judges_the_distance_bound_so_no_excess_hides_between_samples():
+    # Attack finding: sampled every 1 m, a candidate cutting the inner side of a 90 deg parent bend (every turn 22.5
+    # deg) measured 2.9988 m while its true distance is 3.3398 m, and passed the 3.0 m limit.
+    parent = [(0.0, -50.0), (0.0, 0.0), (50.0, 0.0)]
+    candidate = [(0.0, -50.0), (0.0, -9.9553), (2.3152, -4.3658), (4.3658, -2.3152), (9.9553, 0.0), (50.0, 0.0)]
+    assert invariants.directed_hausdorff_m(candidate, parent, 1.0) == pytest.approx(2.9988, abs=1e-3)
+    exact = invariants.directed_hausdorff_m(candidate, parent, 0.001)
+    assert exact == pytest.approx(3.3398, abs=1e-3)
+    change = invariants.shape_change(parent, candidate)
+    assert change["spacing_m"] == invariants.HAUSDORFF_SPACING_M
+    assert change["directed_hausdorff_m"] <= exact <= change["directed_hausdorff_bound_m"]
+    assert change["max_turn_candidate_deg"] == pytest.approx(22.5, abs=0.01)
+    result = invariants.inv_shape({"lane:x_0": change}, dict(goal.DEFAULT_G0_SHAPE))
+    assert result["witness_ids"] == ["hausdorff:lane:x_0"]
+    # Near the limit the bound is refined to the 1 mm resolution: a stop line restored 3.0 m further along the lane
+    # (K2 stop_line), or a bend reaching exactly 3.0 m off the parent, passes; 3.01 m does not.
+    shape = dict(goal.DEFAULT_G0_SHAPE)
+    for parent_shape, candidate, passes in (([(0.0, 0.0), (97.0, 0.0)], [(0.0, 0.0), (97.0, 0.0), (100.0, 0.0)], True),
+                                            ([(0.0, 0.0), (100.0, 0.0)], [(0.0, 0.0), (50.0, 3.0), (100.0, 0.0)], True),
+                                            ([(0.0, 0.0), (100.0, 0.0)], [(0.0, 0.0), (50.0, 3.01), (100.0, 0.0)],
+                                             False)):
+        coarse = invariants.shape_change(parent_shape, candidate)
+        refined = invariants.shape_change(parent_shape, candidate, limit_m=shape["max_directed_hausdorff_m"])
+        assert refined["directed_hausdorff_bound_m"] <= coarse["directed_hausdorff_bound_m"]
+        exact = invariants.directed_hausdorff_m(candidate, parent_shape, 0.001)
+        assert exact <= refined["directed_hausdorff_bound_m"] <= exact + invariants.HAUSDORFF_RESOLUTION_M
+        assert invariants.inv_shape({"lane:x_0": refined}, shape)["pass"] is passes
+
+
+def _densified(root: ET.Element, lane_id: str, count: int = 21) -> None:
+    (x0, y0), (x1, y1) = [tuple(point) for point in _shape(root, lane_id)]
+    _lane(root, lane_id).set("shape", " ".join(f"{x0 + (x1 - x0) * k / (count - 1):.4f},"
+                                               f"{y0 + (y1 - y0) * k / (count - 1):.4f}" for k in range(count)))
+
+
+def test_g0_rejects_a_looped_or_reversed_lane_in_a_full_profile(tmp_path):
+    # Attack finding: a set_edge_shape repair of three offset W_in centerlines whose W_in_1 carries a same-vertex-count
+    # loop screened improved with G0 pass; a reversed W_in_1 was rejected only through other rules.
+    reference = _x4()
+    for lane in ("W_in_0", "W_in_1", "W_in_2"):
+        _densified(reference, lane)
+    source = copy.deepcopy(reference)
+    for lane in ("W_in_0", "W_in_1", "W_in_2"):
+        points = _shape(reference, lane)
+        _lane(source, lane).set("shape", " ".join(f"{x:.4f},{y + (1.0 if 0 < i < len(points) - 1 else 0.0):.4f}"
+                                                  for i, (x, y) in enumerate(points)))
+    built = _goal(tmp_path, source, reference=reference)
+    honest = _judge(tmp_path, built, copy.deepcopy(reference), seeds=True, l2=True)
+    assert honest["gate"]["screening"] == "improved", honest["gate"]["first_fail"]
+    points = [tuple(point) for point in _shape(reference, "W_in_1")]
+    radius, centre = 0.15, points[10][0]
+    loop = [(centre + radius * math.cos(-math.pi / 2 + k * math.pi / 6),
+             radius + radius * math.sin(-math.pi / 2 + k * math.pi / 6)) for k in range(12)]
+    left, right = [points[0], points[4], points[8], (centre - 2.0, 0.0)], [points[13], points[16], points[20]]
+    pad = len(points) - len(left) - len(loop) - 1 - len(right)
+    looped_shape = left + loop + [(centre, 0.0)] + [(centre + 0.5 * (i + 1), 0.0) for i in range(pad)] + right
+    assert len(looped_shape) == len(points)
+    looped = copy.deepcopy(reference)
+    _lane(looped, "W_in_1").set("shape", " ".join(f"{x:.4f},{y:.4f}" for x, y in looped_shape))
+    rejected = _judge(tmp_path, built, looped, seeds=True, l2=True)
+    assert rejected["gate"]["screening"] == "g0_rejected" and rejected["V"]["cand"] == [0, 0, 0, 0, 0.0]
+    assert _failed(rejected) == {"INV-SHAPE": ["direction:lane:W_in_1"]}
+    reversed_net = copy.deepcopy(reference)
+    _lane(reversed_net, "W_in_1").set("shape", " ".join(f"{x:.4f},{y:.4f}" for x, y in reversed(points)))
+    assert "direction:lane:W_in_1" in _failed(_judge(tmp_path, built, reversed_net, seeds=True, l2=True))["INV-SHAPE"]
+
+
+def _lane_count_goal(tmp_path: Path, source: ET.Element, *, kinds=("lane_width", "lane_count")):
+    """A goal on E_out (and J0) whose reference expects one bicycle lane the source lacks, and its source profile."""
+    table = _facts_for_kinds(tmp_path, source, kinds, ("E_out",))
+    next(fact for fact in table["facts"] if fact["kind"] == "lane_count")["expected"] = 1
+    built = _goal(tmp_path, source, facts=table, mutable_edge_ids=["E_out"], mutable_junction_ids=["J0"])
+    return built, _written(built, tmp_path / "source")
+
+
+ADD_RIGHT = {"id": "op", "operation": "set_lane_count", "params": {"edge_id": "E_out", "num_lanes": 4,
+                                                                   "add_side": "right"}}
+ADD_RIGHT_PLAN = {"mutable_junction_ids": ["E", "J0"], "mutable_edge_ids": ["E_out"],
+                  "lane_index_mapping": {"0": 1, "1": 2, "2": 3}}
+
+
+def test_g0_bounds_an_added_lane_against_its_edge_and_its_direction(tmp_path):
+    # Attack finding: a lane added by set_lane_count 40 m off the edge passed INV-SHAPE with no witness (an added lane
+    # was judged on its turns only), and a later step reversing that connection-less lane passed G0.
+    built, source_profile = _lane_count_goal(tmp_path, _x4(), kinds=("lane_width", "lane_count", "lane_centerline"))
+    far = _judge(tmp_path, built, _add_right_lane(_x4(), "E_out", offset=40.0), operation=ADD_RIGHT,
+                 plan=ADD_RIGHT_PLAN, seeds=True, l2=True, parent_profile=source_profile)
+    assert far["gate"]["screening"] == "g0_rejected" and _failed(far) == {"INV-SHAPE": ["hausdorff:lane:E_out_0"]}
+    near = _add_right_lane(_x4(), "E_out")
+    step1 = _judge(tmp_path, built, near, operation=ADD_RIGHT, plan=ADD_RIGHT_PLAN, seeds=True, l2=True,
+                   parent_profile=source_profile, out=tmp_path / "s1")
+    assert step1["gate"]["screening"] == "improved", step1["gate"]["first_fail"]
+    reverse = copy.deepcopy(near)
+    _lane(reverse, "E_out_0").set("shape", " ".join(f"{x},{y}" for x, y in reversed(_shape(near, "E_out_0"))))
+    step2 = _judge(tmp_path, built, reverse, operation={"id": "op", "operation": "set_edge_shape", "params": {
+        "edge_id": "E_out", "shape": [[5, 0], [100, 0]]}}, plan={"mutable_edge_ids": ["E_out"]}, seeds=True, l2=True,
+        parent_net=Path(step1["inputs"]["net"]["path"]), parent_profile=tmp_path / "s1" / "profile.full.json")
+    assert step2["gate"]["screening"] == "g0_rejected" and _failed(step2) == {"INV-SHAPE": ["direction:lane:E_out_0"]}
+
+
+def test_inv_audit_compares_findings_across_the_declared_lane_remap(tmp_path):
+    # Attack finding: with a request self_foe on link 6 (S_in_0>E_out_0), adding a right lane on E_out left the same
+    # physical finding keyed S_in_0>E_out_1, and INV-AUDIT called it new; the same step without it screened improved.
+    source = _x4()
+    request = next(row for row in source.find("junction[@id='J0']").findall("request") if row.get("index") == "6")
+    foes = list(request.get("foes"))
+    foes[len(foes) - 1 - 6] = "1"
+    request.set("foes", "".join(foes))
+    built, source_profile = _lane_count_goal(tmp_path, source)
+    inherited = json.loads(source_profile.read_text(encoding="utf-8"))["int_findings"]
+    assert [row["id"] for row in inherited] == ["request:J0:self_foe:S_in_0>E_out_0"]
+    step = _judge(tmp_path, built, _add_right_lane(source, "E_out"), operation=ADD_RIGHT, plan=ADD_RIGHT_PLAN,
+                  seeds=True, l2=True, parent_profile=source_profile)
+    assert step["gate"]["screening"] == "improved" and _failed(step) == {}, step["gate"]["first_fail"]
+    row = next(row for row in step["int_findings"] if row["id"] == "request:J0:self_foe:S_in_0>E_out_1")
+    assert row["new_vs_parent"] is False
+    # The remap also unmasks: a raw key that collides with a parent identity after the rename is new.
+    mapping = {"E_out": {"0": "1", "1": "2", "2": "3"}}
+    parent = [{"id": "request:J0:self_foe:W_in_1>E_out_1", "source": "request_matrix", "measure": None, "lanes": []},
+              {"id": "audit:J0:connection_mode:incoming_motorized_lane_without_connection:E_out:2",
+               "source": "connection_mode_audit", "measure": None, "lanes": []},
+              {"id": "audit:J0:connection_mode:path_endpoint_gap:S_in_0>E_out_0:exit", "source": "connection_mode_audit",
+               "measure": 0.5, "lanes": []}]
+    renamed = junction_integrity.comparable(parent, mapping, remap=True)
+    assert renamed == [("request:J0:self_foe:W_in_1>E_out_2", None),
+                       ("audit:J0:connection_mode:incoming_motorized_lane_without_connection:E_out:3", None),
+                       ("audit:J0:connection_mode:path_endpoint_gap:S_in_0>E_out_1:exit", 0.5)]
+    collided = invariants.inv_audit(renamed, [("request:J0:self_foe:W_in_1>E_out_1", None)], ["J0"])
+    assert collided["witness_ids"] == ["request:J0:self_foe:W_in_1>E_out_1"]
+    assert junction_integrity.remap_identity("request:J0:self_foe:W_in_1>E_out_1", {"E_out": {"0": "0"}}) is None
+    assert junction_integrity.remap_identity("audit:J:connection_mode:crossed_lane_mapping:A:E_out:0>1:1>0",
+                                             {"E_out": {"0": "1", "1": "2"}}) == (
+        "audit:J:connection_mode:crossed_lane_mapping:A:E_out:0>2:1>1")
+    # Safety identities hash lane ordinals from the curb; on a remapped edge they compare by category and lanes.
+    safety = [{"id": "safety:J0:protected_conflict:0123456789ab", "source": "independent_safety", "measure": None,
+               "lanes": ["E_out_0", "S_in_0"]}]
+    assert junction_integrity.comparable(safety, mapping, remap=True) == [
+        ("safety:J0:protected_conflict:lanes:E_out_1|S_in_0", None)]
+    assert junction_integrity.comparable(safety, {}, remap=True) == [("safety:J0:protected_conflict:0123456789ab",
+                                                                      None)]
+    # Only where surviving lanes change their ordinal from the curb: removing the leftmost lane of a right-hand edge
+    # keeps every hash (K2 lane_count, whose restored finding equals the frozen baseline's), adding a right lane or
+    # removing the leftmost lane in left-hand traffic does not.
+    four = _add_right_lane(_x4(), "E_out")
+    assert build_profile.curb_renumbered({"E_out": {"0": "0", "1": "1", "2": "2"}}, four, _x4()) == set()
+    assert build_profile.curb_renumbered(mapping, _x4(), four) == {"E_out"}
+    left_four, left_three = copy.deepcopy(four), _x4()
+    for net in (left_four, left_three):
+        net.set("lefthand", "true")
+    assert build_profile.curb_renumbered({"E_out": {"0": "0", "1": "1", "2": "2"}}, left_four, left_three) == {
+        "E_out"}
+    assert junction_integrity.comparable(safety, mapping, remap=True, renumbered=set()) == [
+        ("safety:J0:protected_conflict:0123456789ab", None)]
+    # The goal baseline follows a chain of lane-count remaps (goal -> parent -> candidate).
+    assert build_profile.compose_lane_mappings({"E_out": {"0": "1", "1": "2", "2": "3"}},
+                                               {"E_out": {"0": "0", "1": "1", "3": "2"}}) == {
+        "E_out": {"0": "1", "2": "2"}}
+
+
+def _forged(profile_path: Path, out: Path, edit) -> Path:
+    document = json.loads(profile_path.read_text(encoding="utf-8"))
+    edit(document)
+    out.mkdir(parents=True)
+    (out / "profile.full.json").write_text(json.dumps(document), encoding="utf-8")
+    return out / "profile.full.json"
+
+
+def test_an_edited_parent_profile_is_refused_because_it_does_not_re_derive(tmp_path, monkeypatch):
+    # Attack findings: the immediate parent was neither hash-bound nor re-verified, so an edited profile laundered a
+    # G0-rejected candidate (gate edited to improved), an arbitrary net (inputs.net swapped with its own sha), a forged
+    # effective fact table (a 0.7 m wrong width scored improved) or an unrun L2 (movement_guard pointed at "{}" or at
+    # another candidate's record) into an accepted chain.
+    from astra_sumo.core import network_edit_applicability
+
+    clean = _x4()
+    faulted = copy.deepcopy(clean)
+    _lane(faulted, "E_out_2").set("speed", "10")
+    _lane(faulted, "S_in_0").set("width", "3.5")
+    built = _goal(tmp_path, faulted, reference=clean, mutable_edge_ids=["E_out", "S_in", "W_in"])
+    source = _written(built, tmp_path / "source")
+    speed = {"id": "op", "operation": "set_speed", "params": {"lane_id": "E_out_2", "speed_m_s": 13.89}}
+    width = {"id": "op", "operation": "set_lane_width", "params": {"lane_id": "S_in_0", "width_m": 3.2}}
+    first = copy.deepcopy(faulted)
+    _lane(first, "E_out_2").set("speed", "13.89")
+    step1 = _judge(tmp_path, built, first, operation=speed, seeds=True, l2=True, parent_profile=source,
+                   out=tmp_path / "c1")
+    assert step1["gate"]["screening"] == "improved"
+    c1, first_net = tmp_path / "c1" / "profile.full.json", Path(step1["inputs"]["net"]["path"])
+    second = copy.deepcopy(first)
+    _lane(second, "S_in_0").set("width", "3.2")
+    # The honest parent re-derives: the child is accepted and records the chain.
+    honest = _judge(tmp_path, built, second, operation=width, seeds=True, l2=True, parent_net=first_net,
+                    parent_profile=c1)
+    assert honest["gate"]["screening"] == "improved" and honest["inputs"]["parent_profile"]["chain"] == [
+        step1["cand"], json.loads(source.read_text(encoding="utf-8"))["cand"]]
+    zigzag = copy.deepcopy(first)
+    _lane(zigzag, "W_in_1").set("shape", " ".join(f"{-100 + 0.5 * n},{0.4 if n % 2 else 0.0}" for n in range(191)))
+    bad = _judge(tmp_path, built, zigzag, operation=speed, seeds=True, l2=True, parent_profile=source,
+                 out=tmp_path / "bad")
+    assert bad["gate"]["screening"] == "g0_rejected"
+
+    def accepted(document):
+        document.update(status="measured")
+        document["gate"].update(G0="pass", screening="improved", first_fail=None)
+
+    forged_gate = _forged(tmp_path / "bad" / "profile.full.json", tmp_path / "forged-gate", accepted)
+    with pytest.raises(ValueError, match="does not re-derive from its bound inputs"):
+        _judge(tmp_path, built, zigzag, operation=width, seeds=True, l2=True,
+               parent_net=Path(bad["inputs"]["net"]["path"]), parent_profile=forged_gate)
+    arbitrary = _write(zigzag, tmp_path / "arbitrary.net.xml")
+
+    def other_net(document):
+        document["inputs"]["net"] = {"path": str(arbitrary), "sha256": file_sha(arbitrary)}
+
+    with pytest.raises(ValueError, match="is not the candidate its hash-bound verify-edit report materialized"):
+        _judge(tmp_path, built, zigzag, operation=width, parent_net=arbitrary,
+               parent_profile=_forged(c1, tmp_path / "forged-net", other_net))
+    table = json.loads(built[2])
+    next(fact for fact in table["facts"] if fact["id"] == "lane:S_in_0:width")["expected"] = 3.9
+    forged_table = tmp_path / "forged-facts.json"
+    forged_table.write_text(json.dumps(table), encoding="utf-8")
+
+    def other_facts(document):
+        document["inputs"]["effective_facts"] = {"path": str(forged_table), "sha256": file_sha(forged_table),
+                                                 "basis": "inherited", "verified": True, "remaps": 0}
+
+    wrong = copy.deepcopy(first)
+    _lane(wrong, "S_in_0").set("width", "3.9")
+    with pytest.raises(ValueError, match="does not re-derive from its bound inputs"):
+        _judge(tmp_path, built, wrong, operation={**width, "params": {"lane_id": "S_in_0", "width_m": 3.9}},
+               seeds=True, l2=True, parent_net=first_net, parent_profile=_forged(c1, tmp_path / "forged-facts",
+                                                                                   other_facts))
+    unprobed = _judge(tmp_path, built, first, operation=speed, seeds=True, parent_profile=source, out=tmp_path / "c0")
+    assert unprobed["gate"]["screening"] == "l2_not_run"
+    empty = tmp_path / "empty-guard.json"
+    empty.write_text("{}", encoding="utf-8")
+    for name, guard in (("empty", empty), ("other", Path(bad["inputs"]["movement_guard"]["path"]))):
+        def unguarded(document, guard=guard):
+            accepted(document)
+            document["inputs"]["movement_guard"] = {"path": str(guard), "sha256": file_sha(guard)}
+
+        forged = _forged(tmp_path / "c0" / "profile.full.json", tmp_path / f"forged-guard-{name}", unguarded)
+        with pytest.raises(ValueError, match="movement-guard record of parent .* does not bind"):
+            _judge(tmp_path, built, second, operation=width, parent_net=first_net, parent_profile=forged)
+        # verify-edit takes the parent's effective table only from a verified parent.
+        monkeypatch.setattr(network_edit_applicability, "verify_network_edit", lambda **kwargs: {})
+        loaded, data, _, facts_path, _ = built
+        with pytest.raises(ValueError, match="does not bind"):
+            build_profile.run_verify_edit(loaded, ledger_file=tmp_path / "ledger.json", facts_path=facts_path,
+                                          output_dir=tmp_path / f"ve-{name}", repository_root=ROOT,
+                                          parent_profile=forged, goal_bytes=data, verifier=VERIFIER)
+    with pytest.raises(ValueError, match="needs goal_bytes and verifier"):
+        build_profile.run_verify_edit(built[0], ledger_file=tmp_path / "ledger.json", facts_path=built[3],
+                                      output_dir=tmp_path / "ve", repository_root=ROOT, parent_profile=c1)
+
+
+def test_sg_partition_passes_only_when_a_phase_compares_two_evidenced_links():
+    # Attack findings: one scored link per phase, or state strings shorter than the bound linkIndex, reported
+    # consistent/pass with a matched CTL row; locked MAP lanes without a tl/linkIndex connection counted as evidenced.
+    root = _x4()
+    links = {ids.connection_key(row): int(row.get("linkIndex")) for row in root.findall("connection") if row.get("tl")}
+    pairs = [("W_in_0", "S_out_0"), ("W_in_1", "E_out_1"), ("W_in_2", "N_out_2")]
+    bindings = [{"node_id": "M", "connection_id": str(n), "signal_group": "7", "map_lanes": [f"m{n}", f"x{n}"],
+                 "lane_pair": list(pair)} for n, pair in enumerate(pairs)]
+    width = max(len(phase.get("state")) for phase in root.find("tlLogic").findall("phase"))
+
+    def phases(*columns: str) -> ET.Element:
+        net = copy.deepcopy(root)
+        logic = net.find("tlLogic")
+        for phase in logic.findall("phase"):
+            logic.remove(phase)
+        for letters in columns:
+            state = ["r"] * width
+            for pair, letter in zip(pairs, letters):
+                state[links[">".join(pair)]] = letter
+            ET.SubElement(logic, "phase", duration="10", state="".join(state))
+        return net
+
+    one = signal_partition.check(phases("GOO", "rOO", "yss"), bindings)
+    assert (one["status"], one["groups"][0]["status"], one["rows"]) == ("unscored", "unscored", {})
+    assert one["groups"][0]["compared_phases"] == 0 and one["evidenced_bindings"] == 3
+    short = phases("GGr")
+    for phase in short.find("tlLogic").findall("phase"):
+        phase.set("state", phase.get("state")[:min(links[">".join(pair)] for pair in pairs)])
+    assert signal_partition.check(short, bindings)["status"] == "unscored"
+    compared = signal_partition.check(phases("GOO", "GGr"), bindings)
+    assert compared["status"] == "inconsistent" and compared["groups"][0]["compared_phases"] == 1
+    assert signal_partition.check(phases("GOO", "GGO"), bindings)["status"] == "pass"
+    untied = phases("GGr")
+    for row in untied.findall("connection"):
+        row.attrib.pop("tl", None)
+        row.attrib.pop("linkIndex", None)
+    result = signal_partition.check(untied, bindings)
+    assert (result["status"], result["evidenced_bindings"], result["locked_bindings"]) == ("not_applicable", 0, 3)
+
+
+def test_l2_is_unverified_when_an_expected_movement_on_the_op_targets_fails_on_both_nets(tmp_path, monkeypatch):
+    # Attack finding: an expected movement that fails on parent and candidate alike (the passenger smoke skipped every
+    # non-passenger movement: 11 of 83 in K2) is never compared, so a candidate breaking it dynamically passed L2.
+    from astra_sumo.core import movement_routeability
+
+    clean = _x4()
+    faulted = copy.deepcopy(clean)
+    _lane(faulted, "W_in_1").set("speed", "10")
+    built = _goal(tmp_path, faulted, reference=clean)
+    speed = {"id": "op", "operation": "set_speed", "params": {"lane_id": "W_in_1", "speed_m_s": 13.89}}
+    repaired = copy.deepcopy(faulted)
+    _lane(repaired, "W_in_1").set("speed", "13.89")
+    blind = _judge(tmp_path, built, repaired, operation=speed, seeds=True, l2=True, broken=(("W_in_1", "E_out_1"),),
+                   everywhere=True)
+    assert blind["gate"]["screening"] == "l2_unverified" and blind["gate"]["L2"]["result"] == "unverified"
+    assert blind["gate"]["L2"]["unprobed"] == ["J0:movement:W_in_1>E_out_1"]
+    elsewhere = _judge(tmp_path, built, repaired, operation=speed, seeds=True, l2=True,
+                       broken=(("N_in_0", "W_out_0"),), everywhere=True)
+    assert elsewhere["gate"]["screening"] == "improved"
+    assert next(row for row in elsewhere["gate"]["L2"]["junctions"] if row["junction"] == "J0")["unprobed"] == [
+        "movement:N_in_0>W_out_0"]
+    # The smoke drives every movement with a class its turn permissions admit (bus, bicycle, ...), not passengers only.
+    seen = {}
+
+    def smoke(**kwargs):
+        seen.update(kwargs)
+        raise RuntimeError("stop")
+
+    monkeypatch.setattr(movement_routeability, "run_all_turn_movement_smoke", smoke)
+    with pytest.raises(RuntimeError, match="stop"):
+        movement_guard.junction_smoke(built[4], "J0", [], tmp_path / "smoke", "sumo")
+    assert seen["vehicle_class_per_movement"] is True and "permitted_movements_only" not in seen
+
+
+def _movement_manifest(net: Path, out: Path) -> Path:
+    """A minimal supported (Hamburg schema) movement manifest declaring every direct X4 movement of ``net``."""
+    root = ET.parse(net).getroot()
+    required = [{"sumo_connection": [row.get("from"), int(row.get("fromLane")), row.get("to"), int(row.get("toLane"))]}
+                for row in root.findall("connection") if not row.get("from").startswith(":")]
+    out.write_text(json.dumps({"schema": movement_guard.MANIFEST_SCHEMAS[0], "artifacts": {"network": {
+        "path": str(net), "sha256": file_sha(net)}}, "counts": {"official_vehicle_movements": len(required)},
+        "official_connection_audit": {"required": required, "ambiguous": []}}), encoding="utf-8")
+    return out
+
+
+def test_a_goal_movement_manifest_runs_the_l2_probes_on_manifests_bound_to_each_net(tmp_path, monkeypatch):
+    # Attack finding: no goal, CLI or K2 path supplied manifests, so the probe branch was unreachable, and when probes
+    # ran an expected movement absent from (or not tested by) the probes was no failure.
+    from astra_sumo.core import movement_routeability
+
+    clean = _x4()
+    faulted = copy.deepcopy(clean)
+    _lane(faulted, "W_in_1").set("speed", "10")
+    source_net = _write(faulted, tmp_path / "source.net.xml")
+    manifest = _movement_manifest(source_net, tmp_path / "manifest.json")
+    with pytest.raises(ValueError, match="movement manifest"):
+        goal.create_build_goal(ROOT, net=_write(clean, tmp_path / "other.net.xml"), reference_net=source_net,
+                               target_date="2026-10-25", site_id="x4", mutable_edge_ids=["W_in"], seeds=[42],
+                               movement_manifest=manifest)
+    built = _goal(tmp_path, faulted, reference=clean, movement_manifest=manifest)
+    assert built[0].guards.movement_manifest.sha256 == file_sha(manifest)
+    omit: set[tuple[str, str]] = set()
+
+    def probes(*, candidate_manifest, output_dir, sumo_binary):
+        document = json.loads(Path(candidate_manifest).read_text(encoding="utf-8"))
+        network = Path(document["artifacts"]["network"]["path"])
+        assert file_sha(network) == document["artifacts"]["network"]["sha256"]
+        Path(output_dir).mkdir(parents=True)
+        report = Path(output_dir) / "summary.json"
+        report.write_text("{}", encoding="utf-8")
+        candidate = "candidate" in Path(output_dir).name
+        rows = [{"sumo_connection": row["sumo_connection"], "status": "pass"}
+                for row in document["official_connection_audit"]["required"]
+                if not (candidate and (f"{row['sumo_connection'][0]}_{row['sumo_connection'][1]}",
+                                       f"{row['sumo_connection'][2]}_{row['sumo_connection'][3]}") in omit)]
+        return {"source_immutable": True, "probe_count": len(rows), "not_tested": [], "report_file": str(report),
+                "results": rows}
+
+    monkeypatch.setattr(movement_routeability, "run_candidate_movement_probes", probes)
+    speed = {"id": "op", "operation": "set_speed", "params": {"lane_id": "W_in_1", "speed_m_s": 13.89}}
+    repaired = copy.deepcopy(faulted)
+    _lane(repaired, "W_in_1").set("speed", "13.89")
+    good = _judge(tmp_path, built, repaired, operation=speed, seeds=True, l2=True)
+    assert good["gate"]["screening"] == "improved" and good["gate"]["L2"]["method"] == "movement_probes"
+    record = json.loads(Path(good["inputs"]["movement_guard"]["path"]).read_text(encoding="utf-8"))
+    assert record["manifest_source"]["sha256"] == file_sha(manifest)
+    for role in ("parent", "candidate"):
+        derived = json.loads(Path(record["manifests"][role]["path"]).read_text(encoding="utf-8"))
+        assert derived["artifacts"]["network"]["sha256"] == record[role]["sha256"]
+    omit.add(("W_in_1", "E_out_1"))
+    missing = _judge(tmp_path, built, repaired, operation=speed, seeds=True, l2=True)
+    assert missing["gate"]["screening"] == "l2_new_failures"
+    assert missing["gate"]["L2"]["new_failures"] == ["*:movement:W_in_1>E_out_1"]
+    # A smoke record where the goal requires the probes does not bind the candidate.
+    scope = {"parent_sha256": "p", "candidate_sha256": "c", "junctions": [], "expected": {"parent": {},
+                                                                                         "candidate": {}}}
+    smoke_record = {"schema": build_gate.MOVEMENT_GUARD_SCHEMA, "method": "all_turn_smoke", "parent": {"sha256": "p"},
+                    "candidate": {"sha256": "c"}, "junctions": [], "expected": scope["expected"], "lane_mapping": {},
+                    "nets_unchanged": True}
+    assert build_gate.l2_rule(smoke_record, **scope, method="movement_probes")["result"] == "unverified"
+    # A lane-count remap renames the declared movements; one on a removed lane becomes not tested.
+    derived = movement_guard.derive_manifest(manifest, source_net, {"E_out": {"0": "1", "1": "2"}},
+                                             tmp_path / "derived")
+    audit = json.loads(derived.read_text(encoding="utf-8"))["official_connection_audit"]
+    connections = [row["sumo_connection"] for row in audit["required"]]
+    assert ["W_in", 1, "E_out", 2] in connections and ["S_in", 0, "E_out", 1] in connections
+    assert [row["sumo_connection"] for row in audit["ambiguous"]] == [["N_in", 2, "E_out", 2]]
+    assert build_gate.l2_failing({"failing": [], "tested": [], "not_tested": [["a_0", "b_0"]], "run_ok": True},
+                                 [["a_0", "b_0"]]) == {"movement:a_0>b_0"}
 
 
 # ---- views, determinism and the CLI ------------------------------------------------------------------------------
@@ -777,17 +2010,27 @@ def test_only_the_goal_source_or_an_accepted_hash_bound_candidate_is_a_parent(tm
     width = {"id": "op", "operation": "set_lane_width", "params": {"lane_id": "S_in_0", "width_m": 3.2}}
     first = copy.deepcopy(faulted)
     _lane(first, "E_out_2").set("speed", "13.89")
-    step1 = _judge(tmp_path, built, first, operation=speed, seeds=True, parent_profile=source, out=tmp_path / "c1")
-    assert (step1["status"], step1["gate"]["screening"]) == ("measured", "improved_l2_not_run")
-    assert step1["gate"]["L2"]["status"] == "not_run" and step1["gate"]["L3"]["result"] == "subset_holds"
+    # Without L2 the same step is never accepted, so it is never a parent (review finding P1-b).
+    unprobed = _judge(tmp_path, built, first, operation=speed, seeds=True, parent_profile=source,
+                      out=tmp_path / "c0")
+    assert (unprobed["status"], unprobed["gate"]["screening"]) == ("measured", "l2_not_run")
+    with pytest.raises(ValueError, match="was not accepted"):
+        _judge(tmp_path, built, first, operation=speed, seeds=True, l2=True,
+               parent_net=Path(unprobed["inputs"]["net"]["path"]), parent_profile=tmp_path / "c0" / "profile.full.json")
+    step1 = _judge(tmp_path, built, first, operation=speed, seeds=True, l2=True, parent_profile=source,
+                   out=tmp_path / "c1")
+    assert (step1["status"], step1["gate"]["screening"]) == ("measured", "improved")
+    assert step1["gate"]["L2"]["result"] == "no_new_failures" and step1["gate"]["L3"]["result"] == "subset_holds"
+    assert step1["gate"]["L2"]["method"] == "all_turn_smoke" and step1["inputs"]["movement_guard"]["sha256"]
     assert step1["inputs"]["parent_profile"]["subject"] == "source"
     assert step1["inputs"]["parent_net"]["scorecard"].startswith("goal-create scorecard")
     second = copy.deepcopy(first)
     _lane(second, "S_in_0").set("width", "3.2")
     first_net = Path(step1["inputs"]["net"]["path"])
-    step2 = _judge(tmp_path, built, second, operation=width, seeds=True, parent_net=first_net,
+    step2 = _judge(tmp_path, built, second, operation=width, seeds=True, l2=True, parent_net=first_net,
                    parent_profile=tmp_path / "c1" / "profile.full.json", out=tmp_path / "c2")
     assert step2["V"]["cand"] == [0, 0, 0, 0, 0.0] and step2["inputs"]["parent_profile"]["depth"] == 1
+    assert step2["gate"]["screening"] == "improved"
     assert step2["inputs"]["parent_net"]["scorecard"] == "rescored: the parent is not the goal source"
     # A raw net, never judged, cannot become a parent; neither can a G0-rejected candidate.
     raw = _written(built, tmp_path / "raw", net=_write(first, tmp_path / "raw.net.xml"))
@@ -795,7 +2038,7 @@ def test_only_the_goal_source_or_an_accepted_hash_bound_candidate_is_a_parent(tm
         _judge(tmp_path, built, second, operation=width, parent_net=tmp_path / "raw.net.xml", parent_profile=raw)
     zigzag = copy.deepcopy(faulted)
     _lane(zigzag, "W_in_1").set("shape", " ".join(f"{-100 + 0.5 * n},{0.4 if n % 2 else 0.0}" for n in range(191)))
-    rejected = _judge(tmp_path, built, zigzag, operation=speed, seeds=True, out=tmp_path / "bad")
+    rejected = _judge(tmp_path, built, zigzag, operation=speed, seeds=True, l2=True, out=tmp_path / "bad")
     assert rejected["gate"]["G0"] == "fail"
     with pytest.raises(ValueError, match="was not accepted"):
         _judge(tmp_path, built, second, operation=width, parent_net=Path(rejected["inputs"]["net"]["path"]),
@@ -807,6 +2050,12 @@ def test_only_the_goal_source_or_an_accepted_hash_bound_candidate_is_a_parent(tm
         _judge(tmp_path, built, second, operation=width, parent_net=Path(step2["inputs"]["net"]["path"]),
                parent_profile=tmp_path / "c2" / "profile.full.json")
     c1.write_bytes(c1.read_bytes()[:-1])
+    guard = Path(step1["inputs"]["movement_guard"]["path"])
+    guard.write_bytes(guard.read_bytes() + b"\n")
+    with pytest.raises(ValueError, match="movement-guard record of parent"):
+        _judge(tmp_path, built, second, operation=width, parent_net=first_net,
+               parent_profile=tmp_path / "c1" / "profile.full.json")
+    guard.write_bytes(guard.read_bytes()[:-1])
     first_net.write_bytes(first_net.read_bytes() + b"<!-- changed -->")
     with pytest.raises(ValueError, match="candidate net of parent"):
         _judge(tmp_path, built, second, operation=width, parent_net=first_net,
@@ -929,6 +2178,14 @@ def test_cli_goal_create_build_and_offline_profiles(tmp_path, monkeypatch):
     code, refused = _run(cli, ["goal-create", "--capability", "build", "--store", str(tmp_path / "s"), "--net",
                                str(source), "--json"])
     assert (code, refused["status"]) == (3, "blocked") and "--facts or --reference-net" in refused["reason"]
+    # A movement manifest reaches the goal (and so L2's probes) only when it is bound to the source net.
+    for net, expected in ((clean, 3), (source, 0)):
+        manifest = _movement_manifest(net, tmp_path / f"{net.stem}.manifest.json")
+        code, made = _run(cli, [*create[:4], str(tmp_path / f"store-{net.stem}"), *create[5:-1],
+                                "--movement-manifest", str(manifest), "--json"])
+        assert code == expected, made
+    frozen = json.loads(Path(made["goal"]).read_text(encoding="utf-8"))["guards"]["movement_manifest"]
+    assert frozen["sha256"] == file_sha(manifest)
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
@@ -966,9 +2223,12 @@ def test_cli_judges_an_inverse_typed_op_through_verify_edit(tmp_path, monkeypatc
                               "--netconvert", shutil.which("netconvert"), "--routeability-seed", "42",
                               "--parent-profile", str(tmp_path / "p0" / "profile.full.json"),
                               "--out", str(tmp_path / "p1"), "--json"])
-    assert (code, judged["status"], judged["screening"]) == (0, "measured", "improved_l2_not_run")
+    # L2 (the all-turn smoke on the touched junctions) and L3 on the frozen trips both hold, so it is accepted.
+    assert (code, judged["status"], judged["screening"]) == (0, "measured", "improved")
+    assert (judged["L2"], judged["L3"]) == ("no_new_failures", "subset_holds")
     assert judged["V"] == [0, 0, 0, 0, 0.0] and judged["V_parent"] == [0, 1, 1, 0, 4.0]
     assert all(judged["invariants"].values()) and (tmp_path / "p1.verify-edit" / "edit-verification.json").is_file()
+    assert (tmp_path / "p1.movement-guard" / movement_guard.RECORD).is_file()
     full = json.loads((tmp_path / "p1" / "profile.full.json").read_text(encoding="utf-8"))
     assert full["delta"]["fixed"] == ["lane:middle_0:centerline", "lane:middle_0:stop_line"]
     assert full["delta"]["hotspots_gone"] == ["H:CTL:lane:middle_0", "H:GEO:edge:middle"]
@@ -976,4 +2236,8 @@ def test_cli_judges_an_inverse_typed_op_through_verify_edit(tmp_path, monkeypatc
     (seed,) = full["gate"]["L3"]["seeds"]
     assert full["gate"]["L3"]["result"] == "subset_holds" and seed["trips"]["source"] == seed["trips"]["goal"]
     assert seed["trips"]["candidate"] == seed["trips"]["goal"] is not None
+    report = json.loads((tmp_path / "p1.verify-edit" / "edit-verification.json").read_text(encoding="utf-8"))
+    assert report["source_routeability"]["od_policy"]["mode"] == "frozen_requests"
+    l2 = full["gate"]["L2"]
+    assert l2["method"] == "all_turn_smoke" and l2["junctions"] and not l2["new_failures"]
     assert full["inputs"]["parent_net"]["scorecard"].startswith("goal-create scorecard")

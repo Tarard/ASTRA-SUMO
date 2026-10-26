@@ -374,10 +374,16 @@ def compact_build(profile: dict, *, hotspots: int = HOTSPOTS, rows: int = ROWS_P
                               for check in profile["invariants"]}
         view["fixed"] = _counted([f"F:{_id(row['fact'], clip)} e{_number(row['parent']['excess'])} -> "
                                   f"{row['candidate']['status']}" for row in gate["fixed_rows"]], True, minimal)
-        l3 = gate["L3"]
+        l2, l3 = gate["L2"], gate["L3"]
+        view["L2"] = {"result": l2["result"], "method": l2.get("method"), "junctions": len(l2.get("junctions", [])),
+                      "new": _counted([_id(row, clip) for row in l2.get("new_failures", [])], True, minimal)}
         view["L3"] = {"result": l3["result"], "source_state": l3["source_state"],
                       "seeds": f"{sum(row['status'] == 'pass' for row in l3['seeds'])}/{len(l3['seeds'])} pass "
                                f"(goal {len(l3['declared_seeds'])})"}
+    view["sg_partition"] = profile["sg_partition"]["status"]
+    view["source_structure"] = {"dirty": profile["source_dirty"],
+                                "structural_failures": profile["source_structure"]["count"],
+                                **({"promotion": "blocked without a human (D1)"} if profile["source_dirty"] else {})}
     view["hot"] = [_build_hotspot(h, rows, clip) for h in profile["hotspots"][:hotspots]]
     if more := _more(len(profile["hotspots"]), hotspots):
         view["hot_more"] = more
@@ -423,7 +429,15 @@ def compact_build_text(profile: dict, *, hotspots: int = HOTSPOTS, rows: int = R
                                             for check in profile["invariants"]))
         if view["fixed"]:
             lines.append("FIXED  " + _listed(view["fixed"]))
+        new = view["L2"]["new"]
+        lines.append(f"L2     {view['L2']['result']} | {view['L2']['method'] or '-'} on {view['L2']['junctions']} "
+                     f"junction(s) | new {new['n'] if isinstance(new, dict) else len(new)}"
+                     + (f": {'; '.join(new)}" if isinstance(new, list) and new else ""))
         lines.append(f"L3     {view['L3']['result']} | {view['L3']['seeds']} | source {view['L3']['source_state']}")
+    lines.append(f"SG     {view['sg_partition']}")
+    structure = view["source_structure"]
+    lines.append(f"SOURCE {'dirty' if structure['dirty'] else 'clean'}: {structure['structural_failures']} structural "
+                 "failure(s) on the goal source" + ("; not promotable without a human (D1)" if structure["dirty"] else ""))
     for index, hotspot in enumerate(view["hot"], start=1):
         shown = "; ".join(f"{name}: {text}" for name, text in hotspot["rows"].items() if name != "more")
         lines.append(f"HOT{index}   {hotspot['id']} w {hotspot['w']:.4g}: {shown}"

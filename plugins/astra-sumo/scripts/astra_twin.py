@@ -1,12 +1,14 @@
 """ASTRA twin profiler CLI: doctor, resolve, goal-create (calibrate, build), profile (calibrate, build) and the Build
 known-answer harnesses (k1, k2).
 
-Only ``profile build --ledger`` and ``k2 run`` start SUMO tools, through ``verify_network_edit`` in explore mode (k2
-with no routeability seeds); every other command is offline. Exit codes follow ``astra`` (``cli.py``): 0 for
+Only ``profile build --ledger`` and ``k2 run`` start SUMO tools: ``verify_network_edit`` in explore mode (L3 on the
+goal's frozen per-seed trips; k2 injects its faults with no routeability seed) and the L2 movement guard
+(``build_profile.run_movement_guard``); every other command is offline. Exit codes follow ``astra`` (``cli.py``): 0 for
 ``pass``, ``measured`` or ``no_effect``; 3 for ``blocked``, which covers a failed doctor or resolve check, a blocked
 profile, a failed known-answer or timing check and a refused or failed command (its ``reason`` and ``error_type`` say
 which); 2 for an argparse usage error. The CLI writes only to the paths it is given (the store, a new profile or
-harness directory and, for ``--ledger``, its new sibling ``<out>.verify-edit``; doctor's scratch inside the clone),
+harness directory and, for ``--ledger``, its new siblings ``<out>.verify-edit`` and ``<out>.movement-guard``;
+doctor's scratch inside the clone),
 with transient files beside them, and writes no bytecode, so a verifier clone stays as checked out. The one
 exception is verify-edit's command runner (``core/command_runner.py``), which keeps its transient ``astra-command-*``
 directories under the system temp directory.
@@ -102,7 +104,8 @@ def _goal_create_build(args: argparse.Namespace) -> int:
         target_date=args.target_date, goal_id=args.goal_id, mutable_edge_ids=args.mutable_edge or [],
         mutable_junction_ids=args.mutable_junction or [], ops=args.op, seeds=args.seed,
         lane_artifacts=[Path(path) for path in args.lane_artifact or []], sigma_m=args.sigma_m,
-        scratch_dir=Path(args.store))
+        map_xml=Path(args.map_xml) if args.map_xml else None, scratch_dir=Path(args.store),
+        movement_manifest=Path(args.movement_manifest) if args.movement_manifest else None)
     path, written, facts_file = goal.write_build_goal(created, facts, Path(args.store))
     data = path.read_bytes()
     _emit({"status": "pass", "write": written, "goal_id": created.goal_id, "goal": str(path),
@@ -118,32 +121,51 @@ def _profile_build(args: argparse.Namespace) -> int:
                    args.no_routeability), ("--routeability-seed", args.routeability_seed)) if value]
     if ledger_only and not args.ledger:
         raise ValueError(f"{', '.join(ledger_only)} only apply with --ledger")
+    if args.movement_guard and not args.verify_edit:
+        raise ValueError("--movement-guard only applies with --verify-edit (--ledger runs its own)")
     if args.no_routeability and args.routeability_seed:
         raise ValueError("--no-routeability and --routeability-seed contradict each other")
     loaded, data, facts, facts_file = goal.load_build_goal(Path(args.goal))
+    state = doctor.repository_state(REPOSITORY_ROOT)
+    verifier = {"commit": state["commit"], "clean": state["clean"], "astra_sumo": code}
+    parent = Path(args.parent_profile) if args.parent_profile else None
     verify_edit = Path(args.verify_edit) if args.verify_edit else None
+    guard = Path(args.movement_guard) if args.movement_guard else None
     if args.ledger:
         if Path(args.out).exists():
             raise FileExistsError(f"{args.out} exists; every profile is written to a new directory")
         verify_edit = Path(f"{args.out}.verify-edit")
         seeds = (() if args.no_routeability else None if args.routeability_seed is None
                  else tuple(args.routeability_seed))
-        build_profile.run_verify_edit(loaded, ledger_file=Path(args.ledger), facts_path=facts_file,
-                                      output_dir=verify_edit, repository_root=REPOSITORY_ROOT,
-                                      netconvert_binary=args.netconvert or "netconvert", routeability_seeds=seeds)
-    state = doctor.repository_state(REPOSITORY_ROOT)
+        netconvert = args.netconvert or "netconvert"
+        verified = build_profile.run_verify_edit(loaded, ledger_file=Path(args.ledger), facts_path=facts_file,
+                                                 output_dir=verify_edit, repository_root=REPOSITORY_ROOT,
+                                                 netconvert_binary=netconvert, routeability_seeds=seeds,
+                                                 parent_profile=parent, goal_bytes=data, verifier=verifier)
+        if verified["status"] in {"measured", "no_effect"} and Path(verified["candidate_net_file"]).is_file():
+            guard = Path(f"{args.out}.movement-guard")
+            build_profile.run_movement_guard(loaded, data, facts, facts_path=facts_file, verify_edit=verify_edit,
+                                             output_dir=guard, verifier=verifier, parent_profile=parent,
+                                             repository_root=REPOSITORY_ROOT,
+                                             sumo_binary=build_profile.sumo_beside(netconvert))
     profile = build_profile.write_build_profile(
         loaded, data, facts, facts_path=facts_file, repository_root=REPOSITORY_ROOT, out_dir=Path(args.out),
-        verifier={"commit": state["commit"], "clean": state["clean"], "astra_sumo": code},
-        net=Path(args.candidate_net) if args.candidate_net else None, verify_edit=verify_edit,
-        parent_profile=Path(args.parent_profile) if args.parent_profile else None)
-    gate = profile["gate"]
+        verifier=verifier, net=Path(args.candidate_net) if args.candidate_net else None, verify_edit=verify_edit,
+        parent_profile=parent, movement_guard_record=guard)
+    gate, structure = profile["gate"], profile["source_structure"]
     _emit({"status": profile["status"], "out": str(Path(args.out)), "goal": profile["goal"], "cand": profile["cand"],
            "parent": profile["parent"], "subject": profile["subject"], "verifier": profile["verifier"],
-           "screening": gate["screening"], "first_fail": gate.get("first_fail"), "V": profile["V"]["cand"],
+           "screening": gate["screening"], "first_fail": gate.get("first_fail"),
+           # Decision D1: a dirty goal source blocks promotion without a human, whatever the screening says.
+           "source_dirty": profile["source_dirty"],
+           "source_structure": {"count": structure["count"],
+                                **({"promotion": structure["promotion"]} if "promotion" in structure else {})},
+           "claim": profile["claim"], "V": profile["V"]["cand"],
            "V_parent": profile["V"]["parent"],
            "invariants": {check["id"]: check["pass"] for check in profile["invariants"]},
+           "L2": (gate.get("L2") or {}).get("result"), "L3": (gate.get("L3") or {}).get("result"),
            "hotspots": profile["hotspot_ids"][:5], "verify_edit": profile["inputs"]["verify_edit"],
+           "movement_guard": profile["inputs"]["movement_guard"],
            "compact": profile["compact"], "details": profile["details"],
            "timing": {**profile["timing"], "cli_s": round(time.perf_counter() - started, 3)}}, args.json)
     return _code(profile["status"])
@@ -233,6 +255,9 @@ def main(argv: list[str] | None = None) -> int:
     create.add_argument("--seed", action="append", type=int, help="build: a routeability seed (repeatable).")
     create.add_argument("--lane-artifact", action="append", help="build: a lane-bound artifact file (repeatable).")
     create.add_argument("--sigma-m", type=float, default=0.0, help="build: declared combined source sigma in m.")
+    create.add_argument("--map-xml", help="build: a MAP XML whose connections the sg_partition check reads.")
+    create.add_argument("--movement-manifest", help="build: a supported movement manifest of the source net; L2 then "
+                        "runs the movement probes on manifests re-bound to each step's nets.")
     create.set_defaults(handler=_goal_create)
     profile = commands.add_parser("profile", help="Profile a run against a goal.")
     kinds = profile.add_subparsers(dest="kind", required=True)
@@ -254,14 +279,17 @@ def main(argv: list[str] | None = None) -> int:
                        help="--ledger only: override the goal's seeds.")
     build.add_argument("--no-routeability", action="store_true",
                        help="--ledger only: run no routeability seed (L3 then never passes).")
-    build.add_argument("--parent-profile", help="The parent's profile.full.json, for the keyed diff.")
+    build.add_argument("--movement-guard", help="--verify-edit only: the L2 movement-guard directory of that "
+                                                "candidate (without one L2 is not run and nothing is accepted).")
+    build.add_argument("--parent-profile", help="The parent's profile.full.json (an accepted candidate or the goal "
+                                                "source); its effective fact table is the step's.")
     build.add_argument("--out", required=True, help="New profile directory; an existing one is refused.")
     build.add_argument("--json", action="store_true")
     build.set_defaults(handler=_profile_build)
     for name, text in (("k1", "K1 known answers: every synthetic X4 mutation against reference facts of its clean "
                                "fixture (offline)."),
-                       ("k2", "K2 known answers: ledger and raw faults on the clean Ring1 nominal net, judged through "
-                               "verify-edit explore with no routeability seeds.")):
+                       ("k2", "K2 known answers: ledger and raw faults on the clean Ring1 nominal net; every repair "
+                               "judged through verify-edit explore (L3 on frozen trips) and the L2 movement guard.")):
         harness = commands.add_parser(name, help=text)
         harness_commands = harness.add_subparsers(dest="action", required=True)
         run = harness_commands.add_parser("run", help="Run the harness into a new directory.")

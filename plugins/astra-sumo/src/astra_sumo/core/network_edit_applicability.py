@@ -317,7 +317,7 @@ def assess_edit_applicability(ledger, *, candidate_net_file=None, identity_contr
 
 
 def verify_network_edit(*, ledger_file, output_dir, netconvert_binary="netconvert", mode="explore", facts_file=None,
-                        routeability_seeds=(42,), lane_artifact_files=None):
+                        routeability_seeds=(42,), lane_artifact_files=None, routeability_trip_files=None):
     """Explore a typed road edit, or apply the existing release checks explicitly."""
     from .corridor_edit_ledger import materialize_corridor_edit_variant, run_corridor_candidate_gates
     from .network_edit_operations import _sumo_binary
@@ -327,11 +327,12 @@ def verify_network_edit(*, ledger_file, output_dir, netconvert_binary="netconver
         from .network_edit_operations import explore_network_edit
         return explore_network_edit(ledger_file=ledger_file, output_dir=output_dir, netconvert_binary=netconvert_binary,
                                     facts_file=facts_file, routeability_seeds=routeability_seeds,
-                                    lane_artifact_files=lane_artifact_files)
+                                    lane_artifact_files=lane_artifact_files,
+                                    routeability_trip_files=routeability_trip_files)
     if facts_file is not None:
         raise ValueError("Use facts_file during exploration. Release calibration is a separate final check.")
-    if tuple(routeability_seeds) != (42,) or lane_artifact_files is not None:
-        raise ValueError("Use routeability_seeds and lane_artifact_files during exploration. "
+    if tuple(routeability_seeds) != (42,) or lane_artifact_files is not None or routeability_trip_files is not None:
+        raise ValueError("Use routeability_seeds, lane_artifact_files and routeability_trip_files during exploration. "
                          "Release runs the candidate gates unchanged.")
     if mode != "release":
         raise ValueError("Mode must be explore or release.")

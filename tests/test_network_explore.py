@@ -272,6 +272,39 @@ def test_explore_routeability_seeds_skip_or_report_one_pair_per_seed(tmp_path):
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+def test_explore_source_audits_run_supplied_frozen_trips_per_seed(tmp_path):
+    # Twin review finding: explore regenerated each seed's requests from the ledger source, so a chained step could
+    # not run the goal's frozen trips. A supplied trip file is the source audit's input; the default is unchanged.
+    from pathlib import Path
+    from astra_sumo.core.routeability_audit import _write_source_reachable_trips, build_routeability_od_policy
+
+    source = _source(tmp_path, "set_speed")
+    path = tmp_path / "ledger.json"
+    path.write_text(json.dumps({"source_net_file": str(source), "operations": [{"id": "speed", "operation": "set_speed",
+        "params": {"lane_id": "middle_0", "speed_m_s": 8}}]}), encoding="utf-8")
+    frozen = tmp_path / "frozen" / "seed17.trips.xml"
+    frozen.parent.mkdir()
+    _write_source_reachable_trips(source, build_routeability_od_policy([source]), frozen, vehicle_count=100, seed=17)
+    netconvert = shutil.which("netconvert")
+    report = verify_network_edit(ledger_file=path, output_dir=tmp_path / "fixed", netconvert_binary=netconvert,
+                                 routeability_seeds=(17, 42), routeability_trip_files={17: frozen})
+    by_seed = {entry["seed"]: entry for entry in report["routeability_by_seed"]}
+    fixed = by_seed[17]["source_routeability"]["od_policy"]
+    assert fixed["mode"] == "frozen_requests" and fixed["frozen_trip_sha256"] == file_sha256(frozen)
+    assert fixed["request_file_sha256"] == file_sha256(frozen)
+    assert by_seed[17]["candidate_routeability"]["od_policy"]["frozen_trip_sha256"] == file_sha256(frozen)
+    assert by_seed[42]["source_routeability"]["od_policy"]["mode"] == "source_reachable_independent_generated"
+    assert Path(by_seed[17]["source_routeability"]["trip_file"]).read_bytes() == frozen.read_bytes()
+    for trips in ({5: frozen}, {17: tmp_path / "fixed" / "x.xml"}):
+        with pytest.raises((ValueError, FileNotFoundError)):
+            verify_network_edit(ledger_file=path, output_dir=tmp_path / "bad", netconvert_binary=netconvert,
+                                routeability_seeds=(17,), routeability_trip_files=trips)
+    with pytest.raises(ValueError, match="during exploration"):
+        verify_network_edit(ledger_file=path, output_dir=tmp_path / "release", netconvert_binary=netconvert,
+                            mode="release", routeability_trip_files={42: frozen})
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
 def test_explore_checks_supplied_lane_artifacts_on_the_candidate_lane(tmp_path):
     source = _source(tmp_path, "move_stop_line")
     length = float(ET.parse(source).getroot().find("edge[@id='middle']/lane").get("length"))

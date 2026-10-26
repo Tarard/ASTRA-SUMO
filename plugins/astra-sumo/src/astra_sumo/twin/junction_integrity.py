@@ -107,6 +107,107 @@ def audit_identity(finding: str, keys: list[str]) -> str:
     return ":".join(token for token in tokens if not _MEASURED.match(token))
 
 
+# Audit kinds whose fields (the tokens after the kind) carry bare lane indices: field position -> position of the
+# edge field it indexes; "rest" indexes every field from that position on (``core/connection_mode_audit.py``).
+_INDEXED_FIELDS = {
+    "duplicate_direct_connection": {2: 0, 3: 1},  # from|to|fromLane|toLane|via:count
+    "duplicate_lane_binding": {2: 0, 3: 1},  # from|to|fromLane|toLane:count
+    "ambiguous_target_lane_fanout": {1: 0, "rest": (3, 2)},  # source|fromLane|target:toLane,...
+    "destination_lane_merge": {2: 1, "rest": (3, 0)},  # source|target|toLane:fromLane,...
+    "crossed_lane_mapping": {2: 0, 3: 1, 4: 0, 5: 1},  # source:target:a>b:c>d
+}
+_KEEP_SEPARATORS = re.compile(r"([:|>,;()\s]+)")
+
+
+def remap_lane(lane: str, mapping: dict[str, dict[str, str]]) -> str | None:
+    """A road lane id under a declared lane remap ``{edge: {old index: new index}}``; None for a removed lane."""
+    edge, _, index = lane.rpartition("_")
+    if edge not in mapping or not index.isdigit():
+        return lane
+    new = mapping[edge].get(index)
+    return None if new is None else f"{edge}_{new}"
+
+
+def remap_identity(identity: str, mapping: dict[str, dict[str, str]]) -> str | None:
+    """An INT or structural finding identity under a declared lane remap, None when it names a removed lane.
+
+    Lane ids (``<edge>_<index>``, connection keys ``a_0>b_1``), an edge token followed by lane indices
+    (``incoming_motorized_lane_without_connection:<edge>:<index>``) and the positional lane fields of the audit kinds
+    in ``_INDEXED_FIELDS`` are remapped; edge-level findings without a lane index keep their identity."""
+    if not mapping:
+        return identity
+    parts = _KEEP_SEPARATORS.split(identity)
+    tokens = parts[0::2]
+
+    def index(edge: str, value: str) -> str | None:
+        return mapping[edge].get(value) if edge in mapping and value.isdigit() else value
+
+    out = list(tokens)
+    done = set()
+    kind = next((position for position, token in enumerate(tokens) if token in _INDEXED_FIELDS), None)
+    if kind is not None:
+        fields, spec = tokens[kind + 1:], _INDEXED_FIELDS[tokens[kind]]
+        positions = {position: edge for position, edge in spec.items() if position != "rest"}
+        if "rest" in spec:
+            start, edge = spec["rest"]
+            positions.update({position: edge for position in range(start, len(fields))})
+        for position, edge in positions.items():
+            if position < len(fields) and edge < len(fields):
+                value = index(fields[edge], fields[position])
+                if value is None:
+                    return None
+                out[kind + 1 + position] = value
+                done.add(kind + 1 + position)
+    for position, token in enumerate(tokens):
+        if position in done:
+            continue
+        if token in mapping:
+            # An edge token followed by lane indices (``<edge>:<index>``).
+            following = position + 1
+            while following < len(tokens) and tokens[following].isdigit() and following not in done:
+                value = index(token, tokens[following])
+                if value is None:
+                    return None
+                out[following] = value
+                done.add(following)
+                following += 1
+            continue
+        lane = remap_lane(token, mapping)
+        if lane is None:
+            return None
+        out[position] = lane
+    parts[0::2] = out
+    return "".join(parts)
+
+
+def comparable(rows: list[dict], mapping: dict[str, dict[str, str]] | None, *, remap: bool,
+               renumbered: set[str] | None = None) -> list[tuple]:
+    """``(identity, measure)`` of INT rows for a differential comparison across a declared lane remap.
+
+    With ``remap`` (the parent's rows) each identity is remapped (``remap_identity``) and a row naming a removed lane
+    is dropped. An independent-safety identity hashes lane ordinals from the curb, so on an edge whose surviving lanes
+    change that ordinal (``renumbered``; default every remapped edge) a safety row naming one of its lanes is compared
+    by its category and its (remapped) lanes instead, on both nets; elsewhere its hash still names the same finding."""
+    mapping = mapping or {}
+    renumbered = set(mapping) if renumbered is None else set(renumbered)
+    result = []
+    for row in rows:
+        identity = row["id"]
+        if row.get("source") == "independent_safety" and any(
+                lane.rpartition("_")[0] in renumbered for lane in row.get("lanes") or []):
+            lanes = [remap_lane(lane, mapping) if remap else lane for lane in row["lanes"]]
+            if None in lanes:
+                continue
+            _, anchor, category, _ = (identity.split(":", 3) + ["", "", ""])[:4]
+            identity = f"safety:{anchor}:{category}:lanes:{'|'.join(sorted(lanes))}"
+        elif remap:
+            identity = remap_identity(identity, mapping)
+            if identity is None:
+                continue
+        result.append((identity, row.get("measure")))
+    return result
+
+
 def _bit(bits: str, index: int) -> bool:
     return bits[len(bits) - 1 - index] == "1"
 

@@ -1,7 +1,7 @@
 """Build gate (M3): G0 assembly, the lexicographic V with real materiality, the L2/L3 guards and the screening label.
 
-Pure functions over rows, invariant results and routeability reports that the caller has already read. Labels sit in
-``screening``; they carry no promotion authority.
+Pure functions over rows, invariant results, movement-guard records and routeability reports that the caller has
+already read. Labels sit in ``screening``; they carry no promotion authority.
 
 V = (n_TOP, n_CTL, n_GEO, n_ATTR, E) over the frozen scored set, where n_X counts mismatched facts of class X and E
 sums their normalized numeric excess. Under G0 no matched scored fact may become unmatched, so the counts can only fall.
@@ -40,10 +40,15 @@ IDENTITY_REASON = ("per-request collision and teleport identities are not record
 # the failing requests unknown.
 EXPLAINED_FAILURES = frozenset({"incomplete", "vehicle-route-completion-failed", "discard-failure",
                                 "teleport-failure", "collision-failure", "unverified_endpoints"})
-# Screenings under which a candidate may become the parent of the next step.
-ACCEPTED_SCREENINGS = ("improved", "improved_l2_not_run")
-L2_REASON = ("L2 deterministic movement probes (run_candidate_movement_probes / run_all_turn_movement_smoke) are not "
-             "implemented in M3; no candidate screens as plain improved until they run")
+# Screenings under which a candidate may become the parent of the next step: only a candidate whose G0, V, L2 and L3
+# all hold. An unrun, unverified or failed L2 or L3 is never accepted.
+ACCEPTED_SCREENINGS = ("improved",)
+L2_RULE = ("L2: on every touched junction, no probe or smoke failure on the candidate that the parent does not have "
+           "(after the declared lane remap); a failure is an expected movement (frozen movement facts) that is not "
+           "driven or probed or does not arrive, a driven movement that does not arrive, a failed SUMO run, or a "
+           "teleport or collision in a run; an expected movement on the op's targets that fails on both nets is "
+           "unprobed and L2 stays unverified")
+L2_NOT_RUN = "no L2 movement-guard record was supplied; L2 never passes unrun"
 
 
 def v_vector(rows: dict[str, dict]) -> list:
@@ -251,25 +256,166 @@ def l3_rule(pairs: list[tuple[int, dict | None, dict | None]], declared_seeds: l
             "reported_only": ["travel time", "arrival time"]}
 
 
-def l2_not_run() -> dict:
-    """L2 as the M3 profiler records it: never run, so it never lets a candidate screen as plain improved."""
-    return {"status": "not_run", "result": "not_implemented", "reason": L2_REASON}
+MOVEMENT_GUARD_SCHEMA = "astra.twin-movement-guard/v1"
+NETWORK_RUN = "*"
+
+
+def l2_not_run(reason: str = L2_NOT_RUN) -> dict:
+    """L2 without a movement-guard record: never passes."""
+    return {"status": "not_run", "result": "not_run", "reason": reason, "rule": L2_RULE, "junctions": [],
+            "new_failures": []}
+
+
+def _pair(pair) -> str:
+    return f"movement:{pair[0]}>{pair[1]}"
+
+
+def l2_failing(run: dict | None, expected: list) -> set[str]:
+    """Failure tokens of one smoke run (or one probe run, ``failing``) of a net at one junction.
+
+    ``movement:<from lane>><to lane>`` for an expected movement that is not driven (absent, or not permitted for
+    the probe vehicle) or does not arrive, and for a driven movement that does not arrive; ``run:failed`` when SUMO
+    did not run cleanly (then nothing counts as arrived); ``run:teleports`` and ``run:collisions`` when the run had
+    any (the smoke records no per-vehicle identity for them); ``junction:absent`` when the net lacks a junction at
+    which movements are expected (a junction an op merged away expects none: its movements belong to the new one).
+    """
+    expected_pairs = {tuple(pair) for pair in expected}
+    if run is None:
+        return {"run:missing"}
+    if run.get("status") == "absent":
+        return ({"junction:absent"} if expected_pairs else set()) | {_pair(pair) for pair in expected_pairs}
+    tokens = set()
+    if "failing" in run:
+        # A probe run: every probe that did not pass, and every expected movement it did not probe or lists as not
+        # tested (absent from the manifest's declared movements, or on a removed lane).
+        tested = {tuple(pair) for pair in run.get("tested", [])}
+        tokens |= {_pair(pair) for pair in run["failing"]}
+        tokens |= {_pair(pair) for pair in expected_pairs - tested}
+        tokens |= {_pair(pair) for pair in expected_pairs & {tuple(pair) for pair in run.get("not_tested", [])}}
+        if not run.get("run_ok"):
+            tokens.add("run:failed")
+        return tokens
+    driven = {tuple(pair) for pair in run.get("driven", [])}
+    arrived = {tuple(pair) for pair in run.get("arrived", [])} if run.get("run_ok") else set()
+    if not run.get("run_ok"):
+        tokens.add("run:failed")
+    tokens |= {_pair(pair) for pair in driven - arrived}
+    tokens |= {_pair(pair) for pair in expected_pairs - driven}
+    tokens |= {f"run:{key}" for key in ("teleports", "collisions") if (run.get("events") or {}).get(key)}
+    return tokens
+
+
+def _remapped_token(token: str, mapping: dict[str, dict[str, str]]) -> str | None:
+    """A parent failure token under the declared lane remap ``{edge: {old index: new index}}``; None when it names a
+    lane the edit removed."""
+    if not token.startswith("movement:"):
+        return token
+    lanes = []
+    for lane in token[len("movement:"):].split(">"):
+        edge, _, index = lane.rpartition("_")
+        if edge in mapping:
+            if index not in mapping[edge]:
+                return None
+            lane = f"{edge}_{mapping[edge][index]}"
+        lanes.append(lane)
+    return "movement:" + ">".join(lanes)
+
+
+def _touches(token: str, junction: str | None, targets: dict) -> bool:
+    """Whether a movement token's lanes lie on a target edge of the op, or its junction is a target junction."""
+    edges = {lane.rpartition("_")[0] for lane in token[len("movement:"):].split(">")}
+    return bool(edges & set(targets.get("edges") or [])) or junction in set(targets.get("junctions") or [])
+
+
+def l2_rule(record: dict | None, *, parent_sha256: str, candidate_sha256: str, junctions: list[str],
+            expected: dict[str, dict[str, list]], lane_mapping: dict[str, dict[str, str]] | None = None,
+            verify_edit_sha256: str | None = None, method: str | None = None,
+            targets: dict[str, list[str]] | None = None) -> dict:
+    """L2 over a movement-guard record: pass only when it binds the parent and candidate nets (and, when given, the
+    verify-edit report and the ``method`` the goal requires), covers exactly the touched ``junctions`` with the
+    ``expected`` movements the profile derives from the frozen facts (``{"parent": {junction: pairs}, "candidate":
+    {...}}``), no junction shows a failure on the candidate that the parent (remapped) does not have, and no expected
+    movement on the op's ``targets`` (its edges and junctions) fails on both nets: such a movement is never compared,
+    so a candidate that breaks it is invisible to the differential rule (``unprobed``, unverified)."""
+    if record is None:
+        return l2_not_run()
+    problems = []
+    if record.get("schema") != MOVEMENT_GUARD_SCHEMA:
+        problems.append("schema")
+    if method is not None and record.get("method") != method:
+        problems.append(f"method {record.get('method')} instead of {method}")
+    if (record.get("parent") or {}).get("sha256") != parent_sha256:
+        problems.append("parent net sha256")
+    if (record.get("candidate") or {}).get("sha256") != candidate_sha256:
+        problems.append("candidate net sha256")
+    if verify_edit_sha256 is not None and (record.get("verify_edit") or {}).get("sha256") != verify_edit_sha256:
+        problems.append("verify-edit report sha256")
+    if record.get("junctions") != junctions:
+        problems.append("touched junctions")
+    if record.get("expected") != expected:
+        problems.append("expected movements")
+    if (record.get("lane_mapping") or {}) != (lane_mapping or {}):
+        problems.append("lane mapping")
+    if record.get("nets_unchanged") is not True:
+        problems.append("nets changed during the probes")
+    base = {"rule": L2_RULE, "method": record.get("method"), "junctions": [], "new_failures": []}
+    if problems:
+        return {**base, "status": "blocked", "result": "unverified",
+                "reason": f"the movement-guard record does not bind this candidate ({', '.join(problems)})"}
+    if not junctions:
+        return {**base, "status": "not_run", "result": "not_run", "reason": "no touched junction to probe"}
+    keys = [NETWORK_RUN] if record.get("method") == "movement_probes" else junctions
+    runs = record.get("runs") or {}
+    junction_of = {_pair(pair): junction for junction, pairs in expected["candidate"].items() for pair in pairs}
+    rows, new, unrun, unprobed = [], [], [], []
+    for key in keys:
+        wanted = {role: (expected[role].get(key, []) if key != NETWORK_RUN else
+                         sorted(pair for pairs in expected[role].values() for pair in pairs))
+                  for role in ("parent", "candidate")}
+        parent_run = (runs.get("parent") or {}).get(key)
+        parent = l2_failing(parent_run, wanted["parent"])
+        candidate = l2_failing((runs.get("candidate") or {}).get(key), wanted["candidate"])
+        mapped = {token for token in (_remapped_token(row, lane_mapping or {}) for row in parent) if token}
+        fresh = sorted(candidate - mapped)
+        both = sorted(candidate & mapped & {_pair(pair) for pair in wanted["candidate"]})
+        rows.append({"junction": key, "parent_failing": sorted(parent), "candidate_failing": sorted(candidate),
+                     "new": fresh, "unprobed": both})
+        new += [f"{key}:{token}" for token in fresh]
+        unprobed += [f"{key}:{token}" for token in both
+                     if _touches(token, junction_of.get(token, key), targets or {})]
+        # A parent run that did not run cleanly leaves nothing to compare against, as an L3 source that failed to
+        # route: it never passes.
+        if {"run:missing", "run:failed"} & parent:
+            unrun.append(key)
+    if new:
+        return {**base, "status": "blocked", "result": "new_failures", "junctions": rows, "new_failures": new,
+                "reason": f"{len(new)} failure(s) only on the candidate: {', '.join(new[:3])}"}
+    if unrun:
+        return {**base, "status": "blocked", "result": "unverified", "junctions": rows,
+                "reason": f"the parent's probes did not run cleanly at {', '.join(unrun[:3])}; nothing is compared"}
+    if unprobed:
+        return {**base, "status": "blocked", "result": "unverified", "junctions": rows, "unprobed": unprobed,
+                "reason": f"{len(unprobed)} expected movement(s) on the op's targets fail on both nets, so L2 compares "
+                          f"nothing there: {', '.join(unprobed[:3])}"}
+    return {**base, "status": "pass", "result": "no_new_failures", "junctions": rows,
+            "reason": f"no new probe or smoke failure on {len(keys)} touched junction(s)"}
 
 
 SCREENING = {"new_failing_requests": "dynamic_hard", "identities_unavailable": "dynamic_unverified",
              "not_run": "dynamic_not_run", "seeds_differ": "dynamic_unverified"}
+SCREENING_L2 = {"new_failures": "l2_new_failures", "unverified": "l2_unverified", "not_run": "l2_not_run"}
 
 
 def screening(g0_result: dict, v_result: dict, l3_result: dict, l2_result: dict | None = None) -> tuple[str, str | None]:
-    """First failing tier in order G0, V, L3, then L2; ``improved`` only when all four hold, and
-    ``improved_l2_not_run`` when L2 never ran (the M3 case)."""
+    """First failing tier in the design's order G0, V, L2 (deterministic probes), L3 (seed-level routeability);
+    ``improved`` only when all four hold. A missing L2 result is an unrun L2, which never passes."""
     if not g0_result["pass"]:
         return "g0_rejected", g0_result["first_fail"]
     if v_result["verdict"] != "improved":
         return f"v_{v_result['verdict']}", v_result["reason"]
-    if l3_result["status"] != "pass":
-        return SCREENING[l3_result["result"]], l3_result["reason"]
     l2_result = l2_result or l2_not_run()
     if l2_result["status"] != "pass":
-        return "improved_l2_not_run", l2_result["reason"]
+        return SCREENING_L2[l2_result["result"]], l2_result["reason"]
+    if l3_result["status"] != "pass":
+        return SCREENING[l3_result["result"]], l3_result["reason"]
     return "improved", None

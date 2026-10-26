@@ -145,19 +145,35 @@ def test_a_permissive_pair_keeps_its_identity_when_its_roles_swap() -> None:
     assert junction_integrity.role_free(one_way) == one_way
 
 
-def test_build_invariants_are_differential_against_parent_and_baseline() -> None:
+def test_inv_materialize_applies_d1_against_the_goal_source_and_inv_audit_is_differential() -> None:
+    # Decision D1: a clean goal source requires 0 structural failures; on a dirty one the candidate's must be a
+    # sub-multiset of the goal source's with no measure grown, and the row carries source_dirty and the inherited list.
     common = {"report_status": "measured", "candidate_sha256": "a", "declared_sha256": "a", "load_status": "pass",
               "source_immutable": True, "source_sha256": "p", "parent_sha256": "p"}
     gap = "J:connection_mode:path_endpoint_gap:A_0>B_0:exit"
-    held = invariants.inv_materialize(structural_failures=1, structure={"parent": [(gap, 1.589)],
+    held = invariants.inv_materialize(structural_failures=1, structure={"source": [(gap, 1.589)],
+                                                                        "candidate": [(gap, 1.589)]}, **common)
+    assert held["pass"] and (held["decision"], held["source_dirty"]) == ("D1", True)
+    assert held["inherited"] == [{"id": gap, "measure": 1.589}] and "not promotable without a human" in held["reason"]
+    grew = invariants.inv_materialize(structural_failures=1, structure={"source": [(gap, 1.589)],
                                                                         "candidate": [(gap, 1.62)]}, **common)
-    assert held["pass"] and "1 on the candidate, 1 on the parent" in held["reason"]
-    new = invariants.inv_materialize(structural_failures=2, structure={"parent": [(gap, 1.5)],
+    assert grew["witness_ids"] == [f"worse:{gap}"]
+    new = invariants.inv_materialize(structural_failures=2, structure={"source": [(gap, 1.5)],
                                                                        "candidate": [(gap, 1.5), (gap, 1.4)]}, **common)
     assert new["witness_ids"] == [f"structure:{gap}"]
-    assert invariants.inv_materialize(structural_failures=3, structure={"parent": [], "candidate": [(gap, 0.2)]},
-                                      **common)["witness_ids"] == [f"structure:{gap}", "structure:count:3"]
-    # The structure-free fallback is gone: the differential check always needs both structure lists.
+    assert invariants.inv_materialize(structural_failures=0, structure={"source": [(gap, 1.5)], "candidate": []},
+                                      **common)["pass"]
+    clean = invariants.inv_materialize(structural_failures=1, structure={"source": [], "candidate": [(gap, 0.2)]},
+                                       **common)
+    assert clean["witness_ids"] == sorted([f"structure:{gap}", "structure:count:1"]) and not clean["source_dirty"]
+    assert "structural failures 0" in clean["reason"]
+    recount = invariants.inv_materialize(structural_failures=3, structure={"source": [], "candidate": [(gap, 0.2)]},
+                                         **common)
+    assert recount["witness_ids"] == sorted(["structure:recount:1", f"structure:{gap}", "structure:count:3"])
+    dirty_recount = invariants.inv_materialize(structural_failures=2, structure={"source": [(gap, 1.5)],
+                                                                                 "candidate": [(gap, 1.5)]}, **common)
+    assert dirty_recount["witness_ids"] == ["structure:recount:1"]
+    # The structure lists are always required.
     with pytest.raises(TypeError):
         invariants.inv_materialize(structural_failures=0, **common)
     audit = invariants.inv_audit(["a"], ["a", "b", "c"], ["J"], baseline={"c": None})
@@ -172,13 +188,17 @@ def test_a_pre_existing_measured_finding_that_grows_is_a_regression() -> None:
     assert junction_integrity.audit_measure("connection_mode:path_endpoint_gap:3:exit:21.305m") == 21.305
     assert junction_integrity.audit_measure("connection_mode:turn_lane_order_inversion:W_in:s>l") is None
     gap = "LSA535_part0:connection_mode:path_endpoint_gap:186821027#0_1>43305966#1_0:exit"
-    parent = [(gap, 1.589), (gap, 2.188)]
-    grown = invariants.inv_materialize(structural_failures=2, structure={"parent": parent,
+    source = [(gap, 1.589), (gap, 2.188)]
+    grown = invariants.inv_materialize(structural_failures=2, structure={"source": source,
                                                                          "candidate": [(gap, 21.305), (gap, 2.188)]},
                                        **common)
-    assert grown["witness_ids"] == [f"worse:{gap}"]
-    assert invariants.inv_materialize(structural_failures=2, structure={"parent": parent, "candidate": [
-        (gap, 1.65), (gap, 2.188)]}, **common)["pass"]
+    assert not grown["pass"] and grown["witness_ids"] == [f"worse:{gap}"]
+    # Any growth counts (review finding P1-d): the former 0.1 m tolerance let 1.589 -> 1.65 m pass.
+    slight = invariants.inv_materialize(structural_failures=2, structure={"source": source, "candidate": [
+        (gap, 1.65), (gap, 2.188)]}, **common)
+    assert slight["witness_ids"] == [f"worse:{gap}"]
+    assert invariants.inv_materialize(structural_failures=2, structure={"source": source, "candidate": source},
+                                      **common)["pass"]
     audit = invariants.inv_audit([("audit:J:g", 1.0)], [("audit:J:g", 1.2), ("audit:J:b", 3.0)], ["J"],
                                  baseline={"audit:J:b": 2.0})
     assert audit["witness_ids"] == ["worse:audit:J:b", "worse:audit:J:g"]
@@ -259,7 +279,10 @@ def test_raw_perturbations_touch_one_lane_only() -> None:
 def test_k2_one_ledger_fault_reaches_v0_through_its_suggested_inverse(tmp_path: Path) -> None:
     report = known_answers.run_k2(tmp_path / "k2", repository_root=ROOT, verifier=VERIFIER,
                                   netconvert_binary=shutil.which("netconvert"), case_ids=("speed",), perf=False)
-    assert report["status"] == "pass", report["failed_checks"]
+    # The repair reaches V = 0 and holds G0, L2 and L3. The clean Ring1 net already carries 5 structural failures
+    # (endpoint gaps at LSA535_part0); under decision D1 the repair inherits them unchanged, so it is accepted with
+    # source_dirty (not promotable without a human).
+    assert report["status"] == "pass" and report["failed_checks"] == []
     assert report["net"]["sha256"].startswith(known_answers.RING1_SHA256_PREFIX)
     direction = report["ring1_direction"]
     assert (direction["rule"], direction["checked_count"], direction["finding_count"], direction["ambiguous_count"]) \
@@ -270,13 +293,18 @@ def test_k2_one_ledger_fault_reaches_v0_through_its_suggested_inverse(tmp_path: 
     assert case["fault"]["outside_fact_changes"] == [] and case["fault"]["label"] == known_answers.LEDGER_LABEL
     assert case["source"]["hotspot_ids"] == ["H:ATTR:edge:-186713427"]
     assert case["source"]["target"]["op"] == "set_speed"
+    assert (case["source"]["source_dirty"], case["source"]["structural_failures"]) == (True, 5)
     (step,) = case["steps"]
     assert step["basis"] == "suggested_op of H:ATTR:edge:-186713427"
     assert step["V"] == [0, 0, 0, 0, 0.0] and step["G0"] == "pass" and step["outside_fact_changes"] == []
-    assert step["screening"] == "dynamic_not_run"
+    assert (step["screening"], step["failed_invariants"], step["source_dirty"]) == ("improved", {}, True)
+    # The dynamic guards ran: L2 on both ends of the edited edge, L3 on the goal's frozen seed-42 trips.
+    assert (step["L2"]["result"], step["L2"]["method"]) == ("no_new_failures", "all_turn_smoke")
+    assert [row["junction"] for row in step["L2"]["junctions"]] == ["14398547", "14398548"]
+    assert step["L3"]["result"] == "subset_holds" and step["L3"]["seeds"][0]["trips_are_frozen"]
     assert "-186713427" in case["scope"]["edges"] and len(case["scope"]["junctions_in_scope"]) > 2
     stored = json.loads((tmp_path / "k2" / "k2-report.json").read_text(encoding="utf-8"))
-    assert "timing" not in stored and stored["routeability"].startswith("not run")
+    assert "timing" not in stored and stored["routeability"].startswith("every repair step")
     assert report["timing_checks"] == {} and stored["timing_checks"] == "not run (--no-perf)"
 
 
