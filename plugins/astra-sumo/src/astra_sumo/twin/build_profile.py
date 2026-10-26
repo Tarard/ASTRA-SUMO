@@ -38,7 +38,8 @@ from ..core.candidate_contracts import file_sha256
 from ..core.connection_mode_audit import audit_network_connection_mode
 from ..core.network_calibration import (NetworkFactTable, _coordinate_transform, _network_root, _points, _score,
                                         _shape, centerline_overlap_metrics, compare_calibration_scorecards)
-from . import build_gate, ids, invariants, junction_integrity, movement_guard, render, signal_partition
+from . import (build_gate, declared_targets, ids, invariants, junction_integrity, movement_guard, render,
+               signal_partition)
 from .count_profile import write_staged_profile
 from .direction_check import RULE as DIRECTION_RULE, check_connection_directions, direction_baseline
 from .direction_check import new_direction_findings
@@ -82,6 +83,12 @@ CLAIM = ("Explore only. Model-relative comparison against the goal's reference f
 DIRTY_CLAIM = (" Dirty source (D1): the goal source carries {count} structural failure(s) (source_structure); a "
                "candidate that inherits them may screen as improved in explore, but it is not promotable without a "
                "human.")
+DECLARED_CLAIM = (" Declared targets (fragility_fix): V counts the goal's declared movement and signal targets against "
+                  "the source's own reference facts. The targets were derived from a materialization of the declared "
+                  "op and lint admits only entries the op implies, so V = 0 holds by construction: an improved V "
+                  "shows only that this materialization did what the declared op implies, never that the edit is "
+                  "right. A merge justified by a declared model-justified basis is a twin-layer exemption of this "
+                  "explore gate (the core release audit does not accept it) and carries no field evidence.")
 LOOKUPS = (FileNotFoundError, KeyError, TypeError, ValueError, json.JSONDecodeError, ET.ParseError)
 # Owner-delegated decisions on questions the approved design text left open. They are binding on G0 and replace the
 # former non-binding proposals G0-materialize-differential, G0-frame-convboundary and G0-shape-local-turns.
@@ -476,11 +483,23 @@ def scope_junctions(root: ET.Element, edge_ids: list[str], junction_ids: list[st
     return sorted(node for node in nodes if node in present)
 
 
-def int_findings(root: ET.Element, junctions: list[str]) -> tuple[list[dict], dict]:
+def int_findings(root: ET.Element, junctions: list[str], *, evidence: dict | None = None,
+                 justified: list | None = None) -> tuple[list[dict], dict]:
     """INT rows: every direction finding (``twin/direction_check.py``), and on the given junctions every
     connection-mode audit finding (structural, review and TLS-binding), request-matrix finding and independent
     movement-safety finding (``twin/junction_integrity.py``). Each row names the road lanes it refers to and, for a
-    measured audit finding, its largest measured length (``measure``)."""
+    measured audit finding, its largest measured length (``measure``).
+
+    ``evidence`` holds a fragility-fix goal's declared model-justified merges (``twin/declared_targets.py``): the
+    destination-merge findings they name exactly are not INT rows; they are appended to ``justified`` instead."""
+    rows, direction = _int_rows(root, junctions)
+    kept, found = declared_targets.justify_merges(rows, evidence)
+    if justified is not None:
+        justified.extend(found)
+    return kept, direction
+
+
+def _int_rows(root: ET.Element, junctions: list[str]) -> tuple[list[dict], dict]:
     index = junction_integrity.road_lane_index(root)
     direction = check_connection_directions(root)
     rows = {row["id"]: {"id": row["id"], "class": "INT", "source": "direction", "finding": row["reason"],
@@ -1083,8 +1102,12 @@ def _verify_edit_gate(goal: BuildGoal, *, table: NetworkFactTable, facts_sha: st
     # move (D2 frame anchor; INV-OPSCOPE keeps every op target inside it). verify-edit's derived scope widens the audit.
     goal_junctions = scope_junctions(parent_root, goal.scope.mutable_edge_ids, goal.scope.mutable_junction_ids)
     junctions = sorted(set(goal_junctions) | set(plan.get("mutable_junction_ids", [])))
-    parent_int, parent_direction = int_findings(parent_root, [j for j in junctions if j in _junction_ids(parent_root)])
-    candidate_int, candidate_direction = int_findings(root, [j for j in junctions if j in _junction_ids(root)])
+    evidence = declared_targets.block_evidence(goal.reference.declared_targets)
+    justified: dict[str, list] = {"parent": [], "candidate": []}
+    parent_int, parent_direction = int_findings(parent_root, [j for j in junctions if j in _junction_ids(parent_root)],
+                                                evidence=evidence, justified=justified["parent"])
+    candidate_int, candidate_direction = int_findings(root, [j for j in junctions if j in _junction_ids(root)],
+                                                      evidence=evidence, justified=justified["candidate"])
     new_direction = new_direction_findings(direction_baseline(parent_direction, parent_sha), candidate_direction,
                                            mapping or None)
     # verify-edit measured outside fact changes with the fact table it was given: it must be the parent's effective one.
@@ -1153,7 +1176,7 @@ def _verify_edit_gate(goal: BuildGoal, *, table: NetworkFactTable, facts_sha: st
             "parent_int_ids": sorted(identity for identity, _ in junction_integrity.comparable(
                 parent_int, mapping, remap=True, renumbered=renumbered)), "renumbered": renumbered,
             "candidate_int": candidate_int,
-            "candidate_direction": candidate_direction}
+            "candidate_direction": candidate_direction, "justified": justified}
 
 
 def _junction_ids(root: ET.Element) -> set[str]:
@@ -1415,6 +1438,9 @@ def build_build_profile(goal: BuildGoal, goal_bytes: bytes, facts_bytes: bytes, 
                                 "candidate": _row_value(rows[fact])} for fact in fixed],
                 "shape_changes": len(judged["shape_changes"]), "new_direction_findings": judged["new_direction"],
                 "sg_partition": judged["sg_partition"], "verify_edit_status": report.get("status")}
+        if goal.reference.declared_targets is not None:
+            # Declared model-justified merges: taken out of INV-AUDIT, reported here with their evidence.
+            gate["justified_merges"] = judged["justified"]
         # no_effect only when nothing materialized; verify-edit's own status stays in the gate.
         status = ("blocked" if not judged["g0"]["pass"] or report.get("status") == "blocked"
                   else "no_effect" if net_sha == parent_sha else "measured")
@@ -1435,7 +1461,8 @@ def build_build_profile(goal: BuildGoal, goal_bytes: bytes, facts_bytes: bytes, 
         found = [row for row in judged["candidate_int"] if row["source"] == "direction" or row["anchor"] in keep]
         direction = judged["candidate_direction"]
     else:
-        found, direction = int_findings(root, junctions)
+        found, direction = int_findings(root, junctions,
+                                        evidence=declared_targets.block_evidence(goal.reference.declared_targets))
     # The goal baseline in this net's lane naming (its composed lane-count remap); the parent's rows after the step's.
     baseline = remapped_baseline(goal, effective.get("lane_mapping") or {})
     parent_int = set(judged["parent_int_ids"]) if report is not None else set()
@@ -1501,7 +1528,8 @@ def build_build_profile(goal: BuildGoal, goal_bytes: bytes, facts_bytes: bytes, 
         "escalations": escalations, "delta": delta,
         "source_dirty": structure["source_dirty"], "source_structure": structure,
         "binding_decisions": DECISIONS, "implementation_notes": IMPLEMENTATION_NOTES,
-        "claim": CLAIM + (DIRTY_CLAIM.format(count=structure["count"]) if structure["source_dirty"] else "")}
+        "claim": CLAIM + (DIRTY_CLAIM.format(count=structure["count"]) if structure["source_dirty"] else "")
+        + (DECLARED_CLAIM if goal.reference.declared_targets is not None else "")}
     details = {"facts.csv": [_csv_row(rows.get(fact), excluded.get(fact), card_by_id[fact]) for fact in
                              [fact.id for fact in table.facts]],
                "int-findings.csv": [{key: (" ".join(row[key]) if key == "lanes" else row.get(key))

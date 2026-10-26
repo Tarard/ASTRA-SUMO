@@ -1,8 +1,12 @@
-"""ASTRA twin profiler CLI: doctor, resolve, goal-create (calibrate, build), profile (calibrate, build), the Build
-known-answer harnesses (k1, k2) and the M2 Calibrate commands judge, panel-fixture and stage.
+"""ASTRA twin profiler CLI: doctor, resolve, goal-create (calibrate, build, with ``--declared-targets`` a fragility-fix
+goal), profile (calibrate, build), the Build known-answer harnesses (k1, k2), the M2 Calibrate commands judge (with
+``--candidate`` a hash-bound candidate network and control), panel-fixture and stage, and the M4 fragility commands
+control-reindex, fragility and fragility-analyze.
 
-Only ``judge``, ``profile build --ledger`` and ``k2 run`` start SUMO tools. ``judge`` makes full runs of a goal's run
-block, cached by their effective execution request, at most three in parallel, each logged to ``<store>/runs.jsonl``.
+Only ``judge``, ``profile build --ledger``, ``k2 run`` and ``control-reindex --load-check`` start SUMO tools; the
+load check loads the parent and the candidate net with their controls for one step (never a Calibrate run).
+``judge`` makes full runs of a goal's run block, cached by their effective execution request, at most three in
+parallel, each logged to ``<store>/runs.jsonl``.
 ``profile build --ledger`` and ``k2 run`` run ``verify_network_edit`` in explore mode (L3 on the goal's frozen per-seed
 trips; k2 injects its faults with no routeability seed) and the L2 movement guard
 (``build_profile.run_movement_guard``); every other command is offline. Exit codes follow ``astra`` (``cli.py``): 0 for
@@ -13,8 +17,12 @@ new profile or harness directory and, for ``--ledger``, its new siblings ``<out>
 ``<out>.movement-guard``; doctor's scratch inside the clone), with transient files beside them, and writes no bytecode,
 so a verifier clone stays as checked out. ``judge`` keeps its staged inputs, runs, ledger and temporary files inside
 the store. ``panel-fixture`` only reads a store and writes one new fixture file. ``stage`` only reads a store and
-writes at most one new verdict file. The one exception is verify-edit's command runner (``core/command_runner.py``),
-which keeps its transient ``astra-command-*`` directories under the system temp directory.
+writes at most one new verdict file. ``control-reindex`` writes one new control file, its report and (with
+``--load-check``) the load directory beside it, into which it copies the additional files it loads; ``fragility``
+only reads a native directory and writes at most one new metrics file; ``fragility-analyze`` only reads a frozen
+design and both ledgers and writes one new analysis file. The one exception is verify-edit's command runner
+(``core/command_runner.py``), which keeps its transient ``astra-command-*`` directories under the system temp
+directory.
 """
 
 from __future__ import annotations
@@ -41,8 +49,8 @@ sys.path.insert(0, str(SRC_ROOT))
 
 try:
     import astra_sumo
-    from astra_sumo.twin import (build_profile, count_profile, doctor, goal, ids, known_answers, m2_stage, panel,
-                                perturb, runner)
+    from astra_sumo.twin import (build_profile, control_reindex, count_profile, doctor, fragility, goal, ids,
+                                known_answers, m2_stage, panel, perturb, runner)
 except ImportError as error:
     print(json.dumps({"status": "blocked", "reason": f"cannot import astra_sumo.twin from {SRC_ROOT}: {error}",
                       "error_type": type(error).__name__}, ensure_ascii=False))
@@ -109,7 +117,9 @@ def _goal_create_build(args: argparse.Namespace) -> int:
         mutable_junction_ids=args.mutable_junction or [], ops=args.op, seeds=args.seed,
         lane_artifacts=[Path(path) for path in args.lane_artifact or []], sigma_m=args.sigma_m,
         map_xml=Path(args.map_xml) if args.map_xml else None, scratch_dir=Path(args.store),
-        movement_manifest=Path(args.movement_manifest) if args.movement_manifest else None)
+        movement_manifest=Path(args.movement_manifest) if args.movement_manifest else None,
+        declared=json.loads(Path(args.declared_targets).read_text(encoding="utf-8")) if args.declared_targets
+        else None)
     path, written, facts_file = goal.write_build_goal(created, facts, Path(args.store))
     data = path.read_bytes()
     _emit({"status": "pass", "write": written, "goal_id": created.goal_id, "goal": str(path),
@@ -232,18 +242,27 @@ def _draw(job: dict) -> perturb.DrawKey | None:
     return None
 
 
+def _candidate(job: dict) -> dict | None:
+    """The hash-bound candidate scenario a job names by its manifest path (``runner.candidate_scenario``)."""
+    if not job.get("candidate"):
+        return None
+    manifest = Path(job["candidate"])
+    return runner.candidate_scenario(json.loads(manifest.read_text(encoding="utf-8")), base=manifest.parent)
+
+
 def _judge(args: argparse.Namespace) -> int:
     _clone_code()
     store = Path(args.store)
     single = {"label": args.label, "purpose": args.purpose, "demand": args.demand, "op": args.op,
               "family": args.family, "key_hex": args.key_hex, "key_label": args.key_label,
-              "public_key": args.public_key, "seed": args.seed}
+              "public_key": args.public_key, "seed": args.seed, "candidate": args.candidate}
     jobs = json.loads(Path(args.batch).read_text(encoding="utf-8")) if args.batch else [single]
     runtime = runner.runtime_identity(REPOSITORY_ROOT)
     plans = [runner.plan_judge(Path(args.goal), store, label=job["label"], purpose=job["purpose"],
                                repository_root=REPOSITORY_ROOT, runtime=runtime, op=job.get("op"),
                                demand=Path(job["demand"]).read_bytes() if job.get("demand") else None,
-                               family=job.get("family"), draw=_draw(job), seed=job.get("seed")) for job in jobs]
+                               family=job.get("family"), draw=_draw(job), seed=job.get("seed"),
+                               candidate=_candidate(job)) for job in jobs]
     if args.plan_only:
         _emit({"status": "pass", "plans": [{"label": p.label, "request_sha256": p.key, "run_dir": p.run_dir,
                                              "cached": runner.read_judge(p) is not None} for p in plans]}, args.json)
@@ -254,6 +273,72 @@ def _judge(args: argparse.Namespace) -> int:
                                                                        "request_sha256", "wall_s", "score", "error")}
                                           for r in results]}, args.json)
     return _code(status)
+
+
+def _control_reindex(args: argparse.Namespace) -> int:
+    """Re-index a control file to a candidate net's links and, with --load-check, load both nets in SUMO."""
+    _clone_code()
+    out = Path(args.out)
+    if out.exists():
+        raise FileExistsError(f"{out} exists; write the re-indexed control to a new path")
+    declaration, entries = json.loads(Path(args.declaration).read_text(encoding="utf-8")), None
+    if declaration.get("schema") == goal.SCHEMA:  # a fragility-fix goal: its declared control block and targets
+        block = declaration["reference"]["declared_targets"]
+        declaration, entries = block["control"], block["entries"]
+    parent_net, candidate_net, control = Path(args.parent_net), Path(args.candidate_net), Path(args.control)
+    report = control_reindex.write_reindexed(parent_net, candidate_net, control, declaration, out, entries=entries)
+    if args.load_check:
+        report = control_reindex.load_check_report(
+            report, parent_net=parent_net, candidate_net=candidate_net, control=control, out=out,
+            additional=[Path(path) for path in args.additional or []], sumo_binary=args.sumo or "sumo",
+            demand=Path(args.demand) if args.demand else None)
+    report_path = out.with_name(out.name + ".report.json")
+    report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+    loaded = report.get("load_check", {}).get("candidate", {}).get("status", "pass")
+    status = "pass" if loaded == "pass" else "blocked"
+    _emit({"status": status, "out": str(out), "report": str(report_path), "output_sha256": report["output_sha256"],
+           "changed_controllers": report["changed_controllers"],
+           "load_check": {name: row["status"] for name, row in report.get("load_check", {}).items()
+                          if name != "comparison"}}, args.json)
+    return _code(status)
+
+
+def _fragility(args: argparse.Namespace) -> int:
+    """Fragility metrics of one judged run's native directory (reads files only; no SUMO run)."""
+    _clone_code()
+    if bool(args.parent_net) != bool(args.parent_control):
+        raise ValueError("--parent-net and --parent-control go together")
+    parent = (fragility.Network(Path(args.parent_net).read_bytes(), Path(args.parent_control).read_bytes())
+              if args.parent_net else None)
+    metrics = fragility.run_metrics(Path(args.native), parent=parent)
+    if args.out:
+        out = Path(args.out)
+        if out.exists():
+            raise FileExistsError(f"{out} exists; write the metrics to a new path")
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps(metrics, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+    _emit({"status": "measured", "primary": metrics["primary"], "gridlock": metrics["gridlock"],
+           "collisions": len(metrics["collisions"]), "teleports": len(metrics["teleports"]),
+           "new_sites": metrics["new_sites"]}, args.json)
+    return 0
+
+
+def _fragility_analyze(args: argparse.Namespace) -> int:
+    """The pre-registered fragility analysis from a frozen design (reads both ledgers; no SUMO run)."""
+    _clone_code()
+    out = Path(args.out)
+    if out.exists():
+        raise FileExistsError(f"{out} exists; write the analysis to a new path")
+    data = Path(args.design).read_bytes()
+    result = {**fragility.analyze(json.loads(data)), "design": {"path": str(Path(args.design).resolve()),
+                                                               "sha256": hashlib.sha256(data).hexdigest()}}
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(result, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+    _emit({"status": "measured", "out": str(out),
+           "labels": {name: row["decision"]["label"] for name, row in result["candidates"].items()},
+           "if_static_gate_had_passed": {name: row["decision"]["conditions"].get("label_if_static_gate_had_passed")
+                                         for name, row in result["candidates"].items()}}, args.json)
+    return 0
 
 
 def _panel_fixture(args: argparse.Namespace) -> int:
@@ -337,6 +422,9 @@ def main(argv: list[str] | None = None) -> int:
     create.add_argument("--map-xml", help="build: a MAP XML whose connections the sg_partition check reads.")
     create.add_argument("--movement-manifest", help="build: a supported movement manifest of the source net; L2 then "
                         "runs the movement probes on manifests re-bound to each step's nets.")
+    create.add_argument("--declared-targets", help="build: a fragility-fix delta (JSON: entries, derived_from, control "
+                        "and optional evidence_justified_destination_merges) on the source's own reference facts; "
+                        "needs --target-date and neither --facts nor --reference-net.")
     create.set_defaults(handler=_goal_create)
     profile = commands.add_parser("profile", help="Profile a run against a goal.")
     kinds = profile.add_subparsers(dest="kind", required=True)
@@ -391,6 +479,8 @@ def main(argv: list[str] | None = None) -> int:
     judge.add_argument("--key-label")
     judge.add_argument("--public-key", help="Label of a public draw key derived from the label alone.")
     judge.add_argument("--seed", type=int, help="Explicit seed override; default: the goal's seed.")
+    judge.add_argument("--candidate", help="A candidate manifest (id, net and control with sha256): the run replaces "
+                                           "the prepared network and control with these hash-bound files.")
     judge.add_argument("--workers", type=int, default=runner.MAX_PARALLEL)
     judge.add_argument("--plan-only", action="store_true", help="Stage and print cache keys; start no run.")
     judge.add_argument("--json", action="store_true")
@@ -413,6 +503,33 @@ def main(argv: list[str] | None = None) -> int:
     stage.add_argument("--out", help="New verdict file (canonical JSON); an existing one is refused.")
     stage.add_argument("--json", action="store_true")
     stage.set_defaults(handler=_stage)
+    reindex = commands.add_parser("control-reindex", help="Re-index a control file to a candidate net's linkIndex "
+                                                          "layout; --load-check loads both nets in SUMO for one step.")
+    reindex.add_argument("--parent-net", required=True)
+    reindex.add_argument("--candidate-net", required=True)
+    reindex.add_argument("--control", required=True, help="The parent's executed control file.")
+    reindex.add_argument("--declaration", required=True, help="A fragility-fix goal.json or a JSON control declaration "
+                                                              "(added_links, removed_links).")
+    reindex.add_argument("--out", required=True, help="New re-indexed control file; <out>.report.json beside it.")
+    reindex.add_argument("--load-check", action="store_true", help="Load parent and candidate in SUMO (one step).")
+    reindex.add_argument("--additional", action="append", help="--load-check: a further additional file (repeatable).")
+    reindex.add_argument("--demand", help="--load-check: a demand file whose routes are checked for edge continuity.")
+    reindex.add_argument("--sumo", help="--load-check: the sumo binary (default: sumo).")
+    reindex.add_argument("--json", action="store_true")
+    reindex.set_defaults(handler=_control_reindex)
+    metrics = commands.add_parser("fragility", help="Fragility metrics of one judged run's native directory.")
+    metrics.add_argument("--native", required=True, help="<run_dir>/native of a judged run.")
+    metrics.add_argument("--parent-net", help="The parent's net: the primary metrics judge wrong lanes by its links.")
+    metrics.add_argument("--parent-control", help="The parent's executed control (with --parent-net).")
+    metrics.add_argument("--out", help="New metrics file (JSON).")
+    metrics.add_argument("--json", action="store_true")
+    metrics.set_defaults(handler=_fragility)
+    analysis = commands.add_parser("fragility-analyze", help="The pre-registered fragility analysis of a frozen "
+                                                             "design from both ledgers (reads only).")
+    analysis.add_argument("--design", required=True, help="The frozen design.json (its 'analysis' block).")
+    analysis.add_argument("--out", required=True, help="New analysis file (JSON); an existing one is refused.")
+    analysis.add_argument("--json", action="store_true")
+    analysis.set_defaults(handler=_fragility_analyze)
     args = parser.parse_args(argv)
     if args.command == "goal-create" and args.capability == "calibrate" and not (args.packet and args.case):
         parser.error("goal-create --capability calibrate needs --packet and --case")

@@ -11,6 +11,12 @@ native-request.json outside the SUMO command; the SHA-256 of every input file; t
 perturbation with its key fingerprint; the SUMO binary and libsumo library SHA-256s; the executed implementation
 modules' SHA-256s and the verifier commit. Paths never enter the key.
 
+A candidate-network scenario (``candidate_scenario``, M4 fragility fixes) replaces the prepared network and control with
+hash-bound candidate files and adds a ``candidate`` block (parent and candidate SHA-256 of both) to the request, the
+judge record and the ledger line; everything else equals the parent request. A candidate whose manifest names another
+parent than the goal's prepared net and control is refused. Without a candidate the request has no such block, so
+every existing cache key is unchanged.
+
 Measurements are compared by canonical content, never raw bytes: per-row nVehContrib counts and every native E1
 interval attribute, contributing passages by vehicle/detector/interval (and with their times), completion and health
 fields, and canonical digests of the summary, tripinfo, vehroute and lane-hold traces without XML headers, paths or
@@ -220,9 +226,14 @@ def stage_bytes(store: Path, name: str, data: bytes) -> Path:
 
 
 def effective_request(run: goal.RunBlock, *, seed: int, inputs_sha256: dict[str, str], scenario_op: dict | None,
-                      perturbation: dict | None, base_demand_sha256: str, driver: dict, runtime: dict) -> dict:
-    """Everything that can change a judge's result, without paths; its canonical SHA-256 is the cache key."""
-    return {
+                      perturbation: dict | None, base_demand_sha256: str, driver: dict, runtime: dict,
+                      candidate: dict | None = None) -> dict:
+    """Everything that can change a judge's result, without paths; its canonical SHA-256 is the cache key.
+
+    ``candidate`` (a candidate-network scenario, ``candidate_scenario``) adds a ``candidate`` block with the replaced
+    inputs' parent and candidate SHA-256s; without one the request has no such key, so every existing key is
+    unchanged."""
+    request = {
         "schema": REQUEST_SCHEMA, "entry": ENTRY,
         "arguments": {"end_s": run.end_s, "timeout_seconds": run.timeout_s, "step_length": run.step_s, "seed": seed,
                       "backend": run.backend, "all_stopped_timeout_s": run.all_stopped_timeout_s,
@@ -237,13 +248,60 @@ def effective_request(run: goal.RunBlock, *, seed: int, inputs_sha256: dict[str,
         "driver": {"sha256": driver["sha256"], "child_pythonpath": driver["child_pythonpath"]},
         "runtime": {key: value for key, value in runtime.items() if not key.startswith("_")},
     }
+    if candidate is not None:
+        request["candidate"] = {keyword: {"parent_sha256": candidate["replaces"][keyword],
+                                          "candidate_sha256": candidate["inputs_sha256"][keyword]}
+                                for keyword in sorted(CANDIDATE_KEYWORDS)}
+    return request
+
+
+# A candidate-network scenario replaces exactly these prepared inputs; everything else equals the parent request.
+CANDIDATE_KEYWORDS = {"net_file": "network.net.xml", "signal_program_file": "control.add.xml"}
+
+
+# The manifest's parent record per replaced input: the parent file the candidate was built from.
+CANDIDATE_PARENT_KEYS = {"net_file": "net_sha256", "signal_program_file": "control_sha256"}
+
+
+def candidate_scenario(manifest: dict, *, base: Path | None = None) -> dict:
+    """The hash-bound candidate files of a candidate-network scenario: ``manifest`` names ``id``, ``net`` and
+    ``control`` (each ``{"path", "sha256"}``, a relative path read against ``base``), the ``parent`` it was built
+    from (``net_sha256``, ``control_sha256``: ``plan_judge`` refuses a goal whose prepared net or control differs)
+    and optionally the records that made them (``goal``, ``profile``, ``control_reindex``). Each file must hash to
+    its declared SHA-256."""
+    parent = manifest.get("parent") or {}
+    if not all(re.fullmatch(r"[0-9a-f]{64}", str(parent.get(key) or "")) for key in CANDIDATE_PARENT_KEYS.values()):
+        raise ValueError(f"candidate {manifest.get('id')!r}: the manifest names no parent net_sha256 and "
+                         "control_sha256")
+    files, records = {}, {}
+    for keyword, name in (("net_file", "net"), ("signal_program_file", "control")):
+        row = manifest.get(name) or {}
+        path = Path(row.get("path", ""))
+        if base is not None and not path.is_absolute():
+            path = Path(base) / path
+        if not path.is_file():
+            raise ValueError(f"candidate {manifest.get('id')!r}: the {name} file {path} is missing")
+        data = path.read_bytes()
+        if hashlib.sha256(data).hexdigest() != row.get("sha256"):
+            raise ValueError(f"candidate {manifest.get('id')!r}: the {name} file does not hash to its declared sha256")
+        files[keyword], records[name] = data, {"path": str(path.resolve()), "sha256": row["sha256"]}
+    if not str(manifest.get("id") or ""):
+        raise ValueError("a candidate scenario needs an id")
+    return {"id": str(manifest["id"]), "files": files, "records": records,
+            "parent": {keyword: parent[key] for keyword, key in CANDIDATE_PARENT_KEYS.items()},
+            "provenance": {key: manifest[key] for key in ("goal", "profile", "control_reindex", "parent")
+                           if key in manifest}}
 
 
 def plan_judge(goal_path: Path, store: Path, *, label: str, purpose: str, repository_root: Path,
                demand: bytes | None = None, op: str | None = None, family: str | None = None,
                draw: perturb.DrawKey | None = None, seed: int | None = None,
-               runtime: dict | None = None) -> JudgePlan:
-    """Resolve, perturb and stage one judge run without executing it; the plan carries its cache key."""
+               runtime: dict | None = None, candidate: dict | None = None) -> JudgePlan:
+    """Resolve, perturb and stage one judge run without executing it; the plan carries its cache key.
+
+    ``candidate`` (``candidate_scenario``) replaces the prepared network and control with its hash-bound files; the
+    request then carries both files' parent and candidate SHA-256s, and the plan's provenance the candidate's id and
+    records."""
     runtime = runtime_identity(repository_root) if runtime is None else runtime
     if runtime.get("_core_unhashed_dirty"):
         raise ValueError(f"Core modules changed but not hashed by the key: {runtime['_core_unhashed_dirty']}; "
@@ -269,13 +327,23 @@ def plan_judge(goal_path: Path, store: Path, *, label: str, purpose: str, reposi
         current, draw_record = perturb.perturb(current, family or "depart_jitter", draw)
     elif family is not None:
         raise ValueError("A perturbation family needs a draw key.")
+    if candidate is not None:
+        replaces = {keyword: loaded.inputs.files[name] for keyword, name in CANDIDATE_KEYWORDS.items()}
+        if candidate.get("parent") != replaces:
+            raise ValueError(f"candidate {candidate.get('id')!r} was built from another parent than this goal's "
+                             f"prepared net and control: {candidate.get('parent')} != {replaces}")
     store = Path(store).resolve()
-    staged = {keyword: stage_bytes(store, name, current.to_bytes() if name == "demand.rou.xml" else prepared[name])
+    replaced = {} if candidate is None else candidate["files"]
+    staged = {keyword: stage_bytes(store, name, current.to_bytes() if name == "demand.rou.xml"
+                                   else replaced.get(keyword, prepared[name]))
               for keyword, name in INPUT_KEYWORDS.items()}
+    inputs_sha256 = {keyword: file_sha256(path) for keyword, path in staged.items()}
+    scenario = None if candidate is None else {
+        "replaces": {keyword: loaded.inputs.files[name] for keyword, name in CANDIDATE_KEYWORDS.items()},
+        "inputs_sha256": inputs_sha256}
     request = effective_request(loaded.run, seed=loaded.run.seed if seed is None else seed,
-                                inputs_sha256={keyword: file_sha256(path) for keyword, path in staged.items()},
-                                scenario_op=op_record, perturbation=draw_record, base_demand_sha256=base.sha256,
-                                driver=driver, runtime=runtime)
+                                inputs_sha256=inputs_sha256, scenario_op=op_record, perturbation=draw_record,
+                                base_demand_sha256=base.sha256, driver=driver, runtime=runtime, candidate=scenario)
     key = digest(request)
     root = Path(repository_root).resolve()
     return JudgePlan(label=label, purpose=purpose, key=key, request=request,
@@ -288,7 +356,9 @@ def plan_judge(goal_path: Path, store: Path, *, label: str, purpose: str, reposi
                                  "driver": {k: driver[k] for k in ("alias", "target", "line", "sha256")},
                                  "scenario_op": op_record, "perturbation": draw_record,
                                  "verifier_clean": runtime.get("_clean"),
-                                 "measurement_code_sha256": measurement_code_sha256(root)})
+                                 "measurement_code_sha256": measurement_code_sha256(root),
+                                 **({} if candidate is None else {"candidate": {
+                                     "id": candidate["id"], **candidate["records"], **candidate["provenance"]}})})
 
 
 # --- canonical measurement ------------------------------------------------------------------------------------------
@@ -628,6 +698,7 @@ def execute_plan(plan: JudgePlan, *, main_rows: list[dict], init_rows: list[dict
               "health": measurement["health"], "native_library_sha256": library.get("sha256"),
               "native_errors": record["errors"], "set_aside": record["set_aside"],
               "provenance": plan.provenance, "seed": plan.request["arguments"]["seed"],
+              **({} if "candidate" not in plan.request else {"candidate": plan.request["candidate"]}),
               "measurement_code_sha256": code,
               "claim_boundary": "Explore only: one simulated run under the supplied model and declared driver holds. "
                                 "No field timing, OD identification or promotion authority."}
@@ -642,6 +713,9 @@ def ledger_line(plan: JudgePlan, result: dict | None, error: str | None = None) 
             "inputs_digest": digest(plan.request["inputs_sha256"]),
             "draw_key": None if not draw else {"family": draw["family"], **draw["key"]},
             "scenario_op": plan.request["scenario_op"], "seed": plan.request["arguments"]["seed"],
+            **({} if "candidate" not in plan.request else {"candidate": {
+                "id": plan.provenance["candidate"]["id"],
+                **{keyword: row["candidate_sha256"] for keyword, row in plan.request["candidate"].items()}}}),
             "wall_s": None if result is None else result["wall_s"],
             "peak_rss_bytes": None if result is None else (result["memory"] or {}).get("peak_working_set_bytes"),
             "peak_job_commit_bytes": None if result is None else (result["memory"] or {}).get("peak_job_commit_bytes"),

@@ -28,7 +28,7 @@ from ..core.artifact_io import write_text_atomic
 from ..core.benchmark_references import (LOCAL_ONLY_FILE, BenchmarkReferenceError, PacketCase, csv_rows,
                                          find_tracked_file, local_only_row, safe_relative)
 from ..core.candidate_contracts import file_sha256
-from . import build_gate, build_profile, ids, invariants
+from . import build_gate, build_profile, declared_targets, ids, invariants
 from .count_profile import (INSTANT_E1, incomplete_rows, parse_field_loops, parse_intentions, parse_network,
                             read_passage_report, score_counts)
 from .direction_check import RULE as DIRECTION_RULE, direction_baseline
@@ -526,6 +526,60 @@ class Sigma(_Strict):
     status: str
 
 
+class DeclaredTarget(_Strict):
+    """One declared movement or signal fact a fragility fix must change (``twin/declared_targets.py``)."""
+    fact: str
+    kind: Literal["movement_inventory", "signal_group"]
+    action: Literal["set", "add", "remove"]
+    selector: dict[str, Any] | None = None
+    expected: Any = None
+    parent_expected: Any = None
+    anchor: str
+    reason: str
+    tag: Literal["fragility_fix"]
+
+
+class MergeEvidence(_Strict):
+    basis: Literal["model_justified_simulation_fragility"]
+    source_lanes: list[str] = Field(min_length=2)
+    label: str
+    site: str
+
+
+class AddedLink(_Strict):
+    pair: list[str] = Field(min_length=2, max_length=2)
+    tls_id: str
+    sibling_pair: list[str] = Field(min_length=2, max_length=2)
+    copy_rule: Literal["verbatim", "minor_where_yielding"]
+    note: str | None = None
+
+
+class RemovedLink(_Strict):
+    pair: list[str] = Field(min_length=2, max_length=2)
+    tls_id: str
+
+
+class TargetControl(_Strict):
+    """How the executed control follows the candidate's links (``twin/control_reindex.py``)."""
+    parent_control: FileRef
+    added_links: list[AddedLink] = Field(default_factory=list)
+    removed_links: list[RemovedLink] = Field(default_factory=list)
+    rule: str
+
+
+class DeclaredTargets(_Strict):
+    """A fragility-fix delta on the goal source's own reference facts: explore only, tagged ``fragility_fix``."""
+    tag: Literal["fragility_fix"]
+    mode: Literal["explore"]
+    base_producer: str
+    base_facts_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    derived_from: dict[str, Any]
+    entries: list[DeclaredTarget] = Field(min_length=1)
+    evidence_justified_destination_merges: dict[str, MergeEvidence] = Field(default_factory=dict)
+    control: TargetControl
+    claim: str
+
+
 class BuildReference(_Strict):
     facts: str = Field(pattern=r"^cas:sha256:[0-9a-f]{64}$")
     producer: str
@@ -535,6 +589,7 @@ class BuildReference(_Strict):
     reference_net: FileRef | None = None
     sigma: Sigma
     lock: str | None = None
+    declared_targets: DeclaredTargets | None = None
 
 
 class ScoredFact(_Aliased):
@@ -740,6 +795,11 @@ def lint_build_goal(document: dict) -> list[str]:
     unknown_ops = sorted(set(scope.get("ops") or []) - set(_scoped_edit_types()))
     if unknown_ops:
         errors.append(f"scope ops are not typed edit ops: {unknown_ops}")
+    declared = (document.get("reference") or {}).get("declared_targets")
+    if declared is not None:
+        errors += [f"declared targets: {error}" for error in declared_targets.lint_targets(declared, scope)]
+        if document.get("mode") != "explore":
+            errors.append("declared targets: a fragility-fix goal is explore only")
     return errors
 
 
@@ -806,34 +866,62 @@ def create_build_goal(repository_root: Path, *, net: Path, facts: Path | None = 
                       seeds: list[int] | None = None, lane_artifacts: list[Path] | tuple[Path, ...] = (),
                       sigma_m: float = 0.0, g0_shape: dict | None = None, map_xml: Path | None = None,
                       scratch_dir: Path | None = None,
-                      movement_manifest: Path | None = None) -> tuple[BuildGoal, dict[str, bytes], dict]:
+                      movement_manifest: Path | None = None,
+                      declared: dict | None = None) -> tuple[BuildGoal, dict[str, bytes], dict]:
     """Freeze a Build goal; returns ``(goal, content-addressed payloads by cas reference, summary)``. The payloads
     are the fact table, the source scorecard and the per-seed frozen trips, all bound by the goal; paths in the goal
     are repository-relative when inside the repository, so equal inputs give equal goals. Lint failures refuse the
     goal; ``scratch_dir`` holds the transient trip generation (default: the system temp directory). ``map_xml`` freezes
     its MAP connections (node, lanes, signal group) for the sg_partition check. ``movement_manifest`` is a supported
-    movement manifest bound to the source net; L2 then runs the movement probes instead of the all-turn smoke."""
+    movement manifest bound to the source net; L2 then runs the movement probes instead of the all-turn smoke.
+
+    ``declared`` makes a fragility-fix goal (``twin/declared_targets.py``): the fact table is the goal source's own
+    reference facts with the declared target delta applied (``entries``, plus ``derived_from``, ``control`` and any
+    ``evidence_justified_destination_merges``), the INT baseline is the source itself, and the block is frozen in
+    ``reference.declared_targets``; it needs ``target_date`` and neither ``facts`` nor ``reference_net``."""
     from ..core.network_calibration import _network_root
     from ..core.reference_net_facts import build_reference_net_facts
 
-    if facts is None and reference_net is None:
+    if declared is not None and (facts is not None or reference_net is not None):
+        raise ValueError("goal-create refused: declared targets apply to the goal source's own reference facts; give "
+                         "neither --facts nor --reference-net")
+    if facts is None and reference_net is None and declared is None:
         raise ValueError("goal-create refused: a Build goal needs --facts or --reference-net")
     if type(sigma_m) not in (int, float) or not math.isfinite(sigma_m) or sigma_m < 0:
         raise ValueError("goal-create refused: sigma_m must be finite and nonnegative")
     net_bytes = Path(net).read_bytes()
     root = _network_root(net_bytes)
     reference_bytes = Path(reference_net).read_bytes() if reference_net is not None else None
+    reference_producer = f"core.reference_net_facts@{hashlib.sha256(REFERENCE_PRODUCER.read_bytes()).hexdigest()[:12]}"
+    declared_block = None
     if facts is not None:
         facts_bytes = Path(facts).read_bytes()
         producer = "supplied fact table"
+    elif declared is not None:
+        if not target_date:
+            raise ValueError("goal-create refused: declared targets need --target-date")
+        base, _ = build_reference_net_facts(net, site_id=site_id or Path(net).stem, target_date=target_date,
+                                            source_path=_stored_path(net, repository_root))
+        # The delta must be the declared ops' own (a movement change on each op's from-lane, the op pairs' links and a
+        # controller bijection over the source's links), never an arbitrary fit to a materialization.
+        typed_ops, _ = declared_targets.declared_ops(declared)
+        implied = declared_targets.implied_errors(declared.get("entries") or [], typed_ops, base=base)
+        if implied:
+            raise ValueError(f"goal-create refused: declared targets the declared ops do not imply: {implied}")
+        base_bytes = _facts_bytes(base)
+        facts_bytes = _facts_bytes(declared_targets.apply_targets(base, declared["entries"]))
+        producer = f"{reference_producer} of the goal source + declared target delta ({declared_targets.TAG})"
+        declared_block = {**declared, "tag": declared_targets.TAG, "mode": "explore",
+                          "base_producer": reference_producer,
+                          "base_facts_sha256": hashlib.sha256(base_bytes).hexdigest(), "claim": declared_targets.CLAIM}
     else:
         if not target_date:
             raise ValueError("goal-create refused: --reference-net needs --target-date")
         table_dict, _ = build_reference_net_facts(reference_net, site_id=site_id or Path(reference_net).stem,
                                                   target_date=target_date,
                                                   source_path=_stored_path(reference_net, repository_root))
-        facts_bytes = (json.dumps(table_dict, indent=2, ensure_ascii=False, sort_keys=True) + "\n").encode("utf-8")
-        producer = f"core.reference_net_facts@{hashlib.sha256(REFERENCE_PRODUCER.read_bytes()).hexdigest()[:12]}"
+        facts_bytes = _facts_bytes(table_dict)
+        producer = reference_producer
     table = build_profile.parse_table(facts_bytes)
     sigma = {"source_m": float(sigma_m), "registration_m": 0.0, "comb_m": float(sigma_m), "speed_m_s": 0.0,
              "status": "declared" if sigma_m else "zero: model truth or undeclared (explore only)"}
@@ -848,7 +936,8 @@ def create_build_goal(repository_root: Path, *, net: Path, facts: Path | None = 
     basis_bytes = reference_bytes if reference_bytes is not None else net_bytes
     basis_root = _network_root(basis_bytes)
     scope_nodes = build_profile.scope_junctions(basis_root, edges, junctions)
-    found, direction = build_profile.int_findings(basis_root, scope_nodes)
+    found, direction = build_profile.int_findings(basis_root, scope_nodes,
+                                                  evidence=declared_targets.block_evidence(declared_block))
     basis_sha = hashlib.sha256(basis_bytes).hexdigest()
     baseline = {"basis": "reference_net" if reference_bytes is not None else "source", "net_sha256": basis_sha,
                 "direction_rule": DIRECTION_RULE,
@@ -869,7 +958,8 @@ def create_build_goal(repository_root: Path, *, net: Path, facts: Path | None = 
                       **({"reference_net": {"path": _stored_path(reference_net, repository_root),
                                             "sha256": hashlib.sha256(reference_bytes).hexdigest()}}
                          if reference_bytes is not None else {}),
-                      "sigma": sigma},
+                      "sigma": sigma,
+                      **({"declared_targets": declared_block} if declared_block is not None else {})},
         "frozen": {"scored_facts": scored, "excluded": excluded,
                    "sha256": build_profile.frozen_sha256(scored, excluded), "counts": counts,
                    "source_scorecard": {"ref": ids.cas_reference(hashlib.sha256(scorecard).hexdigest()),
@@ -924,8 +1014,20 @@ def create_build_goal(repository_root: Path, *, net: Path, facts: Path | None = 
     summary = {"scored": len(scored), "counts": counts, "source_V": _source_v(scored, card),
                "int_baseline": {"basis": baseline["basis"], "findings": len(baseline["finding_ids"])},
                "frozen_trips": {str(row["seed"]): row["status"] for row in trips}}
+    if declared_block is not None:
+        targets = {entry["fact"] for entry in declared_block["entries"]}
+        summary["declared_targets"] = {
+            "entries": len(targets), "scored": sum(entry["id"] in targets for entry in scored),
+            "excluded": sorted(fact for fact in targets if fact in excluded),
+            "source_mismatched": sorted(row["id"] for row in card["facts"] if row["id"] in targets
+                                        and row["status"] != "matched")}
     payloads = {goal.reference.facts: facts_bytes, goal.frozen.source_scorecard.ref: scorecard, **trip_payloads}
     return goal, payloads, summary
+
+
+def _facts_bytes(table: dict) -> bytes:
+    """The canonical bytes goal-create stores for a produced fact table."""
+    return (json.dumps(table, indent=2, ensure_ascii=False, sort_keys=True) + "\n").encode("utf-8")
 
 
 def _source_v(scored: list[dict], card: dict) -> list:

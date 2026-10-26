@@ -6,6 +6,7 @@ another generation header and other CPU durations, so canonical parity is checke
 
 from __future__ import annotations
 
+import hashlib
 import inspect
 import json
 import re
@@ -284,3 +285,115 @@ def test_panel_spread_statistics():
     moved = noise.passage_spread(base, [draw])["per_draw"][0]
     assert moved["bin_changed"] == 1 and moved["detector_changed"] == 0 and moved["time_shift_s"]["max"] == 900.0
     assert moved["time_shift_s"]["share_le_0.5"] == 0.5
+
+
+# ---- M4 candidate-network scenarios --------------------------------------------------------------------------------
+
+PILOT = Path(r"E:\twin-store\m2-pilot")
+
+
+def _candidate_manifest(tmp_path: Path, prepared: dict[str, bytes]) -> tuple[dict, Path]:
+    folder = tmp_path / "candidate"
+    folder.mkdir()
+    files = {"net": ("network.net.xml", prepared["network.net.xml"] + b"<!-- candidate -->\n"),
+             "control": ("control.add.xml", prepared["control.add.xml"] + b"<!-- candidate -->\n")}
+    manifest = {"id": "F-test", "goal": {"path": "goal.json", "sha256": "0" * 64},
+                "parent": {"net_sha256": hashlib.sha256(prepared["network.net.xml"]).hexdigest(),
+                           "control_sha256": hashlib.sha256(prepared["control.add.xml"]).hexdigest()}}
+    for name, (filename, data) in files.items():
+        (folder / filename).write_bytes(data)
+        manifest[name] = {"path": filename, "sha256": hashlib.sha256(data).hexdigest()}
+    return manifest, folder
+
+
+def test_a_candidate_scenario_replaces_only_the_net_and_control(goal_file, prepared, tmp_path):
+    runtime = runner.runtime_identity(ROOT)
+    manifest, folder = _candidate_manifest(tmp_path, prepared)
+    candidate = runner.candidate_scenario(manifest, base=folder)
+    draw = perturb.DrawKey.public_key("fragility/F-test/k1")
+    parent = runner.plan_judge(goal_file, tmp_path / "store", label="p", purpose="t", repository_root=ROOT,
+                               runtime=runtime, family="depart_jitter", draw=draw)
+    plan = runner.plan_judge(goal_file, tmp_path / "store", label="c", purpose="t", repository_root=ROOT,
+                             runtime=runtime, family="depart_jitter", draw=draw, candidate=candidate)
+    assert "candidate" not in parent.request and plan.key != parent.key
+    assert {key for key in plan.request if plan.request[key] != parent.request.get(key)} == {"inputs_sha256",
+                                                                                              "candidate"}
+    changed = {key for key, value in plan.request["inputs_sha256"].items()
+               if value != parent.request["inputs_sha256"][key]}
+    assert changed == {"net_file", "signal_program_file"}
+    files = goal.load_goal(goal_file)[0].inputs.files
+    assert plan.request["candidate"] == {
+        "net_file": {"parent_sha256": files["network.net.xml"], "candidate_sha256": manifest["net"]["sha256"]},
+        "signal_program_file": {"parent_sha256": files["control.add.xml"],
+                                "candidate_sha256": manifest["control"]["sha256"]}}
+    assert hashlib.sha256(Path(plan.staged["net_file"]).read_bytes()).hexdigest() == manifest["net"]["sha256"]
+    assert plan.provenance["candidate"]["id"] == "F-test" and plan.provenance["candidate"]["goal"]["sha256"] == "0" * 64
+    line = runner.ledger_line(plan, None)
+    assert line["candidate"] == {"id": "F-test", "net_file": manifest["net"]["sha256"],
+                                 "signal_program_file": manifest["control"]["sha256"]}
+    assert "candidate" not in runner.ledger_line(parent, None)
+    tampered = {**manifest, "net": {**manifest["net"], "sha256": "1" * 64}}
+    with pytest.raises(ValueError, match="does not hash"):
+        runner.candidate_scenario(tampered, base=folder)
+    with pytest.raises(ValueError, match="needs an id"):
+        runner.candidate_scenario({**manifest, "id": ""}, base=folder)
+
+
+def test_a_candidate_built_from_another_parent_is_refused(goal_file, prepared, tmp_path):
+    runtime = runner.runtime_identity(ROOT)
+    manifest, folder = _candidate_manifest(tmp_path, prepared)
+    with pytest.raises(ValueError, match="names no parent"):
+        runner.candidate_scenario({key: value for key, value in manifest.items() if key != "parent"}, base=folder)
+    with pytest.raises(ValueError, match="names no parent"):
+        runner.candidate_scenario({**manifest, "parent": {"net_sha256": "x"}}, base=folder)
+    for key in ("net_sha256", "control_sha256"):
+        other = {**manifest, "parent": {**manifest["parent"], key: "1" * 64}}
+        with pytest.raises(ValueError, match="built from another parent"):
+            runner.plan_judge(goal_file, tmp_path / "store", label="c", purpose="t", repository_root=ROOT,
+                              runtime=runtime, candidate=runner.candidate_scenario(other, base=folder))
+    assert not (tmp_path / "store").exists()  # refused before anything is staged
+
+
+def test_a_candidate_judge_records_its_files(reader, goal_file, prepared, tmp_path):
+    replay, calls = fake_runner(reader)
+    manifest, folder = _candidate_manifest(tmp_path, prepared)
+    plan = runner.plan_judge(goal_file, tmp_path / "store", label="F-test-k0", purpose="test", repository_root=ROOT,
+                             candidate=runner.candidate_scenario(manifest, base=folder))
+    result = runner.execute_plan(plan, main_rows=reader.read_csv("prepared/expected-counts.csv"),
+                                 init_rows=reader.read_csv("prepared/initialization-counts.csv"), runner=replay,
+                                 watch_memory=False)
+    assert calls[0]["net_file"] == Path(plan.staged["net_file"]) and result["candidate"] == plan.request["candidate"]
+    assert result["provenance"]["candidate"]["net"]["sha256"] == manifest["net"]["sha256"]
+    assert runner.read_judge(plan)["request_sha256"] == plan.key
+
+
+@pytest.mark.skipif(not (PILOT / "runs.jsonl").is_file(), reason="the M2 pilot store E:/twin-store/m2-pilot is absent")
+def test_existing_m2_requests_and_cache_keys_are_unchanged(goal_file, tmp_path):
+    """The nominal parent and a public-key draw re-plan to exactly the recorded request and key under their runtime."""
+    rows = {json.loads(line)["id"]: json.loads(line) for line in (PILOT / "runs.jsonl").read_text(
+        encoding="utf-8").splitlines() if line.strip()}
+    for run_id, draw in (("P1-nominal-s104", None), ("P3-jitter-k1-s104", perturb.DrawKey.public_key("m2-pilot/k1"))):
+        row = rows[run_id]
+        recorded = json.loads((Path(row["run_dir"]) / "request.json").read_text(encoding="utf-8"))
+        plan = runner.plan_judge(goal_file, tmp_path / "store", label=run_id, purpose="t", repository_root=ROOT,
+                                 runtime=recorded["runtime"], draw=draw,
+                                 family="depart_jitter" if draw is not None else None)
+        assert plan.request == recorded and plan.key == row["request_sha256"], run_id
+
+
+def test_the_judge_cli_plans_a_candidate_from_its_manifest(goal_file, prepared, tmp_path):
+    import subprocess
+    import sys
+
+    manifest, folder = _candidate_manifest(tmp_path, prepared)
+    path = folder / "candidate.json"
+    path.write_text(json.dumps(manifest), encoding="utf-8")
+    command = [sys.executable, "-B", str(ROOT / "plugins/astra-sumo/scripts/astra_twin.py"), "judge", "--goal",
+               str(goal_file), "--store", str(tmp_path / "store"), "--label", "F-test/k1", "--family", "depart_jitter",
+               "--public-key", "fragility/F-test/k1", "--plan-only", "--json"]
+    plain = subprocess.run(command, capture_output=True, text=True, timeout=600)
+    done = subprocess.run([*command, "--candidate", str(path)], capture_output=True, text=True, timeout=600)
+    assert plain.returncode == done.returncode == 0, done.stdout + done.stderr
+    keys = [json.loads(run.stdout)["plans"][0]["request_sha256"] for run in (plain, done)]
+    assert keys[0] != keys[1]
+    assert not (tmp_path / "store" / "runs").exists()  # plan-only stages inputs and starts no run
