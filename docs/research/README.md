@@ -23,8 +23,18 @@ top-level [`README.md`](../../README.md), [Architecture](../architecture.md) and
 
 ## ASTRA Twin Profiler (kernel-style test and profile)
 
-- Ring1 parent fragility check, 2026-10-26: [pre-registration](ring1-fragility-prereg-2026-10-26.md) and the
-  [owner-delegated decisions](ring1-fragility-owner-decisions-2026-10-26.md) taken before any candidate run.
+- Design and M2 records: [design v2](twin-profiler-design-v2-2026-10-25.md) (2026-10-25),
+  [M2 protocol v3](twin-profiler-m2-protocol-v3-2026-10-26.md),
+  [M2 decisions and amendments](twin-profiler-m2-decisions-2026-10-26.md) and the M2 stage results
+  [C1](twin-profiler-m2-c1-result-2026-10-26.md), [C2](twin-profiler-m2-c2-result-2026-10-26.md) and
+  [C3](twin-profiler-m2-c3-result-2026-10-26.md), 2026-10-26.
+- Ring1 parent fragility check, a step before M4, 2026-10-26: [pre-registration](ring1-fragility-prereg-2026-10-26.md),
+  the [owner-delegated decisions](ring1-fragility-owner-decisions-2026-10-26.md) taken before any candidate run, and
+  the [results](ring1-fragility-results-2026-10-26.md) with a summary of milestones M1-M3.
+- [M4 plan](twin-profiler-m4-plan-2026-10-26.md), 2026-10-26: a proposed replacement for the design's M4 after M2 did
+  not meet its exit criterion, for the owner to decide: tool fixes, a no-agent structural Build loop on the fragility
+  sites, hour-scale structural candidates and one confirmatory comparison, with acceptance criteria, budgets, owner
+  decisions, claim boundaries and the design and M2 rules it relies on.
 
 ## Corridor human-modeling study (dormant)
 
