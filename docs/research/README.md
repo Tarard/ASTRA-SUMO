@@ -21,6 +21,11 @@ top-level [`README.md`](../../README.md), [Architecture](../architecture.md) and
   [V2](ring1-initialization-demand-2026-10-21-v2.md).
 - Each experiment package under `benchmarks/hamburg_ring1_*` has its own README with inputs, commands and results.
 
+## ASTRA Twin Profiler (kernel-style test and profile)
+
+- Ring1 parent fragility check, 2026-10-26: [pre-registration](ring1-fragility-prereg-2026-10-26.md) and the
+  [owner-delegated decisions](ring1-fragility-owner-decisions-2026-10-26.md) taken before any candidate run.
+
 ## Corridor human-modeling study (dormant)
 
 - [Research plan](../torii-corridor-human-modeling-research-plan.md),
