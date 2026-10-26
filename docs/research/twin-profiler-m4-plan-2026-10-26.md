@@ -383,6 +383,9 @@ per-family count margins replace the total margin as part of the rule:
 - gridlock family: at most 1 more at K = 16 (1/46; 0.034); for a candidate that targets S01, no more gridlock draws
   than P (margin 0; an equal-rate candidate exceeds it with probability 0.22).
 
+These per-family margins are stated for K = 16 only. If the owner chooses this alternative and OD9 also raises K to 20
+or 24, the collision and gridlock family margins at that K must be declared by the same rule before the M4.0 freeze.
+
 **Acceptance and known-answer cases** (under the default; the expected output under the OD2 alternative in
 brackets).
 1. *Reference-only class.* When the reference arm shows a class outside the admitted set and the candidate shows none,

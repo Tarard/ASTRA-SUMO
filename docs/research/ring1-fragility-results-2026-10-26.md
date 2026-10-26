@@ -289,8 +289,9 @@ section 1.
 The fragility review raised two corrections (section 6), two follow-ups (section 8) and one disagreement: the exact
 permutation arithmetic is correct for the unequal 46/16 samples with ties, but distinct keys and matching requests do
 not establish exchangeability after the historical census helped select the site and the fix. **The S01 p value is
-therefore exploratory diagnostic evidence, not a selection-adjusted confirmation.** No reviewer has checked the F2
-results themselves; they were checked only by the separate recount in section 4.
+therefore exploratory diagnostic evidence, not a selection-adjusted confirmation.** The F2 results were checked by
+the separate recount in section 4 and, in the review of this report, against the saved analysis, the artifact hashes
+and independent calculations.
 
 ## 6. Corrections to the dated pre-registration and decisions
 
