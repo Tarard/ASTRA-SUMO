@@ -111,3 +111,18 @@ def test_reference_claim_requires_bbox_scope_when_workflow_provides_the_gate() -
     assert result["strict_valid"]["status"] == "pass"
     assert result["reference_aligned"]["status"] == "fail"
     assert result["reference_aligned"]["failed_gates"] == ["reference_bbox_scope"]
+
+
+def test_review_required_gates_do_not_reach_a_claim_tier() -> None:
+    result = evaluate_claim_tiers(
+        gate_status={
+            **_passing_gates(),
+            "network_build": "review_required",
+            "routeability_audit": "review_required",
+            "topology_audit": "blocked",
+        },
+    )
+
+    assert result["highest_passed_tier"] == "none"
+    assert result["strict_valid"]["failed_gates"] == ["network_build", "routeability_audit"]
+    assert "topology_audit" in result["reference_aligned"]["failed_gates"]

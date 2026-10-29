@@ -11,7 +11,7 @@ import json
 import shutil
 import xml.etree.ElementTree as ET
 from pathlib import Path
-from typing import Any, Callable, Mapping
+from typing import Any, Callable, Iterable, Mapping, Sequence
 
 from .command_runner import run_command
 from .junction_rebuild.restoration import _restore_replayed_geometry_attrs
@@ -292,17 +292,52 @@ def _tls_gate_value(tls_report: Mapping[str, Any], tls_summary: Mapping[str, Any
     if tls_summary.get("tls_reality_review_status") != "pass":
         return "review_required"
     return "pass"
-def _cleanup_outcome(structure_ok: bool, tls_gate: str) -> tuple[str, str]:
+def _cleanup_outcome(structure_ok: bool, tls_gate: str, review_gates: Sequence[str] = ()) -> tuple[str, str]:
     """Top-level status and claim of a cleanup run.
 
-    The traffic-light map review is a manual step the cleanup cannot finish, so a structurally sound run whose
-    only open item is that review needs review, not a rebuild.
+    The traffic-light map review and the gates in ``review_gates`` name open items the cleanup cannot settle on
+    its own, so a structurally sound run with any of them open needs review, not a rebuild.
     """
-    if structure_ok and tls_gate == "pass":
-        return "pass", "diagnostic-demo"
-    if structure_ok and tls_gate == "review_required":
+    if not structure_ok or tls_gate not in {"pass", "review_required"}:
+        return "fail", "construction-invalid"
+    if tls_gate == "review_required" or review_gates:
         return "review_required", "diagnostic-demo"
-    return "fail", "construction-invalid"
+    return "pass", "diagnostic-demo"
+
+
+_REVIEW_GATE_DEFAULT_REASONS = {
+    "network_build": "build_review_required",
+    "reference_visual_detail": "build_review_required",
+    "tls_reality_audit": "tls_reality_review_pending",
+    "topology_audit": "suspicious_dense_junction_clusters_found",
+    "routeability_audit": "routeability_review_required",
+    "connection_mode_audit": "connection_mode_findings_need_review",
+}
+
+
+def _cleanup_review_required_gates(
+    gate_status: Mapping[str, str],
+    reports: Mapping[str, Mapping[str, Any] | None],
+    *,
+    review_when_blocked: Iterable[str] = (),
+) -> list[dict[str, str]]:
+    """Gates in ``reports`` that leave the run at review_required, each with its reason.
+
+    A gate counts when its value is review_required, or blocked for a gate in ``review_when_blocked``.
+    """
+    blocked_review = set(review_when_blocked)
+    entries: list[dict[str, str]] = []
+    for gate, report in reports.items():
+        value = str(gate_status.get(gate, "skipped"))
+        if value != "review_required" and not (value == "blocked" and gate in blocked_review):
+            continue
+        report = report or {}
+        reason = str(report.get("reason", "") or "").strip()
+        access_correction = report.get("osm_access_correction")
+        if not reason and isinstance(access_correction, Mapping) and access_correction.get("connectivity_review_required"):
+            reason = "newly_allowed_modes_require_connectivity_review"
+        entries.append({"gate": gate, "reason": reason or _REVIEW_GATE_DEFAULT_REASONS.get(gate, "review_required")})
+    return entries
 def _routeability_scale_profile(
     connectivity_report: Mapping[str, Any],
     *,

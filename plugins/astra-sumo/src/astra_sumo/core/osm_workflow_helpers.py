@@ -125,6 +125,11 @@ def _gate_value(report: Mapping[str, Any]) -> str:
     if status == "blocked":
         return "blocked"
     return "fail"
+def _build_gate_value(report: Mapping[str, Any]) -> str:
+    # A build that needs review still produced a network, so the later gates can measure it.
+    if str(report.get("status", "")) == "review_required" and str(report.get("net_file", "") or "").strip():
+        return "review_required"
+    return _gate_value(report)
 def _connection_mode_gate_value(report: Mapping[str, Any] | None) -> str:
     if report is None:
         return "skipped"

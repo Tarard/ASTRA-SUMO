@@ -310,6 +310,198 @@ def test_osm_cleanup_preserves_partial_and_severe_connectivity_classes(tmp_path:
         assert (report["status"], report["claim_status"]) == (expected_status, expected_claim)
 
 
+_CONNECTED_PASSENGER_NETWORK = {
+    "status": "pass", "claim_status": "diagnostic-demo", "connectivity_status": "pass", "passenger_edge_count": 1,
+    "passenger_component_count": 1, "largest_component_edge_count": 1, "warnings": []}
+_DOWNSTREAM_GATE_STAGES = (
+    "apply_service_passenger_permissions",
+    "audit_tls",
+    "summarize_passenger_connectivity",
+    "audit_topology_fragmentation",
+    "run_routeability_audit",
+    "build_network_connection_mode_audit",
+    "build_standard_nema_phase_binding",
+)
+
+
+def _patch_cleanup_stages_without_tls(monkeypatch, work_dir: Path) -> dict[str, Mock]:
+    # No traffic-light candidates, so the map review is not open and only the gate under test can cap the run.
+    mocks = _patch_cleanup_stages(monkeypatch, work_dir, _CONNECTED_PASSENGER_NETWORK)
+    mocks["audit_tls"].return_value = {
+        "status": "pass", "claim_status": "diagnostic-demo", "tls_candidate_count": 0, "tls_cluster_count": 0,
+        "clusters_file": str(work_dir / "missing.csv"), "warnings": []}
+    return mocks
+
+
+def test_cleanup_continues_after_access_connectivity_review_and_caps_status(tmp_path: Path, monkeypatch) -> None:
+    mocks = _patch_cleanup_stages_without_tls(monkeypatch, tmp_path)
+    passing = run_osm_cleanup_workflow(output_dir=tmp_path / "pass", bbox="13.6,50.9,13.9,51.1",
+                                       profile="standard", traffic_layers="passenger")
+    assert (passing["status"], passing["review_required_gates"]) == ("pass", [])
+
+    original_build = mocks["build_osm_network"].side_effect
+    warning = "Newly allowed vehicle classes require a separate connectivity review."
+
+    def review_build(**kwargs):
+        return {
+            **original_build(**kwargs),
+            "status": "review_required",
+            "osm_access_correction": {
+                "status": "review_required",
+                "connectivity_review_required": True,
+                "review": [{"lane_id": "a_0", "added_vehicle_classes": ["bicycle"],
+                            "reason": "newly_allowed_modes_require_connectivity_review"}],
+            },
+            "warnings": [warning],
+        }
+
+    mocks["build_osm_network"].side_effect = review_build
+    for name in _DOWNSTREAM_GATE_STAGES:
+        mocks[name].reset_mock()
+    report = run_osm_cleanup_workflow(output_dir=tmp_path / "out", bbox="13.6,50.9,13.9,51.1",
+                                      profile="standard", traffic_layers="passenger")
+
+    for name in _DOWNSTREAM_GATE_STAGES:
+        assert mocks[name].called, name
+    assert report["gate_status"]["network_build"] == "review_required"
+    assert report["gate_status"]["tls_reality_audit"] == "pass"
+    assert (report["status"], report["claim_status"]) == ("review_required", "diagnostic-demo")
+    assert report["review_required_gates"] == [
+        {"gate": "network_build", "reason": "newly_allowed_modes_require_connectivity_review"}]
+    assert warning in report["warnings"]
+
+
+@pytest.mark.parametrize(
+    ("build_status", "with_net_file"),
+    [("fail", True), ("blocked", True), ("review_required", False)],
+)
+def test_cleanup_still_stops_at_a_build_without_a_usable_network(
+    tmp_path: Path, monkeypatch, build_status: str, with_net_file: bool
+) -> None:
+    mocks = _patch_cleanup_stages_without_tls(monkeypatch, tmp_path)
+    original_build = mocks["build_osm_network"].side_effect
+
+    def broken_build(**kwargs):
+        built = {**original_build(**kwargs), "status": build_status}
+        if not with_net_file:
+            built.pop("net_file")
+        return built
+
+    mocks["build_osm_network"].side_effect = broken_build
+    report = run_osm_cleanup_workflow(output_dir=tmp_path / "out", bbox="13.6,50.9,13.9,51.1",
+                                      profile="standard", traffic_layers="passenger")
+
+    for name in _DOWNSTREAM_GATE_STAGES:
+        assert not mocks[name].called, name
+    expected_gate = "blocked" if build_status == "blocked" else "fail"
+    assert report["gate_status"]["network_build"] == expected_gate
+    assert report["gate_status"]["tls_reality_audit"] == "not_started"
+    assert (report["status"], report["claim_status"]) == ("fail", "construction-invalid")
+
+
+@pytest.mark.parametrize(
+    ("stage", "stage_report", "gate", "gate_value", "reason"),
+    [
+        (
+            "audit_topology_fragmentation",
+            {"status": "blocked", "claim_status": "blocked", "topology_fragmentation_status": "needs_review",
+             "suspicious_cluster_count": 2, "warnings": []},
+            "topology_audit", "blocked", "suspicious_dense_junction_clusters_found",
+        ),
+        (
+            "run_routeability_audit",
+            {"status": "review_required", "claim_status": "review_required",
+             "routeability_status": "unverified_endpoints", "reason": "unresolved_endpoint_mapping", "warnings": []},
+            "routeability_audit", "review_required", "unresolved_endpoint_mapping",
+        ),
+        (
+            "build_network_connection_mode_audit",
+            {"status": "review_required", "claim_status": "diagnostic-demo",
+             "connection_mode_audit_status": "review_required", "warnings": []},
+            "connection_mode_audit", "review_required", "connection_mode_findings_need_review",
+        ),
+    ],
+)
+def test_cleanup_review_gates_cap_status_instead_of_failing(
+    tmp_path: Path, monkeypatch, stage: str, stage_report: dict[str, object], gate: str, gate_value: str, reason: str
+) -> None:
+    mocks = _patch_cleanup_stages_without_tls(monkeypatch, tmp_path)
+    mocks[stage].return_value = stage_report
+
+    report = run_osm_cleanup_workflow(output_dir=tmp_path / "out", bbox="13.6,50.9,13.9,51.1",
+                                      profile="standard", traffic_layers="passenger")
+
+    assert report["gate_status"][gate] == gate_value
+    assert report["gate_status"]["network_build"] == "pass"
+    assert (report["status"], report["claim_status"]) == ("review_required", "diagnostic-demo")
+    assert report["review_required_gates"] == [{"gate": gate, "reason": reason}]
+
+
+def test_reference_visual_detail_build_that_needs_review_is_kept(tmp_path: Path) -> None:
+    visual_net = tmp_path / "visual.net.xml"
+    visual_net.write_text("<net/>", encoding="utf-8")
+    primary_build = {"status": "review_required", "net_file": str(tmp_path / "network.net.xml"), "warnings": []}
+
+    def section(visual_status: str, service_status: str = "pass") -> dict[str, object]:
+        return osm_workflow._workflow_reference_visual_detail_section(
+            area_status="confirmed_by_input", bbox="13.6,50.9,13.9,51.1",
+            build_func=lambda **kwargs: {"status": visual_status, "net_file": str(visual_net), "warnings": []},
+            build_report=primary_build, cleaned_place_name="", clip_source_ways_to_bbox=False,
+            historical_date=None, max_retries=0, max_tile_area_km2=1.0, netconvert_binary="netconvert",
+            network_plan={"network_profile": "reference_matched"}, output_dir=tmp_path / "out",
+            overpass_url="", place_report=None, prefix="visual", reference_source_way_scope=None,
+            reference_visual_detail_highway_classes={"primary", "footway"},
+            reference_visual_detail_modal_way_tags={}, retry_pause_seconds=0.0,
+            service_permission_func=lambda net_file, **kwargs: {
+                "status": service_status, "net_file": str(net_file), "warnings": []},
+            service_permission_report={"status": "pass"}, should_build_reference_visual_detail=True,
+            source_osm_path=None, timeout_seconds=1.0, vehicle_core_highway_classes={"primary"},
+            reference_visual_detail_build_report={}, reference_visual_detail_net_file=None,
+            reference_visual_detail_service_permission_report={},
+        )
+
+    built = section("review_required")
+    assert built["reference_visual_detail_status"] == "built"
+    assert osm_workflow._build_gate_value(built["reference_visual_detail_build_report"]) == "review_required"
+
+    failed = section("fail")
+    assert failed["status"] == "fail"
+    assert failed["gate_status"]["network_build"] == "review_required"
+    assert failed["gate_status"]["reference_visual_detail"] == "fail"
+
+    service_failed = section("review_required", service_status="fail")
+    assert service_failed["status"] == "fail"
+    assert service_failed["gate_status"]["network_build"] == "review_required"
+
+
+def test_reference_cleanup_caps_status_when_the_visual_detail_build_needs_review(tmp_path: Path, monkeypatch) -> None:
+    reference_net_file = tmp_path / "reference.net.xml"
+    reference_net_file.write_text(
+        '<net><edge id="road" type="highway.primary"><lane id="road_0" allow="passenger"/></edge>'
+        '<edge id="walk" type="highway.footway"><lane id="walk_0" allow="pedestrian"/></edge></net>',
+        encoding="utf-8",
+    )
+    mocks = _patch_cleanup_stages_without_tls(monkeypatch, tmp_path)
+    original_build = mocks["build_osm_network"].side_effect
+
+    def build(**kwargs):
+        built = original_build(**kwargs)
+        if kwargs["prefix"].endswith("_reference_visual_detail"):
+            built["status"] = "review_required"
+        return built
+
+    mocks["build_osm_network"].side_effect = build
+    report = run_osm_cleanup_workflow(output_dir=tmp_path / "out", bbox="11.413800,48.755391,11.433800,48.775391",
+                                      profile="reference_matched", reference_net_file=reference_net_file)
+
+    assert mocks["build_osm_network"].call_count == 2
+    assert report["reference_visual_detail_status"] == "built"
+    assert report["gate_status"]["network_build"] == "pass"
+    assert report["gate_status"]["reference_visual_detail"] == "review_required"
+    assert (report["status"], report["claim_status"]) == ("review_required", "diagnostic-demo")
+    assert report["review_required_gates"] == [{"gate": "reference_visual_detail", "reason": "build_review_required"}]
+
+
 def test_build_overpass_query_uses_overpass_coordinate_order_and_date() -> None:
     bbox = parse_bbox("13.6000,50.9800,13.9000,51.1500")
 

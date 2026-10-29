@@ -71,6 +71,7 @@ from .topology_audit import audit_topology_fragmentation
 from .workflow_review_html import build_workflow_review_html
 
 from .osm_workflow_helpers import (  # noqa: F401 - compatibility re-export
+    _build_gate_value,
     _candidate_fields,
     _class_set,
     _command_path_for_cwd,
@@ -174,6 +175,7 @@ from .osm_workflow_tail import (  # noqa: F401 - compatibility re-export
     _teacher_guided_seed_candidate,
     _tls_connection_repair_promotion_decision,
     _cleanup_outcome,
+    _cleanup_review_required_gates,
     _tls_gate_value,
     _tls_semantic_delta_score,
     _topology_metric,
@@ -3699,7 +3701,7 @@ def _workflow_reference_visual_detail_section(
         reference_visual_detail_build_report = build_func(
             **visual_build_kwargs,
         )
-        if reference_visual_detail_build_report.get("status") != "pass":
+        if _build_gate_value(reference_visual_detail_build_report) not in {"pass", "review_required"}:
             return {
                 "status": "fail",
                 "claim_status": "construction-invalid",
@@ -3724,8 +3726,8 @@ def _workflow_reference_visual_detail_section(
                 "gate_status": {
                     "area_confirmation": "pass",
                     "road_level_scope": "pass",
-                    "network_build": _gate_value(build_report),
-                    "reference_visual_detail": _gate_value(reference_visual_detail_build_report),
+                    "network_build": _build_gate_value(build_report),
+                    "reference_visual_detail": _build_gate_value(reference_visual_detail_build_report),
                     "tls_reality_audit": "not_started",
                     "connectivity": "not_started",
                     "routeability_audit": "not_started",
@@ -3768,7 +3770,7 @@ def _workflow_reference_visual_detail_section(
                 "gate_status": {
                     "area_confirmation": "pass",
                     "road_level_scope": "pass",
-                    "network_build": _gate_value(build_report),
+                    "network_build": _build_gate_value(build_report),
                     "reference_visual_detail": "fail",
                     "tls_reality_audit": "not_started",
                     "connectivity": "not_started",
@@ -4146,7 +4148,8 @@ def run_osm_cleanup_workflow(
     if _supports_keyword(build_osm_network, "clip_source_ways_to_bbox"):
         build_kwargs["clip_source_ways_to_bbox"] = clip_source_ways_to_bbox
     build_report = build_osm_network(**build_kwargs)
-    if build_report.get("status") != "pass":
+    build_gate = _build_gate_value(build_report)
+    if build_gate not in {"pass", "review_required"}:
         return {
             "status": "fail",
             "claim_status": "construction-invalid",
@@ -4169,7 +4172,7 @@ def run_osm_cleanup_workflow(
             "gate_status": {
                 "area_confirmation": "pass",
                 "road_level_scope": "pass",
-                "network_build": _gate_value(build_report),
+                "network_build": build_gate,
                 "tls_reality_audit": "not_started",
                 "connectivity": "not_started",
                 "routeability_audit": "not_started",
@@ -4209,7 +4212,7 @@ def run_osm_cleanup_workflow(
             "gate_status": {
                 "area_confirmation": "pass",
                 "road_level_scope": "pass",
-                "network_build": _gate_value(build_report),
+                "network_build": build_gate,
                 "tls_reality_audit": "not_started",
                 "connectivity": "not_started",
                 "routeability_audit": "not_started",
@@ -5250,7 +5253,7 @@ def run_osm_cleanup_workflow(
     gate_status = {
         "area_confirmation": "pass",
         "road_level_scope": "pass",
-        "network_build": _gate_value(build_report),
+        "network_build": build_gate,
         "tls_reality_audit": _tls_gate_value(tls_report, tls_summary),
         "connectivity": str(connectivity_quality["connectivity_gate"]),
         "netedit": _gate_value(netedit_report),
@@ -5264,7 +5267,12 @@ def run_osm_cleanup_workflow(
         else _gate_value(teacher_guided_scoped_tls_cell_batch_report)
     )
     if str(network_plan.get("network_profile", "")) == "reference_matched":
-        gate_status["reference_visual_detail"] = "pass" if reference_visual_detail_status in {"built", "same_as_vehicle_core"} else "fail"
+        if reference_visual_detail_status == "built":
+            gate_status["reference_visual_detail"] = _build_gate_value(reference_visual_detail_build_report)
+        elif reference_visual_detail_status == "same_as_vehicle_core":
+            gate_status["reference_visual_detail"] = "pass"
+        else:
+            gate_status["reference_visual_detail"] = "fail"
         gate_status["reference_bbox_scope"] = _reference_bbox_scope_gate(reference_bbox_scope_report)
         gate_status["reference_hierarchy_audit"] = _reference_hierarchy_gate(reference_hierarchy_audit_report)
         gate_status["reference_scope_audit"] = _reference_scope_gate(reference_scope_audit_report)
@@ -5338,7 +5346,11 @@ def run_osm_cleanup_workflow(
             "blocked" if junction_aggregation_report.get("status") == "pass" else _gate_value(junction_aggregation_report)
         )
     if routeability_audit_report is not None:
-        gate_status["routeability_audit"] = _gate_value(routeability_audit_report)
+        gate_status["routeability_audit"] = (
+            "review_required"
+            if routeability_audit_report.get("status") == "review_required"
+            else _gate_value(routeability_audit_report)
+        )
     gate_status["connection_mode_audit"] = _connection_mode_gate_value(
         connection_mode_audit_report
     )
@@ -5351,15 +5363,22 @@ def run_osm_cleanup_workflow(
     gate_status["standard_nema_scan"] = (
         "skipped" if standard_nema_scan_report is None else _gate_value(standard_nema_scan_report)
     )
+    # Outside reference_matched the topology gate is the audit itself, whose blocked means suspicious dense
+    # junction clusters were found: a review item, not a broken network. Under reference_matched it is the
+    # parity with the reference and keeps failing the structure.
+    topology_review_when_blocked = (
+        ("topology_audit",) if str(network_plan.get("network_profile", "")) != "reference_matched" else ()
+    )
     structure_ok = (
-        gate_status["network_build"] == "pass"
+        gate_status["network_build"] in {"pass", "review_required"}
         and gate_status["connectivity"] in {"pass", "partial"}
-        and gate_status.get("topology_audit", "skipped") in {"pass", "skipped"}
-        and gate_status.get("routeability_audit", "skipped") in {"pass", "blocked", "skipped"}
+        and gate_status.get("topology_audit", "skipped")
+        in ({"pass", "blocked", "skipped"} if topology_review_when_blocked else {"pass", "skipped"})
+        and gate_status.get("routeability_audit", "skipped") in {"pass", "blocked", "review_required", "skipped"}
         and gate_status.get("connection_mode_audit", "skipped")
         in {"pass", "review_required", "skipped"}
         and gate_status.get("standard_nema_scan", "skipped") in {"pass", "skipped"}
-        and gate_status.get("reference_visual_detail", "skipped") in {"pass", "skipped"}
+        and gate_status.get("reference_visual_detail", "skipped") in {"pass", "review_required", "skipped"}
         and gate_status.get("reference_bbox_scope", "skipped") in {"pass", "skipped"}
         and gate_status.get("reference_hierarchy_audit", "skipped") in {"pass", "skipped"}
         and gate_status.get("reference_scope_audit", "skipped") in {"pass", "skipped"}
@@ -5374,7 +5393,23 @@ def run_osm_cleanup_workflow(
         and gate_status["netedit"] in {"pass", "blocked"}
         and gate_status["sumo_gui"] in {"pass", "blocked"}
     )
-    workflow_status, workflow_claim = _cleanup_outcome(structure_ok, gate_status["tls_reality_audit"])
+    review_required_gates = _cleanup_review_required_gates(
+        gate_status,
+        {
+            "network_build": build_report,
+            "reference_visual_detail": reference_visual_detail_build_report,
+            "tls_reality_audit": tls_summary,
+            "topology_audit": topology_audit_report,
+            "routeability_audit": routeability_audit_report,
+            "connection_mode_audit": connection_mode_audit_report,
+        },
+        review_when_blocked=topology_review_when_blocked,
+    )
+    workflow_status, workflow_claim = _cleanup_outcome(
+        structure_ok,
+        gate_status["tls_reality_audit"],
+        [entry["gate"] for entry in review_required_gates],
+    )
     bbox_regional_map_baseline = regional_map_baseline_for_bbox(bbox, label=cleaned_place_name or "SUMO network area")
     tls_regional_map_baseline = dict(tls_summary.get("regional_map_baseline") or {})
     provider_counts = tls_regional_map_baseline.get("regional_map_provider_counts")
@@ -5470,6 +5505,7 @@ def run_osm_cleanup_workflow(
     report = {
         "status": workflow_status,
         "claim_status": workflow_claim,
+        "review_required_gates": review_required_gates,
         "area_input": cleaned_place_name or bbox,
         "area_resolution_status": area_status,
         **(_candidate_fields(place_report) if place_report is not None else {**_candidate_fields(None), "candidate_bbox": bbox}),

@@ -15,6 +15,7 @@ from astra_sumo import mcp_contract_tools as contract
     [
         ("complete", 0),
         ("ready", 0),
+        ("review_required", 1),
         ("review_ready", 1),
         ("topology_ready", 1),
         ("classified", 1),

@@ -85,6 +85,45 @@ def test_pending_traffic_light_map_review_needs_review_instead_of_failing() -> N
     assert tail_module._cleanup_outcome(False, "review_required") == ("fail", "construction-invalid")
 
 
+def test_review_gates_cap_a_sound_cleanup_run_at_review_required() -> None:
+    assert tail_module._cleanup_outcome(True, "pass", ("network_build",)) == ("review_required", "diagnostic-demo")
+    assert tail_module._cleanup_outcome(True, "review_required", ("network_build",)) == (
+        "review_required",
+        "diagnostic-demo",
+    )
+    assert tail_module._cleanup_outcome(False, "pass", ("network_build",)) == ("fail", "construction-invalid")
+    assert tail_module._cleanup_outcome(True, "fail", ("network_build",)) == ("fail", "construction-invalid")
+    assert tail_module._cleanup_outcome(True, "blocked", ()) == ("fail", "construction-invalid")
+
+    gate_status = {
+        "network_build": "review_required",
+        "tls_reality_audit": "pass",
+        "topology_audit": "blocked",
+        "routeability_audit": "review_required",
+        "connection_mode_audit": "review_required",
+        "reference_visual_detail": "pass",
+    }
+    reports = {
+        "network_build": {"status": "review_required", "osm_access_correction": {"connectivity_review_required": True}},
+        "reference_visual_detail": {"status": "pass"},
+        "tls_reality_audit": {"tls_reality_review_status": "pass"},
+        "topology_audit": {"status": "blocked"},
+        "routeability_audit": {"status": "review_required", "reason": "unresolved_endpoint_mapping"},
+        "connection_mode_audit": {"status": "review_required"},
+    }
+    entries = tail_module._cleanup_review_required_gates(gate_status, reports, review_when_blocked=("topology_audit",))
+    by_gate = {entry["gate"]: entry["reason"] for entry in entries}
+    assert set(by_gate) == {"network_build", "topology_audit", "routeability_audit", "connection_mode_audit"}
+    assert by_gate["network_build"] == "newly_allowed_modes_require_connectivity_review"
+    assert by_gate["routeability_audit"] == "unresolved_endpoint_mapping"
+    assert all(reason for reason in by_gate.values())
+
+    # A blocked gate caps only when the caller declares that blocked means review for it.
+    entries = tail_module._cleanup_review_required_gates(gate_status, reports)
+    assert "topology_audit" not in {entry["gate"] for entry in entries}
+    assert tail_module._cleanup_review_required_gates({"network_build": "pass"}, {"network_build": {}}) == []
+
+
 def test_tls_movement_smoke_ignores_stale_output_files(tmp_path: Path) -> None:
     net_file = tmp_path / "candidate.net.xml"
     net_file.write_text(
