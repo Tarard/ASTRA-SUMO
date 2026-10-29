@@ -10,7 +10,7 @@ import shutil
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Mapping, NamedTuple
+from typing import Any, Callable, Iterable, Mapping, NamedTuple
 from urllib import error, parse, request
 import unicodedata
 import xml.etree.ElementTree as ET
@@ -739,10 +739,41 @@ def _merge_type_file_options(*options: list[str]) -> list[str]:
     return ["--type-files", ",".join(type_files)]
 
 
-def _netconvert_profile_options(profile: str | None) -> list[str]:
+MULTIMODAL_NETCONVERT_PROFILE = "multimodal"
+# Lanes only: no --tls.* option beyond the base command (no signal guessing or rebuild), although crossings and
+# bike links still change the programs and grouping netconvert generates. No --sidewalks.guess* (they duplicate
+# separately mapped sidewalks) and no type maps (the Pedestrians map removes pedestrian access from untagged roads,
+# the Bicycle map creates compound "cycleway.lane|highway.x" types).
+MULTIMODAL_MODE_OPTIONS = {
+    "bicycle": ("--osm.bike-access",),
+    "pedestrian": ("--osm.sidewalks", "--osm.crossings", "--crossings.guess", "--walkingareas"),
+}
+
+
+def _multimodal_modes(normalized_profile: str, modes: str | Iterable[str] | None) -> list[str]:
+    pieces = modes.split(",") if isinstance(modes, str) else list(modes or [])
+    requested = {str(item).strip().lower() for item in pieces if str(item).strip()}
+    if normalized_profile != MULTIMODAL_NETCONVERT_PROFILE:
+        if requested:
+            raise ValueError("multimodal_modes is only used by netconvert_profile='multimodal'")
+        return []
+    if modes is None:
+        requested = set(MULTIMODAL_MODE_OPTIONS)
+    unknown = sorted(requested - set(MULTIMODAL_MODE_OPTIONS))
+    if unknown:
+        raise ValueError("unsupported multimodal_modes: " + ", ".join(unknown))
+    if not requested:
+        raise ValueError("netconvert_profile='multimodal' needs bicycle, pedestrian or both in multimodal_modes")
+    return sorted(requested)
+
+
+def _netconvert_profile_options(profile: str | None, multimodal_modes: str | Iterable[str] | None = None) -> list[str]:
     normalized = (profile or "vehicle_core").strip().lower().replace("-", "_")
     if normalized in {"", "default", "vehicle", "vehicle_core"}:
         return []
+    if normalized == MULTIMODAL_NETCONVERT_PROFILE:
+        return [option for mode in _multimodal_modes(normalized, multimodal_modes)
+                for option in MULTIMODAL_MODE_OPTIONS[mode]]
     if normalized in REFERENCE_VISUAL_PROFILES:
         return [
             "--osm.bike-access",
@@ -796,6 +827,7 @@ def build_osm_network(
     command_runner: Callable[..., Any] = run_command,
     download_func: Callable[..., bytes] = download_osm,
     netconvert_profile: str | None = "vehicle_core",
+    multimodal_modes: str | Iterable[str] | None = None,
     output_precision: int | None = None,
     allowed_way_ids: set[str] | None = None,
     forced_way_ids: set[str] | None = None,
@@ -810,6 +842,8 @@ def build_osm_network(
 
     The legacy clip_source_ways_to_bbox option selects whole intersecting ways;
     it does not geometrically clip them at the rectangle boundary.
+    multimodal_modes (bicycle, pedestrian; default both) selects the lane options
+    of netconvert_profile="multimodal" and is rejected by every other profile.
     """
     try:
         if output_precision is not None and (isinstance(output_precision, bool)
@@ -825,8 +859,9 @@ def build_osm_network(
             historical_date=historical_date,
             include_railway=include_railway,
         )
-        profile_options = _netconvert_profile_options(netconvert_profile)
+        profile_options = _netconvert_profile_options(netconvert_profile, multimodal_modes)
         normalized_profile = _normalized_netconvert_profile(netconvert_profile)
+        resolved_multimodal_modes = _multimodal_modes(normalized_profile, multimodal_modes)
         normalized_traffic_side, traffic_side_options = _traffic_side_options(
             traffic_side
         )
@@ -1045,6 +1080,7 @@ def build_osm_network(
                     f"overpass_retry_count={overpass_report['retry_count'] if overpass_report else 0}",
                     f"netconvert_profile={normalized_profile}",
                     "netconvert_profile_options=" + " ".join(profile_options),
+                    "multimodal_modes=" + ",".join(resolved_multimodal_modes),
                     "netconvert_type_options=" + " ".join(type_options),
                     "netconvert_output_original_names_requested=true",
                     "netconvert_output_original_names_option="
@@ -1153,6 +1189,7 @@ def build_osm_network(
             "result": result,
             "profile": normalized_profile,
             "profile_options": profile_options,
+            "multimodal_modes": resolved_multimodal_modes,
             "type_options": type_options,
             "type_map_inputs": type_map_inputs,
             "output_original_names": origin_name_output,
@@ -1212,6 +1249,7 @@ def build_osm_network(
         "netconvert_profile": normalized_profile,
         "netconvert_precision": effective_precision,
         "netconvert_profile_options": profile_options,
+        "netconvert_multimodal_modes": resolved_multimodal_modes,
         "netconvert_type_map_inputs": type_map_inputs,
         "netconvert_output_original_names": origin_name_output,
         "osm_access_correction": access_correction,

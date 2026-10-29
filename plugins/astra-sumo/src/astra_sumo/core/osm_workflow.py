@@ -4141,8 +4141,10 @@ def run_osm_cleanup_workflow(
         "max_tile_area_km2": max_tile_area_km2,
         "max_retries": max_retries,
         "retry_pause_seconds": retry_pause_seconds,
-        "netconvert_profile": "vehicle_core",
+        "netconvert_profile": str(network_plan.get("netconvert_profile") or "vehicle_core"),
     }
+    if build_kwargs["netconvert_profile"] == "multimodal":
+        build_kwargs["multimodal_modes"] = list(network_plan.get("multimodal_modes", []))
     if _supports_keyword(build_osm_network, "netconvert_binary"):
         build_kwargs["netconvert_binary"] = netconvert_binary
     if _supports_keyword(build_osm_network, "clip_source_ways_to_bbox"):

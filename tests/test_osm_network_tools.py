@@ -272,6 +272,20 @@ def test_cleanup_uses_permission_candidate_and_keeps_raw_build_identity(tmp_path
     assert report["build"]["net_file"] == str(tmp_path / "network.net.xml")
 
 
+@pytest.mark.parametrize(("traffic_layers", "profile", "modes"), [
+    ("passenger", "vehicle_core", None),
+    ("passenger,bicycle,pedestrian", "multimodal", ["bicycle", "pedestrian"]),
+])
+def test_cleanup_builds_with_the_planned_netconvert_profile(tmp_path, monkeypatch, traffic_layers, profile, modes):
+    mocks = _patch_cleanup_stages(monkeypatch, tmp_path, _CONNECTED_PASSENGER_NETWORK)
+    report = run_osm_cleanup_workflow(output_dir=tmp_path / "out", bbox="13.6,50.9,13.9,51.1",
+                                      profile="standard", traffic_layers=traffic_layers)
+    build_kwargs = mocks["build_osm_network"].call_args.kwargs
+    assert build_kwargs["netconvert_profile"] == report["network_plan"]["netconvert_profile"] == profile
+    assert build_kwargs.get("multimodal_modes") == modes
+    assert report["primary_network_layer"] == "vehicle"
+
+
 def test_osm_cleanup_preserves_partial_and_severe_connectivity_classes(tmp_path: Path, monkeypatch) -> None:
     # Only the traffic-light map review is open in these fixtures, so a partial main component needs review
     # while a severely fragmented network still fails.
@@ -1773,6 +1787,73 @@ def test_build_osm_network_reference_visual_detail_profile_imports_pedestrian_tl
                         "sha256": hashlib.sha256((tmp_path / "build" / value).read_bytes()).hexdigest()}
                        for value in type_files]
     assert report["netconvert_type_map_inputs"] == manifest["netconvert"]["type_map_inputs"] == expected_inputs
+
+
+_PEDESTRIAN_LANE_OPTIONS = ["--osm.sidewalks", "--osm.crossings", "--crossings.guess", "--walkingareas"]
+
+
+@pytest.mark.parametrize(("modes", "expected_modes", "expected_options"), [
+    (["pedestrian"], ["pedestrian"], _PEDESTRIAN_LANE_OPTIONS),
+    (["bicycle"], ["bicycle"], ["--osm.bike-access"]),
+    (None, ["bicycle", "pedestrian"], ["--osm.bike-access", *_PEDESTRIAN_LANE_OPTIONS]),
+])
+def test_multimodal_profile_adds_only_lane_options_for_the_requested_modes(
+    tmp_path: Path, modes, expected_modes, expected_options
+) -> None:
+    source = tmp_path / "input.osm.xml"
+    source.write_text(
+        """<osm version="0.6">
+  <node id="1" lat="51.0" lon="13.70"/>
+  <node id="2" lat="51.0" lon="13.71"/>
+  <way id="10"><nd ref="1"/><nd ref="2"/><tag k="highway" v="primary"/><tag k="sidewalk" v="both"/></way>
+</osm>""",
+        encoding="utf-8",
+    )
+    calls: list[list[str]] = []
+
+    def fake_runner(command: list[str], *, cwd: Path, timeout_seconds: float) -> CommandResult:
+        calls.append(command)
+        output = cwd / command[command.index("--output-file") + 1]
+        output.write_text("<net/>", encoding="utf-8")
+        return CommandResult(command=command, cwd=str(cwd), status="pass", returncode=0)
+
+    common = {"bbox": "13.6000,50.9800,13.9000,51.1500", "prefix": "demo", "source_osm_path": source,
+              "allowed_highways": {"primary"}, "command_runner": fake_runner}
+    build_osm_network(output_dir=tmp_path / "vehicle", **common)
+    report = build_osm_network(output_dir=tmp_path / "multimodal", netconvert_profile="multimodal",
+                               multimodal_modes=modes, **common)
+
+    vehicle_command, command = calls
+    assert report["status"] == "pass"
+    assert report["netconvert_profile"] == "multimodal"
+    assert report["netconvert_profile_options"] == expected_options
+    assert report["netconvert_multimodal_modes"] == expected_modes
+    manifest = json.loads(Path(report["build_manifest_file"]).read_text(encoding="utf-8"))
+    assert manifest["netconvert"]["multimodal_modes"] == expected_modes
+    # Only the lane options differ from vehicle_core: no extra --tls.* option, turnarounds stay off, no type maps.
+    assert [option for option in command if option not in expected_options] == vehicle_command
+    assert not [option for option in report["netconvert_profile_options"]
+                if option.startswith(("--tls.", "--sidewalks.guess"))]
+    assert "--no-turnarounds" in command
+    assert "--type-files" not in command
+    assert "--osm.turn-lanes" not in command
+
+
+@pytest.mark.parametrize(("profile", "modes", "error"), [
+    ("multimodal", [], "needs bicycle, pedestrian or both"),
+    ("multimodal", ["bus"], "unsupported multimodal_modes: bus"),
+    ("vehicle_core", ["pedestrian"], "only used by netconvert_profile='multimodal'"),
+])
+def test_multimodal_modes_are_validated_before_netconvert(tmp_path: Path, profile, modes, error) -> None:
+    source = tmp_path / "input.osm.xml"
+    source.write_text('<osm version="0.6"/>', encoding="utf-8")
+    calls: list[list[str]] = []
+    report = build_osm_network(bbox="13.6000,50.9800,13.9000,51.1500", output_dir=tmp_path / "build",
+                               source_osm_path=source, netconvert_profile=profile, multimodal_modes=modes,
+                               command_runner=lambda command, **_kwargs: calls.append(command))
+    assert report["status"] == "fail"
+    assert error in report["error"]
+    assert calls == []
 
 
 @pytest.mark.parametrize("layout", ["data/typemap", "share/sumo/data/typemap"])

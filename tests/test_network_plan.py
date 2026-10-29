@@ -1042,6 +1042,22 @@ def test_network_plan_blocks_named_reference_without_reference_artifact() -> Non
     assert "reference SUMO .net.xml" in plan["next_question"]
 
 
+def test_standard_plan_selects_multimodal_profile_only_for_bicycle_or_pedestrian_layers() -> None:
+    vehicle = derive_network_plan(traffic_layers="passenger")
+    multimodal = derive_network_plan(traffic_layers="passenger,bicycle,pedestrian")
+    walking = derive_network_plan(traffic_layers=["passenger", "walk"])
+
+    assert (vehicle["netconvert_profile"], vehicle["multimodal_modes"], vehicle["network_layers"]) == (
+        "vehicle_core", [], ["vehicle"])
+    assert (multimodal["netconvert_profile"], multimodal["multimodal_modes"], multimodal["network_layers"]) == (
+        "multimodal", ["bicycle", "pedestrian"], ["multimodal", "vehicle"])
+    assert (walking["netconvert_profile"], walking["multimodal_modes"]) == ("multimodal", ["pedestrian"])
+    assert vehicle["primary_network_layer"] == multimodal["primary_network_layer"] == "vehicle"
+    confirmed = derive_network_plan(highway_classes="arterial", traffic_layers="passenger,bicycle")
+    assert (confirmed["network_plan_status"], confirmed["netconvert_profile"], confirmed["multimodal_modes"]) == (
+        "confirmed", "multimodal", ["bicycle"])
+
+
 def test_network_plan_derives_reference_policy_from_reference_net(tmp_path: Path) -> None:
     reference_net_file = tmp_path / "manual-reference.net.xml"
     _write_reference_net(reference_net_file)

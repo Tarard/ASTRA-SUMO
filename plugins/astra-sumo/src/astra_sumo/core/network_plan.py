@@ -39,6 +39,8 @@ REFERENCE_MATCHED_VALIDATION_GATES = (
 
 _BICYCLE_HIGHWAYS = {"cycleway", "path"}
 _PEDESTRIAN_HIGHWAYS = {"footway", "pedestrian", "path", "steps"}
+_BICYCLE_LAYER_TOKENS = {"bicycle", "bike", "bikeway", "cycleway"}
+_PEDESTRIAN_LAYER_TOKENS = {"pedestrian", "walk", "footway"}
 
 
 def _as_tokens(value: str | Iterable[str] | None) -> set[str]:
@@ -103,11 +105,23 @@ def _highways_for_layers(layers: set[str]) -> set[str]:
         highways |= set(DRIVE_HIGHWAYS) | {"unclassified", "service"}
     if layers & {"service", "access", "passenger_plus_service"}:
         highways |= set(DRIVE_HIGHWAYS) | {"unclassified", "service"}
-    if layers & {"bicycle", "bike", "bikeway", "cycleway"}:
+    if layers & _BICYCLE_LAYER_TOKENS:
         highways |= _BICYCLE_HIGHWAYS
-    if layers & {"pedestrian", "walk", "footway"}:
+    if layers & _PEDESTRIAN_LAYER_TOKENS:
         highways |= _PEDESTRIAN_HIGHWAYS
     return highways
+
+
+def _standard_network_layers(layers: set[str]) -> dict[str, Any]:
+    # Bicycle or pedestrian layers build one multimodal master; the vehicle layer stays the primary layer.
+    modes = [mode for mode, tokens in (("bicycle", _BICYCLE_LAYER_TOKENS), ("pedestrian", _PEDESTRIAN_LAYER_TOKENS))
+             if layers & tokens]
+    return {
+        "netconvert_profile": "multimodal" if modes else "vehicle_core",
+        "multimodal_modes": modes,
+        "primary_network_layer": "vehicle",
+        "network_layers": ["multimodal", "vehicle"] if modes else ["vehicle"],
+    }
 
 
 def _blocked_plan() -> dict[str, Any]:
@@ -281,6 +295,7 @@ def derive_network_plan(
             "network_detail_target": "custom_road_scope",
             "movement_layers": sorted(requested_layers or {"passenger"}),
             "highway_classes": sorted(selected_highways),
+            **_standard_network_layers(requested_layers),
             "service_passenger_policy": service_passenger_policy or "sumo_default",
             "cleanup_policy": ["use user-selected road classes"],
             "validation_gates": [
@@ -302,6 +317,7 @@ def derive_network_plan(
             "network_detail_target": "traffic_layer_selection",
             "movement_layers": sorted(requested_layers),
             "highway_classes": sorted(inferred_highways),
+            **_standard_network_layers(requested_layers),
             "service_passenger_policy": service_passenger_policy
             or ("allow_vehicle_service" if requested_layers & {"service", "access", "passenger_plus_service"} else "sumo_default"),
             "cleanup_policy": ["derive OSM highway classes from requested traffic layers"],
