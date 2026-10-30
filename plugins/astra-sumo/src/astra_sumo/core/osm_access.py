@@ -13,17 +13,19 @@ import hashlib
 import re
 import xml.etree.ElementTree as ET
 from collections import Counter, defaultdict
-from collections.abc import Callable, Iterable, Mapping
+from collections.abc import Callable, Iterable, Iterator, Mapping
+from itertools import chain
 from pathlib import Path
 from typing import Any
 from xml.sax.saxutils import quoteattr
 from sumolib.net.lane import SUMO_VEHICLE_CLASSES
 
-from .artifact_io import copy_file_atomic, write_json_atomic
+from .artifact_io import atomic_writer, copy_file_atomic, write_json_atomic
 from .candidate_contracts import file_sha256
 from .command_runner import run_command
 from .connection_mode_audit import _MOTORIZED_MODES
 from .sumo_commands import run_sumo_load_audit
+from .xml_stream import DirectChildren, binary_blocks, read_blocks
 
 _MOTOR_MODES = set(_MOTORIZED_MODES) | {"evehicle", "custom1", "custom2"}
 _MODE_KEYS = {
@@ -46,6 +48,10 @@ _USER_GROUP_SUFFIXES = frozenset({"disabled", "wheelchair", "residents", "permit
                                   "visitors"})
 _EXPLICIT_RULE = "explicit_value"
 _REVERTED_ADDITION_REASON = "new_class_has_no_loaded_movement"
+_LANE_TAG = re.compile(rb'''<lane(?=\s)(?:[^<>"']|"[^"]*"|'[^']*')*>''')
+# A lane tag whose quoted value is still open at the end of a block: a cut there could split the tag.
+_OPEN_LANE_TAG = re.compile(rb'''<lane(?=\s)(?:[^<>"']|"[^"]*"|'[^']*')*+(?:"[^"]*+|'[^']*+)\Z''')
+_TAG_ATTRIBUTE = re.compile(rb'''\s+([\w:.-]+)\s*=\s*("[^"]*"|'[^']*')''', re.DOTALL)
 
 
 def _conditional_clauses(value: str) -> list[tuple[str, str]] | None:
@@ -274,43 +280,105 @@ def _patch_lane_permissions(raw: bytes, root: ET.Element, expected: Mapping[str,
 
 def _patch_lane_attributes(raw: bytes, root: ET.Element, expected: Mapping[str, Mapping[str, str]], attributes_to_change) -> bytes:
     """Change only declared attributes on exact lane opening tags."""
-    tags = list(re.finditer(rb'''<lane(?=\s)(?:[^<>"']|"[^"]*"|'[^']*')*>''', raw))
+    tags = list(_LANE_TAG.finditer(raw))
     lanes = root.findall("edge/lane")
     if len(tags) != len(lanes):
         raise ValueError("Lane opening tags do not match the parsed network.")
-    attributes = re.compile(rb'''\s+([\w:.-]+)\s*=\s*("[^"]*"|'[^']*')''', re.DOTALL)
     chunks, cursor, changed = [], 0, set()
     for match, lane in zip(tags, lanes):
-        tag = match.group()
-        parsed = ET.fromstring(tag if tag.endswith(b"/>") else tag[:-1] + b"/>")
-        if parsed.attrib != lane.attrib:
-            raise ValueError("A lane opening tag does not match its parsed attributes.")
-        lane_id = lane.get("id")
-        if lane_id in expected:
-            if lane_id in changed or set(expected[lane_id]) - set(attributes_to_change):
-                raise ValueError("Permission patch has duplicate lanes or unsupported attributes.")
-            edits, written = [], set()
-            for attribute in attributes.finditer(tag):
-                if attribute.group(1).decode("ascii") in attributes_to_change:
-                    key = attribute.group(1).decode("ascii")
-                    if key in expected[lane_id]:
-                        edits.append((attribute.start(2), attribute.end(2), quoteattr(expected[lane_id][key]).encode("utf-8")))
-                        written.add(key)
-                    else:
-                        edits.append((attribute.start(), attribute.end(), b""))
-            for start, end, replacement in reversed(edits):
-                tag = tag[:start] + replacement + tag[end:]
-            closing = b"/>" if tag.endswith(b"/>") else b">"
-            added = b"".join(b" " + key.encode("ascii") + b"=" + quoteattr(value).encode("utf-8")
-                             for key, value in expected[lane_id].items() if key not in written)
-            tag = tag[:-len(closing)] + added + closing
-            changed.add(lane_id)
+        tag = _patched_lane_tag(match.group(), lane.attrib, expected, attributes_to_change, changed)
         chunks.extend((raw[cursor:match.start()], tag))
         cursor = match.end()
     if changed != set(expected):
         raise ValueError("Permission patch references a missing lane.")
     chunks.append(raw[cursor:])
     return b"".join(chunks)
+
+
+def _patched_lane_tag(tag: bytes, lane: Mapping[str, str], expected: Mapping[str, Mapping[str, str]],
+                      attributes_to_change, changed: set[str]) -> bytes:
+    """The lane opening tag with its expected attributes, checked against the parsed lane attributes."""
+    parsed = ET.fromstring(tag if tag.endswith(b"/>") else tag[:-1] + b"/>")
+    if parsed.attrib != lane:
+        raise ValueError("A lane opening tag does not match its parsed attributes.")
+    lane_id = lane.get("id")
+    if lane_id in expected:
+        if lane_id in changed or set(expected[lane_id]) - set(attributes_to_change):
+            raise ValueError("Permission patch has duplicate lanes or unsupported attributes.")
+        edits, written = [], set()
+        for attribute in _TAG_ATTRIBUTE.finditer(tag):
+            if attribute.group(1).decode("ascii") in attributes_to_change:
+                key = attribute.group(1).decode("ascii")
+                if key in expected[lane_id]:
+                    edits.append((attribute.start(2), attribute.end(2), quoteattr(expected[lane_id][key]).encode("utf-8")))
+                    written.add(key)
+                else:
+                    edits.append((attribute.start(), attribute.end(), b""))
+        for start, end, replacement in reversed(edits):
+            tag = tag[:start] + replacement + tag[end:]
+        closing = b"/>" if tag.endswith(b"/>") else b">"
+        added = b"".join(b" " + key.encode("ascii") + b"=" + quoteattr(value).encode("utf-8")
+                         for key, value in expected[lane_id].items() if key not in written)
+        tag = tag[:-len(closing)] + added + closing
+        changed.add(lane_id)
+    return tag
+
+
+def _edge_lane_attributes(net_file: Path) -> Iterator[dict[str, str]]:
+    """Attributes of each lane of a top-level edge in document order, like ``root.findall("edge/lane")``."""
+    for element in DirectChildren(binary_blocks(net_file)):
+        if element.tag == "edge":
+            for lane in element.findall("lane"):
+                yield lane.attrib
+
+
+def _patch_lane_attributes_file(source: Path, candidate: Path, expected: Mapping[str, Mapping[str, str]],
+                                attributes_to_change) -> None:
+    """Write ``source`` with ``_patch_lane_attributes`` applied to ``candidate``, reading it a block at a time.
+
+    Blocks are cut before a '<' where no lane tag is still open inside a quoted value, so the tags found in the
+    blocks are those of the whole file. The candidate is replaced only when every check passes, with the errors
+    the whole-file patch raises in the same order.
+    """
+    lanes = _edge_lane_attributes(source)
+    tag_count = lane_count = 0
+    changed: set[str] = set()
+    first_error: Exception | None = None
+    with atomic_writer(candidate) as handle, source.open("rb") as stream:
+        pending = b""
+        for block in chain(read_blocks(stream, 1 << 20), [b""]):
+            data = pending + block
+            cut = data.rfind(b"<") if block else len(data)
+            if block and (cut <= 0 or _OPEN_LANE_TAG.search(data, 0, cut)):
+                pending = data
+                continue
+            piece, pending = data[:cut], data[cut:]
+            cursor = 0
+            for match in _LANE_TAG.finditer(piece):
+                tag_count += 1
+                lane = next(lanes, None)
+                if lane is None:
+                    continue
+                lane_count += 1
+                if first_error is not None:
+                    continue
+                try:
+                    tag = _patched_lane_tag(match.group(), lane, expected, attributes_to_change, changed)
+                except (ValueError, ET.ParseError) as exc:
+                    first_error = exc
+                    continue
+                if lane.get("id") in expected:
+                    handle.write(piece[cursor:match.start()])
+                    handle.write(tag)
+                    cursor = match.end()
+            handle.write(piece[cursor:])
+        lane_count += sum(1 for _ in lanes)
+        if tag_count != lane_count:
+            raise ValueError("Lane opening tags do not match the parsed network.")
+        if first_error is not None:
+            raise first_error
+        if changed != set(expected):
+            raise ValueError("Permission patch references a missing lane.")
 
 
 def _non_permission_state(root: ET.Element, changed_lanes: set[str]) -> bytes:
@@ -320,6 +388,58 @@ def _non_permission_state(root: ET.Element, changed_lanes: set[str]) -> bytes:
             lane.attrib.pop("allow", None)
             lane.attrib.pop("disallow", None)
     return ET.tostring(masked, encoding="utf-8")
+
+
+def _streamed_non_permission_state(net_file: Path, changed_lanes: set[str], external_lanes: dict | None = None,
+                                   permission_key: Callable[[ET.Element], tuple] | None = None) -> tuple[bytes, str]:
+    """``_non_permission_state`` of a network read one top-level element at a time, as comparable parts.
+
+    The parts are the root element without children and a SHA-256 of the masked top-level elements in order, so
+    two networks give equal parts exactly when their ``_non_permission_state`` bytes are equal. When given,
+    ``external_lanes`` receives the permission key of every lane of a non-internal edge before masking.
+    """
+    digest = hashlib.sha256()
+    network = DirectChildren(binary_blocks(net_file))
+    for element in network:
+        if element.tag == "edge":
+            lanes = element.findall("lane")
+            if external_lanes is not None and element.get("function") != "internal":
+                external_lanes.update((lane.attrib["id"], permission_key(lane)) for lane in lanes)
+            for lane in lanes:
+                if lane.get("id") in changed_lanes:
+                    lane.attrib.pop("allow", None)
+                    lane.attrib.pop("disallow", None)
+        digest.update(ET.tostring(element, encoding="utf-8"))
+    head = ET.Element(network.root.tag, network.root.attrib)
+    head.text, head.tail = network.root.text, network.root.tail
+    return ET.tostring(head, encoding="utf-8"), digest.hexdigest()
+
+
+def _permission_key_reader() -> Callable[[ET.Element], tuple[str | None, str | None]]:
+    """A lane's (allow, disallow) declaration, shared between equal lanes so a city network stays small."""
+    known: dict[tuple[str | None, str | None], tuple[str | None, str | None]] = {}
+
+    def permission_key(lane: ET.Element) -> tuple[str | None, str | None]:
+        key = (lane.get("allow"), lane.get("disallow"))
+        return known.setdefault(key, key)
+
+    return permission_key
+
+
+def _key_attributes(key: tuple[str | None, str | None]) -> dict[str, str]:
+    """The ``_permission_attributes`` of a lane from its permission key."""
+    return {name: value for name, value in zip(("allow", "disallow"), key) if value is not None}
+
+
+def _permission_set_reader(network_version: str) -> Callable[[tuple[str | None, str | None]], frozenset[str]]:
+    sets: dict[tuple[str | None, str | None], frozenset[str]] = {}
+
+    def modes(key: tuple[str | None, str | None]) -> frozenset[str]:
+        if key not in sets:
+            sets[key] = frozenset(_permission_set(_key_attributes(key), network_version=network_version))
+        return sets[key]
+
+    return modes
 
 
 def measure_added_class_movements(net_file: Path, additions: Mapping[str, Iterable[str]]) -> dict[str, Any]:
@@ -503,14 +623,21 @@ def correct_osm_access_permissions(
     ``review`` keeps only open items; settled findings are listed in ``decisions``.
     """
     source_hash = file_sha256(osm_file)
-    raw = gzip.decompress(osm_file.read_bytes()) if osm_file.suffix == ".gz" else osm_file.read_bytes()
-    ways, outside_gate = {}, []
-    for way in ET.fromstring(raw).findall("way"):
-        tags = {tag.attrib["k"]: tag.attrib["v"] for tag in way.findall("tag")}
-        if any(tags.get(key, "").strip().lower() == "no" for key in ("vehicle", "motor_vehicle")):
-            ways[way.attrib["id"]] = tags
-        else:
-            outside_gate.append(tags)
+    ways: dict[str, dict[str, str]] = {}
+
+    def outside_gate() -> Iterator[dict[str, str]]:
+        """Tags of each way outside the vehicle/motor_vehicle=no gate; gated ways go to ``ways``."""
+        with gzip.open(osm_file, "rb") if osm_file.suffix == ".gz" else osm_file.open("rb") as handle:
+            for way in DirectChildren(read_blocks(handle)):
+                if way.tag != "way":
+                    continue
+                tags = {tag.attrib["k"]: tag.attrib["v"] for tag in way.findall("tag")}
+                if any(tags.get(key, "").strip().lower() == "no" for key in ("vehicle", "motor_vehicle")):
+                    ways[way.attrib["id"]] = tags
+                else:
+                    yield tags
+
+    unevaluated_outside_gate = _unevaluated_access_tags(outside_gate())
     report: dict[str, Any] = {
         "schema": "torii.osm-static-access-correction/v1",
         "status": "not_applicable", "source_osm": str(osm_file.resolve()),
@@ -518,20 +645,27 @@ def correct_osm_access_permissions(
         "restricted_way_count": len(ways), "changed_lane_count": 0,
         "changed_lanes": [], "decisions": [], "review": [], "dedicated_lanes_preserved": 0,
         "connectivity_review_required": False,
-        "unevaluated_outside_gate": _unevaluated_access_tags(outside_gate),
+        "unevaluated_outside_gate": unevaluated_outside_gate,
         "runtime_activation_changes": False, "revocable_lane_switches": False,
         "time_dependent_rules_evaluated": False,
     }
     if not ways:
         return report
-    network_bytes = net_file.read_bytes()
-    network_hash = hashlib.sha256(network_bytes).hexdigest()
-    root = ET.fromstring(network_bytes)
-    network_version = root.get("version", "0.0")
-    before = _external_lanes(root)
+    network_hash = file_sha256(net_file)
+    # The network is read one top-level element at a time; external lanes keep only their permission declaration.
+    permission_key = _permission_key_reader()
+    network = DirectChildren(binary_blocks(net_file))
+    network_version = "0.0"
+    before: dict[str, tuple[str | None, str | None]] = {}
     expected, positions, matched_ways = {}, {}, set()
     way_decisions, way_findings = {}, {}
-    for edge in root.findall("edge"):
+    for edge in network:
+        network_version = network.root.get("version", "0.0")
+        if edge.tag != "edge":
+            continue
+        if edge.get("function") != "internal":
+            for lane in edge.findall("lane"):
+                before[lane.attrib["id"]] = permission_key(lane)
         if edge.get("function") in {"internal", "crossing", "walkingarea"}:
             continue
         lanes, dedicated = edge.findall("lane"), {}
@@ -577,7 +711,7 @@ def correct_osm_access_permissions(
     candidate = output_dir / "access-corrected.net.xml"
     if any(path.exists() for path in (native, patch_file, candidate, output_dir / "manifest.json")):
         raise ValueError("Use a new access-correction directory.")
-    native.write_bytes(network_bytes)
+    copy_file_atomic(net_file, native)
     _write_edge_patch(patch_file, expected, positions)
     sibling = Path(netconvert_binary).with_name("sumo" + Path(netconvert_binary).suffix)
     validator = sumo_binary or (str(sibling.resolve()) if sibling.is_file() else "sumo")
@@ -594,11 +728,11 @@ def correct_osm_access_permissions(
         report_file = output_dir / "manifest.json"
         write_json_atomic(report_file, report, sort_keys=True)
         return {**report, "report_file": str(report_file.resolve())}
-    candidate.write_bytes(_patch_lane_permissions(network_bytes, root, expected))
+    _patch_lane_attributes_file(native, candidate, expected, {"allow", "disallow"})
 
     def added_classes(lane_id):
         return (_permission_set(expected[lane_id], network_version=network_version) -
-                _permission_set(_permission_attributes(before[lane_id]), network_version=network_version))
+                _permission_set(_key_attributes(before[lane_id]), network_version=network_version))
 
     additions = {lane_id: added for lane_id in expected if (added := added_classes(lane_id))}
     measured = {}
@@ -613,7 +747,7 @@ def correct_osm_access_permissions(
         for lane_id, classes in unusable.items():
             attrs = _without_classes(expected[lane_id], classes, network_version=network_version)
             if _permission_set(attrs, network_version=network_version) == _permission_set(
-                    _permission_attributes(before[lane_id]), network_version=network_version):
+                    _key_attributes(before[lane_id]), network_version=network_version):
                 del expected[lane_id]
             else:
                 expected[lane_id] = attrs
@@ -626,7 +760,7 @@ def correct_osm_access_permissions(
                         row.update(after=expected[row["lane_id"]], reverted_vehicle_classes=sorted(unusable[row["lane_id"]]))
             report["changed_lanes"] = changed_rows
             report["changed_lane_count"] = len(expected)
-            candidate.write_bytes(_patch_lane_permissions(network_bytes, root, expected))
+            _patch_lane_attributes_file(native, candidate, expected, {"allow", "disallow"})
             _write_edge_patch(patch_file, expected, positions)
             report["edge_patch"] = {"path": str(patch_file.resolve()), "sha256": file_sha256(patch_file)}
     validation = run_sumo_load_audit(net_file=candidate, output_dir=output_dir / "load-audit",
@@ -636,14 +770,16 @@ def correct_osm_access_permissions(
     report.update({"load_audit": validation, "command": command, "result": result})
     passed = validation.get("status") == "pass" and candidate.is_file()
     if passed:
-        candidate_root = ET.parse(candidate).getroot()
-        after = _external_lanes(candidate_root)
+        after: dict[str, tuple[str | None, str | None]] = {}
+        candidate_state = _streamed_non_permission_state(candidate, set(expected), after, permission_key)
+        native_state = _streamed_non_permission_state(native, set(expected))
+        modes = _permission_set_reader(network_version)
         identity_preserved = set(before) == set(after)
-        exact_permissions = identity_preserved and all(_permission_set(_permission_attributes(after[lane]), network_version=network_version) ==
+        exact_permissions = identity_preserved and all(modes(after[lane]) ==
             _permission_set(attrs, network_version=network_version) for lane, attrs in expected.items())
-        other_permissions = identity_preserved and all(_permission_set(_permission_attributes(before[lane]), network_version=network_version) ==
-            _permission_set(_permission_attributes(after[lane]), network_version=network_version) for lane in before if lane not in expected)
-        unchanged_state = _non_permission_state(root, set(expected)) == _non_permission_state(candidate_root, set(expected))
+        other_permissions = identity_preserved and all(modes(before[lane]) ==
+            modes(after[lane]) for lane in before if lane not in expected)
+        unchanged_state = native_state == candidate_state
         passed = exact_permissions and other_permissions and unchanged_state
         report["checks"] = {"external_lane_identity_preserved": identity_preserved, "source_permissions_applied": exact_permissions, "other_lane_permissions_preserved": other_permissions,
                             "non_permission_network_state_preserved": unchanged_state}

@@ -3,12 +3,16 @@ from __future__ import annotations
 import hashlib
 import math
 import re
+from collections import deque
+from collections.abc import Callable, Iterable, Iterator
+from itertools import chain
 from pathlib import Path
 from typing import Any
 from xml.etree import ElementTree as ET
 
-from .artifact_io import write_json_atomic, write_text_atomic
+from .artifact_io import atomic_writer, write_json_atomic, write_text_atomic
 from .candidate_contracts import file_sha256
+from .xml_stream import DirectChildren, binary_blocks, read_blocks
 
 
 _IMPLICIT_TLS_JUNCTION_TYPES = frozenset({"rail_crossing", "rail_signal"})
@@ -16,6 +20,7 @@ _SAFE_STALE_JUNCTION_TYPES = frozenset({"priority"})
 _PEDESTRIAN_INTERNAL_EDGE_FUNCTIONS = frozenset({"crossing", "walkingarea"})
 _UNCONTROLLED_CONNECTION_STATES = frozenset({"M", "m"})
 _CONNECTION_TAG = re.compile(r"<connection(?=\s)[^<>]*/>", re.DOTALL)
+_TEXT_BLOCK_SIZE = 1 << 20
 
 
 def build_tls_reference_cleanup_variant(
@@ -80,8 +85,7 @@ def build_tls_reference_cleanup_variant(
 
     source_sha256 = file_sha256(source)
     try:
-        source_text = source.read_text(encoding="utf-8")
-        source_root = ET.fromstring(source_text)
+        audit = _audit_tls_references(lambda: _text_blocks(source))
     except (OSError, UnicodeError, ET.ParseError) as exc:
         return _persist_early_failure(
             error=f"{type(exc).__name__}: {exc}",
@@ -92,7 +96,6 @@ def build_tls_reference_cleanup_variant(
             source_sha256=source_sha256,
         )
 
-    audit = _audit_tls_references(source_root)
     operations = audit["repairable_references"]
     blocked_references = audit["blocked_references"]
     plan: dict[str, Any] = {
@@ -196,12 +199,13 @@ def build_tls_reference_cleanup_variant(
         )
         return report
 
-    patched_text, patch_evidence = _patch_connection_tags(
-        source_text,
-        source_root.findall("connection"),
+    patch_evidence = _patch_connection_tags(
+        source,
+        variant_file,
+        audit["counts"]["connection_count"],
         operations,
     )
-    if patched_text is None:
+    if patch_evidence["status"] != "pass":
         plan.update(
             {
                 "status": "blocked",
@@ -230,10 +234,10 @@ def build_tls_reference_cleanup_variant(
         )
         return report
 
-    write_text_atomic(variant_file, patched_text)
     candidate_sha256 = file_sha256(variant_file)
     validation = _validate_candidate(
-        source_root=source_root,
+        source=source,
+        source_connection_count=audit["counts"]["connection_count"],
         candidate_file=variant_file,
         operations=operations,
     )
@@ -310,22 +314,46 @@ def build_tls_reference_cleanup_variant(
     return report
 
 
-def _audit_tls_references(root: ET.Element) -> dict[str, Any]:
-    junctions = {
-        junction.attrib["id"]: junction
-        for junction in root.findall("junction")
-        if junction.attrib.get("id")
+def _text_blocks(path: Path) -> Iterator[str]:
+    """The network text as Path.read_text(encoding="utf-8") decodes it, one block at a time."""
+    with path.open(encoding="utf-8") as handle:
+        yield from read_blocks(handle, _TEXT_BLOCK_SIZE)
+
+
+def _audit_tls_references(network_blocks: Callable[[], Iterable[str | bytes]]) -> dict[str, Any]:
+    """Classify every TLS reference of a network read one top-level element at a time.
+
+    Junctions and controller ids are kept for the whole network, connections only when they carry a TLS
+    attribute. A second pass reads the edges that a stale reference names, and only when there is one.
+    """
+    junctions: dict[str, tuple[str, ...]] = {}
+    explicit_controller_ids: set[str] = set()
+    references: list[tuple[int, dict[str, str]]] = []
+    connection_count = 0
+    for element in DirectChildren(network_blocks()):
+        if element.tag == "connection":
+            attributes = element.attrib
+            if attributes.get("tl") or attributes.get("linkIndex") or attributes.get("linkIndex2"):
+                references.append((connection_count, dict(attributes)))
+            connection_count += 1
+        elif element.tag == "junction" and element.attrib.get("id"):
+            junctions[element.attrib["id"]] = tuple(element.attrib.get(key, "") for key in ("type", "x", "y"))
+        elif element.tag == "tlLogic" and element.attrib.get("id"):
+            explicit_controller_ids.add(element.attrib["id"])
+    stale_edge_ids = {
+        attributes.get(key, "")
+        for _, attributes in references
+        if attributes.get("tl")
+        and attributes["tl"] not in explicit_controller_ids
+        and junctions.get(attributes["tl"], ("",))[0] not in _IMPLICIT_TLS_JUNCTION_TYPES
+        for key in ("from", "to")
     }
-    edges = {
-        edge.attrib["id"]: edge
-        for edge in root.findall("edge")
-        if edge.attrib.get("id")
-    }
-    explicit_controller_ids = {
-        tl_logic.attrib["id"]
-        for tl_logic in root.findall("tlLogic")
-        if tl_logic.attrib.get("id")
-    }
+    edges: dict[str, dict[str, Any]] = {}
+    if stale_edge_ids:
+        for element in DirectChildren(network_blocks()):
+            if element.tag == "edge" and element.attrib.get("id") and element.attrib["id"] in stale_edge_ids:
+                edges[element.attrib["id"]] = _edge_row(element)
+
     valid_explicit = 0
     valid_implicit = 0
     repairable: list[dict[str, Any]] = []
@@ -333,16 +361,16 @@ def _audit_tls_references(root: ET.Element) -> dict[str, Any]:
     referenced_controller_ids: set[str] = set()
     implicit_controller_ids: set[str] = set()
 
-    for connection_index, connection in enumerate(root.findall("connection")):
-        tl_id = connection.attrib.get("tl", "")
-        link_index = connection.attrib.get("linkIndex", "")
+    for connection_index, attributes in references:
+        tl_id = attributes.get("tl", "")
+        link_index = attributes.get("linkIndex", "")
         if not tl_id:
-            if link_index or connection.attrib.get("linkIndex2"):
+            if link_index or attributes.get("linkIndex2"):
                 blocked.append(
                     {
                         "connection_index": connection_index,
                         "classification": "blocked_link_index_without_tls",
-                        "before_attributes": dict(connection.attrib),
+                        "before_attributes": dict(attributes),
                         "blockers": ["connection_has_link_index_without_tls_id"],
                     }
                 )
@@ -352,7 +380,7 @@ def _audit_tls_references(root: ET.Element) -> dict[str, Any]:
             valid_explicit += 1
             continue
         junction = junctions.get(tl_id)
-        junction_type = junction.attrib.get("type", "") if junction is not None else ""
+        junction_type = junction[0] if junction is not None else ""
         if junction_type in _IMPLICIT_TLS_JUNCTION_TYPES:
             valid_implicit += 1
             implicit_controller_ids.add(tl_id)
@@ -360,7 +388,7 @@ def _audit_tls_references(root: ET.Element) -> dict[str, Any]:
 
         record, blockers = _classify_stale_reference(
             connection_index=connection_index,
-            connection=connection,
+            attributes=attributes,
             junction=junction,
             edges=edges,
         )
@@ -378,13 +406,13 @@ def _audit_tls_references(root: ET.Element) -> dict[str, Any]:
                     "operation_id": f"tls-reference-cleanup-{len(repairable) + 1:04d}",
                     "classification": "repairable_stale_pedestrian_internal_reference",
                     "removed_attributes": {
-                        key: connection.attrib[key]
+                        key: attributes[key]
                         for key in ("tl", "linkIndex", "linkIndex2")
-                        if key in connection.attrib
+                        if key in attributes
                     },
                     "after_attributes": {
                         key: value
-                        for key, value in connection.attrib.items()
+                        for key, value in attributes.items()
                         if key not in {"tl", "linkIndex", "linkIndex2"}
                     },
                     "reason": (
@@ -394,9 +422,9 @@ def _audit_tls_references(root: ET.Element) -> dict[str, Any]:
                     "rollback": {
                         "action": "restore_removed_attributes",
                         "attributes": {
-                            key: connection.attrib[key]
+                            key: attributes[key]
                             for key in ("tl", "linkIndex", "linkIndex2")
-                            if key in connection.attrib
+                            if key in attributes
                         },
                     },
                 }
@@ -405,7 +433,7 @@ def _audit_tls_references(root: ET.Element) -> dict[str, Any]:
 
     return {
         "counts": {
-            "connection_count": len(root.findall("connection")),
+            "connection_count": connection_count,
             "explicit_tllogic_count": len(explicit_controller_ids),
             "referenced_tls_id_count": len(referenced_controller_ids),
             "explicit_controlled_connection_count": valid_explicit,
@@ -423,29 +451,27 @@ def _audit_tls_references(root: ET.Element) -> dict[str, Any]:
 def _classify_stale_reference(
     *,
     connection_index: int,
-    connection: ET.Element,
-    junction: ET.Element | None,
-    edges: dict[str, ET.Element],
+    attributes: dict[str, str],
+    junction: tuple[str, ...] | None,
+    edges: dict[str, dict[str, Any]],
 ) -> tuple[dict[str, Any], list[str]]:
-    tl_id = connection.attrib.get("tl", "")
-    from_id = connection.attrib.get("from", "")
-    to_id = connection.attrib.get("to", "")
+    tl_id = attributes.get("tl", "")
+    from_id = attributes.get("from", "")
+    to_id = attributes.get("to", "")
     from_edge = edges.get(from_id)
     to_edge = edges.get(to_id)
-    junction_type = junction.attrib.get("type", "") if junction is not None else ""
+    junction_type, junction_x, junction_y = junction if junction is not None else ("", "", "")
     blockers: list[str] = []
 
     if junction is None:
         blockers.append("tls_id_has_no_matching_junction")
     elif junction_type not in _SAFE_STALE_JUNCTION_TYPES:
         blockers.append(f"junction_type_not_safe:{junction_type or 'missing'}")
-    if junction is not None and not all(
-        _is_finite_number(junction.attrib.get(axis, "")) for axis in ("x", "y")
-    ):
+    if junction is not None and not all(_is_finite_number(value) for value in (junction_x, junction_y)):
         blockers.append("junction_review_coordinates_missing_or_invalid")
-    if not connection.attrib.get("linkIndex"):
+    if not attributes.get("linkIndex"):
         blockers.append("tls_reference_has_no_link_index")
-    if connection.attrib.get("via"):
+    if attributes.get("via"):
         blockers.append("connection_is_not_second_stage_internal")
     expected_prefix = f":{tl_id}_"
     if not from_id.startswith(expected_prefix) or not to_id.startswith(expected_prefix):
@@ -454,12 +480,12 @@ def _classify_stale_reference(
         if edge is None:
             blockers.append(f"{label}_edge_missing")
             continue
-        function = edge.attrib.get("function", "")
+        function = edge["function"]
         if function not in _PEDESTRIAN_INTERNAL_EDGE_FUNCTIONS:
             blockers.append(f"{label}_edge_not_crossing_or_walkingarea:{function or 'missing'}")
         if not _edge_is_pedestrian_only(edge):
             blockers.append(f"{label}_edge_not_explicitly_pedestrian_only")
-    state = connection.attrib.get("state", "")
+    state = attributes.get("state", "")
     if state not in _UNCONTROLLED_CONNECTION_STATES:
         blockers.append(f"connection_state_not_uncontrolled:{state or 'missing'}")
 
@@ -467,15 +493,12 @@ def _classify_stale_reference(
         "connection_index": connection_index,
         "junction_id": tl_id,
         "junction_type": junction_type,
-        "junction_position": {
-            "x": junction.attrib.get("x", "") if junction is not None else "",
-            "y": junction.attrib.get("y", "") if junction is not None else "",
-        },
+        "junction_position": {"x": junction_x, "y": junction_y},
         "connection_locator": {
-            key: connection.attrib.get(key, "")
+            key: attributes.get(key, "")
             for key in ("from", "to", "fromLane", "toLane", "via", "dir")
         },
-        "before_attributes": dict(connection.attrib),
+        "before_attributes": dict(attributes),
         "evidence": {
             "embedded_tllogic_absent": True,
             "junction_type": junction_type,
@@ -487,29 +510,8 @@ def _classify_stale_reference(
     return record, blockers
 
 
-def _edge_is_pedestrian_only(edge: ET.Element) -> bool:
-    lanes = edge.findall("lane")
-    if not lanes:
-        return False
-    for lane in lanes:
-        allowed = set(lane.attrib.get("allow", "").split())
-        if not allowed or not allowed.issubset({"pedestrian"}):
-            return False
-    return True
-
-
-def _is_finite_number(value: str) -> bool:
-    try:
-        return math.isfinite(float(value))
-    except ValueError:
-        return False
-
-
-def _edge_evidence(edge: ET.Element | None) -> dict[str, Any]:
-    if edge is None:
-        return {"present": False}
+def _edge_row(edge: ET.Element) -> dict[str, Any]:
     return {
-        "present": True,
         "id": edge.attrib.get("id", ""),
         "function": edge.attrib.get("function", ""),
         "lanes": [
@@ -523,106 +525,171 @@ def _edge_evidence(edge: ET.Element | None) -> dict[str, Any]:
     }
 
 
+def _edge_is_pedestrian_only(edge: dict[str, Any]) -> bool:
+    lanes = edge["lanes"]
+    if not lanes:
+        return False
+    for lane in lanes:
+        allowed = set(lane["allow"].split())
+        if not allowed or not allowed.issubset({"pedestrian"}):
+            return False
+    return True
+
+
+def _is_finite_number(value: str) -> bool:
+    try:
+        return math.isfinite(float(value))
+    except ValueError:
+        return False
+
+
+def _edge_evidence(edge: dict[str, Any] | None) -> dict[str, Any]:
+    if edge is None:
+        return {"present": False}
+    return {
+        "present": True,
+        "id": edge["id"],
+        "function": edge["function"],
+        "lanes": [dict(lane) for lane in edge["lanes"]],
+    }
+
+
+class _PatchUnavailable(Exception):
+    """The candidate cannot be written; ``evidence`` is the blocked patch record."""
+
+    def __init__(self, error: str) -> None:
+        super().__init__(error)
+        self.evidence = {"status": "blocked", "error": error}
+
+
 def _patch_connection_tags(
-    source_text: str,
-    connections: list[ET.Element],
+    source: Path,
+    candidate_file: Path,
+    connection_count: int,
     operations: list[dict[str, Any]],
-) -> tuple[str | None, dict[str, Any]]:
-    matches = list(_CONNECTION_TAG.finditer(source_text))
-    if len(matches) != len(connections):
-        return None, {
-            "status": "blocked",
-            "error": (
-                "minimal text patch could not bind parsed connections to self-closing XML tags: "
-                f"parsed={len(connections)}, tags={len(matches)}"
-            ),
-        }
+) -> dict[str, Any]:
+    """Write the source text with the planned attributes removed from their connection tags.
+
+    The text is decoded as Path.read_text decodes it and read in blocks cut before a '<'. A connection tag holds
+    no '<', so each tag lies whole in one block and the blocks give the matches of the whole text. The candidate
+    is kept only when every tag binds to a parsed connection.
+    """
     targets = {int(operation["connection_index"]): operation for operation in operations}
-    chunks: list[str] = []
-    cursor = 0
+    tag_count = 0
     changed_tags = 0
     removed_attribute_count = 0
-    for connection_index, match in enumerate(matches):
-        chunks.append(source_text[cursor : match.start()])
-        tag_text = match.group(0)
-        operation = targets.get(connection_index)
-        if operation is not None:
-            try:
-                parsed_tag = ET.fromstring(tag_text)
-            except ET.ParseError as exc:
-                return None, {
-                    "status": "blocked",
-                    "error": f"connection tag {connection_index} could not be parsed: {exc}",
-                }
-            if dict(parsed_tag.attrib) != operation["before_attributes"]:
-                return None, {
-                    "status": "blocked",
-                    "error": f"connection tag {connection_index} did not match the parsed source element",
-                }
-            patched_tag = tag_text
-            for attribute in operation["removed_attributes"]:
-                attribute_pattern = re.compile(
-                    rf"\s+{re.escape(attribute)}\s*=\s*(?:\"[^\"]*\"|'[^']*')"
+    first_error = ""
+    try:
+        with atomic_writer(candidate_file, mode="w", encoding="utf-8", newline="") as handle:
+            pending = ""
+            for block in chain(_text_blocks(source), [""]):
+                text = pending + block
+                cut = text.rfind("<") if block else len(text)
+                if cut <= 0 and block:
+                    pending = text
+                    continue
+                piece, pending = text[:cut], text[cut:]
+                cursor = 0
+                for match in _CONNECTION_TAG.finditer(piece):
+                    connection_index = tag_count
+                    tag_count += 1
+                    operation = targets.get(connection_index)
+                    if operation is None or first_error:
+                        continue
+                    patched_tag, error, removed = _patched_connection_tag(connection_index, match.group(0), operation)
+                    if error:
+                        first_error = error
+                        continue
+                    handle.write(piece[cursor : match.start()])
+                    handle.write(patched_tag)
+                    cursor = match.end()
+                    changed_tags += 1
+                    removed_attribute_count += removed
+                handle.write(piece[cursor:])
+            if tag_count != connection_count:
+                raise _PatchUnavailable(
+                    "minimal text patch could not bind parsed connections to self-closing XML tags: "
+                    f"parsed={connection_count}, tags={tag_count}"
                 )
-                patched_tag, count = attribute_pattern.subn("", patched_tag, count=1)
-                if count != 1:
-                    return None, {
-                        "status": "blocked",
-                        "error": (
-                            f"attribute {attribute} on connection tag {connection_index} "
-                            "could not be removed exactly once"
-                        ),
-                    }
-                removed_attribute_count += 1
-            tag_text = patched_tag
-            changed_tags += 1
-        chunks.append(tag_text)
-        cursor = match.end()
-    chunks.append(source_text[cursor:])
-    return "".join(chunks), {
+            if first_error:
+                raise _PatchUnavailable(first_error)
+    except _PatchUnavailable as exc:
+        return exc.evidence
+    return {
         "status": "pass",
-        "source_connection_tag_count": len(matches),
+        "source_connection_tag_count": tag_count,
         "changed_connection_tag_count": changed_tags,
         "removed_attribute_count": removed_attribute_count,
         "all_other_source_text_preserved": True,
     }
 
 
+def _patched_connection_tag(
+    connection_index: int,
+    tag_text: str,
+    operation: dict[str, Any],
+) -> tuple[str, str, int]:
+    """The tag without the removed attributes, an error text, and the number of removed attributes."""
+    try:
+        parsed_tag = ET.fromstring(tag_text)
+    except ET.ParseError as exc:
+        return "", f"connection tag {connection_index} could not be parsed: {exc}", 0
+    if dict(parsed_tag.attrib) != operation["before_attributes"]:
+        return "", f"connection tag {connection_index} did not match the parsed source element", 0
+    patched_tag = tag_text
+    for attribute in operation["removed_attributes"]:
+        attribute_pattern = re.compile(
+            rf"\s+{re.escape(attribute)}\s*=\s*(?:\"[^\"]*\"|'[^']*')"
+        )
+        patched_tag, count = attribute_pattern.subn("", patched_tag, count=1)
+        if count != 1:
+            return "", (
+                f"attribute {attribute} on connection tag {connection_index} "
+                "could not be removed exactly once"
+            ), 0
+    return patched_tag, "", len(operation["removed_attributes"])
+
+
 def _validate_candidate(
     *,
-    source_root: ET.Element,
+    source: Path,
+    source_connection_count: int,
     candidate_file: Path,
     operations: list[dict[str, Any]],
 ) -> dict[str, Any]:
     try:
-        candidate_root = ET.parse(candidate_file).getroot()
+        post_audit = _audit_tls_references(lambda: binary_blocks(candidate_file))
     except (OSError, ET.ParseError) as exc:
         return {"status": "fail", "error": f"{type(exc).__name__}: {exc}"}
 
-    source_connections = source_root.findall("connection")
-    candidate_connections = candidate_root.findall("connection")
+    candidate_connection_count = post_audit["counts"]["connection_count"]
     targets = {int(operation["connection_index"]): operation for operation in operations}
     failures: list[str] = []
-    if len(source_connections) != len(candidate_connections):
+    source_digest, candidate_digest = hashlib.sha256(), hashlib.sha256()
+    source_connections = _connections_and_digest(DirectChildren(_text_blocks(source)), source_digest)
+    candidate_connections = _connections_and_digest(DirectChildren(binary_blocks(candidate_file)), candidate_digest)
+    if source_connection_count != candidate_connection_count:
         failures.append("connection_count_changed")
     else:
-        for connection_index, (source_connection, candidate_connection) in enumerate(
+        for connection_index, (source_attributes, candidate_attributes) in enumerate(
             zip(source_connections, candidate_connections)
         ):
             operation = targets.get(connection_index)
             expected = (
                 operation["after_attributes"]
                 if operation is not None
-                else dict(source_connection.attrib)
+                else dict(source_attributes)
             )
-            if dict(candidate_connection.attrib) != expected:
+            if dict(candidate_attributes) != expected:
                 failures.append(f"connection_attributes_changed_unexpectedly:{connection_index}")
+    # Read both networks to the end, so each digest covers every element that is not a connection.
+    deque(source_connections, maxlen=0)
+    deque(candidate_connections, maxlen=0)
 
-    source_invariant_sha256 = _non_connection_elements_sha256(source_root)
-    candidate_invariant_sha256 = _non_connection_elements_sha256(candidate_root)
+    source_invariant_sha256 = source_digest.hexdigest()
+    candidate_invariant_sha256 = candidate_digest.hexdigest()
     if source_invariant_sha256 != candidate_invariant_sha256:
         failures.append("non_connection_network_elements_changed")
-    post_audit = _audit_tls_references(candidate_root)
     if post_audit["counts"]["repairable_reference_count"]:
         failures.append("repairable_tls_references_remain")
     if post_audit["counts"]["blocked_reference_count"]:
@@ -631,7 +698,7 @@ def _validate_candidate(
         "status": "pass" if not failures else "fail",
         "failures": failures,
         "connection_count_preservation_status": (
-            "pass" if len(source_connections) == len(candidate_connections) else "fail"
+            "pass" if source_connection_count == candidate_connection_count else "fail"
         ),
         "non_connection_network_elements_preservation_status": (
             "pass" if source_invariant_sha256 == candidate_invariant_sha256 else "fail"
@@ -643,14 +710,14 @@ def _validate_candidate(
     }
 
 
-def _non_connection_elements_sha256(root: ET.Element) -> str:
-    digest = hashlib.sha256()
-    for element in root:
+def _connections_and_digest(elements: Iterable[ET.Element], digest: Any) -> Iterator[dict[str, str]]:
+    """Yield the attributes of each connection; hash every other element with its tail, then a NUL byte."""
+    for element in elements:
         if element.tag == "connection":
-            continue
-        digest.update(ET.tostring(element, encoding="utf-8"))
-        digest.update(b"\0")
-    return digest.hexdigest()
+            yield element.attrib
+        else:
+            digest.update(ET.tostring(element, encoding="utf-8"))
+            digest.update(b"\0")
 
 
 def _write_review_overlay(

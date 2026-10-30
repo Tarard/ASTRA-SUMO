@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import Counter
+from contextlib import ExitStack, nullcontext
 import csv
 import gzip
 import hashlib
@@ -8,16 +9,18 @@ import math
 import os
 from importlib.util import find_spec
 import shutil
+import tempfile
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Iterable, Mapping, NamedTuple
+from typing import Any, Callable, Iterable, Iterator, Mapping, NamedTuple
 from urllib import error, parse, request
 import unicodedata
 import xml.etree.ElementTree as ET
 
-from .artifact_io import copy_file_atomic, write_json_atomic
+from .artifact_io import atomic_writer, copy_file_atomic, write_json_atomic
 from .command_runner import run_command
+from .xml_stream import DirectChildren, read_blocks
 
 
 DEFAULT_ALLOWED_HIGHWAYS = {
@@ -312,15 +315,17 @@ def _node_in_bbox(node: ET.Element, bbox: Bbox) -> bool:
     return bbox.west <= lon <= bbox.east and bbox.south <= lat <= bbox.north
 
 
-def _way_intersects_bbox(refs: list[str], nodes: dict[str, ET.Element], bbox: Bbox) -> bool:
+def _node_point(node: ET.Element) -> tuple[float, ...] | None:
+    try:
+        point = tuple(float(node.attrib[key]) for key in ("lon", "lat"))
+    except (KeyError, ValueError):
+        return None
+    return point if all(map(math.isfinite, point)) else None
+
+
+def _way_intersects_bbox(refs: list[str], points_by_id: Mapping[str, tuple[float, ...] | None], bbox: Bbox) -> bool:
     """Select by original segments, including crossings with both ends outside."""
-    points = []
-    for ref in refs:
-        try:
-            point = tuple(float(nodes[ref].attrib[key]) for key in ("lon", "lat"))
-        except (KeyError, ValueError):
-            point = None
-        points.append(point if point is not None and all(map(math.isfinite, point)) else None)
+    points = [points_by_id.get(ref) for ref in refs]
     for start, end in zip(points, points[1:]):
         if start is None or end is None:
             continue
@@ -347,6 +352,55 @@ def _relation_way_refs(relation: ET.Element) -> set[str]:
     return refs
 
 
+def _write_kept_osm(source: Path, target: Path, kept: Mapping[str, set], *, namespaced: bool) -> int:
+    """Write the kept source elements as ``ET.tostring`` writes a new <osm> root holding them; return the node count.
+
+    The root takes the source root's attributes and holds the bounds, then the kept nodes, ways and relations, each
+    group in source order. Nodes are kept by id, ways and relations by their position among their kind. The groups
+    are spooled to temporary files because merged tiles interleave them. A source that declares namespaces is
+    written as one tree, since ElementTree names the namespaces of the whole tree.
+    """
+    groups: dict[str, list[ET.Element]] = {name: [] for name in ("bounds", "node", "way", "relation")}
+    positions = {"way": 0, "relation": 0}
+    kept_node_count = 0
+    with ExitStack() as stack:
+        spools = {name: stack.enter_context(tempfile.TemporaryFile()) for name in groups}
+        with _open_xml(source, "rt") as handle:
+            stream = DirectChildren(read_blocks(handle))
+            for element in stream:
+                group = "bounds" if element.tag in {"bounds", "bound"} else element.tag
+                if group == "node":
+                    keep = element.attrib.get("id") in kept["node"]
+                    kept_node_count += keep
+                elif group in positions:
+                    keep = positions[group] in kept[group]
+                    positions[group] += 1
+                else:
+                    keep = group == "bounds"
+                if keep and namespaced:
+                    groups[group].append(element)
+                elif keep:
+                    spools[group].write(ET.tostring(element, encoding="utf-8"))
+        root = ET.Element("osm", stream.root.attrib)
+        for elements in groups.values():
+            root.extend(elements)
+        payload = ET.tostring(root, encoding="utf-8", xml_declaration=True)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        with atomic_writer(target) as raw:
+            with (gzip.GzipFile(filename="", mode="wb", compresslevel=9, fileobj=raw)
+                  if target.suffix == ".gz" else nullcontext(raw)) as handle:
+                if not any(spool.tell() for spool in spools.values()):
+                    handle.write(payload)
+                    return kept_node_count
+                # The root start tag, every kept element with its tail, then the end tag.
+                handle.write(payload.removesuffix(b" />") + b">")
+                for spool in spools.values():
+                    spool.seek(0)
+                    shutil.copyfileobj(spool, handle)
+                handle.write(b"</osm>")
+    return kept_node_count
+
+
 def filter_osm_by_highways(
     source: Path,
     target: Path,
@@ -358,26 +412,31 @@ def filter_osm_by_highways(
     include_railway: bool = False,
     allowed_railways: set[str] | None = None,
 ) -> dict[str, Any]:
-    """Select complete source ways; bbox selection never cuts their geometry."""
+    """Select complete source ways; bbox selection never cuts their geometry.
+
+    The source is read one top-level element at a time, so a city extract stays small in memory: a first pass
+    takes node coordinates and forced construction ways, a second decides ways and relations, a third writes the
+    kept elements grouped as bounds, nodes, ways and relations.
+    """
     from .road_scope import HIGHWAY_CLASS_PRESETS
 
-    with _open_xml(source, "rt") as handle:
-        root = ET.parse(handle).getroot()
-
-    nodes_by_id = {node.attrib["id"]: node for node in root.findall("node")}
-    bbox_node_refs = None
-    if bbox is not None:
-        bbox_node_refs = {node.attrib["id"] for node in root.findall("node") if _node_in_bbox(node, bbox)}
-
     requested_forced_way_ids = set(forced_way_ids or ())
-    forced_construction_way_ids = {
-        way.attrib.get("id", "")
-        for way in root.findall("way")
-        if way.attrib.get("id", "") in requested_forced_way_ids
-        and _highway_value(way) == "construction"
-    }
+    points_by_id: dict[str, tuple[float, ...] | None] = {}
+    bbox_node_refs = None if bbox is None else set()
+    forced_construction_way_ids = set()
+    if bbox is not None or requested_forced_way_ids:
+        with _open_xml(source, "rt") as handle:
+            for element in DirectChildren(read_blocks(handle)):
+                if element.tag == "node" and bbox is not None:
+                    node_id = element.attrib["id"]
+                    points_by_id[node_id] = _node_point(element)
+                    if _node_in_bbox(element, bbox):
+                        bbox_node_refs.add(node_id)
+                elif (element.tag == "way" and element.attrib.get("id", "") in requested_forced_way_ids
+                        and _highway_value(element) == "construction"):
+                    forced_construction_way_ids.add(element.attrib.get("id", ""))
 
-    kept_ways = []
+    kept_way_positions = set()
     kept_way_ids = set()
     kept_node_refs = set()
     dropped_ways = 0
@@ -385,7 +444,28 @@ def filter_osm_by_highways(
     dropped_ways_outside_reference_scope = 0
     kept_railway_ways = 0
     dropped_vehicle_area_way_ids = []
-    for way in root.findall("way"):
+    restriction_refs: list[tuple[int, set[str]]] = []
+    namespaces: list[tuple[str, str]] = []
+
+    def source_ways() -> Iterator[tuple[int, ET.Element]]:
+        """Each way with its position among the ways; restriction relations and namespaces are noted on the way."""
+        way_position = relation_position = 0
+        with _open_xml(source, "rt") as handle:
+            stream = DirectChildren(read_blocks(handle), record_namespaces=True)
+            for element in stream:
+                if element.tag == "way":
+                    yield way_position, element
+                    way_position += 1
+                elif element.tag == "relation":
+                    tags = {tag.attrib.get("k"): tag.attrib.get("v") for tag in element.findall("tag")}
+                    if tags.get("type") == "restriction":
+                        restriction_refs.append((relation_position, _relation_way_refs(element)))
+                    relation_position += 1
+                elif element.tag == "node" and "id" not in element.attrib:
+                    raise KeyError("id")  # Every node needs an id, as in a full node index.
+            namespaces.extend(stream.namespaces)
+
+    for position, way in source_ways():
         way_id = way.attrib.get("id", "")
         highway = _highway_value(way)
         railway = _tag_value(way, "railway")
@@ -419,50 +499,25 @@ def filter_osm_by_highways(
                 dropped_ways_outside_reference_scope += 1
                 continue
             refs = _way_node_refs(way)
-            if len(refs) < 2 or (bbox is not None and not _way_intersects_bbox(refs, nodes_by_id, bbox)):
+            if len(refs) < 2 or (bbox is not None and not _way_intersects_bbox(refs, points_by_id, bbox)):
                 dropped_ways_outside_bbox += 1
                 continue
-            kept_ways.append(way)
+            kept_way_positions.add(position)
             kept_way_ids.add(way.attrib["id"])
             kept_node_refs.update(refs)
             kept_railway_ways += int(keep_railway and highway is None)
         elif highway is not None:
             dropped_ways += 1
-
-    kept_nodes = [
-        node for node in root.findall("node")
-        if node.attrib.get("id") in kept_node_refs
-    ]
-
-    kept_relations = []
-    for relation in root.findall("relation"):
-        tags = {tag.attrib.get("k"): tag.attrib.get("v") for tag in relation.findall("tag")}
-        if tags.get("type") == "restriction" and _relation_way_refs(relation) & kept_way_ids:
-            kept_relations.append(relation)
-
-    out_root = ET.Element("osm", root.attrib)
-    for child in root:
-        if child.tag in {"bounds", "bound"}:
-            out_root.append(child)
-    for node in kept_nodes:
-        out_root.append(node)
-    for way in kept_ways:
-        out_root.append(way)
-    for relation in kept_relations:
-        out_root.append(relation)
-
-    target.parent.mkdir(parents=True, exist_ok=True)
-    payload = ET.tostring(out_root, encoding="utf-8", xml_declaration=True)
-    if target.suffix == ".gz":
-        target.write_bytes(gzip.compress(payload))
-    else:
-        target.write_bytes(payload)
+    del points_by_id
+    kept_relation_positions = {position for position, refs in restriction_refs if refs & kept_way_ids}
+    kept_node_count = _write_kept_osm(source, target, {"node": kept_node_refs, "way": kept_way_positions,
+                                                       "relation": kept_relation_positions}, namespaced=bool(namespaces))
 
     stats = {
-        "kept_nodes": len(kept_nodes),
-        "kept_ways": len(kept_ways),
+        "kept_nodes": kept_node_count,
+        "kept_ways": len(kept_way_positions),
         "dropped_ways": dropped_ways,
-        "kept_relations": len(kept_relations),
+        "kept_relations": len(kept_relation_positions),
     }
     if dropped_vehicle_area_way_ids:
         stats["dropped_vehicle_area_way_ids"] = sorted(dropped_vehicle_area_way_ids)
@@ -793,6 +848,22 @@ def _netconvert_profile_options(profile: str | None, multimodal_modes: str | Ite
     raise ValueError(f"unsupported netconvert_profile: {profile}")
 
 
+def _completed_elements(handle: Any) -> Iterator[ET.Element]:
+    """Each element at its end, in the order of ET.iterparse, dropping every finished top-level element."""
+    with handle:
+        context = ET.iterparse(handle, events=("start", "end"))
+        _, root = next(context)
+        depth = 0
+        for event, element in context:
+            if event == "start":
+                depth += 1
+                continue
+            yield element
+            depth -= 1
+            if depth == 0:
+                root.remove(element)
+
+
 def _vehicle_signal_groups(
     *,
     filtered_osm: Path,
@@ -837,18 +908,16 @@ def _vehicle_signal_groups(
     try:
         if result.get("status") != "pass" or not plain_nodes.is_file():
             raise ET.ParseError("no plain node output")
-        for _, element in ET.iterparse(plain_nodes):
+        for element in _completed_elements(plain_nodes.open("rb")):
             if element.tag == "node" and element.get("tl"):
                 controllers.setdefault(element.get("tl"), []).append(
                     (element.get("id"), element.get("type") or "traffic_light"))
     except ET.ParseError:
         return {**report, "status": "blocked", "reason": "vehicle_signal_reference_build_failed"}
     source_nodes = set()
-    with _open_xml(reference_osm, "rt") as handle:
-        for _, element in ET.iterparse(handle):
-            if element.tag == "node":
-                source_nodes.add(element.get("id"))
-                element.clear()
+    for element in _completed_elements(_open_xml(reference_osm, "rt")):
+        if element.tag == "node":
+            source_nodes.add(element.get("id"))
     patched, skipped = [], []
     for tl_id, members in sorted(controllers.items()):
         if all(node_id == tl_id for node_id, _ in members):

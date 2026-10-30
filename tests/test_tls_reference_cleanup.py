@@ -4,6 +4,8 @@ import json
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
+import pytest
+
 from astra_sumo.core.candidate_contracts import file_sha256
 from astra_sumo.core.tls_reference_cleanup import build_tls_reference_cleanup_variant
 
@@ -142,3 +144,35 @@ def test_cleanup_returns_identity_safe_when_only_explicit_and_implicit_controlle
     assert report["review_overlay_file"] == ""
     assert not stale_candidate.exists()
     assert not stale_overlay.exists()
+
+
+@pytest.mark.parametrize("size", [1, 5, 64, 1 << 20])
+def test_variant_read_in_blocks_equals_the_whole_text_patch_of_a_crlf_source(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, size: int
+) -> None:
+    from astra_sumo.core import tls_reference_cleanup
+
+    source = tmp_path / "crlf.net.xml"
+    text = _write_network(source).replace("\n", "\r\n")
+    source.write_bytes(text.encode("utf-8"))
+    monkeypatch.setattr(tls_reference_cleanup, "_TEXT_BLOCK_SIZE", size)
+
+    report = build_tls_reference_cleanup_variant(source, output_dir=tmp_path / "cleanup", prefix="case")
+
+    assert report["tls_reference_cleanup_status"] == "variant_created"
+    assert report["minimal_patch"]["source_connection_tag_count"] == 3
+    assert report["candidate_validation"]["failures"] == []
+    expected = text.replace("\r\n", "\n").replace(' tl="stale" linkIndex="7"', "")
+    assert Path(report["candidate_net_file"]).read_bytes() == expected.encode("utf-8")
+
+
+def test_comment_that_imitates_a_connection_tag_blocks_the_patch(tmp_path: Path) -> None:
+    source = tmp_path / "comment.net.xml"
+    text = _write_network(source).replace("<net>", '<net><!-- <connection from="x" to="y"/> -->')
+    source.write_text(text, encoding="utf-8")
+
+    report = build_tls_reference_cleanup_variant(source, output_dir=tmp_path / "cleanup", prefix="comment")
+
+    assert report["tls_reference_cleanup_status"] == "blocked_minimal_patch_unavailable"
+    assert report["minimal_patch"]["error"].endswith("parsed=3, tags=4")
+    assert not (tmp_path / "cleanup" / "comment.net.xml").exists()

@@ -4,7 +4,8 @@ import json
 import os
 import shutil
 import tempfile
-from contextlib import suppress
+from collections.abc import Iterator
+from contextlib import contextmanager, suppress
 from pathlib import Path
 from typing import Any
 
@@ -63,6 +64,37 @@ def write_json_atomic(
         sort_keys=sort_keys,
     )
     write_text_atomic(path, text, encoding="utf-8")
+
+
+@contextmanager
+def atomic_writer(
+    path: Path,
+    *,
+    mode: str = "wb",
+    encoding: str | None = None,
+    newline: str | None = None,
+) -> Iterator[Any]:
+    """Stream an artifact into a same-directory temporary file; replace the destination only on success."""
+    destination = path.resolve()
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    temporary_path: Path | None = None
+    try:
+        with _open_atomic_temporary_file(
+            destination.parent,
+            mode=mode,
+            encoding=encoding,
+            newline=newline,
+        ) as handle:
+            temporary_path = Path(handle.name)
+            yield handle
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary_path, destination)
+        temporary_path = None
+    finally:
+        if temporary_path is not None:
+            with suppress(OSError):
+                temporary_path.unlink(missing_ok=True)
 
 
 def write_text_atomic(path: Path, text: str, *, encoding: str = "utf-8") -> None:

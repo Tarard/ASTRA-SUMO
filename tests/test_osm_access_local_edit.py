@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 import json
+import re
 import shutil
 import xml.etree.ElementTree as ET
 
@@ -223,6 +224,35 @@ def test_patch_handles_non_self_closing_lanes_quotes_and_escaped_names():
       <param key="note" value="unrelated"/></lane></edge></net>'''
     result = _patch_lane_permissions(raw, ET.fromstring(raw), {"a_0": {"allow": "bus"}})
     assert result == raw.replace(b" allow='passenger'", b' allow="bus"')
+
+
+@pytest.mark.parametrize("comment", [b"", b'<!-- <lane id="c" allow="x<y"> -->', b'<!-- <lane id="c" allow="x<y -->'])
+def test_streamed_patch_matches_the_whole_file_patch_at_every_block_size(tmp_path, monkeypatch, comment):
+    from astra_sumo.core import osm_access, xml_stream
+
+    raw = b'''<?xml version="1.0"?>\n''' + comment + b'''
+<net><edge id="a"><lane id="a_0" index="0" note="x>y" allow="passenger"/>
+    <lane id='a_1' index="1" disallow="pedestrian">
+      <param key="origId" value="7"/></lane></edge>
+  <edge id=":j_0" function="internal"><lane id=":j_0_0" index="0"/></edge>
+</net>'''
+    source = tmp_path / "source.net.xml"
+    source.write_bytes(raw)
+    expected = {"a_0": {"disallow": "truck"}, "a_1": {"allow": "bicycle"}}
+    try:
+        whole = _patch_lane_permissions(raw, ET.fromstring(raw), expected)
+    except (ValueError, ET.ParseError) as exc:
+        whole = exc
+    for size in range(1, len(raw) + 1, 3):
+        monkeypatch.setattr(osm_access, "read_blocks", lambda handle, _=None, size=size: xml_stream.read_blocks(handle, size))
+        candidate = tmp_path / f"candidate-{size}.net.xml"
+        if isinstance(whole, Exception):
+            with pytest.raises(type(whole), match=re.escape(str(whole))):
+                osm_access._patch_lane_attributes_file(source, candidate, expected, {"allow", "disallow"})
+            assert not candidate.exists()
+        else:
+            osm_access._patch_lane_attributes_file(source, candidate, expected, {"allow", "disallow"})
+            assert candidate.read_bytes() == whole
 
 
 def test_comment_that_imitates_a_lane_tag_is_rejected(tmp_path):

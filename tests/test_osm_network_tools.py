@@ -1426,6 +1426,32 @@ def test_filter_osm_by_highways_keeps_nodes_and_restrictions_for_kept_ways(tmp_p
     }
 
 
+def test_filter_osm_by_highways_groups_interleaved_tiles_like_one_tree(tmp_path: Path) -> None:
+    source = tmp_path / "merged.osm.xml"
+    target = tmp_path / "filtered.osm.xml.gz"
+    payload = b"""<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="tiles">
+  <bounds minlat="51.0" minlon="13.0" maxlat="51.1" maxlon="13.1"/>
+  <node id="1" lat="51.0" lon="13.70"><tag k="name" v="A &amp; B"/></node>
+  <way id="10"><nd ref="1"/><nd ref="2"/><tag k="highway" v="primary"/></way>
+  <relation id="20"><member type="way" ref="10" role="from"/><tag k="type" v="restriction"/></relation>
+  <node id="2" lat="51.0" lon="13.71"/>
+  <node id="3" lat="51.0" lon="13.72"/>
+  <way id="11"><nd ref="2"/><nd ref="3"/><tag k="highway" v="primary"/></way>
+  <way id="12"><nd ref="3"/><nd ref="1"/><tag k="highway" v="footway"/></way>
+</osm>
+"""
+    source.write_bytes(payload)
+    parsed = ET.fromstring(payload)
+    expected = ET.Element("osm", parsed.attrib)
+    expected.extend([parsed[0], *parsed.findall("node"), parsed[2], parsed[6], parsed[3]])
+
+    stats = filter_osm_by_highways(source, target, {"primary"})
+
+    assert gzip.decompress(target.read_bytes()) == ET.tostring(expected, encoding="utf-8", xml_declaration=True)
+    assert stats == {"kept_nodes": 3, "kept_ways": 2, "dropped_ways": 1, "kept_relations": 1}
+
+
 def test_filter_drops_vehicle_area_perimeters_but_keeps_linear_and_pedestrian_ways(tmp_path):
     source, target = tmp_path / "source.osm", tmp_path / "filtered.osm"
     root = ET.fromstring('<osm><node id="1" lat="0" lon="0"/><node id="2" lat="0" lon="1"/><node id="3" lat="1" lon="1"/></osm>')
