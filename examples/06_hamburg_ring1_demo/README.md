@@ -184,7 +184,7 @@ Invalid graph data and attempts to replace existing output files still stop the 
 
 The current full example selects 467 of 1,156 ordinary road segments.
 It applies the existing OSM access corrections before scope selection.
-It also retains the saved tentative official approach associations in `official-approach-anchors-v3.json`.
+It also retains the saved tentative official approach associations in `official-approach-anchors-v4.json`.
 Those associations protect 130 source edges. The case records their confidence, source compatibility, and unresolved references.
 The direct raw-native regression uses only the class rule and four V1 road anchors. It selects 367 segments.
 Its permissions and study-retention reasons differ from the full example.

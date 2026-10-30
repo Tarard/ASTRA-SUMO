@@ -33,7 +33,9 @@ The import has 1,156 ordinary road segments and nine narrowly repairable stale p
 SUMO 1.27.1 crashes or stalls during postload pruning on this input. The current implementation uses checked preload extraction.
 The raw-native class regression retains 367 segments, including four V1 calibration-road references supplied as study anchors.
 The full offline example applies OSM access corrections and protects tentative official approach parts. It retains 467 segments.
-`official-approach-anchors-v3.json` records the source associations, their confidence, input identity, and unresolved references.
+`official-approach-anchors-v4.json` records the source associations, their confidence, input identity, and unresolved references.
+V4 keeps every v3 association, edge and lane count; only the source network identity changed, because the OSM access
+correction now keeps dedicated sidewalk and bicycle lanes and reverts lane-class additions without a loaded movement.
 These data protect 130 source edges. They do not constitute confirmed SUMO correspondence or field geometry acceptance.
 These anchors do not establish an exact sensor-to-lane mapping.
 The v3 file separates whole-lane coverage from individual-edge support and records the retention basis for each edge.
@@ -42,7 +44,8 @@ The earlier `official-approach-anchors.json` and v2 data remain available.
 V3 uses the same explicit KML coordinates for association and measurement, with headings taken at the bound anchor.
 The previous v2 association replay retained 468 roads. That version remains recorded separately.
 The [regeneration instructions](../../examples/06_hamburg_ring1_demo/README.md#regenerate-the-approach-evidence) start from the frozen source files.
-[Regeneration evidence](approach-regeneration-evidence-v2.json) records the current measured input identities and byte comparison.
+[Regeneration evidence](approach-regeneration-evidence-v3.json) records the current measured input identities and the comparison with v3.
+The [v2 regeneration evidence](approach-regeneration-evidence-v2.json) records the v3 byte comparison.
 
 [Current execution evidence](execution-evidence-v4.json) records the 467-road scope and remaining stages.
 [Official approach comparison](official-approach-comparison-v2.json) records source-bound lane-part and coverage preservation.
