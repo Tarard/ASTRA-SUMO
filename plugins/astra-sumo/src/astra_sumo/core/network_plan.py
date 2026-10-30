@@ -41,6 +41,8 @@ _BICYCLE_HIGHWAYS = {"cycleway", "path"}
 _PEDESTRIAN_HIGHWAYS = {"footway", "pedestrian", "path", "steps"}
 _BICYCLE_LAYER_TOKENS = {"bicycle", "bike", "bikeway", "cycleway"}
 _PEDESTRIAN_LAYER_TOKENS = {"pedestrian", "walk", "footway"}
+_VEHICLE_LAYER_TOKENS = {"passenger", "vehicle", "car", "bus", "service", "access", "passenger_plus_service"}
+NETWORK_LAYER_OPTIONS = ("multimodal", "vehicle")
 
 
 def _as_tokens(value: str | Iterable[str] | None) -> set[str]:
@@ -122,6 +124,28 @@ def _standard_network_layers(layers: set[str]) -> dict[str, Any]:
         "primary_network_layer": "vehicle",
         "network_layers": ["multimodal", "vehicle"] if modes else ["vehicle"],
     }
+
+
+def resolve_network_layers(network_layers: str | Iterable[str] | None, traffic_layers: str | Iterable[str] | None) -> list[str]:
+    """Layers a standard cleanup writes; None or an empty list takes the planned layers.
+
+    A requested layer needs its modes in ``traffic_layers``: ``vehicle`` a vehicle layer such as passenger or bus,
+    ``multimodal`` bicycle or pedestrian. The planned vehicle layer is left out when no vehicle mode is requested.
+    """
+    traffic = _as_tokens(traffic_layers)
+    has_modes = {"vehicle": bool(traffic & _VEHICLE_LAYER_TOKENS),
+                 "multimodal": bool(traffic & (_BICYCLE_LAYER_TOKENS | _PEDESTRIAN_LAYER_TOKENS))}
+    requested = _as_tokens(network_layers)
+    if not requested:
+        planned = _standard_network_layers(traffic)["network_layers"]
+        return [layer for layer in planned if has_modes[layer] or len(planned) == 1]
+    unknown = sorted(requested - set(NETWORK_LAYER_OPTIONS))
+    if unknown:
+        raise ValueError(f"network_layers accepts {', '.join(NETWORK_LAYER_OPTIONS)}; unknown: {', '.join(unknown)}")
+    missing = sorted(layer for layer in requested if not has_modes[layer])
+    if missing:
+        raise ValueError(f"network_layers {', '.join(missing)} needs its modes in traffic_layers")
+    return sorted(requested)
 
 
 def _blocked_plan() -> dict[str, Any]:

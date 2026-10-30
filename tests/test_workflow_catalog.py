@@ -96,6 +96,17 @@ def test_missing_source_file_prevents_even_a_valid_registered_call(tmp_path):
     assert not (tmp_path/'out').exists()
 
 
+def test_osm_network_exposes_the_cleanup_request_keys(tmp_path):
+    row = get_workflow_catalog('osm_network')['scenarios'][0]
+    assert row['required_arguments'] == ['output_dir', 'bbox']
+    assert list(row['optional_arguments']) == ['profile', 'source_osm_path', 'traffic_layers', 'network_layers',
+                                               'reference_net_file', 'timeout_seconds']
+    assert row['optional_arguments']['network_layers'] == {'type': 'str | None', 'default': None}
+    report = run_selected_workflow(decision('osm_network', {'output_dir':str(tmp_path/'out'), 'bbox':'9.9,53.5,10.0,53.6',
+        'traffic_layers':'passenger,pedestrian', 'network_layers':'vehicle,multimodal'}))
+    assert report['execution_status'] == 'ready_not_executed' and report['executed'] is False
+
+
 def test_boolean_is_not_silently_converted_to_a_timeout(tmp_path):
     report = run_selected_workflow(decision('osm_network', {'output_dir':str(tmp_path/'out'),
         'bbox':'9.9,53.5,10.0,53.6', 'traffic_layers':'vehicle_core', 'timeout_seconds':True}))

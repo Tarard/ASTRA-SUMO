@@ -800,6 +800,7 @@ def sumo_osm_cleanup_workflow(
     profile: Literal["standard", "reference_matched"] = "standard",
     source_osm_path: str | None = None,
     traffic_layers: str | None = None,
+    network_layers: str | None = None,
     reference_net_file: str | None = None,
     timeout_seconds: float = 240.0,
 ) -> dict[str, Any]:
@@ -809,6 +810,7 @@ def sumo_osm_cleanup_workflow(
         profile=profile,
         source_osm_path=Path(source_osm_path) if source_osm_path else None,
         traffic_layers=traffic_layers,
+        network_layers=network_layers,
         reference_net_file=Path(reference_net_file) if reference_net_file else None,
         timeout_seconds=timeout_seconds,
     )

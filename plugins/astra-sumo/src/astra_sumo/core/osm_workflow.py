@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import xml.etree.ElementTree as ET
 from pathlib import Path
-from typing import Any, Callable, Literal, Mapping
+from typing import Any, Callable, Literal, Mapping, Sequence
 
 from .osm_area import osm_map_url_bbox, osm_preview_url, resolve_osm_place
 from .connectivity import extract_largest_passenger_component_core, summarize_passenger_connectivity
@@ -32,8 +32,15 @@ from .junction_rebuild_candidate import (
 )
 from .junction_teacher_model import extract_teacher_junction_model
 from .netedit import launch_netedit
+from .network_layers import (
+    VEHICLE_LAYER_CLASSES,
+    derive_network_layer,
+    master_network_layer,
+    measure_mode_components,
+    measure_tls_cycles,
+)
 from .network_permissions import apply_service_passenger_permissions
-from .network_plan import NETWORK_PLAN_QUESTION, derive_network_plan  # noqa: F401
+from .network_plan import NETWORK_PLAN_QUESTION, derive_network_plan, resolve_network_layers  # noqa: F401
 from .osm_network import audit_tls, build_osm_network, build_routeability_probe, regional_map_baseline_for_bbox
 from .reference_bbox import derive_reference_net_bbox
 from .reference_hierarchy import audit_reference_hierarchy, build_reference_hierarchy_type_repair_variant
@@ -3902,6 +3909,91 @@ def _workflow_reference_matched_gate_section(
     }
 
 
+_NETWORK_LAYER_ERRORS = (OSError, ET.ParseError, ValueError)
+
+
+def _workflow_network_layers_section(
+    *,
+    master_net_file: Path,
+    layers: Sequence[str],
+    multimodal_master: bool,
+    multimodal_modes: Sequence[str],
+    output_dir: Path,
+    netconvert_binary: str,
+    sumo_binary: str,
+    timeout_seconds: float,
+) -> dict[str, Any]:
+    """Cut the requested layers from the master and gate each of them.
+
+    A multimodal master yields a derived vehicle layer; otherwise the master is the vehicle layer. The multimodal
+    layer is the master, and its bicycle and pedestrian networks are measured without pruning. The passenger
+    gates run on ``gate_net_file``, which stays the master when no vehicle layer was cut.
+    """
+    entries: dict[str, dict[str, Any]] = {}
+    warnings: list[str] = []
+    gate_net_file = master_net_file
+    for layer in layers:
+        try:
+            if layer == "vehicle" and multimodal_master:
+                report = derive_network_layer(master_net_file, output_dir / "network_layers" / layer, layer,
+                                              netconvert_binary=netconvert_binary, sumo_binary=sumo_binary,
+                                              timeout_seconds=timeout_seconds)
+            else:
+                report = master_network_layer(master_net_file, layer)
+        except _NETWORK_LAYER_ERRORS as exc:
+            report = {"status": "blocked", "reason": "layer_not_written", "error": f"{type(exc).__name__}: {exc}"}
+        usable = report.get("status") in {"measured", "no_effect"} and bool(report.get("net_file"))
+        reason = str(report.get("reason", "") or ("" if usable else "layer_not_written"))
+        entry = {
+            "status": str(report.get("status", "blocked")),
+            "reason": reason,
+            "net_file": str(report.get("net_file", "")),
+            "sha256": str(report.get("sha256", "")),
+            "derived_from_sha256": str(report.get("derived_from_sha256", "")),
+            "modes": list(VEHICLE_LAYER_CLASSES) if layer == "vehicle" else list(multimodal_modes),
+            "edge_count": report.get("edge_count", 0),
+            "removed_edge_count": report.get("removed_edge_count", 0),
+            "identity": dict(report.get("identity") or {"status": "blocked", "reason": reason}),
+            "manifest_file": str(report.get("manifest_file", "")),
+            "gate": "pass" if usable else "blocked",
+        }
+        if not usable:
+            entry["gate_reason"] = reason
+            warnings.append(f"The {layer} network layer was not written ({reason})"
+                            + ("; the passenger gates ran on the master instead" if layer == "vehicle" else "")
+                            + f". Inspect network_layers.{layer}.identity.")
+        if layer == "multimodal":
+            try:
+                components = measure_mode_components(master_net_file, multimodal_modes)
+            except _NETWORK_LAYER_ERRORS as exc:
+                components = {"status": "blocked", "gate": "blocked", "reason": "mode_components_not_measured",
+                              "error": f"{type(exc).__name__}: {exc}"}
+            entry["components"] = components
+            if entry["gate"] == "pass" and components.get("gate") != "pass":
+                entry.update(gate=str(components.get("gate", "blocked")), gate_reason=str(components.get("reason", "")))
+            for mode, row in (components.get("modes") or {}).items():
+                if row.get("gate") != "pass":
+                    share = row.get("largest_component_share")
+                    warnings.append(f"The {mode} network of the multimodal layer needs review ({row.get('reason')}): its "
+                                    f"largest component holds {'no' if share is None else f'{share:.1%} of the'} "
+                                    f"{mode} edges, below {components['threshold']:.0%}.")
+        if layer == "vehicle" and usable:
+            gate_net_file = Path(entry["net_file"])
+        entries[layer] = entry
+    try:
+        tls_cycles = measure_tls_cycles(master_net_file)
+    except _NETWORK_LAYER_ERRORS as exc:
+        tls_cycles = {"status": "blocked", "reason": "tls_cycles_not_measured", "error": f"{type(exc).__name__}: {exc}"}
+    if tls_cycles.get("long_cycle_controllers"):
+        warnings.append(f"{len(tls_cycles['long_cycle_controllers'])} signal program(s) of the master have a cycle above "
+                        f"{tls_cycles['threshold_s']:.0f} s; inspect master_tls_cycles before relying on their timing.")
+    gates = {entry["gate"] for entry in entries.values()}
+    gate = "blocked" if "blocked" in gates else "review_required" if "review_required" in gates else "pass"
+    gate_reason = next((entry["gate_reason"] for entry in entries.values() if gate != "pass" and entry["gate"] == gate), "")
+    return {"network_layers": entries, "gate": gate, "reason": gate_reason, "gate_net_file": gate_net_file,
+            "master_tls_cycles": tls_cycles, "warnings": warnings}
+
+
 def run_osm_cleanup_workflow(
     *,
     output_dir: Path,
@@ -3909,6 +4001,7 @@ def run_osm_cleanup_workflow(
     profile: Literal["standard", "reference_matched"] = "standard",
     source_osm_path: Path | None = None,
     traffic_layers: str | set[str] | None = None,
+    network_layers: str | set[str] | None = None,
     reference_net_file: Path | None = None,
     timeout_seconds: float = 240.0,
 ) -> dict[str, Any]:
@@ -3919,11 +4012,16 @@ def run_osm_cleanup_workflow(
             raise ValueError("traffic_layers is required for profile='standard'")
         if reference_net_file is not None:
             raise ValueError("reference_net_file is not allowed for profile='standard'")
+        # Layers are cut from one master build; None takes the planned layers.
+        requested_network_layers = resolve_network_layers(network_layers, traffic_layers)
     else:
         if reference_net_file is None:
             raise ValueError("reference_net_file is required for profile='reference_matched'")
         if traffic_layers:
             raise ValueError("traffic_layers is not allowed for profile='reference_matched'")
+        if network_layers:
+            raise ValueError("network_layers is not allowed for profile='reference_matched'")
+        requested_network_layers = []
 
     is_reference_matched = profile == "reference_matched"
     place_name = None
@@ -4553,6 +4651,22 @@ def run_osm_cleanup_workflow(
         reference_visual_detail_tls_low_vehicle_control_report = _tls_section_result['reference_visual_detail_tls_low_vehicle_control_report']
     if _tls_section_result['reference_visual_detail_tls_low_vehicle_control_sumo_load_report'] is not _WORKFLOW_UNSET:
         reference_visual_detail_tls_low_vehicle_control_sumo_load_report = _tls_section_result['reference_visual_detail_tls_low_vehicle_control_sumo_load_report']
+    # The traffic-light audit and aggregation above ran once on the master; every layer is cut from its result.
+    master_net_file = net_file
+    network_layers_section: dict[str, Any] | None = None
+    if requested_network_layers:
+        network_layers_section = _workflow_network_layers_section(
+            master_net_file=master_net_file,
+            layers=requested_network_layers,
+            multimodal_master=build_kwargs["netconvert_profile"] == "multimodal",
+            multimodal_modes=list(network_plan.get("multimodal_modes", [])),
+            output_dir=output_dir,
+            netconvert_binary=netconvert_binary,
+            sumo_binary=sumo_binary,
+            timeout_seconds=timeout_seconds,
+        )
+        # The passenger gates below run on the vehicle layer.
+        net_file = network_layers_section["gate_net_file"]
     raw_connectivity_report = summarize_passenger_connectivity(net_file)
     connectivity_report = raw_connectivity_report
     connectivity_quality = _connectivity_quality(connectivity_report)
@@ -5108,6 +5222,7 @@ def run_osm_cleanup_workflow(
         reference_visual_detail_service_permission_report,
         tls_report,
         tls_aggregation_report or {},
+        network_layers_section or {},
         reference_visual_detail_tls_report or {},
         reference_visual_detail_tls_aggregation_report or {},
         reference_visual_detail_tls_signal_grouping_report or {},
@@ -5365,6 +5480,8 @@ def run_osm_cleanup_workflow(
     gate_status["standard_nema_scan"] = (
         "skipped" if standard_nema_scan_report is None else _gate_value(standard_nema_scan_report)
     )
+    if network_layers_section is not None:
+        gate_status["network_layers"] = network_layers_section["gate"]
     # Outside reference_matched the topology gate is the audit itself, whose blocked means suspicious dense
     # junction clusters were found: a review item, not a broken network. Under reference_matched it is the
     # parity with the reference and keeps failing the structure.
@@ -5380,6 +5497,7 @@ def run_osm_cleanup_workflow(
         and gate_status.get("connection_mode_audit", "skipped")
         in {"pass", "review_required", "skipped"}
         and gate_status.get("standard_nema_scan", "skipped") in {"pass", "skipped"}
+        and gate_status.get("network_layers", "skipped") in {"pass", "review_required", "skipped"}
         and gate_status.get("reference_visual_detail", "skipped") in {"pass", "review_required", "skipped"}
         and gate_status.get("reference_bbox_scope", "skipped") in {"pass", "skipped"}
         and gate_status.get("reference_hierarchy_audit", "skipped") in {"pass", "skipped"}
@@ -5404,6 +5522,7 @@ def run_osm_cleanup_workflow(
             "topology_audit": topology_audit_report,
             "routeability_audit": routeability_audit_report,
             "connection_mode_audit": connection_mode_audit_report,
+            "network_layers": network_layers_section,
         },
         review_when_blocked=topology_review_when_blocked,
     )
@@ -6935,6 +7054,9 @@ def run_osm_cleanup_workflow(
         "sumo_gui_network_file": sumo_gui_report.get("sumo_gui_network_file", str(net_file)),
         "net_file": str(net_file),
         "raw_net_file": str(raw_net_file),
+        "master_net_file": str(master_net_file),
+        "network_layers": {} if network_layers_section is None else network_layers_section["network_layers"],
+        "master_tls_cycles": {} if network_layers_section is None else network_layers_section["master_tls_cycles"],
         "connected_core_file": "" if connected_core_report is None else str(connected_core_report.get("connected_core_file", "")),
         "connected_core_discarded_components_review_file": ""
         if connected_core_report is None

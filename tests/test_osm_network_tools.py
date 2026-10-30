@@ -46,10 +46,12 @@ def _patch_cleanup_stages(monkeypatch, work_dir: Path, connectivity_report: dict
     net_file = work_dir / "network.net.xml"
     osm_file = work_dir / "source.osm.xml"
     scoped_reference_file = work_dir / "reference_scoped.net.xml"
+    vehicle_layer_file = work_dir / "vehicle_layer.net.xml"
     net_file.parent.mkdir(parents=True, exist_ok=True)
     net_file.write_text("<net/>", encoding="utf-8")
     osm_file.write_text("<osm/>", encoding="utf-8")
     scoped_reference_file.write_text("<net/>", encoding="utf-8")
+    vehicle_layer_file.write_text("<net/>", encoding="utf-8")
 
     def fake_build(**kwargs):
         return {
@@ -170,6 +172,20 @@ def _patch_cleanup_stages(monkeypatch, work_dir: Path, connectivity_report: dict
         ),
         "build_workflow_review_html": Mock(
             return_value={"status": "pass", "workflow_review_html_status": "pass", "warnings": []}
+        ),
+        "derive_network_layer": Mock(
+            return_value={
+                "status": "measured", "layer": "vehicle", "net_file": str(vehicle_layer_file), "sha256": "layer",
+                "derived_from_sha256": "master", "edge_count": 2, "removed_edge_count": 1,
+                "identity": {"status": "measured", "checks": {"lane_ids_equal": True}},
+                "manifest_file": str(work_dir / "layer-manifest.json"),
+            }
+        ),
+        "measure_mode_components": Mock(
+            return_value={
+                "status": "measured", "threshold": 0.98, "gate": "pass",
+                "modes": {"pedestrian": {"edge_count": 3, "largest_component_share": 1.0, "gate": "pass"}},
+            }
         ),
     }
     for name, mock in mocks.items():
@@ -514,6 +530,117 @@ def test_reference_cleanup_caps_status_when_the_visual_detail_build_needs_review
     assert report["gate_status"]["reference_visual_detail"] == "review_required"
     assert (report["status"], report["claim_status"]) == ("review_required", "diagnostic-demo")
     assert report["review_required_gates"] == [{"gate": "reference_visual_detail", "reason": "build_review_required"}]
+
+
+_VEHICLE_LAYER_GATE_STAGES = (
+    "summarize_passenger_connectivity",
+    "audit_topology_fragmentation",
+    "run_routeability_audit",
+    "build_network_connection_mode_audit",
+    "build_standard_nema_phase_binding",
+)
+
+
+def _gate_network(mock: Mock) -> Path:
+    call = mock.call_args
+    return Path(call.kwargs.get("net_file") or call.args[0])
+
+
+def test_vehicle_only_cleanup_uses_the_master_as_its_vehicle_layer(tmp_path: Path, monkeypatch) -> None:
+    mocks = _patch_cleanup_stages_without_tls(monkeypatch, tmp_path)
+    report = run_osm_cleanup_workflow(output_dir=tmp_path / "out", bbox="13.6,50.9,13.9,51.1",
+                                      profile="standard", traffic_layers="passenger")
+
+    master = tmp_path / "network.net.xml"
+    assert not mocks["derive_network_layer"].called and not mocks["measure_mode_components"].called
+    assert report["master_net_file"] == report["net_file"] == str(master)
+    assert list(report["network_layers"]) == ["vehicle"]
+    vehicle = report["network_layers"]["vehicle"]
+    assert (vehicle["status"], vehicle["reason"], vehicle["removed_edge_count"], vehicle["gate"]) == (
+        "no_effect", "layer_is_master", 0, "pass")
+    assert vehicle["net_file"] == str(master.resolve()) and vehicle["sha256"] == vehicle["derived_from_sha256"]
+    assert report["gate_status"]["network_layers"] == "pass"
+    assert report["master_tls_cycles"]["status"] == "measured"
+    assert (report["status"], report["review_required_gates"]) == ("pass", [])
+
+
+def test_multimodal_cleanup_runs_tls_on_the_master_and_passenger_gates_on_the_vehicle_layer(
+    tmp_path: Path, monkeypatch
+) -> None:
+    # One traffic-light candidate, so the aggregation runs and the map review stays open.
+    mocks = _patch_cleanup_stages(monkeypatch, tmp_path, _CONNECTED_PASSENGER_NETWORK)
+    report = run_osm_cleanup_workflow(output_dir=tmp_path / "out", bbox="13.6,50.9,13.9,51.1",
+                                      profile="standard", traffic_layers="passenger,pedestrian")
+
+    master, vehicle_file = tmp_path / "network.net.xml", tmp_path / "vehicle_layer.net.xml"
+    assert mocks["build_osm_network"].call_args.kwargs["netconvert_profile"] == "multimodal"
+    derive = mocks["derive_network_layer"]
+    assert derive.call_count == 1
+    assert (derive.call_args.args[0], derive.call_args.args[2]) == (master, "vehicle")
+    assert derive.call_args.args[1] == tmp_path / "out" / "network_layers" / "vehicle"
+    assert mocks["audit_tls"].call_args.kwargs["net_file"] == master
+    assert mocks["build_tls_aggregation_variant"].call_args.kwargs["net_file"] == master
+    for name in _VEHICLE_LAYER_GATE_STAGES:
+        assert _gate_network(mocks[name]) == vehicle_file, name
+    assert mocks["measure_mode_components"].call_args.args == (master, ["pedestrian"])
+    assert report["master_net_file"] == str(master) and report["net_file"] == str(vehicle_file)
+    layers = report["network_layers"]
+    assert sorted(layers) == ["multimodal", "vehicle"]
+    assert (layers["vehicle"]["net_file"], layers["vehicle"]["derived_from_sha256"], layers["vehicle"]["gate"]) == (
+        str(vehicle_file), "master", "pass")
+    assert layers["vehicle"]["modes"][:2] == ["passenger", "bus"] and "delivery" not in layers["vehicle"]["modes"]
+    assert (layers["multimodal"]["net_file"], layers["multimodal"]["modes"]) == (str(master.resolve()), ["pedestrian"])
+    assert layers["multimodal"]["components"]["gate"] == "pass"
+    assert report["gate_status"]["network_layers"] == "pass"
+    assert [entry["gate"] for entry in report["review_required_gates"]] == ["tls_reality_audit"]
+
+
+def test_requested_vehicle_layer_alone_skips_the_mode_component_measurement(tmp_path: Path, monkeypatch) -> None:
+    mocks = _patch_cleanup_stages_without_tls(monkeypatch, tmp_path)
+    report = run_osm_cleanup_workflow(output_dir=tmp_path / "out", bbox="13.6,50.9,13.9,51.1", profile="standard",
+                                      traffic_layers="passenger,bicycle", network_layers="vehicle")
+
+    assert mocks["derive_network_layer"].call_count == 1
+    assert not mocks["measure_mode_components"].called
+    assert list(report["network_layers"]) == ["vehicle"]
+    assert report["net_file"] == str(tmp_path / "vehicle_layer.net.xml")
+
+
+def test_fragmented_mode_network_caps_the_cleanup_at_review(tmp_path: Path, monkeypatch) -> None:
+    mocks = _patch_cleanup_stages_without_tls(monkeypatch, tmp_path)
+    mocks["measure_mode_components"].return_value = {
+        "status": "measured", "threshold": 0.98, "gate": "review_required", "reason": "mode_network_needs_review",
+        "review_modes": ["bicycle"],
+        "modes": {"bicycle": {"edge_count": 10, "largest_component_share": 0.9, "gate": "review_required",
+                              "reason": "largest_component_share_below_threshold"}}}
+    report = run_osm_cleanup_workflow(output_dir=tmp_path / "out", bbox="13.6,50.9,13.9,51.1",
+                                      profile="standard", traffic_layers="passenger,bicycle")
+
+    assert report["network_layers"]["multimodal"]["gate"] == "review_required"
+    assert report["network_layers"]["vehicle"]["gate"] == "pass"
+    assert report["gate_status"]["network_layers"] == "review_required"
+    assert (report["status"], report["claim_status"]) == ("review_required", "diagnostic-demo")
+    assert report["review_required_gates"] == [{"gate": "network_layers", "reason": "mode_network_needs_review"}]
+    assert any("bicycle network of the multimodal layer" in warning for warning in report["warnings"])
+
+
+def test_blocked_vehicle_layer_fails_the_cleanup_and_keeps_gates_on_the_master(tmp_path: Path, monkeypatch) -> None:
+    mocks = _patch_cleanup_stages_without_tls(monkeypatch, tmp_path)
+    mocks["derive_network_layer"].return_value = {
+        "status": "blocked", "reason": "layer_identity_check_failed", "net_file": "", "derived_from_sha256": "master",
+        "identity": {"status": "blocked", "reason": "layer_identity_check_failed",
+                     "failed_checks": ["controlled_link_timelines_equal"]}}
+    report = run_osm_cleanup_workflow(output_dir=tmp_path / "out", bbox="13.6,50.9,13.9,51.1",
+                                      profile="standard", traffic_layers="passenger,pedestrian")
+
+    master = tmp_path / "network.net.xml"
+    for name in _VEHICLE_LAYER_GATE_STAGES:
+        assert _gate_network(mocks[name]) == master, name
+    vehicle = report["network_layers"]["vehicle"]
+    assert (vehicle["gate"], vehicle["gate_reason"]) == ("blocked", "layer_identity_check_failed")
+    assert vehicle["identity"]["failed_checks"] == ["controlled_link_timelines_equal"]
+    assert report["gate_status"]["network_layers"] == "blocked"
+    assert (report["status"], report["claim_status"]) == ("fail", "construction-invalid")
 
 
 def test_build_overpass_query_uses_overpass_coordinate_order_and_date() -> None:

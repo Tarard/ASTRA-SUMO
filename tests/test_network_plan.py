@@ -2,8 +2,10 @@ import json
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
+import pytest
+
 from astra_sumo.core.network_permissions import apply_service_passenger_permissions
-from astra_sumo.core.network_plan import derive_network_plan
+from astra_sumo.core.network_plan import derive_network_plan, resolve_network_layers
 from astra_sumo.core.osm_workflow import (
     _junction_semantic_gate,
     _corridor_geometry_simplification_promotion_decision,
@@ -1056,6 +1058,17 @@ def test_standard_plan_selects_multimodal_profile_only_for_bicycle_or_pedestrian
     confirmed = derive_network_plan(highway_classes="arterial", traffic_layers="passenger,bicycle")
     assert (confirmed["network_plan_status"], confirmed["netconvert_profile"], confirmed["multimodal_modes"]) == (
         "confirmed", "multimodal", ["bicycle"])
+
+
+@pytest.mark.parametrize(("network_layers", "traffic_layers", "expected"), [
+    (None, "passenger", ["vehicle"]),
+    ("", "passenger,pedestrian", ["multimodal", "vehicle"]),
+    (None, "bicycle", ["multimodal"]),
+    ("vehicle", "passenger,bicycle", ["vehicle"]),
+    ("Multimodal, vehicle", "bus,walk", ["multimodal", "vehicle"]),
+])
+def test_requested_network_layers_follow_the_plan_and_the_traffic_layers(network_layers, traffic_layers, expected):
+    assert resolve_network_layers(network_layers, traffic_layers) == expected
 
 
 def test_network_plan_derives_reference_policy_from_reference_net(tmp_path: Path) -> None:

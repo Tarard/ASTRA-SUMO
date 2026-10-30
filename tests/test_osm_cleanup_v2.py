@@ -17,6 +17,7 @@ EXPECTED_PARAMETERS = (
     "profile",
     "source_osm_path",
     "traffic_layers",
+    "network_layers",
     "reference_net_file",
     "timeout_seconds",
 )
@@ -45,6 +46,17 @@ def test_osm_cleanup_v2_has_one_small_public_contract() -> None:
             },
             "traffic_layers",
         ),
+        (
+            {
+                "profile": "reference_matched",
+                "reference_net_file": Path("reference.net.xml"),
+                "network_layers": "vehicle",
+            },
+            "network_layers",
+        ),
+        ({"profile": "standard", "traffic_layers": "passenger", "network_layers": "multimodal"}, "network_layers"),
+        ({"profile": "standard", "traffic_layers": "bicycle", "network_layers": "vehicle"}, "network_layers"),
+        ({"profile": "standard", "traffic_layers": "passenger", "network_layers": "vehicle,bicycle"}, "network_layers"),
     ],
 )
 def test_osm_cleanup_v2_rejects_ambiguous_profiles(tmp_path: Path, kwargs: dict[str, object], message: str) -> None:
@@ -68,6 +80,7 @@ def test_osm_cleanup_cli_adapter_only_converts_paths(monkeypatch, tmp_path: Path
         profile="standard",
         source_osm_path=str(source),
         traffic_layers="passenger,bicycle",
+        network_layers="vehicle,multimodal",
         timeout_seconds=90.0,
     )
 
@@ -78,6 +91,7 @@ def test_osm_cleanup_cli_adapter_only_converts_paths(monkeypatch, tmp_path: Path
         "profile": "standard",
         "source_osm_path": source,
         "traffic_layers": "passenger,bicycle",
+        "network_layers": "vehicle,multimodal",
         "reference_net_file": None,
         "timeout_seconds": 90.0,
     }

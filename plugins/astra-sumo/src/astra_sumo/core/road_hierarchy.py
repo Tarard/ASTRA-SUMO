@@ -338,6 +338,42 @@ def build_road_hierarchy_variant(*, net_file, output_dir, keep_tier="major", pro
         entry_min_lane_length_m=entry_min_lane_length_m)
 
 
+def keep_selected_edges_natively(source, output, keep_file, candidate, *, netconvert_binary="netconvert",
+                                 timeout_seconds=240):
+    """Prune a network to the ordinary roads listed in ``keep_file`` with one native preload conversion.
+
+    The candidate is written only when netconvert succeeds and returns a SUMO network. Without
+    ``effective``, the source has unresolved signal references and nothing was converted.
+    """
+    cleanup = build_tls_reference_cleanup_variant(source, output_dir=output / "tls-reference-cleanup")
+    if cleanup["status"] != "pass":
+        return {"cleanup": cleanup}
+    effective = Path(cleanup["effective_net_file"])
+    prepared = prepare_permission_preserving_input(effective, output / "permission-input.net.xml")
+    command = with_geometry_precision([str(netconvert_binary), "--sumo-net-file", prepared["path"],
+        "--keep-edges.input-file", str(keep_file), "--offset.disable-normalization", "true",
+        "--output-file", str(candidate)])
+    # Preload pruning avoids the known postload crash or stall on the frozen Ring1 source.
+    proposal = output / "preload-proposal.net.xml"
+    command[command.index("--output-file") + 1] = str(proposal)
+    native = run_command(command, cwd=output, timeout_seconds=timeout_seconds)
+    attempt = {"command": native.to_dict()}
+    successful = native.status == "pass" and native.returncode == 0
+    if proposal.is_file():
+        attempt["output"] = {"path": str(proposal), "sha256": file_sha256(proposal),
+            "status": "complete" if successful else "incomplete_native_output"}
+        if successful:
+            try:
+                if ET.parse(proposal).getroot().tag != "net":
+                    raise ValueError("Native output root is not a SUMO network.")
+            except (ET.ParseError, ValueError) as error:
+                successful = False
+                attempt["output"].update(status="invalid_native_output", error=str(error))
+    if successful and proposal.is_file():
+        copy_file_atomic(proposal, candidate)
+    return {"cleanup": cleanup, "effective": effective, "prepared": prepared, "native": native, "attempts": [attempt]}
+
+
 def materialize_road_selection(*, net_file, output_dir, selection, vehicle_class="passenger",
                                netconvert_binary="netconvert", sumo_binary="sumo", entry_min_lane_length_m=None):
     """Use the existing native extraction and restoration for an explicit road selection."""
@@ -368,8 +404,9 @@ def materialize_road_selection(*, net_file, output_dir, selection, vehicle_class
             "report_file": str(output / "report.json"), "claim_boundary": plan["claim_boundary"]}
         write_json_atomic(output / "report.json", report)
         return report
-    cleanup = build_tls_reference_cleanup_variant(source, output_dir=output / "tls-reference-cleanup")
-    if cleanup["status"] != "pass":
+    conversion = keep_selected_edges_natively(source, output, keep, candidate, netconvert_binary=netconvert_binary)
+    cleanup = conversion["cleanup"]
+    if "effective" not in conversion:
         report = {"schema": "astra.road-hierarchy-variant/v1", "status": "blocked",
             "source": {"path": str(source), "sha256": before_hash}, "source_unchanged": file_sha256(source) == before_hash,
             "selection_file": str(output / "selection.json"), "boundaries_file": str(output / "boundaries.json"),
@@ -378,30 +415,7 @@ def materialize_road_selection(*, net_file, output_dir, selection, vehicle_class
             "reason": "source_has_unresolved_signal_references", "report_file": str(output / "report.json")}
         write_json_atomic(output / "report.json", report)
         return report
-    effective = Path(cleanup["effective_net_file"])
-    prepared = prepare_permission_preserving_input(effective, output / "permission-input.net.xml")
-    command = with_geometry_precision([str(netconvert_binary), "--sumo-net-file", prepared["path"],
-        "--keep-edges.input-file", str(keep), "--offset.disable-normalization", "true",
-        "--output-file", str(candidate)])
-    # Preload pruning avoids the known postload crash or stall on the frozen Ring1 source.
-    proposal = output / "preload-proposal.net.xml"
-    command[command.index("--output-file") + 1] = str(proposal)
-    native = run_command(command, cwd=output, timeout_seconds=240)
-    attempt = {"command": native.to_dict()}
-    successful = native.status == "pass" and native.returncode == 0
-    if proposal.is_file():
-        attempt["output"] = {"path": str(proposal), "sha256": file_sha256(proposal),
-            "status": "complete" if successful else "incomplete_native_output"}
-        if successful:
-            try:
-                if ET.parse(proposal).getroot().tag != "net":
-                    raise ValueError("Native output root is not a SUMO network.")
-            except (ET.ParseError, ValueError) as error:
-                successful = False
-                attempt["output"].update(status="invalid_native_output", error=str(error))
-    attempts = [attempt]
-    if successful and proposal.is_file():
-        copy_file_atomic(proposal, candidate)
+    effective, prepared, native, attempts = (conversion[key] for key in ("effective", "prepared", "native", "attempts"))
     report = {"schema": "astra.road-hierarchy-variant/v1", "status": "blocked",
         "source": {"path": str(source), "sha256": before_hash}, "selection_file": str(output / "selection.json"),
         "source_road_count": plan["source_road_count"], "selected_road_count": plan["selected_road_count"],

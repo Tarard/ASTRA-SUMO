@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic test fixture: one signalised crossroad with tagged sidewalks, a bike lane, a footway and a cycleway. -->
+<osm version="0.6">
+  <bounds minlat="47.9990" minlon="10.9985" maxlat="48.0020" maxlon="11.0025"/>
+  <node id="1" lat="48.0005" lon="11.0005">
+    <tag k="highway" v="traffic_signals"/>
+  </node>
+  <node id="2" lat="48.0005" lon="10.9990"/>
+  <node id="3" lat="48.0005" lon="11.0020"/>
+  <node id="4" lat="47.9995" lon="11.0005"/>
+  <node id="5" lat="48.0015" lon="11.0005"/>
+  <node id="6" lat="48.0005" lon="11.0012"/>
+  <node id="7" lat="48.0012" lon="11.0012"/>
+  <node id="8" lat="48.0018" lon="11.0018"/>
+  <node id="9" lat="47.9995" lon="11.0012"/>
+  <node id="10" lat="47.9993" lon="11.0020"/>
+  <node id="11" lat="47.9997" lon="10.9993"/>
+  <way id="100">
+    <nd ref="2"/>
+    <nd ref="1"/>
+    <tag k="highway" v="secondary"/>
+    <tag k="lanes" v="2"/>
+    <tag k="sidewalk" v="both"/>
+    <tag k="cycleway:right" v="lane"/>
+  </way>
+  <way id="101">
+    <nd ref="1"/>
+    <nd ref="6"/>
+    <nd ref="3"/>
+    <tag k="highway" v="secondary"/>
+    <tag k="lanes" v="2"/>
+    <tag k="sidewalk" v="both"/>
+  </way>
+  <way id="102">
+    <nd ref="4"/>
+    <nd ref="1"/>
+    <tag k="highway" v="tertiary"/>
+    <tag k="sidewalk" v="both"/>
+  </way>
+  <way id="103">
+    <nd ref="1"/>
+    <nd ref="5"/>
+    <tag k="highway" v="residential"/>
+    <tag k="sidewalk" v="left"/>
+  </way>
+  <way id="200">
+    <nd ref="6"/>
+    <nd ref="7"/>
+    <nd ref="8"/>
+    <tag k="highway" v="footway"/>
+  </way>
+  <way id="201">
+    <nd ref="6"/>
+    <nd ref="9"/>
+    <nd ref="10"/>
+    <tag k="highway" v="cycleway"/>
+  </way>
+  <way id="202">
+    <nd ref="1"/>
+    <nd ref="11"/>
+    <tag k="highway" v="cycleway"/>
+  </way>
+</osm>
