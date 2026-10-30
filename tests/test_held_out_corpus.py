@@ -424,6 +424,39 @@ def test_nonreproducible_network_is_a_machine_defect() -> None:
     assert "reproducibility" in unresolved
 
 
+def test_build_with_open_review_items_is_ambiguous_not_a_machine_defect() -> None:
+    label, categories, _passed, unresolved = _classify_case(
+        build_report={"status": "review_required", "reason": "osm_access_findings_open"},
+        load_report={"status": "pass"},
+        connection_report={"status": "pass"},
+        calibration_status=GateStatus.PASS,
+        safety_status=GateStatus.PASS,
+        safety_categories=(),
+        reproducibility_status=GateStatus.PASS,
+        applicability=SimpleNamespace(decision="in-domain", findings=()),
+        routeability={"status": "pass"},
+    )
+
+    assert label == "ambiguous"
+    assert "network_build_review_required" in categories
+    assert "netconvert" in unresolved
+
+
+def test_failed_build_names_its_reason(tmp_path, monkeypatch):
+    from astra_sumo.corridor import held_out_corridor_runner as runner
+    source = tmp_path / "source.osm.xml"
+    source.write_text("<osm/>", encoding="utf-8")
+    profile = SimpleNamespace(allowed_highways=["primary"], include_railway=False, allowed_railways=[],
+                              netconvert_profile="vehicle_core", clip_source_ways_to_bbox=True)
+    monkeypatch.setattr(runner, "build_osm_network", lambda **kwargs: {"status": "fail", "reason": "netconvert_exit_1"})
+    with pytest.raises(RuntimeError, match="netconvert failed: netconvert_exit_1"):
+        runner._build_case_evidence(spec=SimpleNamespace(network_build_profile=profile), case=_selection(),
+            snapshot=SimpleNamespace(path=str(source), sha256=file_sha256(source)), city_group="test",
+            traffic_side=SimpleNamespace(value="right"), envelope=None, destination=tmp_path / "case",
+            sumo_root=tmp_path, netconvert_binary=Path("netconvert"), sumo_binary=Path("sumo"),
+            random_trips=Path("randomTrips.py"), toolchain_id="test", timeout_seconds=30)
+
+
 def test_connection_audit_uses_source_calibration_when_available() -> None:
     tolerance, source = _connection_audit_tolerance(
         SimpleNamespace(endpoint_tolerance_m=0.038742)

@@ -141,12 +141,14 @@ fields: `output_dir`, `bbox`, `profile`, `source_osm_path`, `traffic_layers`,
 `network_layers`, `reference_net_file`, and `timeout_seconds`. The
 `reference_matched` profile is audit-only and does not repair the network. With
 `bicycle` or `pedestrian` in `traffic_layers`, the `standard` profile builds one
-`multimodal` master and cuts the `vehicle` layer from it by removing edges only;
-`network_layers` (`vehicle`, `multimodal`, not allowed for `reference_matched`)
-narrows the layers written. The result adds `master_net_file`, `network_layers`
-(per layer: `net_file`, `sha256`, `derived_from_sha256`, `modes`, `edge_count`,
-`removed_edge_count`, `identity`, `gate`), `master_tls_cycles`,
-`gate_status.network_layers` and `review_required_gates` (each open gate with
+`multimodal` master and, when a vehicle mode is requested too, cuts the
+`vehicle` layer from it by removing edges only; `network_layers` (`vehicle`,
+`multimodal`, not allowed for `reference_matched`) narrows the layers written.
+The result adds `master_net_file`, `network_layers` (per layer: `net_file`,
+`sha256`, `derived_from_sha256`, `modes`, `edge_count`, `removed_edge_count`,
+`identity`, `gate`), `passenger_gate_net_file`, `master_tls_cycles`,
+`routeability_long_signal_cycles`, `gate_status.network_layers`,
+`gate_status.master_tls_cycles` and `review_required_gates` (each open gate with
 its `reason`). `sumo_osm_build_network` remains a low-level importer and is not
 a complete cleanup workflow. New product imports
 use construction precision 6 and record the effective setting. Precision affects

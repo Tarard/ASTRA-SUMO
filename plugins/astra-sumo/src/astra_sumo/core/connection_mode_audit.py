@@ -2211,6 +2211,8 @@ def _trace_internal_path(
                 ),
                 connection_index=connection_index,
                 failures=failures,
+                connection=connection,
+                review_findings=review_findings,
             )
             trace["status"] = "pass"
             if failures:
@@ -2249,6 +2251,8 @@ def _trace_internal_path(
                 ),
                 connection_index=connection_index,
                 failures=failures,
+                connection=connection,
+                review_findings=review_findings,
             )
             trace["status"] = "pass" if not failures else "fail"
             return trace, failures, review_findings
@@ -2396,6 +2400,8 @@ def _trace_internal_path(
             elements=permission_elements,
             connection_index=connection_index,
             failures=failures,
+            connection=connection,
+            review_findings=review_findings,
         )
     trace["status"] = "pass" if not failures else "fail"
     return trace, failures, review_findings
@@ -2543,6 +2549,8 @@ def _audit_path_permissions(
     elements: Sequence[ET.Element | None],
     connection_index: int,
     failures: list[str],
+    connection: ET.Element | None = None,
+    review_findings: list[str] | None = None,
 ) -> None:
     available = tuple(element for element in elements if element is not None)
     if len(available) != len(elements):
@@ -2551,8 +2559,21 @@ def _audit_path_permissions(
     trace["path_permission_basis"] = basis
     trace["path_permission_overlap"] = list(overlap)
     trace["path_permission_status"] = "pass" if overlap else "fail"
-    if not overlap:
-        failures.append(f"internal_path_mode_permission_empty:{connection_index}")
+    if overlap:
+        return
+    if connection is not None and review_findings is not None and _connection_allows_only_non_motorized(connection):
+        # netconvert writes the exception class of a turn restriction (except=bicycle) as a connection that allows
+        # only that class, also where its lanes do not carry the class. No motorized movement is lost, so the
+        # empty path is a review item of the netconvert output, not a broken motorized movement.
+        trace["path_permission_scope"] = "connection_allows_only_non_motorized_classes"
+        review_findings.append(f"non_motorized_connection_without_lane_permission:{connection_index}")
+        return
+    failures.append(f"internal_path_mode_permission_empty:{connection_index}")
+
+
+def _connection_allows_only_non_motorized(connection: ET.Element) -> bool:
+    allowed = set(connection.attrib.get("allow", "").split())
+    return bool(allowed) and "all" not in allowed and not allowed & _MOTORIZED_MODES
 
 
 def _permission_intersection(

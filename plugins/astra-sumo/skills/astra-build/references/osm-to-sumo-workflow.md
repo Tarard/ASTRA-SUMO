@@ -10,7 +10,7 @@
 | `bbox` | `west,south,east,north` in WGS84 degrees |
 | `profile` | `standard` (default) or `reference_matched` |
 | `traffic_layers` | required for `standard`, not allowed for `reference_matched`: a comma list of `passenger`, `bicycle`, `pedestrian`, `bus` |
-| `network_layers` | optional for `standard`, not allowed for `reference_matched`: `vehicle`, `multimodal` or both; each needs its modes in `traffic_layers`; omitted means the planned layers |
+| `network_layers` | optional for `standard`, not allowed for `reference_matched`: `vehicle`, `multimodal` or both; each needs its modes in `traffic_layers`; omitted means `multimodal` when `bicycle` or `pedestrian` is requested, plus `vehicle` when a vehicle mode such as `passenger` or `bus` is |
 | `reference_net_file` | required for `reference_matched`, not allowed for `standard`: the reference `.net.xml` |
 | `source_osm_path` | optional frozen OSM XML; without it the bbox is downloaded from Overpass |
 | `timeout_seconds` | default 240 |
@@ -24,8 +24,10 @@
 - `bicycle` or `pedestrian` adds cycleways, footways, paths and steps and builds one `multimodal` master:
   `--osm.bike-access` for bicycles; `--osm.sidewalks`, `--osm.crossings`, `--crossings.guess` and `--walkingareas` for
   pedestrians; no signal guessing. Sidewalks appear only where OSM tags them on the road; `sidewalk=separate` roads
-  rely on the mapped footways. The `vehicle` layer is cut from the master by removing edges, so both layers share
-  edge, lane, junction and signal ids. Crossings at signals change the programs netconvert generates.
+  rely on the mapped footways. Bike lanes come only from `cycleway:left`, `cycleway:right` or `cycleway:both`; a plain
+  `cycleway=lane` or `cycleway=track` gets none. With a vehicle mode in `traffic_layers`, the `vehicle` layer is cut
+  from the master by removing edges, so both layers share edge, lane, junction and signal ids. Crossings at signals
+  change the programs netconvert generates.
 - To import only some road classes, build with `sumo_osm_build_network` and `highway_classes` (`arterial`, `drive`,
   `drive_plus_unclassified`, `full_vehicle` or a comma list of OSM `highway` values).
 - A city-wide bbox from `astra place resolve` is usually far larger than the study area. Narrow it first.
@@ -33,22 +35,32 @@
 ## Reading the cleanup result
 
 - `gate_status` holds one value per check: `network_build`, `connectivity`, `topology_audit`, `routeability_audit`,
-  `connection_mode_audit`, `tls_reality_audit`, `tls_aggregation`, `network_layers`, plus `reference_*` gates for
-  `reference_matched`.
+  `connection_mode_audit`, `tls_reality_audit`, `tls_aggregation`, `network_layers`, `master_tls_cycles`, plus
+  `reference_*` gates for `reference_matched`.
 - `status: fail` means a broken build or structure. Open review items cap a sound run at `review_required` (exit code
   1); `review_required_gates` lists each such gate with its `reason`.
 - `network_layers` has one entry per layer with `net_file`, `sha256`, `derived_from_sha256`, `modes`, `edge_count`,
   `removed_edge_count`, `identity` and `gate`. `master_net_file` is the master. The traffic-light audit and
   aggregation run once on the master. The connectivity, topology, routeability, connection-mode and NEMA checks run
-  on the vehicle layer, and `net_file` is that layer or its connected core. `identity: measured` means the derived
-  layer kept the master's ids, permissions, coordinates and the signal timeline of every retained link; phase
-  indices are per layer. A controller that lost a crossing gets its crossing phases re-planned by netconvert: the
-  layer gate is then `review_required` with reason `crossing_signal_timelines_replanned`, controllers in
+  on `passenger_gate_net_file`: the vehicle layer when one was cut and is usable, otherwise the master. `net_file` is
+  that network or its connected core. `identity: measured` means the derived layer kept the master's ids,
+  permissions, coordinate frame (netOffset and projection) and the signal timeline of every retained link; phase
+  indices are per layer. netconvert recomputes junction shapes, lane geometry and lengths, junction types and
+  connection right of way around removed edges: `identity.geometry` and `identity.right_of_way` count them without
+  gating. A crossing that keeps some of its crossed edges stays the same signal link (`identity.reduced_crossings`).
+  A controller that lost a whole crossing gets its crossing phases re-planned by netconvert: the layer gate is then
+  `review_required` with reason `crossing_signal_timelines_replanned`, controllers in
   `identity.replanned_crossing_controllers`. Sidewalk and bike lanes on road edges stay in the vehicle layer.
 - `network_layers.multimodal.components` gives the largest-component share of the bicycle and pedestrian edges,
-  measured without pruning; below 98 % sets the layer gate to `review_required`. `master_tls_cycles` lists every
-  program's cycle and, in `long_cycle_controllers`, those above 120 s. The multimodal options can join signals into
-  larger controllers with long cycles; the vehicle layer inherits them, and so do its routeability results.
+  measured without pruning; below 98 % sets the layer gate to `review_required`. `plain_cycleway_tags` counts the
+  road ways with a plain `cycleway=lane|track` that got no bike lane. `master_tls_cycles` lists every program's cycle
+  and, in `long_cycle_controllers`, those above 120 s; any such controller sets `gate_status.master_tls_cycles` to
+  `review_required` (reason `long_signal_cycles`). Footways, cycleways and sidewalks can join signals into larger
+  controllers with long cycles, and the vehicle layer inherits them. When the routeability audit does not pass,
+  `routeability_long_signal_cycles` names the unfinished vehicles whose routes pass such a controller.
+- An OSM turn restriction with `except=bicycle` next to a bike lane becomes a bicycle-only connection into a lane
+  without bicycles; `connection_mode_audit` lists it as the review finding
+  `non_motorized_connection_without_lane_permission`, not as a structural failure.
 - `build.osm_access_correction` describes the access correction. `decisions` lists each settled way finding with its
   `rule` and `reason`; `review` keeps only open items. `added_class_movements` measures each class a lane gained:
   rows with `status: no_effect` were reverted (`new_class_has_no_loaded_movement`), because the correction creates no

@@ -4,12 +4,16 @@ A derived layer keeps the master's edge, lane, junction and signal identifiers, 
 signal timeline of every retained controlled link, so one OSM-keyed mapping serves every layer. Phase indices
 are layer-specific: netconvert may merge phases whose only difference was a removed link. A controller that loses
 a pedestrian crossing gets its crossing phases re-planned by netconvert; those crossing timelines are listed for
-review instead of blocking the layer.
+review instead of blocking the layer. A crossing that keeps some of its crossed edges is the same link with fewer
+crossed edges. netconvert also recomputes junction shapes, lane geometry and right of way around removed edges;
+those changes are measured and reported, not gated.
 """
 from __future__ import annotations
 
 from collections import Counter, defaultdict
 from collections.abc import Iterable, Mapping
+import gzip
+import math
 from pathlib import Path
 from typing import Any
 import xml.etree.ElementTree as ET
@@ -29,11 +33,17 @@ LONG_CYCLE_THRESHOLD_S = 120.0
 COMPONENT_SHARE_THRESHOLD = 0.98
 # The coordinate frame; convBoundary shrinks with the removed edges and is recorded, not compared.
 _LOCATION_IDENTITY = ("netOffset", "projParameter")
+# netOffset is compared as numbers, so a master written at another precision keeps its frame.
+_OFFSET_TOLERANCE_M = 1e-6
+# Lane and junction shapes that move less than this are rounding, not a change.
+_GEOMETRY_TOLERANCE_M = 0.01
 _EXAMPLE_LIMIT = 20
-_CLAIM_BOUNDARY = ("Edges are removed from the master only. Identity checks cover identifiers, permissions, "
-                   "coordinates and signal timing of retained links; lane lengths at junctions that lost an edge "
-                   "are recomputed, phase indices are specific to each layer, and crossing timelines of a "
-                   "controller that lost a crossing are re-planned by netconvert and listed for review.")
+_CLAIM_BOUNDARY = ("Edges are removed from the master only. Identity checks cover identifiers, permissions, the "
+                   "coordinate frame (netOffset and projection) and signal timing of retained links. netconvert "
+                   "recomputes junction shapes, lane geometry and lengths, junction types and connection right of "
+                   "way around removed edges; identity.geometry and identity.right_of_way count those changes. Phase "
+                   "indices are specific to each layer, and crossing timelines of a controller that lost a crossing "
+                   "are re-planned by netconvert and listed for review.")
 # netconvert rebuilds the pedestrian phases of a loaded program whose crossing count changed.
 _CROSSING_REVIEW_REASON = "crossing_signal_timelines_replanned"
 
@@ -75,7 +85,7 @@ def _net_inventory(net_file: Path) -> dict[str, Any]:
     """Read the identifiers and signal programs a layer must keep from a streamed network."""
     edges: dict[str, dict[str, Any]] = {}
     crossings: dict[str, tuple[str, str]] = {}
-    junctions: set[str] = set()
+    junctions: dict[str, tuple[str, str]] = {}
     programs: dict[tuple[str, str], dict[str, Any]] = {}
     rows: list[tuple[str, ...]] = []
     location: dict[str, str] = {}
@@ -94,9 +104,11 @@ def _net_inventory(net_file: Path) -> dict[str, Any]:
                     "lanes": [lane.get("id") for lane in lanes],
                     "permissions": [permissions(lane, version) for lane in lanes],
                     "orig_ids": [_orig_id(lane) for lane in lanes],
+                    "ends": (element.get("from", ""), element.get("to", "")),
+                    "geometry": [(float(lane.get("length", "0")), lane.get("shape", "")) for lane in lanes],
                 }
         elif element.tag == "junction" and element.get("type") != "internal":
-            junctions.add(element.get("id", ""))
+            junctions[element.get("id", "")] = (element.get("type", ""), element.get("shape", ""))
         elif element.tag == "tlLogic":
             programs[(element.get("id", ""), element.get("programID", ""))] = {
                 "type": element.get("type"), "offset": element.get("offset"),
@@ -105,21 +117,23 @@ def _net_inventory(net_file: Path) -> dict[str, Any]:
             first, last, tl = element.get("from", ""), element.get("to", ""), element.get("tl")
             if tl or not (first.startswith(":") or last.startswith(":")):
                 rows.append((first, element.get("fromLane", ""), last, element.get("toLane", ""), tl or "",
-                             element.get("linkIndex", "")))
+                             element.get("linkIndex", ""), element.get("dir", ""), element.get("state", "")))
     connections: dict[tuple[str, ...], tuple[str, str]] = {}
+    right_of_way: dict[tuple[str, ...], tuple[str, str]] = {}
     links: dict[tuple[str, ...], tuple[tuple[str, str], ...]] = {}
     crossing_links: dict[tuple[str, ...], list[tuple[str, str]]] = defaultdict(list)
-    for first, first_lane, last, last_lane, tl, index in rows:
+    for first, first_lane, last, last_lane, tl, index, direction, state in rows:
         if first in edges and last in edges:
             connections[(first, first_lane, last, last_lane)] = (tl, index)
+            right_of_way[(first, first_lane, last, last_lane)] = (direction, state)
             if tl:
                 links[("connection", first, first_lane, last, last_lane)] = ((tl, index),)
         crossing = crossings.get(last) or crossings.get(first)
         if tl and crossing:
             crossing_links[("crossing", *crossing)].append((tl, index))
     links.update({key: tuple(sorted(values)) for key, values in crossing_links.items()})
-    return {"location": location, "edges": edges, "junctions": junctions, "programs": programs,
-            "connections": connections, "controlled_links": links}
+    return {"location": location, "edges": edges, "junctions": set(junctions), "junction_details": junctions,
+            "programs": programs, "connections": connections, "right_of_way": right_of_way, "controlled_links": links}
 
 
 def _layer_selection(inventory: Mapping[str, Any], layer: str) -> dict[str, Any]:
@@ -169,6 +183,138 @@ def _cycle(program: Mapping[str, Any]) -> float:
     return round(sum(duration for duration, _ in program["phases"]), 6)
 
 
+def _layer_keyed_master_links(
+    links: Mapping[tuple[str, ...], tuple[tuple[str, str], ...]], layer_edges: Mapping[str, Any]
+) -> tuple[dict[tuple[str, ...], tuple[tuple[str, str], ...]], list[dict[str, str]]]:
+    """Master controlled links under the keys the layer uses for them.
+
+    netconvert keeps a crossing whose crossed edges were partly removed, with its id and link index, and lists only
+    the crossed edges that remain, so that crossing is keyed by the edges the layer keeps. A crossing that keeps
+    none of them is removed and stays under its master key.
+    """
+    keyed: dict[tuple[str, ...], list[tuple[str, str]]] = defaultdict(list)
+    reduced: list[dict[str, str]] = []
+    for key, values in links.items():
+        if key[0] == "crossing":
+            crossed = key[2].split()
+            remaining = [edge_id for edge_id in crossed if edge_id in layer_edges]
+            if remaining and len(remaining) < len(crossed):
+                reduced.append({"junction": key[1], "master_crossing_edges": key[2],
+                                "layer_crossing_edges": " ".join(remaining)})
+                key = ("crossing", key[1], " ".join(remaining))
+        keyed[key].extend(values)
+    return {key: tuple(sorted(values)) for key, values in keyed.items()}, reduced
+
+
+def _same_frame(master: Mapping[str, Any], layer: Mapping[str, Any]) -> bool:
+    """Same projection and the same netOffset as numbers, whatever precision each file was written at."""
+    if master.get("projParameter") != layer.get("projParameter"):
+        return False
+    try:
+        before = [float(value) for value in str(master.get("netOffset", "")).split(",")]
+        after = [float(value) for value in str(layer.get("netOffset", "")).split(",")]
+    except ValueError:
+        return master.get("netOffset") == layer.get("netOffset")
+    return len(before) == len(after) and all(abs(old - new) <= _OFFSET_TOLERANCE_M for old, new in zip(before, after))
+
+
+def _points(shape: str) -> list[tuple[float, float]]:
+    return [(float(point.split(",")[0]), float(point.split(",")[1])) for point in shape.split()]
+
+
+def _shape_shift(before: str, after: str) -> float | None:
+    """Largest displacement of a shape point, or None when the point count changed."""
+    if before == after:
+        return 0.0
+    old, new = _points(before), _points(after)
+    if len(old) != len(new):
+        return None
+    return max((math.dist(first, second) for first, second in zip(old, new)), default=0.0)
+
+
+def _geometry_changes(master: Mapping[str, Any], layer: Mapping[str, Any], retained: Iterable[str]) -> dict[str, Any]:
+    """Retained lanes and junctions whose shape or length netconvert recomputed, measured against the master."""
+    master_edges, layer_edges = master["edges"], layer["edges"]
+    near_removed = {node for edge_id in set(master_edges) - set(layer_edges)
+                    for node in master_edges[edge_id].get("ends", ())}
+    lanes = []
+    for edge_id in retained:
+        before, after = master_edges[edge_id], layer_edges[edge_id]
+        if before["lanes"] != after["lanes"]:
+            continue
+        near = bool(set(after.get("ends", ())) & near_removed)
+        for lane_id, (old_length, old_shape), (new_length, new_shape) in zip(
+                after["lanes"], before.get("geometry", ()), after.get("geometry", ())):
+            shift, length_change = _shape_shift(old_shape, new_shape), new_length - old_length
+            if shift is not None and shift <= _GEOMETRY_TOLERANCE_M and abs(length_change) <= _GEOMETRY_TOLERANCE_M:
+                continue
+            old_points, new_points = _points(old_shape), _points(new_shape)
+            endpoint = (max(math.dist(old_points[0], new_points[0]), math.dist(old_points[-1], new_points[-1]))
+                        if old_points and new_points else None)
+            lanes.append({"lane": lane_id, "master_length_m": round(old_length, 6),
+                          "layer_length_m": round(new_length, 6),
+                          "endpoint_shift_m": None if endpoint is None else round(endpoint, 6),
+                          "point_count_changed": shift is None, "at_junction_that_lost_an_edge": near})
+    junctions = []
+    layer_details = layer.get("junction_details", {})
+    for junction_id, (_, old_shape) in sorted(master.get("junction_details", {}).items()):
+        if junction_id not in layer_details:
+            continue
+        shift = _shape_shift(old_shape, layer_details[junction_id][1])
+        if shift is None or shift > _GEOMETRY_TOLERANCE_M:
+            junctions.append({"junction": junction_id, "shape_shift_m": None if shift is None else round(shift, 6),
+                              "lost_an_edge": junction_id in near_removed})
+    lanes.sort(key=lambda row: -(row["endpoint_shift_m"] or 0.0))
+    return {
+        "basis": "retained lane shapes and lengths and junction shapes compared point by point with the master",
+        "tolerance_m": _GEOMETRY_TOLERANCE_M,
+        "changed_lane_count": len(lanes),
+        "changed_lane_length_count": sum(abs(row["layer_length_m"] - row["master_length_m"]) > _GEOMETRY_TOLERANCE_M
+                                         for row in lanes),
+        "changed_lanes_away_from_removed_edges_count": sum(not row["at_junction_that_lost_an_edge"] for row in lanes),
+        "max_lane_endpoint_shift_m": max((row["endpoint_shift_m"] or 0.0 for row in lanes), default=0.0),
+        "max_lane_length_change_m": round(max((abs(row["layer_length_m"] - row["master_length_m"]) for row in lanes),
+                                              default=0.0), 6),
+        "changed_lanes": lanes[:_EXAMPLE_LIMIT],
+        "changed_junction_shape_count": len(junctions),
+        "changed_junction_shapes_away_from_removed_edges_count": sum(not row["lost_an_edge"] for row in junctions),
+        "changed_junction_shapes": junctions[:_EXAMPLE_LIMIT],
+    }
+
+
+def _right_of_way_changes(master: Mapping[str, Any], layer: Mapping[str, Any]) -> dict[str, Any]:
+    """Direction and right-of-way state of retained connections, and type of retained junctions, against the master."""
+    states, directions, connections = Counter(), Counter(), []
+    master_rows = master.get("right_of_way", {})
+    for key, (direction, state) in sorted(layer.get("right_of_way", {}).items()):
+        before = master_rows.get(key)
+        if before is None or before == (direction, state):
+            continue
+        if before[1] != state:
+            states[f"{before[1]}->{state}"] += 1
+        if before[0] != direction:
+            directions[f"{before[0]}->{direction}"] += 1
+        connections.append({"connection": list(key), "master": {"dir": before[0], "state": before[1]},
+                            "layer": {"dir": direction, "state": state}})
+    types, junctions = Counter(), []
+    layer_details = layer.get("junction_details", {})
+    for junction_id, (old_type, _) in sorted(master.get("junction_details", {}).items()):
+        new_type = layer_details.get(junction_id, (old_type, ""))[0]
+        if new_type != old_type:
+            types[f"{old_type}->{new_type}"] += 1
+            junctions.append({"junction": junction_id, "master_type": old_type, "layer_type": new_type})
+    return {
+        "basis": "dir and state of connections between retained edges and type of retained junctions",
+        "changed_connection_count": len(connections),
+        "connection_state_changes": dict(sorted(states.items())),
+        "connection_dir_changes": dict(sorted(directions.items())),
+        "changed_connections": connections[:_EXAMPLE_LIMIT],
+        "changed_junction_type_count": len(junctions),
+        "junction_type_changes": dict(sorted(types.items())),
+        "changed_junction_types": junctions[:_EXAMPLE_LIMIT],
+    }
+
+
 def _layer_identity(master: Mapping[str, Any], layer: Mapping[str, Any], kept: set[str]) -> dict[str, Any]:
     master_edges, layer_edges = master["edges"], layer["edges"]
     retained = sorted(set(layer_edges) & set(master_edges))
@@ -183,13 +329,16 @@ def _layer_identity(master: Mapping[str, Any], layer: Mapping[str, Any], kept: s
     lost = [key for key, value in master["connections"].items()
             if key[0] in layer_edges and key[2] in layer_edges and layer["connections"].get(key) != value]
     added = [key for key in layer["connections"] if key not in master["connections"]]
-    removed_links = sorted(set(master["controlled_links"]) - set(layer["controlled_links"]))
+    master_links, reduced_crossings = _layer_keyed_master_links(master["controlled_links"], layer_edges)
+    reduced_crossings = [row for row in reduced_crossings
+                         if ("crossing", row["junction"], row["layer_crossing_edges"]) in layer["controlled_links"]]
+    removed_links = sorted(set(master_links) - set(layer["controlled_links"]))
     # Crossing links of a controller that lost a crossing: netconvert re-plans their phases, so they need review.
-    lost_crossing_tls = {tl for key in removed_links if key[0] == "crossing"
-                         for tl, _ in master["controlled_links"][key]}
+    # A crossing that only crosses fewer edges keeps the crossing count, and netconvert keeps the program.
+    lost_crossing_tls = {tl for key in removed_links if key[0] == "crossing" for tl, _ in master_links[key]}
     timelines, replanned = [], []
     for key, after in layer["controlled_links"].items():
-        before = master["controlled_links"].get(key)
+        before = master_links.get(key)
         if before is None or len(before) != len(after):
             timelines.append({"link": list(key), "reason": "link_not_in_master" if before is None else "link_count_changed"})
             continue
@@ -223,7 +372,7 @@ def _layer_identity(master: Mapping[str, Any], layer: Mapping[str, Any], kept: s
         "lane_ids_equal": not changed["lanes"],
         "lane_permissions_equal": not changed["permissions"],
         "orig_ids_equal": not changed["orig_ids"],
-        "location_equal": all(location[key]["master"] == location[key]["layer"] for key in _LOCATION_IDENTITY),
+        "location_equal": _same_frame(master["location"], layer["location"]),
         "connections_between_retained_edges_kept": not lost and not added,
         "controlled_link_timelines_equal": not timelines,
         "controller_cycle_offset_type_equal": not controllers,
@@ -240,6 +389,8 @@ def _layer_identity(master: Mapping[str, Any], layer: Mapping[str, Any], kept: s
         "retained_controlled_link_count": len(layer["controlled_links"]),
         "removed_controlled_link_count": len(removed_links),
         "removed_controlled_links": [list(key) for key in removed_links[:_EXAMPLE_LIMIT]],
+        "reduced_crossing_count": len(reduced_crossings),
+        "reduced_crossings": reduced_crossings[:_EXAMPLE_LIMIT],
         "removed_tls_ids": sorted(master_tls - layer_tls),
         "removed_junction_count": len(master["junctions"] - layer["junctions"]),
         "location": location,
@@ -254,6 +405,9 @@ def _layer_identity(master: Mapping[str, Any], layer: Mapping[str, Any], kept: s
         "replanned_crossing_timelines": replanned[:_EXAMPLE_LIMIT],
         "changed_controllers": controllers[:_EXAMPLE_LIMIT],
         "basis": "per-link signal timelines with consecutive equal signals merged; phase indices are not compared",
+        # Measured, not gated: netconvert recomputes these around removed edges.
+        "geometry": _geometry_changes(master, layer, retained),
+        "right_of_way": _right_of_way_changes(master, layer),
     }
 
 
@@ -422,6 +576,46 @@ def measure_mode_components(net_file: Path | str, modes: Iterable[str], *,
             **({"reason": "mode_network_needs_review", "review_modes": review} if review else {})}
 
 
+_PLAIN_CYCLEWAY_VALUES = frozenset({"lane", "track", "opposite_lane", "opposite_track"})
+_SIDED_CYCLEWAY_KEYS = ("cycleway:left", "cycleway:right", "cycleway:both")
+
+
+def measure_plain_cycleway_tags(osm_file: Path | str, net_file: Path | str) -> dict[str, Any]:
+    """Road ways tagged with a plain ``cycleway=lane|track`` and whether the network gave them a bicycle-only lane.
+
+    The multimodal profile loads no bicycle typemap, so netconvert discards the compound type a plain tag builds
+    (``cycleway.track|highway.primary``) and the way gets no bike lane; ``--osm.bike-access`` reads the side tags
+    ``cycleway:left``, ``cycleway:right`` and ``cycleway:both``. Bicycles then share the carriageway where it allows
+    them, and the mapped lane or track is missing from the bicycle network. Neither file is written.
+    """
+    source = Path(osm_file)
+    tagged: dict[str, str] = {}
+    with (gzip.open(source, "rb") if source.suffix == ".gz" else source.open("rb")) as handle:
+        for _, element in ET.iterparse(handle):
+            if element.tag == "way":
+                tags = {tag.get("k", ""): tag.get("v", "") for tag in element.findall("tag")}
+                value = tags.get("cycleway", "").strip().lower()
+                if (tags.get("highway") and tags.get("highway") != "cycleway" and value in _PLAIN_CYCLEWAY_VALUES
+                        and not any(key in tags for key in _SIDED_CYCLEWAY_KEYS)):
+                    tagged[element.get("id", "")] = value
+                element.clear()
+            elif element.tag in {"node", "relation"}:
+                element.clear()
+    realised: set[str] = set()
+    permissions = _permission_reader()
+    for version, element in _direct_children(Path(net_file)):
+        if element.tag == "edge" and not element.get("function"):
+            for lane in element.findall("lane"):
+                if permissions(lane, version) == {"bicycle"}:
+                    realised.add((_orig_id(lane) or "").lstrip("-"))
+    unrealised = sorted((way_id for way_id in tagged if way_id not in realised), key=str)
+    return {"status": "measured", "basis": "bicycle-only lane on an edge whose origId is the tagged way",
+            "plain_cycleway_way_count": len(tagged), "without_bicycle_lane_count": len(unrealised),
+            "without_bicycle_lane_by_value": dict(sorted(Counter(tagged[way_id] for way_id in unrealised).items())),
+            "without_bicycle_lane_way_ids": unrealised[:_EXAMPLE_LIMIT],
+            **({"reason": "plain_cycleway_tag_without_bicycle_lane"} if unrealised else {})}
+
+
 def measure_tls_cycles(net_file: Path | str, *, threshold_s: float = LONG_CYCLE_THRESHOLD_S) -> dict[str, Any]:
     """Cycle length of every signal program, and the programs above ``threshold_s``.
 
@@ -436,3 +630,37 @@ def measure_tls_cycles(net_file: Path | str, *, threshold_s: float = LONG_CYCLE_
     return {"status": "measured", "threshold_s": threshold_s, "controller_count": len(cycles),
             "max_cycle_s": max((row["cycle_s"] for row in cycles), default=None),
             "long_cycle_controllers": long_cycles, "cycles": cycles}
+
+
+def routes_through_controllers(net_file: Path | str, route_file: Path | str, vehicle_ids: Iterable[str],
+                               controller_ids: Iterable[str]) -> dict[str, Any]:
+    """Which of ``vehicle_ids`` have a route through a link signalled by one of ``controller_ids``.
+
+    A route passes a controller when two consecutive route edges are joined by a connection the controller
+    signals. This names the signals on each route; it does not show where a vehicle waited.
+    """
+    wanted_tls, wanted = set(controller_ids), set(vehicle_ids)
+    signalled: dict[tuple[str, str], set[str]] = defaultdict(set)
+    for _, element in _direct_children(Path(net_file)):
+        if element.tag == "connection" and element.get("tl") in wanted_tls:
+            signalled[(element.get("from", ""), element.get("to", ""))].add(element.get("tl", ""))
+    named_routes: dict[str, list[str]] = {}
+    routes: dict[str, list[str]] = {}
+    for _, element in _direct_children(Path(route_file)):
+        if element.tag == "route" and element.get("id"):
+            named_routes[element.get("id", "")] = element.get("edges", "").split()
+        elif element.tag in {"vehicle", "trip", "flow"} and element.get("id") in wanted:
+            route = element.find("route")
+            routes[element.get("id", "")] = (route.get("edges", "").split() if route is not None
+                                             else named_routes.get(element.get("route", ""), []))
+    vehicles, counts = [], Counter()
+    for vehicle_id in sorted(routes, key=str):
+        edges = routes[vehicle_id]
+        passed = sorted({tl for pair in zip(edges, edges[1:]) for tl in signalled.get(pair, ())})
+        if passed:
+            vehicles.append({"vehicle": vehicle_id, "controllers": passed})
+            counts.update(passed)
+    return {"status": "measured", "basis": "consecutive route edges joined by a connection the controller signals",
+            "vehicle_count": len(wanted), "routed_vehicle_count": len(routes),
+            "vehicles_through_controllers_count": len(vehicles), "controllers": dict(counts.most_common()),
+            "vehicles": vehicles[:_EXAMPLE_LIMIT]}

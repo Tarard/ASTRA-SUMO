@@ -641,6 +641,72 @@ def test_blocked_vehicle_layer_fails_the_cleanup_and_keeps_gates_on_the_master(t
     assert vehicle["identity"]["failed_checks"] == ["controlled_link_timelines_equal"]
     assert report["gate_status"]["network_layers"] == "blocked"
     assert (report["status"], report["claim_status"]) == ("fail", "construction-invalid")
+    assert report["passenger_gate_net_file"] == str(master)
+    assert any("vehicle network layer was not written" in warning for warning in report["warnings"])
+
+
+def test_written_but_blocked_vehicle_layer_keeps_the_review_reasons_of_other_layers(tmp_path: Path, monkeypatch) -> None:
+    mocks = _patch_cleanup_stages_without_tls(monkeypatch, tmp_path)
+    mocks["derive_network_layer"].return_value.update(
+        status="blocked", reason="layer_identity_check_failed",
+        identity={"status": "blocked", "reason": "layer_identity_check_failed"})
+    mocks["measure_mode_components"].return_value = {
+        "status": "measured", "threshold": 0.98, "gate": "review_required", "reason": "mode_network_needs_review",
+        "modes": {"bicycle": {"edge_count": 10, "largest_component_share": 0.97, "gate": "review_required",
+                              "reason": "largest_component_share_below_threshold"}}}
+    report = run_osm_cleanup_workflow(output_dir=tmp_path / "out", bbox="13.6,50.9,13.9,51.1",
+                                      profile="standard", traffic_layers="passenger,bicycle")
+
+    assert report["gate_status"]["network_layers"] == "blocked"
+    assert report["status"] == "fail"
+    assert report["passenger_gate_net_file"] == str(tmp_path / "network.net.xml")
+    assert report["review_required_gates"] == [
+        {"gate": "network_layers", "layer": "multimodal", "reason": "mode_network_needs_review"}]
+    assert any("vehicle network layer was written but is not usable" in warning for warning in report["warnings"])
+
+
+_LONG_CYCLE_NETWORK = """<net version="1.20">
+  <edge id="a" from="1" to="2"><lane id="a_0" index="0" allow="passenger" length="10" shape="0,0 10,0"/></edge>
+  <edge id="b" from="2" to="3"><lane id="b_0" index="0" allow="passenger" length="10" shape="10,0 20,0"/></edge>
+  <tlLogic id="long" type="static" programID="0" offset="0">
+    <phase duration="31" state="G"/><phase duration="581" state="r"/>
+  </tlLogic>
+  <connection from="a" to="b" fromLane="0" toLane="0" tl="long" linkIndex="0" dir="s" state="O"/>
+</net>"""
+
+
+def test_long_signal_cycles_cap_the_cleanup_at_review(tmp_path: Path, monkeypatch) -> None:
+    _patch_cleanup_stages_without_tls(monkeypatch, tmp_path)
+    (tmp_path / "network.net.xml").write_text(_LONG_CYCLE_NETWORK, encoding="utf-8")
+    report = run_osm_cleanup_workflow(output_dir=tmp_path / "out", bbox="13.6,50.9,13.9,51.1",
+                                      profile="standard", traffic_layers="passenger")
+
+    assert report["master_tls_cycles"]["long_cycle_controllers"][0]["cycle_s"] == 612.0
+    assert report["gate_status"]["master_tls_cycles"] == "review_required"
+    assert (report["status"], report["claim_status"]) == ("review_required", "diagnostic-demo")
+    assert report["review_required_gates"] == [{"gate": "master_tls_cycles", "reason": "long_signal_cycles"}]
+    assert report["routeability_long_signal_cycles"] == {}
+
+
+def test_unfinished_routeability_vehicles_name_the_long_cycles_on_their_routes(tmp_path: Path, monkeypatch) -> None:
+    mocks = _patch_cleanup_stages_without_tls(monkeypatch, tmp_path)
+    (tmp_path / "network.net.xml").write_text(_LONG_CYCLE_NETWORK, encoding="utf-8")
+    routes = tmp_path / "audit.rou.xml"
+    routes.write_text('<routes><vehicle id="0" depart="0"><route edges="a b"/></vehicle>'
+                      '<vehicle id="1" depart="0"><route edges="b"/></vehicle></routes>', encoding="utf-8")
+    mocks["run_routeability_audit"].return_value = {
+        "status": "fail", "claim_status": "construction-invalid", "routeability_status": "incomplete",
+        "route_file": str(routes), "warnings": [],
+        "final_attempt": {"vehicle_routes": {"missing_vehicle_ids": ["0", "1"], "failures": []}}}
+    report = run_osm_cleanup_workflow(output_dir=tmp_path / "out", bbox="13.6,50.9,13.9,51.1",
+                                      profile="standard", traffic_layers="passenger")
+
+    context = report["routeability_long_signal_cycles"]
+    assert (context["reason"], context["vehicle_count"], context["vehicles_through_controllers_count"]) == (
+        "unfinished_routes_cross_long_signal_cycles", 2, 1)
+    assert (context["controllers"], context["vehicles"]) == ({"long": 1}, [{"vehicle": "0", "controllers": ["long"]}])
+    assert report["gate_status"]["routeability_audit"] == "fail" and report["status"] == "fail"
+    assert any("1 of 2 unfinished routeability vehicles" in warning for warning in report["warnings"])
 
 
 def test_vehicle_layer_with_replanned_crossings_caps_the_cleanup_at_review(tmp_path: Path, monkeypatch) -> None:

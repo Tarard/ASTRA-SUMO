@@ -1234,10 +1234,11 @@ def _torii_network_gate(report: dict[str, Any]) -> dict[str, Any]:
         return {"status": "pass", "net_file": net_file, "delegated_review_gates": []}
 
     gates = report.get("gate_status") if isinstance(report.get("gate_status"), dict) else {}
+    # A review_required build has a usable network; its open review items are delegated like the other gates.
     required = {
         "area_confirmation": {"pass"},
         "road_level_scope": {"pass"},
-        "network_build": {"pass"},
+        "network_build": {"pass", "review_required"},
         "connectivity": {"pass", "partial"},
         "routeability_audit": {"pass"},
     }
@@ -1257,7 +1258,7 @@ def _torii_network_gate(report: dict[str, Any]) -> dict[str, Any]:
     delegated = {
         name: value
         for name, value in sorted(gates.items())
-        if value not in {"pass", "skipped"} and name not in required
+        if value not in {"pass", "skipped"} and (name not in required or value == "review_required")
     }
     return {
         "status": "provisional",

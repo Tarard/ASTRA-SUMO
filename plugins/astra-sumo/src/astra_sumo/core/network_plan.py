@@ -115,14 +115,17 @@ def _highways_for_layers(layers: set[str]) -> set[str]:
 
 
 def _standard_network_layers(layers: set[str]) -> dict[str, Any]:
-    # Bicycle or pedestrian layers build one multimodal master; the vehicle layer stays the primary layer.
+    # Bicycle or pedestrian layers build one multimodal master. A vehicle layer is cut from it only when a vehicle
+    # mode is requested too, and is then the primary layer. Without bicycle or pedestrian the master is the vehicle
+    # layer.
     modes = [mode for mode, tokens in (("bicycle", _BICYCLE_LAYER_TOKENS), ("pedestrian", _PEDESTRIAN_LAYER_TOKENS))
              if layers & tokens]
+    vehicle = bool(layers & _VEHICLE_LAYER_TOKENS) or not modes
     return {
         "netconvert_profile": "multimodal" if modes else "vehicle_core",
         "multimodal_modes": modes,
-        "primary_network_layer": "vehicle",
-        "network_layers": ["multimodal", "vehicle"] if modes else ["vehicle"],
+        "primary_network_layer": "vehicle" if vehicle else "multimodal",
+        "network_layers": ["multimodal"] * bool(modes) + ["vehicle"] * vehicle,
     }
 
 

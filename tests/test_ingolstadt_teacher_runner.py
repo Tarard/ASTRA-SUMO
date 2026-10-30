@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -495,3 +496,31 @@ def test_reference_matched_run_blocks_mismatched_reference_bbox(tmp_path: Path) 
     report = json.loads((output_dir / "ingolstadt_corridor_teacher_run.json").read_text(encoding="utf-8"))
     assert report["input_parity"]["status"] == "blocked"
     assert "bboxes are not identical" in report["input_parity"]["blockers"][0]
+
+
+def test_bounded_slice_continues_after_a_build_with_open_review_items(tmp_path: Path, monkeypatch) -> None:
+    from astra_sumo.core import osm_network, sumo_commands, teacher_corridor, tls_reference_cleanup
+
+    script = _load_script()
+    raw_net, teacher = tmp_path / "raw.net.xml", tmp_path / "teacher.net.xml"
+    raw_net.write_text("<net/>", encoding="utf-8")
+    teacher.write_text("<net/>", encoding="utf-8")
+    netconvert = tmp_path / "bin" / "netconvert"
+    netconvert.parent.mkdir()
+    netconvert.write_text("", encoding="utf-8")
+    monkeypatch.setattr(sumo_commands, "discover_binaries", lambda: {"netconvert": str(netconvert)})
+    monkeypatch.setattr(osm_network, "build_osm_network", lambda **kwargs: {
+        "status": "review_required", "reason": "osm_access_findings_open", "net_file": str(raw_net)})
+    monkeypatch.setattr(tls_reference_cleanup, "build_tls_reference_cleanup_variant", lambda net, **kwargs: {
+        "status": "pass", "tls_reference_cleanup_status": "pass", "effective_net_file": str(net)})
+    monkeypatch.setattr(teacher_corridor, "build_teacher_corridor_comparison", lambda **kwargs: {"status": "pass"})
+    # main() sets SUMO_HOME and PATH; monkeypatch restores both afterwards.
+    monkeypatch.setenv("SUMO_HOME", str(tmp_path))
+    monkeypatch.setenv("PATH", os.environ.get("PATH", ""))
+    monkeypatch.setattr(sys, "argv", [str(SCRIPT), "--output-dir", str(tmp_path / "out"), "--teacher-net", str(teacher),
+                                      "--skip-runtime-audits"])
+
+    assert script.main() == 1
+    run = json.loads((tmp_path / "out" / "ingolstadt_corridor_teacher_run.json").read_text(encoding="utf-8"))
+    assert (run["status"], run["claim_status"]) == ("review_required", "diagnostic-demo")
+    assert run["teacher_corridor"] == {"status": "pass"}

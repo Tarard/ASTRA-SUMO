@@ -37,7 +37,9 @@ from .network_layers import (
     derive_network_layer,
     master_network_layer,
     measure_mode_components,
+    measure_plain_cycleway_tags,
     measure_tls_cycles,
+    routes_through_controllers,
 )
 from .network_permissions import apply_service_passenger_permissions
 from .network_plan import NETWORK_PLAN_QUESTION, derive_network_plan, resolve_network_layers  # noqa: F401
@@ -3922,6 +3924,7 @@ def _workflow_network_layers_section(
     netconvert_binary: str,
     sumo_binary: str,
     timeout_seconds: float,
+    osm_file: Path | None = None,
 ) -> dict[str, Any]:
     """Cut the requested layers from the master and gate each of them.
 
@@ -3959,8 +3962,11 @@ def _workflow_network_layers_section(
         }
         if not usable:
             entry["gate_reason"] = reason
-            warnings.append(f"The {layer} network layer was not written ({reason})"
-                            + ("; the passenger gates ran on the master instead" if layer == "vehicle" else "")
+            warnings.append(f"The {layer} network layer "
+                            + ("was written but is not usable" if entry["net_file"] else "was not written")
+                            + f" ({reason})"
+                            + ("; the passenger gates ran on the master instead (passenger_gate_net_file)"
+                               if layer == "vehicle" else "")
                             + f". Inspect network_layers.{layer}.identity.")
         elif entry["identity"].get("review_reason"):
             # The layer is usable, but netconvert changed something the identity check lists for review.
@@ -3984,6 +3990,17 @@ def _workflow_network_layers_section(
                     warnings.append(f"The {mode} network of the multimodal layer needs review ({row.get('reason')}): its "
                                     f"largest component holds {'no' if share is None else f'{share:.1%} of the'} "
                                     f"{mode} edges, below {components['threshold']:.0%}.")
+            if "bicycle" in multimodal_modes and osm_file is not None and osm_file.is_file():
+                try:
+                    cycleways = measure_plain_cycleway_tags(osm_file, master_net_file)
+                except _NETWORK_LAYER_ERRORS as exc:
+                    cycleways = {"status": "blocked", "reason": "plain_cycleway_tags_not_measured",
+                                 "error": f"{type(exc).__name__}: {exc}"}
+                entry["plain_cycleway_tags"] = cycleways
+                if cycleways.get("without_bicycle_lane_count"):
+                    warnings.append(f"{cycleways['without_bicycle_lane_count']} road way(s) tagged with a plain "
+                                    "cycleway=lane or track got no bike lane in the multimodal layer; inspect "
+                                    "network_layers.multimodal.plain_cycleway_tags.")
         if layer == "vehicle" and usable:
             gate_net_file = Path(entry["net_file"])
         entries[layer] = entry
@@ -3991,16 +4008,54 @@ def _workflow_network_layers_section(
         tls_cycles = measure_tls_cycles(master_net_file)
     except _NETWORK_LAYER_ERRORS as exc:
         tls_cycles = {"status": "blocked", "reason": "tls_cycles_not_measured", "error": f"{type(exc).__name__}: {exc}"}
-    if tls_cycles.get("long_cycle_controllers"):
+    # Every layer inherits the master's programs, so a long cycle is a review item of the run.
+    if tls_cycles.get("status") != "measured":
+        tls_cycles["gate"] = "blocked"
+    elif tls_cycles.get("long_cycle_controllers"):
+        tls_cycles.update(gate="review_required", reason="long_signal_cycles")
         warnings.append(f"{len(tls_cycles['long_cycle_controllers'])} signal program(s) of the master have a cycle above "
-                        f"{tls_cycles['threshold_s']:.0f} s; inspect master_tls_cycles before relying on their timing.")
+                        f"{tls_cycles['threshold_s']:.0f} s (up to {tls_cycles['max_cycle_s']:.0f} s); inspect "
+                        "master_tls_cycles before relying on their timing.")
+    else:
+        tls_cycles["gate"] = "pass"
     gates = {entry["gate"] for entry in entries.values()}
     gate = "blocked" if "blocked" in gates else "review_required" if "review_required" in gates else "pass"
     # Every layer that sets the gate names its reason, in layer order.
     gate_reason = ",".join(dict.fromkeys(entry["gate_reason"] for entry in entries.values()
                                          if gate != "pass" and entry["gate"] == gate))
-    return {"network_layers": entries, "gate": gate, "reason": gate_reason, "gate_net_file": gate_net_file,
-            "master_tls_cycles": tls_cycles, "warnings": warnings}
+    # Layers under review keep their reasons when another layer blocks the gate.
+    review_layers = {layer: entry["gate_reason"] for layer, entry in entries.items()
+                     if entry["gate"] == "review_required"}
+    return {"network_layers": entries, "gate": gate, "reason": gate_reason, "review_layers": review_layers,
+            "gate_net_file": gate_net_file, "master_tls_cycles": tls_cycles, "warnings": warnings}
+
+
+def _routeability_long_signal_cycles(
+    net_file: Path,
+    routeability_report: Mapping[str, Any] | None,
+    master_tls_cycles: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Unfinished routeability vehicles whose routes pass a signal program with a long cycle.
+
+    A vehicle can wait most of a long cycle at each such signal, so these routes may not finish inside the audit
+    window for a reason the cycle report already names. Empty when the audit passed or no cycle is long.
+    """
+    long_cycle_ids = [str(row.get("tl_id", "")) for row in master_tls_cycles.get("long_cycle_controllers") or []]
+    if not routeability_report or routeability_report.get("status") == "pass" or not long_cycle_ids:
+        return {}
+    vehicle_routes = (routeability_report.get("final_attempt") or {}).get("vehicle_routes") or {}
+    unfinished = [*map(str, vehicle_routes.get("missing_vehicle_ids") or []),
+                  *(str(row.get("vehicle_id", "")) for row in vehicle_routes.get("failures") or [])]
+    route_file = Path(str(routeability_report.get("route_file", "") or ""))
+    if not unfinished or not route_file.is_file():
+        return {}
+    try:
+        context = routes_through_controllers(net_file, route_file, unfinished, long_cycle_ids)
+    except _NETWORK_LAYER_ERRORS as exc:
+        return {"status": "blocked", "reason": "routes_not_read", "error": f"{type(exc).__name__}: {exc}"}
+    if context["vehicles_through_controllers_count"]:
+        context["reason"] = "unfinished_routes_cross_long_signal_cycles"
+    return context
 
 
 def run_osm_cleanup_workflow(
@@ -4673,6 +4728,7 @@ def run_osm_cleanup_workflow(
             netconvert_binary=netconvert_binary,
             sumo_binary=sumo_binary,
             timeout_seconds=timeout_seconds,
+            osm_file=osm_file,
         )
         # The passenger gates below run on the vehicle layer.
         net_file = network_layers_section["gate_net_file"]
@@ -5157,6 +5213,8 @@ def run_osm_cleanup_workflow(
             max_end=routeability_profile["routeability_audit_max_end"],
             timeout_seconds=timeout_seconds,
         )
+    routeability_long_signal_cycles = _routeability_long_signal_cycles(
+        net_file, routeability_audit_report, (network_layers_section or {}).get("master_tls_cycles") or {})
     connection_mode_audit_report = None
     if run_connection_mode_audit_after_build:
         connection_mode_audit_report = build_network_connection_mode_audit(
@@ -5295,6 +5353,12 @@ def run_osm_cleanup_workflow(
         warnings.append(
             "scoped TLS cell batch contains blocked cells; keep them as review variants until pedestrian/internal "
             "link semantics and global reference gates pass"
+        )
+    if routeability_long_signal_cycles.get("vehicles_through_controllers_count"):
+        warnings.append(
+            f"{routeability_long_signal_cycles['vehicles_through_controllers_count']} of "
+            f"{routeability_long_signal_cycles['vehicle_count']} unfinished routeability vehicles pass a signal "
+            "program with a long cycle; inspect routeability_long_signal_cycles and master_tls_cycles."
         )
     if tls_summary["tls_review_complete"] == "no":
         warnings.append("TLS reality review still requires human Google Maps/current-or-user-targeted map inspection")
@@ -5491,6 +5555,7 @@ def run_osm_cleanup_workflow(
     )
     if network_layers_section is not None:
         gate_status["network_layers"] = network_layers_section["gate"]
+        gate_status["master_tls_cycles"] = str(network_layers_section["master_tls_cycles"].get("gate", "blocked"))
     # Outside reference_matched the topology gate is the audit itself, whose blocked means suspicious dense
     # junction clusters were found: a review item, not a broken network. Under reference_matched it is the
     # parity with the reference and keeps failing the structure.
@@ -5507,6 +5572,7 @@ def run_osm_cleanup_workflow(
         in {"pass", "review_required", "skipped"}
         and gate_status.get("standard_nema_scan", "skipped") in {"pass", "skipped"}
         and gate_status.get("network_layers", "skipped") in {"pass", "review_required", "skipped"}
+        and gate_status.get("master_tls_cycles", "skipped") in {"pass", "review_required", "skipped"}
         and gate_status.get("reference_visual_detail", "skipped") in {"pass", "review_required", "skipped"}
         and gate_status.get("reference_bbox_scope", "skipped") in {"pass", "skipped"}
         and gate_status.get("reference_hierarchy_audit", "skipped") in {"pass", "skipped"}
@@ -5532,9 +5598,15 @@ def run_osm_cleanup_workflow(
             "routeability_audit": routeability_audit_report,
             "connection_mode_audit": connection_mode_audit_report,
             "network_layers": network_layers_section,
+            "master_tls_cycles": (None if network_layers_section is None
+                                  else network_layers_section["master_tls_cycles"]),
         },
         review_when_blocked=topology_review_when_blocked,
     )
+    if gate_status.get("network_layers") == "blocked":
+        # A blocked layer fails the run; the layers under review keep their reasons.
+        review_required_gates.extend({"gate": "network_layers", "layer": layer, "reason": reason}
+                                     for layer, reason in network_layers_section["review_layers"].items())
     workflow_status, workflow_claim = _cleanup_outcome(
         structure_ok,
         gate_status["tls_reality_audit"],
@@ -7066,6 +7138,11 @@ def run_osm_cleanup_workflow(
         "master_net_file": str(master_net_file),
         "network_layers": {} if network_layers_section is None else network_layers_section["network_layers"],
         "master_tls_cycles": {} if network_layers_section is None else network_layers_section["master_tls_cycles"],
+        # The network the passenger gates started from, before any connected-core pruning.
+        "passenger_gate_net_file": (
+            "" if network_layers_section is None else str(network_layers_section["gate_net_file"])
+        ),
+        "routeability_long_signal_cycles": routeability_long_signal_cycles,
         "connected_core_file": "" if connected_core_report is None else str(connected_core_report.get("connected_core_file", "")),
         "connected_core_discarded_components_review_file": ""
         if connected_core_report is None

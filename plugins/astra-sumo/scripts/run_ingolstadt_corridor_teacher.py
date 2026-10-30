@@ -699,13 +699,15 @@ def main() -> int:
         )
     build_report_file = output_dir / "same_bbox_osm_build.json"
     write_json_atomic(build_report_file, build_report, sort_keys=True)
+    # A review_required build has a usable network; its open review items keep the run at review_required.
+    build_usable = build_report.get("status") in {"pass", "review_required"}
 
     tls_reference_cleanup: dict[str, Any] = {
         "status": "not_run",
         "tls_reference_cleanup_status": "not_run",
     }
     candidate_net = raw_candidate_net
-    if build_report.get("status") == "pass" and raw_candidate_net.is_file():
+    if build_usable and raw_candidate_net.is_file():
         tls_reference_cleanup = build_tls_reference_cleanup_variant(
             raw_candidate_net,
             output_dir=output_dir / "tls_reference_cleanup",
@@ -718,7 +720,7 @@ def main() -> int:
     sumo_load_report: dict[str, Any] = {"status": "not_run"}
     routeability_report: dict[str, Any] = {"status": "not_run"}
     if (
-        build_report.get("status") == "pass"
+        build_usable
         and tls_reference_cleanup.get("status") == "pass"
         and candidate_net.is_file()
         and not args.skip_runtime_audits
@@ -767,7 +769,7 @@ def main() -> int:
     write_json_atomic(sumo_load_report_file, sumo_load_report, sort_keys=True)
 
     if (
-        build_report.get("status") == "pass"
+        build_usable
         and tls_reference_cleanup.get("status") == "pass"
         and candidate_net.is_file()
     ):
@@ -798,8 +800,8 @@ def main() -> int:
         and routeability_report.get("status") == "pass"
     )
     status = (
-        "pass"
-        if build_report.get("status") == "pass"
+        str(build_report["status"])
+        if build_usable
         and tls_reference_cleanup.get("status") == "pass"
         and comparison.get("status") == "pass"
         and runtime_pass
@@ -809,7 +811,7 @@ def main() -> int:
     aggregate = {
         "schema": "torii.ingolstadt_corridor_teacher_run.v2",
         "status": status,
-        "claim_status": "diagnostic-demo" if status == "pass" else "construction-invalid",
+        "claim_status": "diagnostic-demo" if status in {"pass", "review_required"} else "construction-invalid",
         "workflow_mode": "bounded-slice",
         "bbox": args.bbox,
         "junction_id": args.junction_id,

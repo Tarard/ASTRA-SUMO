@@ -291,7 +291,9 @@ bytes and checks the parsed network again. Both the original import and the
 candidate must load in SUMO. The correction does not create missing movements.
 It therefore streams the candidate once and keeps a newly allowed class on a
 lane only when a connection into or out of that lane allows the class on the
-other lane and every internal lane. Other additions return to the native
+other lane and every internal lane; in a network without walking areas, a
+pedestrian addition is kept when another pedestrian edge meets the lane at a
+junction. Other additions return to the native
 permission and are recorded as `no_effect` with reason
 `new_class_has_no_loaded_movement`. A lane that allows only pedestrians or only
 bicycles on a multi-lane edge is a dedicated sidewalk or bike lane: way-level

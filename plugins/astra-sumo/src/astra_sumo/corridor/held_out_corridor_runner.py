@@ -51,6 +51,9 @@ from .review_compression import (
 )
 from .run_identity import capture_held_out_machine_run_identity
 
+# build_osm_network statuses whose network is usable; review_required leaves OSM access review items open.
+_USABLE_BUILD_STATUSES = frozenset({"pass", "review_required"})
+
 
 def build_held_out_corridor_machine_evidence(
     spec_file: Path,
@@ -391,9 +394,11 @@ def _build_case_evidence(
     )
     build_report_path = destination / "network-build.json"
     write_json_atomic(build_report_path, build_report, sort_keys=True)
-    if build_report.get("status") != "pass":
+    # A review_required build has a usable network; its review reason is classified with the case.
+    if build_report.get("status") not in _USABLE_BUILD_STATUSES:
         raise RuntimeError(
-            "netconvert failed: " + str(build_report.get("error", "unknown"))
+            "netconvert failed: "
+            + str(build_report.get("error") or build_report.get("reason") or build_report.get("status", "unknown"))
         )
     net_file = Path(str(build_report["net_file"])).resolve()
     if not net_file.is_file():
@@ -409,10 +414,14 @@ def _build_case_evidence(
         replay_build_report,
         sort_keys=True,
     )
-    if replay_build_report.get("status") != "pass":
+    if replay_build_report.get("status") not in _USABLE_BUILD_STATUSES:
         raise RuntimeError(
             "netconvert replay failed: "
-            + str(replay_build_report.get("error", "unknown"))
+            + str(
+                replay_build_report.get("error")
+                or replay_build_report.get("reason")
+                or replay_build_report.get("status", "unknown")
+            )
         )
     replay_net_file = Path(str(replay_build_report["net_file"])).resolve()
     if not replay_net_file.is_file():
@@ -806,6 +815,8 @@ def _classify_case(
         "reproducibility": reproducibility_status.value,
         "applicability": str(applicability.decision),
     }
+    if statuses["netconvert"] == "review_required":
+        categories.add("network_build_review_required")
     if statuses["connection_mode"] == "fail":
         categories.add("connection_mode_structural_failure")
     elif statuses["connection_mode"] != "pass":
@@ -836,7 +847,7 @@ def _classify_case(
         "program-present-link-invalid",
     }
     defect = (
-        statuses["netconvert"] != "pass"
+        statuses["netconvert"] not in _USABLE_BUILD_STATUSES
         or statuses["sumo_load"] != "pass"
         or statuses["routeability"] != "pass"
         or statuses["connection_mode"] == "fail"
@@ -848,7 +859,8 @@ def _classify_case(
         )
     )
     ambiguous = (
-        statuses["connection_mode"] != "pass"
+        statuses["netconvert"] != "pass"
+        or statuses["connection_mode"] != "pass"
         or calibration_status is not GateStatus.PASS
         or safety_status is not GateStatus.PASS
         or review_compression_status is not GateStatus.PASS

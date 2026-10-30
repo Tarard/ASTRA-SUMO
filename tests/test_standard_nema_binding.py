@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
+import subprocess
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
@@ -1637,7 +1639,7 @@ def test_no_internal_links_connection_permission_can_block_the_path() -> None:
     <request index="0" response="0" foes="0"/>
   </junction>
   <junction id="b" type="dead_end" incLanes="out_0" intLanes=""/>
-  <connection from="in" to="out" fromLane="0" toLane="0" allow="bicycle" dir="s" state="M"/>
+  <connection from="in" to="out" fromLane="0" toLane="0" allow="bus" dir="s" state="M"/>
 </net>"""
     )
 
@@ -1649,6 +1651,74 @@ def test_no_internal_links_connection_permission_can_block_the_path() -> None:
     assert path["path_kind"] == "direct_no_internal_links"
     assert path["path_permission_status"] == "fail"
     assert path["path_permission_overlap"] == []
+
+
+@pytest.mark.parametrize("via", [False, True])
+def test_turn_restriction_exception_for_bicycles_into_a_lane_without_bicycles_needs_review(via: bool) -> None:
+    # netconvert writes an OSM restriction with except=bicycle as a bicycle-only connection, also into a
+    # carriageway lane that excludes bicycles because a bike lane runs beside it. No motorized movement uses it.
+    internal = """  <edge id=":j_0" function="internal">
+    <lane id=":j_0_0" index="0" allow="bicycle" shape="0,0 10,0"/>
+  </edge>
+""" if via else ""
+    root = ET.fromstring(
+        f"""<net>
+  <edge id="in" from="a" to="j">
+    <lane id="in_0" index="0" disallow="pedestrian" shape="-10,0 0,0"/>
+  </edge>
+  <edge id="out" from="j" to="b">
+    <lane id="out_0" index="0" disallow="pedestrian bicycle" shape="{'10' if via else '0'},0 20,0"/>
+  </edge>
+{internal}  <junction id="a" type="dead_end" incLanes="" intLanes=""/>
+  <junction id="j" type="priority" incLanes="in_0" intLanes="{':j_0_0' if via else ''}">
+    <request index="0" response="0" foes="0"{' cont="0"' if via else ''}/>
+  </junction>
+  <junction id="b" type="dead_end" incLanes="out_0" intLanes=""/>
+  <connection from="in" to="out" fromLane="0" toLane="0" allow="bicycle"{' via=":j_0_0"' if via else ''} dir="s" state="M"/>
+{'  <connection from=":j_0" to="out" fromLane="0" toLane="0" allow="bicycle" dir="s" state="M"/>' if via else ''}
+</net>"""
+    )
+
+    report = audit_network_connection_mode(root)
+
+    assert report["status"] == "review_required"
+    audit = next(item for item in report["junctions"] if item["junction_id"] == "j")["connection_mode_audit"]
+    assert audit["structural_failures"] == []
+    assert "connection_mode:non_motorized_connection_without_lane_permission:0" in audit["review_findings"]
+    path = audit["movement_checks"][0]["internal_path"]
+    assert (path["path_permission_status"], path["path_permission_overlap"]) == ("fail", [])
+    assert path["path_permission_scope"] == "connection_allows_only_non_motorized_classes"
+
+
+def test_netconvert_bicycle_exception_beside_a_bike_lane_is_not_a_structural_failure(tmp_path: Path) -> None:
+    sumo = pytest.importorskip("sumo")
+    netconvert = Path(sumo.__file__).parent / "bin" / ("netconvert.exe" if os.name == "nt" else "netconvert")
+    if not netconvert.is_file():
+        pytest.skip("The SUMO package netconvert is required.")
+    # Both roads through the signal have a bike lane, and going straight is forbidden except for bicycles.
+    osm = (Path(__file__).parent / "fixtures/osm_multimodal_layers.osm.xml").read_text(encoding="utf-8")
+    osm = osm.replace('<nd ref="3"/>\n    <tag k="highway" v="secondary"/>',
+                      '<nd ref="3"/>\n    <tag k="highway" v="secondary"/>\n    <tag k="cycleway:right" v="lane"/>')
+    osm = osm.replace("</osm>", '<relation id="900"><member type="way" ref="100" role="from"/>'
+                      '<member type="node" ref="1" role="via"/><member type="way" ref="101" role="to"/>'
+                      '<tag k="type" v="restriction"/><tag k="restriction" v="no_straight_on"/>'
+                      '<tag k="except" v="bicycle"/></relation></osm>')
+    (tmp_path / "restriction.osm.xml").write_text(osm, encoding="utf-8")
+    subprocess.run([str(netconvert), "--osm-files", "restriction.osm.xml", "--osm.bike-access", "--osm.sidewalks",
+                    "--osm.crossings", "--crossings.guess", "--walkingareas", "--no-turnarounds", "--tls.join",
+                    "--output-file", "restriction.net.xml"], cwd=tmp_path, check=True, capture_output=True)
+    root = ET.parse(tmp_path / "restriction.net.xml").getroot()
+    lanes = {lane.get("id"): lane for lane in root.iter("lane")}
+    exceptions = [row for row in root.findall("connection") if row.get("allow") == "bicycle"
+                  and "bicycle" in lanes[f'{row.get("to")}_{row.get("toLane")}'].get("disallow", "").split()]
+    assert exceptions, "netconvert no longer writes the bicycle exception into a lane without bicycles"
+
+    report = audit_network_connection_mode(root)
+
+    audit = next(item for item in report["junctions"] if item["junction_id"] == "1")["connection_mode_audit"]
+    assert audit["structural_failures"] == []
+    assert any(finding.startswith("connection_mode:non_motorized_connection_without_lane_permission:")
+               for finding in audit["review_findings"])
 
 
 def test_missing_via_in_mixed_internal_link_network_remains_a_hard_failure() -> None:

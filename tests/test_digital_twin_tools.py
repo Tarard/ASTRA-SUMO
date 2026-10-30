@@ -295,6 +295,27 @@ def test_torii_network_gate_allows_only_structurally_sound_review_pending_build(
     }
 
 
+def test_torii_network_gate_delegates_a_build_with_open_review_items(tmp_path: Path) -> None:
+    net_file = tmp_path / "corridor.net.xml"
+    net_file.write_text("<net/>", encoding="utf-8")
+    report = {
+        "status": "review_required",
+        "net_file": str(net_file),
+        "gate_status": {
+            "area_confirmation": "pass",
+            "road_level_scope": "pass",
+            "network_build": "review_required",
+            "connectivity": "pass",
+            "routeability_audit": "pass",
+        },
+    }
+
+    gate = _torii_network_gate(report)
+
+    assert gate["status"] == "provisional"
+    assert gate["delegated_review_gates"] == {"network_build": "review_required"}
+
+
 def test_torii_network_gate_blocks_a_failed_routeability_gate(tmp_path: Path) -> None:
     net_file = tmp_path / "corridor.net.xml"
     net_file.write_text("<net/>", encoding="utf-8")

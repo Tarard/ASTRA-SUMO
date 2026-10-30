@@ -61,7 +61,8 @@ a finished network belongs to `$astra-calibrate`. Report the source basis, the c
 - An OSM node, a physical conflict core, a SUMO junction and a signal controller are different objects. Distance can
   nominate a junction join; it never proves one.
 - The cleanup cannot record light reviews, so over an area with traffic lights a structurally sound run ends
-  `review_required` (exit 1) with `gate_status.tls_reality_audit` `review_required`. Any other failing gate makes it
+  `review_required` (exit 1) with `gate_status.tls_reality_audit` `review_required`. Every open review item caps a
+  sound run at `review_required` and is listed in `review_required_gates`; a broken build or structure makes it
   `fail`. Review the lights with the traffic-light steps in `references/osm-to-sumo-workflow.md`.
 - Check that a traffic light exists on a map that suits the region: Google Maps where it is reliable; Amap, Baidu or
   Tencent in mainland China, stating the WGS84/GCJ-02/BD-09 conversion. Use the current map unless the user names

@@ -1055,6 +1055,10 @@ def test_standard_plan_selects_multimodal_profile_only_for_bicycle_or_pedestrian
         "multimodal", ["bicycle", "pedestrian"], ["multimodal", "vehicle"])
     assert (walking["netconvert_profile"], walking["multimodal_modes"]) == ("multimodal", ["pedestrian"])
     assert vehicle["primary_network_layer"] == multimodal["primary_network_layer"] == "vehicle"
+    # Without a vehicle mode no vehicle layer is cut; the plan names only the layer the cleanup writes.
+    cycling = derive_network_plan(traffic_layers="bicycle")
+    assert (cycling["network_layers"], cycling["primary_network_layer"]) == (["multimodal"], "multimodal")
+    assert resolve_network_layers(None, "bicycle") == cycling["network_layers"]
     confirmed = derive_network_plan(highway_classes="arterial", traffic_layers="passenger,bicycle")
     assert (confirmed["network_plan_status"], confirmed["netconvert_profile"], confirmed["multimodal_modes"]) == (
         "confirmed", "multimodal", ["bicycle"])
