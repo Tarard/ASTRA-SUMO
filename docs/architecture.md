@@ -275,7 +275,10 @@ specific to each layer, and netconvert re-plans the crossing phases of a
 controller that lost a crossing; the layer reports those for review.
 Traffic-light checks run once on the master. Passenger checks run on the
 `vehicle` layer, which is cut only when a vehicle mode is requested too;
-otherwise they run on the master.
+otherwise they run on the master. The master does not let netconvert join
+signals across cycleways and paths: it loads the controller groups of a
+vehicle-road build of the same input as a node file, so its controller ids and
+members match a vehicle-only build.
 
 ## Layer 3: Executor
 

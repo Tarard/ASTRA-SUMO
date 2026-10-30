@@ -360,3 +360,35 @@ def test_tls_cycles_list_programs_above_the_threshold(master, tmp_path):
     report = measure_tls_cycles(net)
     assert (report["controller_count"], report["max_cycle_s"]) == (2, 130.0)
     assert [row["tl_id"] for row in report["long_cycle_controllers"]] == ["long"]
+
+
+def _controller_nodes(net: Path) -> dict[str, set[str]]:
+    root = ET.parse(net).getroot()
+    to_node = {edge.get("id"): edge.get("to") for edge in root.findall("edge") if not edge.get("function")}
+    nodes: dict[str, set[str]] = {logic.get("id"): set() for logic in root.findall("tlLogic")}
+    for row in root.findall("connection"):
+        if row.get("tl") and row.get("from") in to_node:
+            nodes[row.get("tl")].add(to_node[row.get("from")])
+    return nodes
+
+
+def test_multimodal_master_keeps_the_signal_groups_of_the_vehicle_roads(tmp_path):
+    netconvert, _ = _binaries()
+    osm = Path(__file__).parent / "fixtures/osm_multimodal_signal_groups.osm.xml"
+    common = {"bbox": "10.9975,47.9990,11.0030,48.0010", "source_osm_path": osm, "clip_source_ways_to_bbox": False,
+              "netconvert_binary": netconvert}
+    vehicle = build_osm_network(output_dir=tmp_path / "vehicle", allowed_highways={"secondary", "residential"}, **common)
+    master = build_osm_network(output_dir=tmp_path / "master", allowed_highways={"secondary", "residential", "cycleway"},
+                               netconvert_profile="multimodal", multimodal_modes=["bicycle"], **common)
+    # netconvert's own join treats the crossing signals 4 and 5 as an intersection once cycleways touch them.
+    subprocess.run([netconvert, "--osm-files", str(osm), "--proj.utm", "--osm.bike-access", "--tls.join",
+                    "--tls.join-dist", "35", "--output-file", str(tmp_path / "joined.net.xml")],
+                   check=True, capture_output=True)
+
+    assert (vehicle["status"], master["status"]) == ("pass", "pass")
+    assert _controller_nodes(tmp_path / "joined.net.xml")["joinedS_4_5"] == {"4", "5"}
+    expected = {"4": {"4"}, "5": {"5"}, "joinedS_2_3": {"2", "3"}}
+    assert _controller_nodes(Path(vehicle["net_file"])) == _controller_nodes(Path(master["net_file"])) == expected
+    grouping = master["netconvert_signal_grouping"]
+    assert (grouping["status"], grouping["joined_controller_count"], grouping["patched_node_count"]) == ("measured", 1, 2)
+    assert grouping["skipped_controllers"] == []

@@ -23,7 +23,8 @@
   one-line request use `passenger` and say so. Add `bicycle` or `pedestrian` only when the study needs them.
 - `bicycle` or `pedestrian` adds cycleways, footways, paths and steps and builds one `multimodal` master:
   `--osm.bike-access` for bicycles; `--osm.sidewalks`, `--osm.crossings`, `--crossings.guess` and `--walkingareas` for
-  pedestrians; no signal guessing. Sidewalks appear only where OSM tags them on the road; `sidewalk=separate` roads
+  pedestrians; no signal guessing, and the signal groups of a vehicle-road build of the same input. Sidewalks appear
+  only where OSM tags them on the road; `sidewalk=separate` roads
   rely on the mapped footways. Bike lanes come only from `cycleway:left`, `cycleway:right` or `cycleway:both`; a plain
   `cycleway=lane` or `cycleway=track` gets none. With a vehicle mode in `traffic_layers`, the `vehicle` layer is cut
   from the master by removing edges, so both layers share edge, lane, junction and signal ids. Crossings at signals
@@ -55,8 +56,10 @@
   measured without pruning; below 98 % sets the layer gate to `review_required`. `plain_cycleway_tags` counts the
   road ways with a plain `cycleway=lane|track` that got no bike lane. `master_tls_cycles` lists every program's cycle
   and, in `long_cycle_controllers`, those above 120 s; any such controller sets `gate_status.master_tls_cycles` to
-  `review_required` (reason `long_signal_cycles`). Footways, cycleways and sidewalks can join signals into larger
-  controllers with long cycles, and the vehicle layer inherits them. When the routeability audit does not pass,
+  `review_required` (reason `long_signal_cycles`). The master's signal groups come from a vehicle-road build of the
+  same input (`build.netconvert_signal_grouping`), so cycleways and paths do not join neighbouring signals; bicycle and
+  crossing links can still add phases to a controller, and the vehicle layer inherits them. When the routeability
+  audit does not pass,
   `routeability_long_signal_cycles` names the unfinished vehicles whose routes pass such a controller.
 - An OSM turn restriction with `except=bicycle` next to a bike lane becomes a bicycle-only connection into a lane
   without bicycles; `connection_mode_audit` lists it as the review finding

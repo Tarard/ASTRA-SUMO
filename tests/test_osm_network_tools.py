@@ -2022,6 +2022,98 @@ def test_build_osm_network_reference_visual_detail_profile_imports_pedestrian_tl
 _PEDESTRIAN_LANE_OPTIONS = ["--osm.sidewalks", "--osm.crossings", "--crossings.guess", "--walkingareas"]
 
 
+def _signal_reference_runner(calls: list[list[str]], plain_nodes: str | None):
+    """Fake netconvert: the vehicle-road reference build writes plain nodes, every other build a net file."""
+    def runner(command: list[str], *, cwd: Path, timeout_seconds: float) -> CommandResult:
+        calls.append(command)
+        if "--plain-output-prefix" in command:
+            if plain_nodes is None:
+                return CommandResult(command=command, cwd=str(cwd), status="fail", returncode=1)
+            prefix = cwd / command[command.index("--plain-output-prefix") + 1]
+            Path(f"{prefix}.nod.xml").write_text(plain_nodes, encoding="utf-8")
+        else:
+            (cwd / command[command.index("--output-file") + 1]).write_text("<net/>", encoding="utf-8")
+        return CommandResult(command=command, cwd=str(cwd), status="pass", returncode=0)
+    return runner
+
+
+_SIGNAL_GROUP_OSM = """<osm version="0.6">
+  <node id="1" lat="51.0" lon="13.700"/>
+  <node id="2" lat="51.0" lon="13.701"><tag k="highway" v="traffic_signals"/></node>
+  <node id="3" lat="51.0" lon="13.7013"><tag k="highway" v="traffic_signals"/></node>
+  <node id="4" lat="51.0" lon="13.703"><tag k="highway" v="traffic_signals"/></node>
+  <node id="5" lat="51.001" lon="13.703"/>
+  <way id="10"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="4"/><tag k="highway" v="primary"/></way>
+  <way id="20"><nd ref="4"/><nd ref="5"/><tag k="highway" v="cycleway"/></way>
+</osm>"""
+
+
+def test_multimodal_master_takes_its_signal_groups_from_a_vehicle_road_build(tmp_path: Path) -> None:
+    source = tmp_path / "input.osm.xml"
+    source.write_text(_SIGNAL_GROUP_OSM, encoding="utf-8")
+    calls: list[list[str]] = []
+    plain_nodes = """<nodes>
+    <node id="1" x="0" y="0" type="priority"/>
+    <node id="2" x="70" y="0" type="traffic_light" tl="joinedS_2_3"/>
+    <node id="3" x="91" y="0" type="traffic_light_right_on_red" tl="joinedS_2_3"/>
+    <node id="4" x="210" y="0" type="traffic_light" tl="4"/>
+</nodes>"""
+    report = build_osm_network(bbox="13.6000,50.9800,13.9000,51.1500", prefix="demo", output_dir=tmp_path / "build",
+                               source_osm_path=source, allowed_highways={"primary", "cycleway"},
+                               netconvert_profile="multimodal", multimodal_modes=["bicycle"],
+                               command_runner=_signal_reference_runner(calls, plain_nodes))
+
+    reference_command, command = calls
+    root = tmp_path / "build"
+    reference_osm = root / reference_command[reference_command.index("--osm-files") + 1]
+    with gzip.open(reference_osm, "rt", encoding="utf-8") as handle:
+        assert [way.get("id") for way in ET.parse(handle).getroot().iter("way")] == ["10"]
+    grouping = report["netconvert_signal_grouping"]
+    assert (grouping["status"], grouping["reference_highways"]) == ("measured", ["primary"])
+    assert (grouping["controller_count"], grouping["joined_controller_count"], grouping["patched_node_count"]) == (2, 1, 2)
+    assert "--tls.join" not in command and "--tls.join-dist" not in command
+    node_file = root / command[command.index("--node-files") + 1]
+    assert str(node_file.resolve()) == grouping["node_file"]
+    assert [(node.get("id"), node.get("type"), node.get("tl")) for node in ET.parse(node_file).getroot()] == [
+        ("2", "traffic_light", "joinedS_2_3"), ("3", "traffic_light_right_on_red", "joinedS_2_3")]
+    manifest = json.loads(Path(report["build_manifest_file"]).read_text(encoding="utf-8"))
+    assert manifest["netconvert"]["signal_grouping"] == grouping
+    assert "signal_grouping=measured" in Path(report["command_record"]).read_text(encoding="utf-8")
+
+
+def test_multimodal_master_falls_back_to_netconvert_joining_when_the_reference_build_fails(tmp_path: Path) -> None:
+    source = tmp_path / "input.osm.xml"
+    source.write_text(_SIGNAL_GROUP_OSM, encoding="utf-8")
+    calls: list[list[str]] = []
+    report = build_osm_network(bbox="13.6000,50.9800,13.9000,51.1500", prefix="demo", output_dir=tmp_path / "build",
+                               source_osm_path=source, allowed_highways={"primary", "cycleway"},
+                               netconvert_profile="multimodal", multimodal_modes=["bicycle"],
+                               command_runner=_signal_reference_runner(calls, None))
+
+    command = calls[-1]
+    assert report["status"] == "pass"
+    assert report["netconvert_signal_grouping"]["status"] == "blocked"
+    assert report["netconvert_signal_grouping"]["reason"] == "vehicle_signal_reference_build_failed"
+    assert command[command.index("--tls.join-dist") - 1:command.index("--tls.join-dist") + 2] == [
+        "--tls.join", "--tls.join-dist", "35"]
+    assert "--node-files" not in command
+    assert any("signal reference build failed" in warning for warning in report["warnings"])
+
+
+def test_multimodal_signal_grouping_without_vehicle_roads_is_no_effect(tmp_path: Path) -> None:
+    source = tmp_path / "input.osm.xml"
+    source.write_text(_SIGNAL_GROUP_OSM, encoding="utf-8")
+    calls: list[list[str]] = []
+    report = build_osm_network(bbox="13.6000,50.9800,13.9000,51.1500", prefix="demo", output_dir=tmp_path / "build",
+                               source_osm_path=source, allowed_highways={"cycleway"},
+                               netconvert_profile="multimodal", multimodal_modes=["bicycle"],
+                               command_runner=_signal_reference_runner(calls, "<nodes/>"))
+
+    assert len(calls) == 1 and "--tls.join" not in calls[0]
+    assert report["netconvert_signal_grouping"]["status"] == "no_effect"
+    assert report["netconvert_signal_grouping"]["reason"] == "no_vehicle_highways"
+
+
 @pytest.mark.parametrize(("modes", "expected_modes", "expected_options"), [
     (["pedestrian"], ["pedestrian"], _PEDESTRIAN_LANE_OPTIONS),
     (["bicycle"], ["bicycle"], ["--osm.bike-access"]),
@@ -2040,28 +2132,27 @@ def test_multimodal_profile_adds_only_lane_options_for_the_requested_modes(
         encoding="utf-8",
     )
     calls: list[list[str]] = []
-
-    def fake_runner(command: list[str], *, cwd: Path, timeout_seconds: float) -> CommandResult:
-        calls.append(command)
-        output = cwd / command[command.index("--output-file") + 1]
-        output.write_text("<net/>", encoding="utf-8")
-        return CommandResult(command=command, cwd=str(cwd), status="pass", returncode=0)
-
     common = {"bbox": "13.6000,50.9800,13.9000,51.1500", "prefix": "demo", "source_osm_path": source,
-              "allowed_highways": {"primary"}, "command_runner": fake_runner}
+              "allowed_highways": {"primary"}, "command_runner": _signal_reference_runner(calls, "<nodes/>")}
     build_osm_network(output_dir=tmp_path / "vehicle", **common)
     report = build_osm_network(output_dir=tmp_path / "multimodal", netconvert_profile="multimodal",
                                multimodal_modes=modes, **common)
 
-    vehicle_command, command = calls
+    vehicle_command, reference_command, command = calls
     assert report["status"] == "pass"
     assert report["netconvert_profile"] == "multimodal"
     assert report["netconvert_profile_options"] == expected_options
     assert report["netconvert_multimodal_modes"] == expected_modes
     manifest = json.loads(Path(report["build_manifest_file"]).read_text(encoding="utf-8"))
     assert manifest["netconvert"]["multimodal_modes"] == expected_modes
-    # Only the lane options differ from vehicle_core: no extra --tls.* option, turnarounds stay off, no type maps.
-    assert [option for option in command if option not in expected_options] == vehicle_command
+    # Only the lane options differ from vehicle_core, and the signal groups come from the vehicle-road reference
+    # build (no joined signal here, so no node file): turnarounds stay off, no type maps.
+    tls_join = ["--tls.join", "--tls.join-dist", "35"]
+    assert [option for option in command if option not in expected_options] == [
+        option for option in vehicle_command if option not in tls_join]
+    assert "--plain-output-prefix" in reference_command and reference_command[-3:] == tls_join
+    assert report["netconvert_signal_grouping"]["status"] == "no_effect"
+    assert report["netconvert_signal_grouping"]["reason"] == "no_joined_vehicle_signals"
     assert not [option for option in report["netconvert_profile_options"]
                 if option.startswith(("--tls.", "--sidewalks.guess"))]
     assert "--no-turnarounds" in command

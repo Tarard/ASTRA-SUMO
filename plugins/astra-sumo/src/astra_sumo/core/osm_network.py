@@ -741,10 +741,10 @@ def _merge_type_file_options(*options: list[str]) -> list[str]:
 
 
 MULTIMODAL_NETCONVERT_PROFILE = "multimodal"
-# Lanes only: no --tls.* option beyond the base command (no signal guessing or rebuild), although crossings and
-# bike links still change the programs and grouping netconvert generates. No --sidewalks.guess* (they duplicate
-# separately mapped sidewalks) and no type maps (the Pedestrians map removes pedestrian access from untagged roads,
-# the Bicycle map creates compound "cycleway.lane|highway.x" types).
+# Lanes only: no signal guessing or rebuild, although crossings and bike links still change the programs netconvert
+# generates. The signal groups come from a vehicle-road build (_vehicle_signal_groups), not from --tls.join on the
+# master. No --sidewalks.guess* (they duplicate separately mapped sidewalks) and no type maps (the Pedestrians map
+# removes pedestrian access from untagged roads, the Bicycle map creates compound "cycleway.lane|highway.x" types).
 MULTIMODAL_MODE_OPTIONS = {
     "bicycle": ("--osm.bike-access",),
     "pedestrian": ("--osm.sidewalks", "--osm.crossings", "--crossings.guess", "--walkingareas"),
@@ -791,6 +791,86 @@ def _netconvert_profile_options(profile: str | None, multimodal_modes: str | Ite
             "actuated",
         ]
     raise ValueError(f"unsupported netconvert_profile: {profile}")
+
+
+def _vehicle_signal_groups(
+    *,
+    filtered_osm: Path,
+    root: Path,
+    work_dir: Path,
+    allowed_highways: set[str],
+    tls_join_distance_m: float,
+    input_options: list[str],
+    include_railway: bool,
+    allowed_railways: set[str] | None,
+    netconvert_binary: str,
+    command_runner: Callable[..., Any],
+    timeout_seconds: float,
+) -> dict[str, Any]:
+    """Signal groups of a vehicle-road build of the same input, as a node file for the multimodal master.
+
+    netconvert's --tls.join clusters signals across short edges of any class. In a multimodal build the short
+    footway, cycleway and crossing segments link neighbouring junctions, so whole blocks become one controller
+    (Dresden Neustadt: 17 junctions, 612 s cycle, where the vehicle-road build has separate 90 s controllers). The
+    vehicle-road build runs the same join on the vehicle highways only; every node whose controller id differs from
+    its own id gets that id in the node file, which the master loads instead of --tls.join.
+    """
+    from .road_scope import HIGHWAY_CLASS_PRESETS
+
+    highways = sorted(set(allowed_highways) & HIGHWAY_CLASS_PRESETS["full_vehicle"])
+    report: dict[str, Any] = {"source": "vehicle_reference_build", "reference_highways": highways,
+                              "tls_join_distance_m": tls_join_distance_m, "node_file": None}
+    if not highways:
+        return {**report, "status": "no_effect", "reason": "no_vehicle_highways"}
+    reference_osm = work_dir / "vehicle_reference.osm.xml.gz"
+    plain_prefix = work_dir / "vehicle_reference"
+    filter_osm_by_highways(filtered_osm, reference_osm, set(highways), include_railway=include_railway,
+                           allowed_railways=allowed_railways)
+    command = [netconvert_binary, "--osm-files", _relative_to_root(reference_osm, root),
+               "--plain-output-prefix", _relative_to_root(plain_prefix, root), *input_options,
+               "--no-internal-links", "--tls.join", "--tls.join-dist", f"{tls_join_distance_m:g}"]
+    result = _result_to_dict(command_runner(command, cwd=root, timeout_seconds=timeout_seconds))
+    report.update(reference_osm={"path": str(reference_osm.resolve()), "sha256": _file_sha256(reference_osm)},
+                  command=command, returncode=result.get("returncode"))
+    plain_nodes = Path(f"{plain_prefix}.nod.xml")
+    controllers: dict[str, list[tuple[str, str]]] = {}
+    try:
+        if result.get("status") != "pass" or not plain_nodes.is_file():
+            raise ET.ParseError("no plain node output")
+        for _, element in ET.iterparse(plain_nodes):
+            if element.tag == "node" and element.get("tl"):
+                controllers.setdefault(element.get("tl"), []).append(
+                    (element.get("id"), element.get("type") or "traffic_light"))
+    except ET.ParseError:
+        return {**report, "status": "blocked", "reason": "vehicle_signal_reference_build_failed"}
+    source_nodes = set()
+    with _open_xml(reference_osm, "rt") as handle:
+        for _, element in ET.iterparse(handle):
+            if element.tag == "node":
+                source_nodes.add(element.get("id"))
+                element.clear()
+    patched, skipped = [], []
+    for tl_id, members in sorted(controllers.items()):
+        if all(node_id == tl_id for node_id, _ in members):
+            continue
+        missing = sorted(node_id for node_id, _ in members if node_id not in source_nodes)
+        if missing or "," in tl_id:
+            skipped.append({"tl": tl_id, "reason": "node_not_in_source_osm" if missing else "node_has_several_controllers",
+                            "nodes": missing or [node_id for node_id, _ in members]})
+            continue
+        patched.extend((node_id, node_type, tl_id) for node_id, node_type in members)
+    report.update(controller_count=len(controllers), joined_controller_count=len({tl for _, _, tl in patched}),
+                  patched_node_count=len(patched), skipped_controllers=skipped)
+    if not patched:
+        return {**report, "status": "no_effect", "reason": "no_joined_vehicle_signals"}
+    nodes = ET.Element("nodes")
+    for node_id, node_type, tl_id in patched:
+        ET.SubElement(nodes, "node", {"id": node_id, "type": node_type, "tl": tl_id})
+    ET.indent(nodes)
+    node_file = work_dir / "vehicle_signal_groups.nod.xml"
+    node_file.write_bytes(ET.tostring(nodes, encoding="utf-8", xml_declaration=True))
+    return {**report, "status": "measured", "node_file": str(node_file.resolve()),
+            "node_file_sha256": _file_sha256(node_file)}
 
 
 def _normalized_netconvert_profile(profile: str | None) -> str:
@@ -1004,6 +1084,24 @@ def build_osm_network(
             path = Path(filename)
             path = path if path.is_absolute() else root / path
             type_map_inputs.append({"path": str(path.resolve()), "sha256": _file_sha256(path)})
+        geo_boundary_options = (["--keep-edges.in-geo-boundary", parsed_geo_boundary]
+                                if parsed_geo_boundary is not None else [])
+        tls_join_options = ["--tls.join", "--tls.join-dist", f"{tls_join_distance_m:g}"]
+        signal_grouping: dict[str, Any] | None = None
+        signal_warnings: list[str] = []
+        if normalized_profile == MULTIMODAL_NETCONVERT_PROFILE:
+            signal_grouping = _vehicle_signal_groups(
+                filtered_osm=filtered_osm, root=root, work_dir=logs_dir / f"{prefix}_signal_groups",
+                allowed_highways=allowed, tls_join_distance_m=tls_join_distance_m,
+                input_options=["--proj.utm", *traffic_side_options, *type_options, *geo_boundary_options],
+                include_railway=include_railway, allowed_railways=allowed_railways,
+                netconvert_binary=netconvert_binary, command_runner=command_runner, timeout_seconds=timeout_seconds)
+            if signal_grouping["status"] == "blocked":
+                signal_warnings.append("The vehicle-road signal reference build failed; netconvert joined the "
+                                       "multimodal signals across every road class instead.")
+            else:
+                node_file = signal_grouping["node_file"]
+                tls_join_options = [] if node_file is None else ["--node-files", _relative_to_root(Path(node_file), root)]
         from .local_network_conversion import with_geometry_precision
 
         command = with_geometry_precision([
@@ -1019,17 +1117,11 @@ def build_osm_network(
             *turnaround_options,
             "--osm.all-attributes",
             OSM_ORIGINAL_NAME_OUTPUT_OPTION,
-            "--tls.join",
-            "--tls.join-dist",
-            f"{tls_join_distance_m:g}",
+            *tls_join_options,
             *type_options,
             *profile_options,
             *([] if output_precision is None else ["--precision", str(output_precision)]),
-            *(
-                ["--keep-edges.in-geo-boundary", parsed_geo_boundary]
-                if parsed_geo_boundary is not None
-                else []
-            ),
+            *geo_boundary_options,
             "--verbose",
         ])
         effective_precision = int(command[command.index("--precision") + 1])
@@ -1082,6 +1174,15 @@ def build_osm_network(
                     f"netconvert_profile={normalized_profile}",
                     "netconvert_profile_options=" + " ".join(profile_options),
                     "multimodal_modes=" + ",".join(resolved_multimodal_modes),
+                    *(
+                        [
+                            f"signal_grouping={signal_grouping['status']}",
+                            "signal_grouping_command=" + " ".join(signal_grouping.get("command", [])),
+                            f"signal_grouping_node_file={signal_grouping['node_file'] or ''}",
+                        ]
+                        if signal_grouping is not None
+                        else []
+                    ),
                     "netconvert_type_options=" + " ".join(type_options),
                     "netconvert_output_original_names_requested=true",
                     "netconvert_output_original_names_option="
@@ -1137,7 +1238,7 @@ def build_osm_network(
         )
 
     status = "pass" if result.get("status") == "pass" and tls_cleanup["status"] == "pass" and net_file.exists() and access_correction["status"] != "blocked" else "fail"
-    warnings = list(type_warnings)
+    warnings = [*type_warnings, *signal_warnings]
     review_reason = None
     reverted = (access_correction.get("added_class_movements") or {}).get("reverted_by_class") or {}
     if reverted:
@@ -1206,6 +1307,7 @@ def build_osm_network(
             "profile": normalized_profile,
             "profile_options": profile_options,
             "multimodal_modes": resolved_multimodal_modes,
+            **({"signal_grouping": signal_grouping} if signal_grouping is not None else {}),
             "type_options": type_options,
             "type_map_inputs": type_map_inputs,
             "output_original_names": origin_name_output,
@@ -1267,6 +1369,7 @@ def build_osm_network(
         "netconvert_precision": effective_precision,
         "netconvert_profile_options": profile_options,
         "netconvert_multimodal_modes": resolved_multimodal_modes,
+        **({"netconvert_signal_grouping": signal_grouping} if signal_grouping is not None else {}),
         "netconvert_type_map_inputs": type_map_inputs,
         "netconvert_output_original_names": origin_name_output,
         "osm_access_correction": access_correction,

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic test fixture: two signalised crossroads 26 m apart (one joined controller on the vehicle roads) and two
+     mid-road crossing signals 20 m apart with a cycleway at each (two controllers on the vehicle roads; with the
+     cycleways netconvert's tls.join no longer sees them as crossings only and joins them). -->
+<osm version="0.6">
+  <bounds minlat="47.9990" minlon="10.9975" maxlat="48.0010" maxlon="11.0030"/>
+  <node id="1" lat="48.0000" lon="10.9980"/>
+  <node id="2" lat="48.0000" lon="10.9990"><tag k="highway" v="traffic_signals"/></node>
+  <node id="3" lat="48.0000" lon="10.99935"><tag k="highway" v="traffic_signals"/></node>
+  <node id="4" lat="48.0000" lon="11.0010"><tag k="highway" v="traffic_signals"/><tag k="crossing" v="traffic_signals"/></node>
+  <node id="5" lat="48.0000" lon="11.00127"><tag k="highway" v="traffic_signals"/><tag k="crossing" v="traffic_signals"/></node>
+  <node id="6" lat="48.0000" lon="11.0025"/>
+  <node id="11" lat="48.0006" lon="10.9990"/>
+  <node id="12" lat="47.9994" lon="10.9990"/>
+  <node id="13" lat="48.0006" lon="10.99935"/>
+  <node id="14" lat="47.9994" lon="10.99935"/>
+  <node id="21" lat="48.0006" lon="11.0010"/>
+  <node id="22" lat="47.9994" lon="11.00127"/>
+  <way id="100">
+    <nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="4"/><nd ref="5"/><nd ref="6"/>
+    <tag k="highway" v="secondary"/>
+  </way>
+  <way id="101"><nd ref="11"/><nd ref="2"/><nd ref="12"/><tag k="highway" v="residential"/></way>
+  <way id="102"><nd ref="13"/><nd ref="3"/><nd ref="14"/><tag k="highway" v="residential"/></way>
+  <way id="200"><nd ref="4"/><nd ref="21"/><tag k="highway" v="cycleway"/></way>
+  <way id="201"><nd ref="5"/><nd ref="22"/><tag k="highway" v="cycleway"/></way>
+</osm>
