@@ -304,6 +304,31 @@ def test_failed_native_attempts_keep_partial_files_without_a_candidate(tmp_path,
     assert file_sha256(source) == digest
 
 
+@pytest.mark.parametrize("output", [b"", b"<net><edge id='a'/>", b"<net/><net/>", b"<routes><vehicle id='v'/></routes>"])
+def test_native_output_check_reports_what_a_whole_document_parse_reports(tmp_path, monkeypatch, output):
+    from astra_sumo.core import road_hierarchy
+    from astra_sumo.core.command_runner import CommandResult
+    source, keep, folder = tmp_path / "source.net.xml", tmp_path / "keep.txt", tmp_path / "out"
+    ET.ElementTree(_network()).write(source, encoding="utf-8")
+    keep.write_text("main-a\n", encoding="utf-8")
+    folder.mkdir()
+
+    def native(command, **kwargs):
+        Path(command[command.index("--output-file") + 1]).write_bytes(output)
+        return CommandResult(command=command, cwd=str(kwargs["cwd"]), status="pass", returncode=0)
+
+    monkeypatch.setattr(road_hierarchy, "run_command", native)
+    conversion = road_hierarchy.keep_selected_edges_natively(source, folder, keep, tmp_path / "candidate.net.xml")
+    try:
+        expected = None if ET.fromstring(output).tag == "net" else "Native output root is not a SUMO network."
+    except ET.ParseError as error:
+        expected = str(error)
+    assert expected and conversion["attempts"][0]["output"]["status"] == "invalid_native_output"
+    assert conversion["attempts"][0]["output"]["error"] == expected
+    assert not (tmp_path / "candidate.net.xml").exists()
+    (folder / "preload-proposal.net.xml").unlink()  # The streamed check left no open handle.
+
+
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
 def test_native_ring1_road_selection(tmp_path):
     fixture_dir = Path(__file__).parents[1] / "benchmarks/hamburg_ring1_road_scope_20261020_v1"

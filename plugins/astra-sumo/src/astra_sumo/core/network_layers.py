@@ -426,8 +426,9 @@ def derive_network_layer(master_net_file: Path | str, output_dir: Path | str, la
     if output.exists() or source.is_relative_to(output):
         raise ValueError("Use a new output directory separate from the master network.")
     master_hash = file_sha256(source)
-    master = _net_inventory(source)
-    selection = _layer_selection(master, layer)
+    # The master inventory is read again for the identity checks instead of being held while the signal
+    # cleanup, the permission preparation and netconvert run on a city-sized master.
+    selection = _layer_selection(_net_inventory(source), layer)
     output.mkdir(parents=True)
     kept_file, removed_file = output / "kept-edges.txt", output / "removed-edges.txt"
     kept_file.write_text("".join(f"{edge_id}\n" for edge_id in selection["kept_edge_ids"]), encoding="utf-8")
@@ -461,7 +462,8 @@ def derive_network_layer(master_net_file: Path | str, output_dir: Path | str, la
                 report.update(reason="native_layer_conversion_failed",
                               identity={"status": "blocked", "reason": "native_layer_conversion_failed"})
             else:
-                identity = _layer_identity(master, _net_inventory(candidate), set(selection["kept_edge_ids"]))
+                identity = _layer_identity(_net_inventory(source), _net_inventory(candidate),
+                                           set(selection["kept_edge_ids"]))
                 load = run_sumo_load_audit(net_file=candidate, output_dir=output / "sumo-load",
                                            sumo_binary=str(sumo_binary), timeout_seconds=timeout_seconds)
                 report.update(net_file=str(candidate), sha256=file_sha256(candidate), identity=identity, sumo_load=load)

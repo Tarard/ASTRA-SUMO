@@ -1,15 +1,19 @@
 """Extract a native conversion input and merge its declared repair into a source."""
 
+from array import array
 from copy import deepcopy
 from hashlib import sha256
+import heapq
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
 from .candidate_contracts import file_sha256
 from .internal_ownership import resolve_internal_ownership
+from .xml_stream import DirectChildren, read_blocks
 
 
 DEFAULT_GEOMETRY_PRECISION = 6
+_INTERNAL_EDGE_FUNCTIONS = {"internal", "crossing", "walkingarea"}
 
 
 def with_geometry_precision(command):
@@ -32,7 +36,7 @@ def loaded_turn_permissions(root):
             identity = lane.get("id")
             lanes[identity] = _permission_set(lane.attrib, network_version=version)
             keys[(edge.get("id"), str(ordinal))] = identity
-            if edge.get("function") in {"internal", "crossing", "walkingarea"} or edge.get("id", "").startswith(":"):
+            if edge.get("function") in _INTERNAL_EDGE_FUNCTIONS or edge.get("id", "").startswith(":"):
                 internal.add(identity)
     outgoing = defaultdict(list)
     movements = []
@@ -83,37 +87,277 @@ def with_loaded_turn_permissions(root):
                      for edge, index in (key[:2], key[2:]))
         declared = _permission_set(row.attrib, network_version=version).intersection(*endpoints)
         if declared != permissions[key]:
-            # netconvert reads directives, whereas SUMO loads the internal lane permissions.
-            row.attrib.pop("allow", None)
-            row.attrib.pop("disallow", None)
-            if permissions[key]:
-                row.set("allow", " ".join(sorted(permissions[key])))
-            else:
-                row.set("disallow", "all")
+            _declare_loaded_permissions(row, permissions[key])
     return result
 
 
-def prepare_permission_preserving_input(source_file, prepared_file):
-    """Bind a separate native input to loaded permissions, without blocking repairs of invalid sources."""
+def _loaded_permission_attributes(allowed):
+    return {"allow": " ".join(sorted(allowed))} if allowed else {"disallow": "all"}
+
+
+def _declare_loaded_permissions(row, allowed):
+    # netconvert reads directives, whereas SUMO loads the internal lane permissions.
+    row.attrib.pop("allow", None)
+    row.attrib.pop("disallow", None)
+    row.attrib.update(_loaded_permission_attributes(allowed))
+
+
+class _StreamedTurns:
+    """The lanes and connections ``with_loaded_turn_permissions`` reads, kept as numbers for a streamed network.
+
+    Each lane id has a number with the permission declaration of the last lane carrying the id and whether any
+    such lane is internal. Each edge id keeps its lane elements by ordinal, the last edge with the id winning per
+    ordinal. Declarations are numbered, so a city network holds integers and a few shared sets instead of a tree.
+    A connection names a lane by its edge and the ordinal spelled as a plain integer, as in the tree version.
+    """
+
+    def __init__(self):
+        self.declarations = {}
+        self.lane_numbers = {}
+        self.lane_declaration, self.lane_internal = array("i"), bytearray()
+        self.edge_lanes = {}
+        self.element_lane, self.element_declaration = array("i"), array("i")
+        self.clear_connections()
+
+    def clear_connections(self):
+        # The first successor of each internal lane; later ones in document order go to more_successors.
+        self.next_target = self.next_through = None
+        self.more_successors = {}
+        self.movements, self.respelled = [], []
+        self.unknown_endpoint, self.ordinal_error = False, None
+
+    def _declaration(self, row):
+        key = (row.get("allow"), row.get("disallow"))
+        return self.declarations.setdefault(key, len(self.declarations))
+
+    def add_edge(self, edge):
+        internal = edge.get("function") in _INTERNAL_EDGE_FUNCTIONS or edge.get("id", "").startswith(":")
+        positions = self.edge_lanes.setdefault(edge.get("id"), [])
+        for ordinal, lane in enumerate(edge.findall("lane")):
+            declaration, lane_id, number = self._declaration(lane), lane.get("id"), -1
+            if lane_id is not None:
+                number = self.lane_numbers.setdefault(lane_id, len(self.lane_numbers))
+                if number == len(self.lane_declaration):
+                    self.lane_declaration.append(declaration)
+                    self.lane_internal.append(internal)
+                else:
+                    self.lane_declaration[number] = declaration
+                    self.lane_internal[number] |= internal
+            if ordinal == len(positions):
+                positions.append(len(self.element_lane))
+            else:
+                positions[ordinal] = len(self.element_lane)
+            self.element_lane.append(number)
+            self.element_declaration.append(declaration)
+
+    def _element(self, edge_id, ordinal):
+        positions = self.edge_lanes.get(edge_id)
+        return positions[ordinal] if positions is not None and 0 <= ordinal < len(positions) else -1
+
+    def _spelled_element(self, edge_id, spelled):
+        try:
+            ordinal = int(spelled)
+        except (TypeError, ValueError):
+            return -1
+        return self._element(edge_id, ordinal) if str(ordinal) == spelled else -1
+
+    def add_connection(self, row, index):
+        """Record connection ``index`` (its position among the connections) once every edge has been added."""
+        if self.next_target is None:
+            self.next_target = array("i", [-1]) * len(self.lane_numbers)
+            self.next_through = array("i", [-1]) * len(self.lane_numbers)
+        first_element = self._spelled_element(row.get("from"), row.get("fromLane"))
+        last_element = self._spelled_element(row.get("to"), row.get("toLane"))
+        first = self.element_lane[first_element] if first_element >= 0 else -1
+        last = self.element_lane[last_element] if last_element >= 0 else -1
+        via = row.get("via")
+        if first < 0 or last < 0:
+            self.unknown_endpoint |= bool(via)
+        else:
+            # -1 names a via lane that does not exist.
+            through = self.lane_numbers.get(via, -1) if via else last
+            if self.lane_internal[first]:
+                if self.next_target[first] < 0:
+                    self.next_target[first], self.next_through[first] = last, through
+                else:
+                    self.more_successors.setdefault(first, []).append((last, through))
+            elif not self.lane_internal[last]:
+                self.movements.append((index, first_element, last_element, self._declaration(row), first, last, through))
+                return
+        try:
+            ordinals = int(row.get("fromLane", "-1")), int(row.get("toLane", "-1"))
+        except ValueError as error:
+            self.ordinal_error = self.ordinal_error or (index, error)
+            return
+        if (str(ordinals[0]), str(ordinals[1])) != (row.get("fromLane"), row.get("toLane")):
+            # Another spelling of a lane ordinal can share the integer key of a movement and is bound with it.
+            first_element, last_element = self._element(row.get("from"), ordinals[0]), self._element(row.get("to"), ordinals[1])
+            if first_element >= 0 and last_element >= 0:
+                self.respelled.append((index, first_element, last_element, self._declaration(row)))
+
+    def _successors(self, lane, target):
+        if self.next_target[lane] == target:
+            yield self.next_through[lane]
+        yield from (through for last, through in self.more_successors.get(lane, ()) if last == target)
+
+    def reconciliations(self, version):
+        """Return the loaded classes ``with_loaded_turn_permissions`` declares, by connection index, and whether
+        any declaration changes.
+
+        Errors are raised as the tree versions raise them, in the same order.
+        """
+        from .osm_access import _permission_set
+        keys = {number: key for key, number in self.declarations.items()}
+
+        def attributes(number):
+            return {name: value for name, value in zip(("allow", "disallow"), keys[number]) if value is not None}
+
+        def classes(number):
+            return frozenset(_permission_set(attributes(number), network_version=version))
+
+        sets, shared = {}, {}
+        for number in self.element_declaration:  # in document order, so the first invalid declaration raises
+            if number not in sets:
+                sets[number] = classes(number)
+        if self.unknown_endpoint:
+            raise ValueError("A loaded movement references an unknown endpoint lane.")
+
+        def lane_classes(number):
+            return sets[self.lane_declaration[number]]
+
+        permissions = {}
+        for _, first_element, last_element, _, first, last, through in self.movements:
+            pending, seen, allowed = [(through, lane_classes(first) & lane_classes(last))], {}, set()
+            while pending:
+                current, modes = pending.pop()
+                if current < 0:
+                    raise ValueError("A loaded movement references an unknown internal lane.")
+                modes = (modes & lane_classes(current)) - seen.get(current, frozenset())
+                if not modes:
+                    continue
+                seen.setdefault(current, set()).update(modes)
+                if current == last:
+                    allowed.update(modes)
+                elif self.lane_internal[current]:
+                    pending.extend((following, modes) for following in self._successors(current, last))
+            allowed = frozenset(allowed)
+            permissions[(first_element, last_element)] = shared.setdefault(allowed, allowed)
+        rewrites, changed = {}, False
+        candidates = heapq.merge((row[:4] for row in self.movements), self.respelled)
+        for index, first_element, last_element, declaration in candidates:
+            if self.ordinal_error and self.ordinal_error[0] < index:
+                raise self.ordinal_error[1]
+            allowed = permissions.get((first_element, last_element))
+            if allowed is None:
+                continue
+            if declaration not in sets:
+                sets[declaration] = classes(declaration)
+            endpoints = sets[self.element_declaration[first_element]] & sets[self.element_declaration[last_element]]
+            if sets[declaration] & endpoints != allowed:
+                rewrites[index] = allowed
+                changed |= attributes(declaration) != _loaded_permission_attributes(allowed)
+        if self.ordinal_error:
+            raise self.ordinal_error[1]
+        return rewrites, changed
+
+
+def _streamed_reconciliations(source):
+    """Stream ``source`` once, or twice when an edge follows a connection, and return its loaded-permission rewrites."""
+    turns = _StreamedTurns()
+    connections, edge_after_connection = 0, False
+    with source.open("rb") as handle:
+        stream = DirectChildren(read_blocks(handle))
+        for element in stream:
+            if element.tag == "edge":
+                edge_after_connection |= connections > 0
+                turns.add_edge(element)
+            elif element.tag == "connection":
+                if not edge_after_connection:
+                    turns.add_connection(element, connections)
+                connections += 1
+    if edge_after_connection:
+        # The tree version resolves connections against every edge.
+        turns.clear_connections()
+        connections = 0
+        with source.open("rb") as handle:
+            for element in DirectChildren(read_blocks(handle)):
+                if element.tag == "connection":
+                    turns.add_connection(element, connections)
+                    connections += 1
+    version = stream.root.get("version", "0.0")
+    return (*turns.reconciliations(version), version)
+
+
+def _root_tags(root):
+    """The start tag with the text before the first child, and the end tag, that ET.tostring writes for ``root``."""
+    head = ET.Element(root.tag, root.attrib)
+    head.text = root.text
+    serialized = ET.tostring(head, encoding="utf-8", short_empty_elements=False)
+    split = serialized.rindex(b"</")
+    return serialized[:split], serialized[split:]
+
+
+def _write_permission_input(source, destination, rewrites, version):
+    """Write ``source`` with the rewritten connections exactly as ``ET.tostring`` writes the prepared tree.
+
+    Each top-level element is written when it is complete. ElementTree declares the namespaces of the whole tree
+    on its root, so a network whose top-level elements use namespaces is written as one tree.
+    """
     from .osm_access import _permission_attributes, _permission_set
+    changes = []
+
+    def declare(row, allowed):
+        before = _permission_attributes(row)
+        _declare_loaded_permissions(row, allowed)
+        if before != _permission_attributes(row):
+            changes.append({"connection": {key: row.get(key) for key in ("from", "fromLane", "to", "toLane")},
+                            "before": before, "after": _permission_attributes(row),
+                            "loaded_classes": sorted(_permission_set(row.attrib, network_version=version))})
+
+    with destination.open("xb") as handle, source.open("rb") as original:
+        stream = DirectChildren(read_blocks(original))
+        tags, index = None, 0
+        for element in stream:
+            if any(name[:1] == "{" for node in element.iter() for name in (node.tag, *node.keys())):
+                break
+            if tags is None:
+                tags = _root_tags(stream.root)
+                handle.write(b"<?xml version='1.0' encoding='utf-8'?>\n" + tags[0])
+            if element.tag == "connection":
+                if index in rewrites:
+                    declare(element, rewrites[index])
+                index += 1
+            handle.write(ET.tostring(element, encoding="utf-8"))
+        else:
+            handle.write(tags[1])
+            return changes
+        changes.clear()
+        handle.seek(0)
+        handle.truncate()
+        root = ET.parse(source).getroot()
+        for index, row in enumerate(root.findall("connection")):
+            if index in rewrites:
+                declare(row, rewrites[index])
+        handle.write(ET.tostring(root, encoding="utf-8", xml_declaration=True))
+    return changes
+
+
+def prepare_permission_preserving_input(source_file, prepared_file):
+    """Bind a separate native input to loaded permissions, without blocking repairs of invalid sources.
+
+    The source is streamed. The prepared input is written only when a connection declaration changes, with the
+    bytes ``ET.tostring`` writes for ``with_loaded_turn_permissions`` of the whole tree.
+    """
     source = Path(source_file).resolve(strict=True)
-    original = source.read_bytes()
-    identity = {"path": str(source), "sha256": sha256(original).hexdigest()}
+    identity = {"path": str(source), "sha256": file_sha256(source)}
     record = {**identity, "source": dict(identity), "preparation": "unchanged", "reconciled_connections": []}
     try:
-        root = ET.fromstring(original)
-        prepared = with_loaded_turn_permissions(root)
+        rewrites, changed, version = _streamed_reconciliations(source)
     except (ET.ParseError, ValueError) as error:
         return {**record, "preparation": "unavailable", "warning": str(error)}
-    changes = [{"connection": {key: before.get(key) for key in ("from", "fromLane", "to", "toLane")},
-                "before": _permission_attributes(before), "after": _permission_attributes(after),
-                "loaded_classes": sorted(_permission_set(after.attrib, network_version=root.get("version", "0.0")))}
-               for before, after in zip(root.findall("connection"), prepared.findall("connection"))
-               if _permission_attributes(before) != _permission_attributes(after)]
-    if changes:
+    if changed:
         destination = Path(prepared_file).resolve()
-        with destination.open("xb") as stream:
-            stream.write(ET.tostring(prepared, encoding="utf-8", xml_declaration=True))
+        changes = _write_permission_input(source, destination, rewrites, version)
         record.update(path=str(destination), sha256=file_sha256(destination),
                       preparation="reconciled", reconciled_connections=changes)
     return record

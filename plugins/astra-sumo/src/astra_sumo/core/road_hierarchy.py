@@ -18,6 +18,7 @@ from .network_geometry_freeze import compare_frozen_geometry
 from .road_scope import ROAD_HIERARCHY_TIERS, road_hierarchy_tier
 from .sumo_commands import run_sumo_load_audit
 from .tls_reference_cleanup import build_tls_reference_cleanup_variant
+from .xml_stream import DirectChildren, read_blocks
 
 
 def _network(root, vehicle_class):
@@ -364,7 +365,12 @@ def keep_selected_edges_natively(source, output, keep_file, candidate, *, netcon
             "status": "complete" if successful else "incomplete_native_output"}
         if successful:
             try:
-                if ET.parse(proposal).getroot().tag != "net":
+                # A streamed parse checks a city-sized output without building its tree.
+                with proposal.open("rb") as handle:
+                    stream = DirectChildren(read_blocks(handle))
+                    for _ in stream:
+                        pass
+                if stream.root.tag != "net":
                     raise ValueError("Native output root is not a SUMO network.")
             except (ET.ParseError, ValueError) as error:
                 successful = False
