@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import Counter
 import csv
 import gzip
 import hashlib
@@ -1137,17 +1138,32 @@ def build_osm_network(
 
     status = "pass" if result.get("status") == "pass" and tls_cleanup["status"] == "pass" and net_file.exists() and access_correction["status"] != "blocked" else "fail"
     warnings = list(type_warnings)
-    if status == "pass" and access_correction.get("connectivity_review_required"):
+    review_reason = None
+    reverted = (access_correction.get("added_class_movements") or {}).get("reverted_by_class") or {}
+    if reverted:
+        warnings.append("OSM access correction reverted lane-class additions without a loaded movement: "
+                        + ", ".join(f"{name} {count}" for name, count in reverted.items()) + ".")
+    if status == "pass" and access_correction.get("status") == "review_required":
         status = "review_required"
-        warnings.append("Newly allowed vehicle classes require a separate connectivity review.")
+        if access_correction.get("connectivity_review_required"):
+            review_reason = "newly_allowed_modes_require_connectivity_review"
+            warnings.append("Newly allowed vehicle classes without a loaded movement could not be reverted.")
+        else:
+            review_reason = "osm_access_findings_open"
+            open_reasons = Counter(finding.get("reason", "unknown") for row in access_correction.get("review", [])
+                                   for finding in row.get("findings", [row]))
+            warnings.append("OSM access correction left findings open: "
+                            + ", ".join(f"{name} {count}" for name, count in sorted(open_reasons.items())) + ".")
     claim_status = "diagnostic-demo" if status in {"pass", "review_required"} else "construction-invalid"
     if not net_file.exists():
         warnings.append(f"net file was not created: {net_file}")
     origin_name_output = _origin_name_output_summary(net_file)
+    review_fields = {"reason": review_reason} if review_reason else {}
     build_manifest = {
         "schema": OSM_BUILD_PROVENANCE_SCHEMA,
         "status": status,
         "claim_status": claim_status,
+        **review_fields,
         "build_scope": {
             "bbox": bbox,
             "geo_boundary": parsed_geo_boundary,
@@ -1222,6 +1238,7 @@ def build_osm_network(
     return {
         "status": status,
         "claim_status": claim_status,
+        **review_fields,
         "bbox": bbox,
         "geo_boundary": parsed_geo_boundary,
         "tls_join_distance_m": tls_join_distance_m,

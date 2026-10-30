@@ -54,8 +54,12 @@ def test_real_delivery_only_conditions_do_not_grant_general_motor_access(way_id,
     modes = set(result["attributes"]["allow"].split())
     assert not modes & {"passenger", "private", "delivery"}, way_id
     assert {"bus", "taxi", "pedestrian"} <= modes
-    assert result["status"] == "review_required"
-    assert any(row.get("key") == "motor_vehicle:conditional" for row in result["review"])
+    assert result["status"] == "pass" and result["review"] == []
+    assert any(row.get("key") == "motor_vehicle:conditional" and row["rule"] == "delivery_only_conditional"
+               and row["reason"] == "static_no_preserved_without_delivery_purpose_grant" for row in result["decisions"])
+    if extra.get("bicycle") == "use_sidepath":
+        assert "bicycle" in modes
+        assert any(row["mode"] == "bicycle" and row["reason"] == "use_sidepath_kept_native" for row in result["decisions"])
 
 
 @pytest.mark.parametrize("conditional", ["yes @ (Mo-Fr)", "destination @ (Mo-Fr)", "delivery @ (Mo-Fr); yes @ (Sa)", "delivery @ (Mo-Fr"])
@@ -78,7 +82,95 @@ def test_specific_static_mode_overrules_broader_conditional(motorcar, allowed):
 def test_directional_rule_stays_local_to_the_affected_mode():
     result = resolve_static_osm_access({"vehicle": "no", "bus:forward": "yes"}, {"allow": "passenger bus bicycle pedestrian"})
     assert set(result["attributes"]["allow"].split()) == {"bus", "pedestrian"}
-    assert any(row.get("mode") == "bus" and row.get("key") == "bus:forward" for row in result["review"])
+    assert any(row.get("mode") == "bus" and row.get("key") == "bus:forward"
+               and row["reason"] == "directional_access_edge_direction_unknown" for row in result["review"])
+
+
+def _rule_rows(result, reason):
+    return [row for row in result["decisions"] if row.get("reason") == reason]
+
+
+@pytest.mark.parametrize("direction,bus_allowed", [("forward", True), ("backward", False)])
+def test_directional_access_applies_to_the_matching_edge_direction(direction, bus_allowed):
+    current = {"allow": "passenger bus bicycle pedestrian"}
+    result = resolve_static_osm_access({"vehicle": "no", "bus:forward": "yes"}, current, edge_direction=direction)
+    assert result["status"] == "pass" and result["review"] == []
+    assert ("bus" in result["attributes"]["allow"].split()) is bus_allowed
+    assert "passenger" not in result["attributes"]["allow"].split()
+    [row] = _rule_rows(result, "directional_access_applied")
+    assert row["mode"] == "bus" and row["applies_to_edge"] is bus_allowed and row["edge_direction"] == direction
+
+
+@pytest.mark.parametrize("tags", [{"vehicle": "no", "vehicle:backward": "no"}, {"vehicle": "no", "bicycle": "no", "bicycle:forward": "no"},
+                                  {"vehicle": "no", "foot": "designated", "foot:forward": "designated"}])
+def test_directional_value_equal_to_the_static_value_is_a_no_op(tags):
+    current = {"allow": "passenger bicycle pedestrian"}
+    unknown = resolve_static_osm_access(tags, current)
+    assert unknown["status"] == "pass" and _rule_rows(unknown, "directional_value_equals_static")
+    assert unknown["attributes"] == resolve_static_osm_access(tags, current, edge_direction="backward")["attributes"]
+
+
+@pytest.mark.parametrize("tags,reason,modes", [
+    ({"vehicle": "no", "bicycle": "yes", "bicycle:signed": "no"}, "signage_key_ignored", {"bicycle", "pedestrian"}),
+    ({"vehicle": "no", "vehicle:disabled": "yes"}, "user_group_without_sumo_class", {"pedestrian"}),
+    ({"motor_vehicle": "no", "motor_vehicle:conditional": "delivery"}, "malformed_conditional_delivery_only", {"bicycle", "pedestrian"}),
+])
+def test_suffix_keys_without_access_meaning_are_settled_by_rule(tags, reason, modes):
+    result = resolve_static_osm_access(tags, {"allow": "passenger delivery bicycle pedestrian"})
+    assert result["status"] == "pass" and result["review"] == []
+    assert _rule_rows(result, reason)
+    assert set(result["attributes"]["allow"].split()) == modes
+
+
+def test_unknown_value_falls_back_to_the_less_specific_key():
+    result = resolve_static_osm_access({"vehicle": "no", "bicycle": "unknown"}, {"allow": "passenger bicycle pedestrian"})
+    assert result["attributes"] == {"allow": "pedestrian"}
+    assert _rule_rows(result, "unknown_value_falls_back")[0]["key"] == "bicycle"
+    assert any(row["mode"] == "bicycle" and row["key"] == "vehicle" and row["allowed"] is False for row in result["decisions"])
+
+
+@pytest.mark.parametrize("value,reason", [
+    *[(value, "purpose_restriction_kept_native") for value in ("private", "permit", "destination", "customers", "delivery",
+                                                                 "agricultural;forestry", "residents")],
+    ("dismount", "dismount_kept_native"), ("use_sidepath", "use_sidepath_kept_native"), ("bus", "category_value_kept_native"),
+])
+@pytest.mark.parametrize("native", [{"allow": "passenger bicycle pedestrian"}, {"allow": "passenger"}])
+def test_purpose_and_category_values_never_widen_or_narrow(value, reason, native):
+    tags = {"motor_vehicle": "no", "foot": value, "bicycle": value}
+    result = resolve_static_osm_access(tags, native)
+    assert result["status"] == "pass" and result["review"] == []
+    before, after = set(native["allow"].split()), set(result["attributes"].get("allow", "").split())
+    for mode in ("bicycle", "pedestrian"):
+        assert (mode in after) is (mode in before)
+        [row] = [row for row in result["decisions"] if row["mode"] == mode]
+        assert row["reason"] == reason and row["value"] == value and row["allowed"] is (mode in before)
+
+
+@pytest.mark.parametrize("conditional,reason", [
+    ("yes @ (Mo-Fr)", "conditional_time_window_without_scenario_time"),
+    ("delivery @ (Mo-Fr); yes @ (Sa)", "conditional_time_window_without_scenario_time"),
+    ("delivery @ (Mo-Fr", "conditional_directional_or_lane_access_not_evaluated"),
+    ("yes", "conditional_directional_or_lane_access_not_evaluated"),
+])
+def test_time_windows_without_scenario_time_stay_open(conditional, reason):
+    result = resolve_static_osm_access({"motor_vehicle": "no", "motor_vehicle:conditional": conditional}, {"allow": "passenger bus"})
+    assert result["status"] == "review_required"
+    assert {row["reason"] for row in result["review"]} == {reason}
+    assert result["attributes"] == {"allow": "bus passenger"}
+
+
+def test_dedicated_lane_modes_stay_on_their_lane():
+    result = resolve_static_osm_access({"motor_vehicle": "no", "foot": "yes", "bicycle": "yes"}, {"disallow": "pedestrian bicycle"},
+                                       keep_modes={"pedestrian", "bicycle"})
+    assert set(result["attributes"]["disallow"].split()) >= {"pedestrian", "bicycle", "passenger"}
+    assert {row["mode"] for row in _rule_rows(result, "mode_kept_for_dedicated_lane")} == {"pedestrian", "bicycle"}
+
+
+@pytest.mark.parametrize("edge_id,direction", [("123", "forward"), ("123#2", "forward"), ("-123#0", "backward"),
+                                                ("-123", "backward"), ("1234#0", None), ("cluster_1_2", None)])
+def test_edge_direction_is_read_from_the_netconvert_edge_id(edge_id, direction):
+    from astra_sumo.core.osm_access import _edge_direction
+    assert _edge_direction(edge_id, "123") == direction
 
 
 def test_real_bus_roads_preserve_source_access_and_reject_delivery_and_bicycle(tmp_path):

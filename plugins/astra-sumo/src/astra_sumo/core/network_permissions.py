@@ -26,9 +26,13 @@ def _is_service_edge(edge: ET.Element) -> bool:
 
 
 def _add_passenger_to_lane(lane: ET.Element, *, network_version: str | None = None) -> bool:
-    from .osm_access import _permission_set
+    """Add passenger only to a lane that already carries a motorized class.
+
+    Sidewalks, bike lanes and lanes that ``motor_vehicle=no`` narrowed keep their permissions.
+    """
+    from .osm_access import _MOTOR_MODES, _permission_set
     allowed = _permission_set(lane.attrib, network_version=network_version)
-    if "passenger" in allowed:
+    if "passenger" in allowed or not allowed & _MOTOR_MODES:
         return False
     lane.set("allow", " ".join(sorted(allowed | {"passenger"})))
     lane.attrib.pop("disallow", None)

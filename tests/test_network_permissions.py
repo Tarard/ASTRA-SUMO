@@ -79,7 +79,8 @@ def test_service_candidate_preserves_legacy_connection_permissions(tmp_path, ver
     assert source.read_bytes() == original
 
 
-@pytest.mark.parametrize('attributes', [{'allow':'all'}, {'disallow':'all'}, {'allow':'bus bicycle'}, {'disallow':'passenger'}])
+@pytest.mark.parametrize('attributes', [{'allow':'all'}, {'allow':'bus bicycle'}, {'disallow':'passenger'},
+                                        {'allow':'pedestrian delivery bicycle'}])
 def test_permission_patch_adds_only_passenger(attributes):
     from astra_sumo.core.network_permissions import _add_passenger_to_lane
     lane=ET.Element('lane',attributes)
@@ -87,3 +88,22 @@ def test_permission_patch_adds_only_passenger(attributes):
     changed=_add_passenger_to_lane(lane)
     assert _permission_set(lane.attrib)==before|{'passenger'}
     assert changed==('passenger' not in before)
+
+
+@pytest.mark.parametrize('attributes', [{'allow':'pedestrian'}, {'allow':'bicycle pedestrian'}, {'allow':'bicycle scooter'},
+                                        {'disallow':'all'}])
+def test_passenger_is_not_added_to_lanes_without_a_motorized_class(attributes):
+    from astra_sumo.core.network_permissions import _add_passenger_to_lane
+    lane=ET.Element('lane',attributes)
+    assert not _add_passenger_to_lane(lane)
+    assert lane.attrib==attributes
+
+
+def test_service_policy_leaves_sidewalks_and_narrowed_service_lanes_unchanged(tmp_path):
+    source=tmp_path/'source.net.xml'
+    source.write_text('<net><edge id="s" type="highway.service"><lane id="s_0" index="0" allow="pedestrian"/>'
+                      '<lane id="s_1" index="1" allow="bicycle pedestrian"/></edge></net>',encoding='utf-8')
+    result=apply_service_passenger_permissions(source,policy='allow_vehicle_service',output_dir=tmp_path/'permissions')
+    assert result['service_passenger_permission_status']=='unchanged'
+    assert result['changed_lane_count']==0
+    assert not (tmp_path/'permissions').exists()
