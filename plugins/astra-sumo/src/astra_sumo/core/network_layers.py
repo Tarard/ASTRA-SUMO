@@ -2,7 +2,9 @@
 
 A derived layer keeps the master's edge, lane, junction and signal identifiers, its coordinate frame and the
 signal timeline of every retained controlled link, so one OSM-keyed mapping serves every layer. Phase indices
-are layer-specific: netconvert may merge phases whose only difference was a removed link.
+are layer-specific: netconvert may merge phases whose only difference was a removed link. A controller that loses
+a pedestrian crossing gets its crossing phases re-planned by netconvert; those crossing timelines are listed for
+review instead of blocking the layer.
 """
 from __future__ import annotations
 
@@ -30,7 +32,10 @@ _LOCATION_IDENTITY = ("netOffset", "projParameter")
 _EXAMPLE_LIMIT = 20
 _CLAIM_BOUNDARY = ("Edges are removed from the master only. Identity checks cover identifiers, permissions, "
                    "coordinates and signal timing of retained links; lane lengths at junctions that lost an edge "
-                   "are recomputed, and phase indices are specific to each layer.")
+                   "are recomputed, phase indices are specific to each layer, and crossing timelines of a "
+                   "controller that lost a crossing are re-planned by netconvert and listed for review.")
+# netconvert rebuilds the pedestrian phases of a loaded program whose crossing count changed.
+_CROSSING_REVIEW_REASON = "crossing_signal_timelines_replanned"
 
 
 def _direct_children(net_file: Path):
@@ -178,7 +183,11 @@ def _layer_identity(master: Mapping[str, Any], layer: Mapping[str, Any], kept: s
     lost = [key for key, value in master["connections"].items()
             if key[0] in layer_edges and key[2] in layer_edges and layer["connections"].get(key) != value]
     added = [key for key in layer["connections"] if key not in master["connections"]]
-    timelines = []
+    removed_links = sorted(set(master["controlled_links"]) - set(layer["controlled_links"]))
+    # Crossing links of a controller that lost a crossing: netconvert re-plans their phases, so they need review.
+    lost_crossing_tls = {tl for key in removed_links if key[0] == "crossing"
+                         for tl, _ in master["controlled_links"][key]}
+    timelines, replanned = [], []
     for key, after in layer["controlled_links"].items():
         before = master["controlled_links"].get(key)
         if before is None or len(before) != len(after):
@@ -189,8 +198,12 @@ def _layer_identity(master: Mapping[str, Any], layer: Mapping[str, Any], kept: s
                 old_program = master["programs"].get((old_tl, program_id))
                 new_program = layer["programs"][(new_tl, program_id)]
                 if old_program is None or _timeline(old_program, old_index) != _timeline(new_program, new_index):
-                    timelines.append({"link": list(key), "tl": new_tl, "program_id": program_id,
-                                      "reason": "signal_timeline_changed"})
+                    row = {"link": list(key), "tl": new_tl, "program_id": program_id}
+                    if (old_program is not None and key[0] == "crossing" and old_tl == new_tl
+                            and new_tl in lost_crossing_tls):
+                        replanned.append({**row, "reason": _CROSSING_REVIEW_REASON})
+                    else:
+                        timelines.append({**row, "reason": "signal_timeline_changed"})
     controllers = []
     for (tl, program_id), program in sorted(layer["programs"].items()):
         before = master["programs"].get((tl, program_id))
@@ -202,7 +215,6 @@ def _layer_identity(master: Mapping[str, Any], layer: Mapping[str, Any], kept: s
     master_tls, layer_tls = {tl for tl, _ in master["programs"]}, {tl for tl, _ in layer["programs"]}
     location = {key: {"master": master["location"].get(key), "layer": layer["location"].get(key)}
                 for key in (*_LOCATION_IDENTITY, "convBoundary", "origBoundary")}
-    removed_links = sorted(set(master["controlled_links"]) - set(layer["controlled_links"]))
     checks = {
         "edge_ids_subset_of_master": set(layer_edges) <= set(master_edges),
         "selected_edges_realized": set(layer_edges) == kept,
@@ -216,10 +228,12 @@ def _layer_identity(master: Mapping[str, Any], layer: Mapping[str, Any], kept: s
         "controlled_link_timelines_equal": not timelines,
         "controller_cycle_offset_type_equal": not controllers,
     }
+    passed = all(checks.values())
     return {
-        "status": "measured" if all(checks.values()) else "blocked",
-        **({} if all(checks.values()) else {"reason": "layer_identity_check_failed",
-                                            "failed_checks": sorted(key for key, ok in checks.items() if not ok)}),
+        "status": "measured" if passed else "blocked",
+        **({} if passed else {"reason": "layer_identity_check_failed",
+                              "failed_checks": sorted(key for key, ok in checks.items() if not ok)}),
+        **({"review_reason": _CROSSING_REVIEW_REASON} if passed and replanned else {}),
         "checks": checks,
         "retained_edge_count": len(retained),
         "retained_connection_count": sum(1 for key in layer["connections"] if key in master["connections"]),
@@ -235,6 +249,9 @@ def _layer_identity(master: Mapping[str, Any], layer: Mapping[str, Any], kept: s
         "lost_connections": [list(key) for key in lost[:_EXAMPLE_LIMIT]],
         "added_connections": [list(key) for key in added[:_EXAMPLE_LIMIT]],
         "changed_signal_timelines": timelines[:_EXAMPLE_LIMIT],
+        "replanned_crossing_link_count": len(replanned),
+        "replanned_crossing_controllers": sorted({row["tl"] for row in replanned}),
+        "replanned_crossing_timelines": replanned[:_EXAMPLE_LIMIT],
         "changed_controllers": controllers[:_EXAMPLE_LIMIT],
         "basis": "per-link signal timelines with consecutive equal signals merged; phase indices are not compared",
     }
@@ -300,6 +317,8 @@ def derive_network_layer(master_net_file: Path | str, output_dir: Path | str, la
                     report["reason"] = "sumo_load_failed"
                 else:
                     report["status"] = "measured"
+                    if identity.get("review_reason"):
+                        report["reason"] = identity["review_reason"]
     report["master_unchanged"] = file_sha256(source) == master_hash
     if not report["master_unchanged"]:
         report.update(status="blocked", reason="master_network_changed")

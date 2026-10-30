@@ -125,6 +125,59 @@ def test_layer_whose_signal_timing_changed_is_blocked(master, tmp_path, monkeypa
     assert report["master_unchanged"]
 
 
+def test_replanned_crossing_phases_of_a_controller_that_lost_a_crossing_need_review(master, tmp_path, monkeypatch):
+    netconvert, simulator = _binaries()
+    native = network_layers.keep_selected_edges_natively
+
+    def replanned(source, output, keep_file, candidate, **kwargs):
+        # Stand-in for netconvert re-planning the pedestrian phases of a controller whose crossing count changed.
+        result = native(source, output, keep_file, candidate, **kwargs)
+        tree = ET.parse(candidate)
+        root = tree.getroot()
+        crossings = {edge.get("id") for edge in root.findall("edge") if edge.get("function") == "crossing"}
+        index = next(int(row.get("linkIndex")) for row in root.findall("connection")
+                     if row.get("to") in crossings and row.get("tl"))
+        phase = root.find("tlLogic/phase")
+        state = phase.get("state")
+        phase.set("state", state[:index] + ("r" if state[index] in "Gg" else "G") + state[index + 1:])
+        tree.write(candidate, encoding="utf-8", xml_declaration=True)
+        return result
+
+    monkeypatch.setattr(network_layers, "keep_selected_edges_natively", replanned)
+    report = derive_network_layer(master, tmp_path / "vehicle", "vehicle", netconvert_binary=netconvert,
+                                  sumo_binary=simulator)
+
+    identity = report["identity"]
+    assert (report["status"], report["reason"]) == ("measured", "crossing_signal_timelines_replanned")
+    assert (identity["status"], identity["review_reason"]) == ("measured", "crossing_signal_timelines_replanned")
+    assert all(identity["checks"].values()) and identity["changed_signal_timelines"] == []
+    assert identity["replanned_crossing_link_count"] >= 1
+    assert identity["replanned_crossing_controllers"] == [ET.parse(master).getroot().find("tlLogic").get("id")]
+
+
+def _inventory(phases, crossing_links):
+    return {"edges": {}, "junctions": {"J"}, "location": {}, "connections": {},
+            "programs": {("t", "0"): {"type": "static", "offset": "0", "phases": phases}},
+            "controlled_links": {("crossing", "J", edge): (("t", index),) for edge, index in crossing_links.items()}}
+
+
+def test_crossing_timeline_change_needs_review_only_where_the_controller_lost_a_crossing():
+    master = _inventory([(10.0, "Gr"), (10.0, "rG")], {"a": "0", "b": "1"})
+
+    unchanged = network_layers._layer_identity(master, _inventory([(10.0, "G"), (10.0, "r")], {"a": "0"}), set())
+    assert unchanged["status"] == "measured" and "review_reason" not in unchanged
+
+    replanned = network_layers._layer_identity(master, _inventory([(10.0, "r"), (10.0, "r")], {"a": "0"}), set())
+    assert (replanned["status"], replanned["review_reason"]) == ("measured", "crossing_signal_timelines_replanned")
+    assert (replanned["replanned_crossing_link_count"], replanned["replanned_crossing_controllers"]) == (1, ["t"])
+
+    # With every crossing kept, nothing explains the change, so the layer stays blocked.
+    kept = network_layers._layer_identity(master, _inventory([(10.0, "GG"), (10.0, "rG")], {"a": "0", "b": "1"}), set())
+    assert (kept["status"], kept["failed_checks"]) == ("blocked", ["controlled_link_timelines_equal"])
+    assert [row["reason"] for row in kept["changed_signal_timelines"]] == ["signal_timeline_changed"]
+    assert "review_reason" not in kept
+
+
 def test_mode_components_are_measured_without_pruning(master, tmp_path):
     measured = measure_mode_components(master, ["bicycle", "pedestrian"])
     assert measured["gate"] == "pass" and measured["network_has_walkingareas"]

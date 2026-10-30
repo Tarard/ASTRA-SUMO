@@ -262,7 +262,16 @@ Current anchors:
 For reference-matched workflows, the planner must keep `vehicle_core` and
 `reference_visual_detail` separate. Passenger routeability claims belong to
 `vehicle_core`; NetEdit and reference-topology comparisons belong to
-`reference_visual_detail`.
+`reference_visual_detail`. These are two separate builds with different IDs.
+
+For standard workflows with bicycle or pedestrian layers, the planner chooses
+one `multimodal` master build. Every other layer is cut from the access-corrected
+master by removing edges only, so its edge, lane, junction and signal IDs, lane
+permissions, coordinates and the signal timeline of each retained link match the
+master. Phase indices are specific to each layer, and netconvert re-plans the
+crossing phases of a controller that lost a crossing; the layer reports those
+for review. Traffic-light checks run once on the master; passenger checks run on
+the `vehicle` layer.
 
 ## Layer 3: Executor
 

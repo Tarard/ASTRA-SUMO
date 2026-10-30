@@ -10,6 +10,7 @@
 | `bbox` | `west,south,east,north` in WGS84 degrees |
 | `profile` | `standard` (default) or `reference_matched` |
 | `traffic_layers` | required for `standard`, not allowed for `reference_matched`: a comma list of `passenger`, `bicycle`, `pedestrian`, `bus` |
+| `network_layers` | optional for `standard`, not allowed for `reference_matched`: `vehicle`, `multimodal` or both; each needs its modes in `traffic_layers`; omitted means the planned layers |
 | `reference_net_file` | required for `reference_matched`, not allowed for `standard`: the reference `.net.xml` |
 | `source_osm_path` | optional frozen OSM XML; without it the bbox is downloaded from Overpass |
 | `timeout_seconds` | default 240 |
@@ -20,6 +21,11 @@
 
 - `passenger` or `bus` imports every drivable class, including residential, unclassified and service roads. For a
   one-line request use `passenger` and say so. Add `bicycle` or `pedestrian` only when the study needs them.
+- `bicycle` or `pedestrian` adds cycleways, footways, paths and steps and builds one `multimodal` master:
+  `--osm.bike-access` for bicycles; `--osm.sidewalks`, `--osm.crossings`, `--crossings.guess` and `--walkingareas` for
+  pedestrians; no signal guessing. Sidewalks appear only where OSM tags them on the road; `sidewalk=separate` roads
+  rely on the mapped footways. The `vehicle` layer is cut from the master by removing edges, so both layers share
+  edge, lane, junction and signal ids. Crossings at signals change the programs netconvert generates.
 - To import only some road classes, build with `sumo_osm_build_network` and `highway_classes` (`arterial`, `drive`,
   `drive_plus_unclassified`, `full_vehicle` or a comma list of OSM `highway` values).
 - A city-wide bbox from `astra place resolve` is usually far larger than the study area. Narrow it first.
@@ -27,7 +33,29 @@
 ## Reading the cleanup result
 
 - `gate_status` holds one value per check: `network_build`, `connectivity`, `topology_audit`, `routeability_audit`,
-  `connection_mode_audit`, `tls_reality_audit`, `tls_aggregation`, plus `reference_*` gates for `reference_matched`.
+  `connection_mode_audit`, `tls_reality_audit`, `tls_aggregation`, `network_layers`, plus `reference_*` gates for
+  `reference_matched`.
+- `status: fail` means a broken build or structure. Open review items cap a sound run at `review_required` (exit code
+  1); `review_required_gates` lists each such gate with its `reason`.
+- `network_layers` has one entry per layer with `net_file`, `sha256`, `derived_from_sha256`, `modes`, `edge_count`,
+  `removed_edge_count`, `identity` and `gate`. `master_net_file` is the master. The traffic-light audit and
+  aggregation run once on the master. The connectivity, topology, routeability, connection-mode and NEMA checks run
+  on the vehicle layer, and `net_file` is that layer or its connected core. `identity: measured` means the derived
+  layer kept the master's ids, permissions, coordinates and the signal timeline of every retained link; phase
+  indices are per layer. A controller that lost a crossing gets its crossing phases re-planned by netconvert: the
+  layer gate is then `review_required` with reason `crossing_signal_timelines_replanned`, controllers in
+  `identity.replanned_crossing_controllers`. Sidewalk and bike lanes on road edges stay in the vehicle layer.
+- `network_layers.multimodal.components` gives the largest-component share of the bicycle and pedestrian edges,
+  measured without pruning; below 98 % sets the layer gate to `review_required`. `master_tls_cycles` lists every
+  program's cycle and, in `long_cycle_controllers`, those above 120 s. The multimodal options can join signals into
+  larger controllers with long cycles; the vehicle layer inherits them, and so do its routeability results.
+- `build.osm_access_correction` describes the access correction. `decisions` lists each settled way finding with its
+  `rule` and `reason`; `review` keeps only open items. `added_class_movements` measures each class a lane gained:
+  rows with `status: no_effect` were reverted (`new_class_has_no_loaded_movement`), because the correction creates no
+  movement. `unevaluated_outside_gate` counts access tags on ways without `vehicle=no` or `motor_vehicle=no`, which
+  the correction does not read. `network_build: review_required` carries reason `osm_access_findings_open` (open
+  `review` items, such as time windows without a scenario date) or `newly_allowed_modes_require_connectivity_review`
+  (an addition could not be reverted).
 - When strict connectivity fails, the run extracts the largest passenger component and checks that instead:
   `connected_core_file`, with the dropped parts in `connected_core_discarded_components_review_file`.
   `connectivity: partial` means no strictly connected core was found but the largest passenger component covers at

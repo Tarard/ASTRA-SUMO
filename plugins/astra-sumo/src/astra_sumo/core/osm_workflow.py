@@ -3962,6 +3962,13 @@ def _workflow_network_layers_section(
             warnings.append(f"The {layer} network layer was not written ({reason})"
                             + ("; the passenger gates ran on the master instead" if layer == "vehicle" else "")
                             + f". Inspect network_layers.{layer}.identity.")
+        elif entry["identity"].get("review_reason"):
+            # The layer is usable, but netconvert changed something the identity check lists for review.
+            entry.update(gate="review_required", gate_reason=str(entry["identity"]["review_reason"]))
+            controllers = entry["identity"].get("replanned_crossing_controllers") or []
+            warnings.append(f"The {layer} network layer needs review ({entry['gate_reason']}): netconvert re-planned "
+                            f"the crossing phases of {len(controllers)} controller(s) that lost a crossing. Inspect "
+                            f"network_layers.{layer}.identity.")
         if layer == "multimodal":
             try:
                 components = measure_mode_components(master_net_file, multimodal_modes)
@@ -3989,7 +3996,9 @@ def _workflow_network_layers_section(
                         f"{tls_cycles['threshold_s']:.0f} s; inspect master_tls_cycles before relying on their timing.")
     gates = {entry["gate"] for entry in entries.values()}
     gate = "blocked" if "blocked" in gates else "review_required" if "review_required" in gates else "pass"
-    gate_reason = next((entry["gate_reason"] for entry in entries.values() if gate != "pass" and entry["gate"] == gate), "")
+    # Every layer that sets the gate names its reason, in layer order.
+    gate_reason = ",".join(dict.fromkeys(entry["gate_reason"] for entry in entries.values()
+                                         if gate != "pass" and entry["gate"] == gate))
     return {"network_layers": entries, "gate": gate, "reason": gate_reason, "gate_net_file": gate_net_file,
             "master_tls_cycles": tls_cycles, "warnings": warnings}
 

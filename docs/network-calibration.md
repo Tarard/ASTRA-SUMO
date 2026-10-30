@@ -288,8 +288,25 @@ and [SUMO importer](https://github.com/eclipse-sumo/sumo/blob/v1_27_1/src/netimp
 For an edit to lane permissions alone, the OSM access correction changes only
 `allow` and `disallow` in the selected lane opening tags. It preserves the other
 bytes and checks the parsed network again. Both the original import and the
-candidate must load in SUMO. Newly allowed vehicle classes require a separate
-connection review. The correction does not create missing movements.
+candidate must load in SUMO. The correction does not create missing movements.
+It therefore streams the candidate once and keeps a newly allowed class on a
+lane only when a connection into or out of that lane allows the class on the
+other lane and every internal lane. Other additions return to the native
+permission and are recorded as `no_effect` with reason
+`new_class_has_no_loaded_movement`. A lane that allows only pedestrians or only
+bicycles on a multi-lane edge is a dedicated sidewalk or bike lane: way-level
+tags leave it unchanged, and the carriageway does not get its mode back.
+
+Way findings are settled by recorded rules in `decisions`, each with `rule` and
+`reason`. `:signed` and user-group suffixes are ignored. `unknown` falls back to
+the next less specific key. A `:forward` or `:backward` value applies to the
+matching edge direction and stays open when the direction is unknown. Purpose
+values such as `private` or `destination`, `dismount`, `use_sidepath` and
+category values keep the native permission, because a SUMO vehicle class cannot
+express a trip purpose. Time windows other than delivery-only rules stay in
+`review`, since no scenario date exists to evaluate them. The correction reads
+only ways with `vehicle=no` or `motor_vehicle=no`; `unevaluated_outside_gate`
+counts the access tags it leaves unread.
 
 For geometry changes, declare mutable junctions and roads before conversion.
 The native conversion produces a proposal. Restore the network outside that

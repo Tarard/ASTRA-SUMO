@@ -643,6 +643,43 @@ def test_blocked_vehicle_layer_fails_the_cleanup_and_keeps_gates_on_the_master(t
     assert (report["status"], report["claim_status"]) == ("fail", "construction-invalid")
 
 
+def test_vehicle_layer_with_replanned_crossings_caps_the_cleanup_at_review(tmp_path: Path, monkeypatch) -> None:
+    mocks = _patch_cleanup_stages_without_tls(monkeypatch, tmp_path)
+    layer = mocks["derive_network_layer"].return_value
+    layer.update(reason="crossing_signal_timelines_replanned",
+                 identity={"status": "measured", "review_reason": "crossing_signal_timelines_replanned",
+                           "replanned_crossing_controllers": ["joined_1"]})
+    report = run_osm_cleanup_workflow(output_dir=tmp_path / "out", bbox="13.6,50.9,13.9,51.1",
+                                      profile="standard", traffic_layers="passenger,pedestrian")
+
+    vehicle_file = tmp_path / "vehicle_layer.net.xml"
+    for name in _VEHICLE_LAYER_GATE_STAGES:
+        assert _gate_network(mocks[name]) == vehicle_file, name
+    vehicle = report["network_layers"]["vehicle"]
+    assert (vehicle["status"], vehicle["gate"], vehicle["gate_reason"]) == (
+        "measured", "review_required", "crossing_signal_timelines_replanned")
+    assert report["gate_status"]["network_layers"] == "review_required"
+    assert (report["status"], report["claim_status"]) == ("review_required", "diagnostic-demo")
+    assert report["review_required_gates"] == [{"gate": "network_layers", "reason": "crossing_signal_timelines_replanned"}]
+    assert any("crossing phases of 1 controller" in warning for warning in report["warnings"])
+
+
+def test_network_layer_gate_names_the_reason_of_every_layer_under_review(tmp_path: Path, monkeypatch) -> None:
+    mocks = _patch_cleanup_stages_without_tls(monkeypatch, tmp_path)
+    mocks["derive_network_layer"].return_value.update(
+        reason="crossing_signal_timelines_replanned",
+        identity={"status": "measured", "review_reason": "crossing_signal_timelines_replanned"})
+    mocks["measure_mode_components"].return_value = {
+        "status": "measured", "threshold": 0.98, "gate": "review_required", "reason": "mode_network_needs_review",
+        "modes": {"bicycle": {"edge_count": 10, "largest_component_share": 0.9, "gate": "review_required",
+                              "reason": "largest_component_share_below_threshold"}}}
+    report = run_osm_cleanup_workflow(output_dir=tmp_path / "out", bbox="13.6,50.9,13.9,51.1",
+                                      profile="standard", traffic_layers="passenger,bicycle")
+
+    assert report["review_required_gates"] == [
+        {"gate": "network_layers", "reason": "mode_network_needs_review,crossing_signal_timelines_replanned"}]
+
+
 def test_build_overpass_query_uses_overpass_coordinate_order_and_date() -> None:
     bbox = parse_bbox("13.6000,50.9800,13.9000,51.1500")
 
