@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 
+import pytest
+
 from astra_sumo.cli import main
 
 
@@ -42,3 +44,14 @@ def test_cli_help_lists_primary_groups(capsys) -> None:
     assert "preflight" in out
     assert "network" in out
     assert "mcp" in out
+
+
+def test_json_result_is_printed_as_one_indented_document(capsys) -> None:
+    from astra_sumo import cli
+
+    result = {"status": "pass", "nested": {"b": [1, 2.5, None], "a": "ä </x>"}, "empty": {}}
+    assert cli._emit(result, json_output=True) == 0
+    assert capsys.readouterr().out == json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+    with pytest.raises(TypeError):
+        cli._emit({"status": "pass", "bad": object()}, json_output=True)
+    assert capsys.readouterr().out == ""

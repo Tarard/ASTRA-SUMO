@@ -20,6 +20,7 @@ def _open_atomic_temporary_file(
     mode: str,
     encoding: str | None = None,
     newline: str | None = None,
+    errors: str | None = None,
 ) -> Any:
     """Open a short, target-independent temporary file beside an artifact."""
 
@@ -34,6 +35,8 @@ def _open_atomic_temporary_file(
         options["encoding"] = encoding
     if newline is not None:
         options["newline"] = newline
+    if errors is not None:
+        options["errors"] = errors
     return tempfile.NamedTemporaryFile(**options)
 
 
@@ -56,14 +59,18 @@ def write_json_atomic(
     ensure_ascii: bool = False,
     sort_keys: bool = False,
 ) -> None:
-    """Serialize JSON completely before atomically replacing the destination."""
-    text = json.dumps(
-        payload,
-        indent=indent,
-        ensure_ascii=ensure_ascii,
-        sort_keys=sort_keys,
-    )
-    write_text_atomic(path, text, encoding="utf-8")
+    """Serialize JSON into a same-directory temporary file before atomically replacing the destination.
+
+    With an indent the encoder's chunks are written as it produces them, so a city-scale report never exists as
+    one string; the bytes are those of ``json.dumps`` with the same options.
+    """
+    if indent is None:
+        # json.dumps uses the C encoder only for a one-shot call without indent.
+        text = json.dumps(payload, indent=indent, ensure_ascii=ensure_ascii, sort_keys=sort_keys)
+        write_text_atomic(path, text, encoding="utf-8")
+        return
+    with atomic_writer(path, mode="w", encoding="utf-8", newline="") as handle:
+        json.dump(payload, handle, indent=indent, ensure_ascii=ensure_ascii, sort_keys=sort_keys)
 
 
 @contextmanager
@@ -73,6 +80,7 @@ def atomic_writer(
     mode: str = "wb",
     encoding: str | None = None,
     newline: str | None = None,
+    errors: str | None = None,
 ) -> Iterator[Any]:
     """Stream an artifact into a same-directory temporary file; replace the destination only on success."""
     destination = path.resolve()
@@ -84,6 +92,7 @@ def atomic_writer(
             mode=mode,
             encoding=encoding,
             newline=newline,
+            errors=errors,
         ) as handle:
             temporary_path = Path(handle.name)
             yield handle

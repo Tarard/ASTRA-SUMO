@@ -2905,3 +2905,90 @@ def test_launch_sumo_gui_writes_minimal_config_and_starts_non_blocking_process(t
     assert cfg_root.find("input/net-file").attrib["value"] == str(net_file)
     assert cfg_root.find("time/end").attrib["value"] == "1"
     assert calls == [["C:/SUMO/bin/sumo-gui.exe", "-c", str(cfg_file)]]
+
+
+def _sumolib_tls_rows(net_file: Path) -> dict[str, tuple]:
+    """Position, links and road names of each TLS candidate as derived from sumolib's whole network model."""
+    import sumolib.net
+    from astra_sumo.core.osm_network import _net_xy_to_latlon
+
+    net = sumolib.net.readNet(str(net_file), withPrograms=True)
+    names: dict[str, str] = {}
+    current = None
+    for event, element in ET.iterparse(net_file, events=("start", "end")):
+        if event == "start" and element.tag == "edge":
+            current = element.get("id")
+            if element.get("name"):
+                names[current] = element.get("name")
+        elif event == "end" and element.tag == "param" and current and element.get("key") in {"name", "origId"}:
+            names.setdefault(current, element.get("value", ""))
+        elif event == "end" and element.tag == "edge":
+            current = None
+    rows = {}
+    for tls in net.getTrafficLights():
+        links = tls.getConnections()
+        try:
+            node = net.getNode(tls.getID())
+            lat, lon = _net_xy_to_latlon(net, node.getCoord()[0], node.getCoord()[1])
+        except KeyError:
+            points = [point for incoming, outgoing, _ in links for lane in (incoming, outgoing)
+                      for point in (lane.getShape()[0], lane.getShape()[-1])]
+            lat, lon = _net_xy_to_latlon(net, sum(p[0] for p in points) / len(points), sum(p[1] for p in points) / len(points))
+        incoming = sorted({lane.getEdge().getID() for lane, _, _ in links})
+        outgoing = sorted({lane.getEdge().getID() for _, lane, _ in links})
+        rows[tls.getID()] = (f"{lat:.7f}", f"{lon:.7f}", len(links), "; ".join(incoming), "; ".join(outgoing),
+                             "; ".join(sorted({names[edge] for edge in incoming if names.get(edge)})))
+    return rows
+
+
+def test_streamed_tls_candidates_match_the_sumolib_network_model(signal_network: Path) -> None:
+    import sumolib.net
+    from astra_sumo.core.osm_network import _streamed_tls_network, extract_tls_candidates
+
+    net = sumolib.net.readNet(str(signal_network), withPrograms=True)
+    view, _names = _streamed_tls_network(signal_network)
+    assert list(view.controllers) == [tls.getID() for tls in net.getTrafficLights()]
+    for tls in net.getTrafficLights():
+        assert view.controllers[tls.getID()] == [
+            (incoming.getEdge().getID(), incoming.getIndex(), outgoing.getEdge().getID(), outgoing.getIndex())
+            for incoming, outgoing, _ in tls.getConnections()
+        ]
+    assert view.coordinates == {node.getID(): node.getCoord()[:2] for node in net.getNodes() if node.getCoord()}
+
+    rows = extract_tls_candidates(net_file=signal_network)
+    expected = _sumolib_tls_rows(signal_network)
+    # The joined controller has no junction of its own id and is placed at the centre of its lanes.
+    assert "joinedS_B_C" in expected and "D" in expected
+    assert {
+        row["tls_id"]: (row["lat"], row["lon"], row["connection_count"], row["incoming_edge_ids"],
+                        row["outgoing_edge_ids"], row["incoming_road_names"])
+        for row in rows
+    } == expected
+
+
+def test_tls_candidates_reject_a_connection_to_an_unknown_lane_as_sumolib_does(signal_network: Path, tmp_path: Path) -> None:
+    from astra_sumo.core.osm_network import extract_tls_candidates
+
+    broken = tmp_path / "broken.net.xml"
+    text = signal_network.read_text(encoding="utf-8")
+    broken.write_text(text.replace('<connection from="AB" to="BC" fromLane="1" toLane="1"',
+                                   '<connection from="AB" to="BC" fromLane="7" toLane="1"', 1), encoding="utf-8")
+    assert broken.read_text(encoding="utf-8") != text
+    with pytest.raises(IndexError):
+        extract_tls_candidates(net_file=broken)
+
+
+def test_origin_name_summary_streams_the_final_network(signal_network: Path, tmp_path: Path) -> None:
+    from astra_sumo.core.osm_network import _origin_name_output_summary
+
+    summary = _origin_name_output_summary(signal_network)
+    assert summary["road_edge_count"] == 14
+    assert summary["road_edge_with_observed_orig_id_count"] == 2
+    assert summary["observed_orig_id_parameter_count"] == 2
+    assert summary["observed_orig_id_token_count"] == 3
+    assert (summary["status"], summary["reason"]) == ("review_required", "partial_observed_orig_id_coverage")
+
+    truncated = tmp_path / "truncated.net.xml"
+    truncated.write_bytes(signal_network.read_bytes()[:-200])
+    broken = _origin_name_output_summary(truncated)
+    assert (broken["status"], broken["reason"], broken["road_edge_count"]) == ("blocked", "sumo_net_not_parseable:ParseError", 0)

@@ -160,3 +160,18 @@ def test_topology_audit_enriches_clusters_with_osm_corridor_context(tmp_path: Pa
     csv_header = Path(report["clusters_file"]).read_text(encoding="utf-8").splitlines()[0]
     assert "corridor_decision" in csv_header
     assert "corridor_intersection_cell_signatures" in csv_header
+
+
+def test_topology_projection_equals_the_projection_of_a_loaded_sumolib_network(signal_network: Path) -> None:
+    import sumolib.net
+    from astra_sumo.core.osm_network import _net_xy_to_latlon
+    from astra_sumo.core.topology_audit import _coordinate_converter, _read_network_graph_and_location
+
+    junctions, edges, location = _read_network_graph_and_location(signal_network)
+    convert = _coordinate_converter(location)
+    net = sumolib.net.readNet(str(signal_network))
+    assert {junction["id"] for junction in junctions} == {node.getID() for node in net.getNodes()}
+    assert {edge["id"] for edge in edges} == {edge.getID() for edge in net.getEdges(withInternal=False)}
+    for junction in junctions:
+        assert convert(junction["x"], junction["y"]) == _net_xy_to_latlon(net, junction["x"], junction["y"])
+    assert _coordinate_converter({"netOffset": "0,0"}) is None

@@ -200,12 +200,8 @@ class _StreamedTurns:
             yield self.next_through[lane]
         yield from (through for last, through in self.more_successors.get(lane, ()) if last == target)
 
-    def reconciliations(self, version):
-        """Return the loaded classes ``with_loaded_turn_permissions`` declares, by connection index, and whether
-        any declaration changes.
-
-        Errors are raised as the tree versions raise them, in the same order.
-        """
+    def _declaration_classes(self, version):
+        """The classes of every lane declaration, computed in document order so the first invalid one raises."""
         from .osm_access import _permission_set
         keys = {number: key for key, number in self.declarations.items()}
 
@@ -215,18 +211,21 @@ class _StreamedTurns:
         def classes(number):
             return frozenset(_permission_set(attributes(number), network_version=version))
 
-        sets, shared = {}, {}
-        for number in self.element_declaration:  # in document order, so the first invalid declaration raises
+        sets = {}
+        for number in self.element_declaration:
             if number not in sets:
                 sets[number] = classes(number)
+        return sets, attributes, classes
+
+    def _movement_classes(self, sets):
         if self.unknown_endpoint:
             raise ValueError("A loaded movement references an unknown endpoint lane.")
 
         def lane_classes(number):
             return sets[self.lane_declaration[number]]
 
-        permissions = {}
-        for _, first_element, last_element, _, first, last, through in self.movements:
+        shared, result = {}, []
+        for _, _, _, _, first, last, through in self.movements:
             pending, seen, allowed = [(through, lane_classes(first) & lane_classes(last))], {}, set()
             while pending:
                 current, modes = pending.pop()
@@ -241,7 +240,26 @@ class _StreamedTurns:
                 elif self.lane_internal[current]:
                     pending.extend((following, modes) for following in self._successors(current, last))
             allowed = frozenset(allowed)
-            permissions[(first_element, last_element)] = shared.setdefault(allowed, allowed)
+            result.append(shared.setdefault(allowed, allowed))
+        return result
+
+    def loaded_classes(self, version):
+        """Return the classes ``loaded_turn_permissions`` finds for each movement, in the order of ``movements``.
+
+        Errors are raised as the tree version raises them, in the same order.
+        """
+        return self._movement_classes(self._declaration_classes(version)[0])
+
+    def reconciliations(self, version):
+        """Return the loaded classes ``with_loaded_turn_permissions`` declares, by connection index, and whether
+        any declaration changes.
+
+        Errors are raised as the tree versions raise them, in the same order.
+        """
+        sets, attributes, classes = self._declaration_classes(version)
+        permissions = {}
+        for movement, allowed in zip(self.movements, self._movement_classes(sets)):
+            permissions[(movement[1], movement[2])] = allowed
         rewrites, changed = {}, False
         candidates = heapq.merge((row[:4] for row in self.movements), self.respelled)
         for index, first_element, last_element, declaration in candidates:
@@ -286,6 +304,48 @@ def _streamed_reconciliations(source):
                     connections += 1
     version = stream.root.get("version", "0.0")
     return (*turns.reconciliations(version), version)
+
+
+def streamed_loaded_turn_permissions(source, *, visit=None):
+    """Return ``loaded_turn_permissions`` of the network file ``source`` and its version, read one top-level element
+    at a time (twice when an edge follows a connection).
+
+    The classes are shared frozensets. ``visit`` is called with every top-level element of the first read, so a
+    caller can collect more from the same pass.
+    """
+    turns = _StreamedTurns()
+    keys = []
+
+    def add_connection(element, index):
+        count = len(turns.movements)
+        turns.add_connection(element, index)
+        if len(turns.movements) > count:
+            keys.append((element.get("from"), int(element.get("fromLane")), element.get("to"), int(element.get("toLane"))))
+
+    connections, edge_after_connection = 0, False
+    with Path(source).open("rb") as handle:
+        stream = DirectChildren(read_blocks(handle))
+        for element in stream:
+            if visit is not None:
+                visit(element)
+            if element.tag == "edge":
+                edge_after_connection |= connections > 0
+                turns.add_edge(element)
+            elif element.tag == "connection":
+                if not edge_after_connection:
+                    add_connection(element, connections)
+                connections += 1
+    if edge_after_connection:
+        turns.clear_connections()
+        keys.clear()
+        connections = 0
+        with Path(source).open("rb") as handle:
+            for element in DirectChildren(read_blocks(handle)):
+                if element.tag == "connection":
+                    add_connection(element, connections)
+                    connections += 1
+    version = stream.root.get("version", "0.0") if stream.root is not None else "0.0"
+    return dict(zip(keys, turns.loaded_classes(version))), version
 
 
 def _root_tags(root):

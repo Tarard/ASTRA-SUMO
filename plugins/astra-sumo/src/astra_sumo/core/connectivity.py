@@ -10,6 +10,7 @@ import xml.etree.ElementTree as ET
 from .command_runner import run_command
 from .osm_network import read_net_edges
 from .local_network_conversion import with_geometry_precision
+from .xml_stream import DirectChildren, binary_blocks
 
 
 def _failure(error_message: str) -> dict[str, Any]:
@@ -88,37 +89,40 @@ def _write_component_review_file(
     output_file: Path,
     components: list[set[str]],
 ) -> None:
-    """Write stable, map-addressable review records for discarded components."""
+    """Write stable, map-addressable review records for discarded components.
 
-    root = ET.parse(net_file).getroot()
+    The network is streamed; endpoints and shapes are kept only for the edges of the discarded components.
+    """
+
+    wanted_edges = set().union(*components) if components else set()
     node_xy: dict[str, tuple[float, float]] = {}
-    for node in root.findall("junction"):
-        node_id = node.attrib.get("id", "")
-        try:
-            node_xy[node_id] = (float(node.attrib["x"]), float(node.attrib["y"]))
-        except (KeyError, TypeError, ValueError):
-            continue
-
     edge_endpoints: dict[str, tuple[str, str]] = {}
     edge_shape_points: dict[str, list[tuple[float, float]]] = {}
-    for edge in root.findall("edge"):
-        edge_id = edge.attrib.get("id", "")
-        if not edge_id:
-            continue
-        edge_endpoints[edge_id] = (
-            edge.attrib.get("from", ""),
-            edge.attrib.get("to", ""),
-        )
-        points: list[tuple[float, float]] = []
-        lane = edge.find("lane")
-        if lane is not None:
-            for raw_point in lane.attrib.get("shape", "").split():
-                try:
-                    x_text, y_text = raw_point.split(",", 1)
-                    points.append((float(x_text), float(y_text)))
-                except (ValueError, TypeError):
-                    continue
-        edge_shape_points[edge_id] = points
+    for element in DirectChildren(binary_blocks(net_file)):
+        if element.tag == "junction":
+            node_id = element.attrib.get("id", "")
+            try:
+                node_xy[node_id] = (float(element.attrib["x"]), float(element.attrib["y"]))
+            except (KeyError, TypeError, ValueError):
+                continue
+        elif element.tag == "edge":
+            edge_id = element.attrib.get("id", "")
+            if not edge_id or edge_id not in wanted_edges:
+                continue
+            edge_endpoints[edge_id] = (
+                element.attrib.get("from", ""),
+                element.attrib.get("to", ""),
+            )
+            points: list[tuple[float, float]] = []
+            lane = element.find("lane")
+            if lane is not None:
+                for raw_point in lane.attrib.get("shape", "").split():
+                    try:
+                        x_text, y_text = raw_point.split(",", 1)
+                        points.append((float(x_text), float(y_text)))
+                    except (ValueError, TypeError):
+                        continue
+            edge_shape_points[edge_id] = points
 
     records: list[dict[str, Any]] = []
     for rank, component in enumerate(components, start=2):

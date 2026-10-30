@@ -9,7 +9,7 @@ from astra_sumo.core.command_runner import run_command
 from astra_sumo.core.network_edit_operations import write_scoped_edit_plan, check_scoped_edit
 from astra_sumo.core.local_network_conversion import (
     loaded_turn_permissions, with_loaded_turn_permissions, validate_local_conversion, run_scoped_native_conversion,
-    prepare_permission_preserving_input,
+    prepare_permission_preserving_input, streamed_loaded_turn_permissions,
 )
 from test_traffic_effect_review import _native_network, _native_access
 
@@ -229,6 +229,55 @@ def test_streamed_preparation_writes_what_the_tree_preparation_writes(tmp_path, 
     movement = next(row for row in report["reconciled_connections"] if row["connection"]["to"] == "out")
     assert movement["loaded_classes"] == ["bus"] and movement["before"] == {}
     assert ET.tostring(with_loaded_turn_permissions(ET.parse(prepared).getroot())) == ET.tostring(ET.parse(prepared).getroot())
+
+
+@pytest.mark.parametrize("variant", ["plain", "respelled_lane", "duplicate_edge", "connections_first", "signals"])
+def test_streamed_loaded_turn_permissions_equal_the_tree_reading(tmp_path, variant, request):
+    text = _STREAMED_SOURCE
+    if variant == "respelled_lane":
+        text = text.replace("    <connection from=\":j_0\"", "    <connection from=\"in\" to=\"out\" fromLane=\"00\" "
+                            "toLane=\"0\" dir=\"s\"/>\n    <connection from=\":j_0\"")
+    elif variant == "duplicate_edge":
+        text = text.replace("    <junction", "    <edge id=\"out\"><lane id=\"out_1\" index=\"0\" allow=\"bus passenger\"/>"
+                            "</edge>\n    <junction")
+    elif variant == "connections_first":
+        lines = text.splitlines(keepends=True)
+        connections = [line for line in lines if line.startswith("    <connection")]
+        rest = [line for line in lines if not line.startswith("    <connection")]
+        position = next(index for index, line in enumerate(rest) if line.startswith("    <edge"))
+        text = "".join(rest[:position] + connections + rest[position:])
+    elif variant == "signals":
+        text = request.getfixturevalue("signal_network").read_text(encoding="utf-8")
+    source = tmp_path / "source.net.xml"
+    source.write_text(text, encoding="utf-8")
+    root = ET.parse(source).getroot()
+    visited = []
+
+    streamed, version = streamed_loaded_turn_permissions(source, visit=lambda element: visited.append(element.tag))
+
+    expected = loaded_turn_permissions(root)
+    assert list(streamed.items()) == list(expected.items())
+    assert version == root.get("version", "0.0")
+    assert visited == [element.tag for element in root]
+
+
+@pytest.mark.parametrize("network,error", [
+    (b'<net version="1.x"><edge id="in"><lane id="in_0" disallow="bus"/></edge></net>',
+     "invalid literal for int() with base 10: 'x'"),
+    (b'<net><edge id="in"><lane id="in_0"/></edge><edge id="out"><lane id="out_0"/></edge>'
+     b'<connection from="in" fromLane="0" to="out" toLane="0" via=":missing"/></net>',
+     "A loaded movement references an unknown internal lane."),
+    (b'<net><edge id="in"><lane id="in_0"/></edge><connection from="gone" fromLane="0" to="in" toLane="0" via="v"/></net>',
+     "A loaded movement references an unknown endpoint lane."),
+])
+def test_streamed_loaded_turn_permissions_raise_the_tree_reading_error(tmp_path, network, error):
+    source = tmp_path / "source.net.xml"
+    source.write_bytes(network)
+    with pytest.raises(ValueError) as tree_error:
+        loaded_turn_permissions(ET.fromstring(network))
+    with pytest.raises(ValueError) as streamed_error:
+        streamed_loaded_turn_permissions(source)
+    assert str(streamed_error.value) == str(tree_error.value) == error
 
 
 @pytest.mark.parametrize("network,warning", [

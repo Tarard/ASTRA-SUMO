@@ -1,3 +1,4 @@
+import json
 import os
 import tempfile
 from pathlib import Path
@@ -136,3 +137,15 @@ def test_relative_path_falls_back_to_absolute_across_windows_drives(
     )
 
     assert relative_or_absolute_path(target, tmp_path / "output") == (target.resolve().as_posix())
+
+
+@pytest.mark.parametrize("indent", [None, 2])
+def test_json_write_streams_the_bytes_of_json_dumps(tmp_path: Path, indent) -> None:
+    payload = {"b": [1, 2.5, float("inf"), None, True], "a": {"ä": "line\nbreak \U0001f600", "z": []}, "c": {}}
+    destination = tmp_path / "report.json"
+
+    write_json_atomic(destination, payload, indent=indent, sort_keys=True)
+
+    expected = json.dumps(payload, indent=indent, ensure_ascii=False, sort_keys=True).encode("utf-8")
+    assert destination.read_bytes() == expected
+    assert list(tmp_path.glob(".torii-*.tmp")) == []

@@ -10,6 +10,12 @@ from xml.etree import ElementTree as ET
 from .artifact_io import write_json_atomic, write_text_atomic
 from .candidate_contracts import file_sha256
 from .traffic_effect_review import rank_traffic_effects
+from .xml_stream import binary_blocks, compact_tree
+
+
+# Connection Mode audits read edges, lanes, junctions, connections and tlLogics, but never the parameters of the
+# first four; a network read for an audit can leave those out.
+UNREAD_PARAMETER_OWNERS = frozenset({"edge", "lane", "junction", "connection"})
 
 
 _TURN_RANK = {"r": 0, "s": 1, "l": 2}
@@ -397,7 +403,8 @@ def build_network_connection_mode_audit(
     overlay_file = destination / f"{prefix}.review.add.xml"
     manifest_file = destination / f"{prefix}.manifest.json"
 
-    root = ET.parse(source).getroot()
+    # The audit never reads edge, lane, junction or connection parameters, so a compact tree without them serves.
+    root = compact_tree(binary_blocks(source), without_params_of=UNREAD_PARAMETER_OWNERS)
     report = audit_network_connection_mode(
         root,
         junction_ids=junction_ids,
@@ -405,6 +412,7 @@ def build_network_connection_mode_audit(
         endpoint_tolerance_m=endpoint_tolerance_m,
         normalized_lane_rank_tolerance=normalized_lane_rank_tolerance,
     )
+    del root
     report.update(
         {
             "source_net_file": str(source),
@@ -2122,6 +2130,24 @@ def _finding_category(finding: str) -> str:
     return parts[0]
 
 
+class _LaneRecord(dict):
+    """A lane catalog record whose ``shape`` is parsed from the lane element each time it is read.
+
+    The parsed points of every lane are about half of a city network's catalog, and each audit step reads only
+    the shapes of a few lanes.
+    """
+
+    __slots__ = ()
+
+    def __getitem__(self, key: str) -> Any:
+        if key == "shape":
+            return _shape_points(dict.__getitem__(self, "element").attrib.get("shape", ""))
+        return dict.__getitem__(self, key)
+
+    def get(self, key: str, default: Any = None) -> Any:
+        return self[key] if key == "shape" else dict.get(self, key, default)
+
+
 def _build_lane_catalog(
     edges: Mapping[str, ET.Element],
 ) -> tuple[dict[str, dict[str, Any]], dict[str, dict[int, dict[str, Any]]]]:
@@ -2137,14 +2163,13 @@ def _build_lane_catalog(
             # them as lane ordinals 0 and 1. Using the attribute here creates
             # false path jumps and can make an auditor "repair" a valid net.
             lane_index = ordinal
-            record = {
-                "id": lane.attrib.get("id", ""),
-                "edge_id": edge_id,
-                "index": lane_index,
-                "declared_index": _as_int(lane.attrib.get("index")),
-                "shape": _shape_points(lane.attrib.get("shape", "")),
-                "element": lane,
-            }
+            record = _LaneRecord(
+                id=lane.attrib.get("id", ""),
+                edge_id=edge_id,
+                index=lane_index,
+                declared_index=_as_int(lane.attrib.get("index")),
+                element=lane,
+            )
             indexed[lane_index] = record
             if record["id"]:
                 lane_catalog[str(record["id"])] = record

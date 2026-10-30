@@ -787,3 +787,39 @@ def test_workflow_review_html_additional_file_marks_discarded_components(tmp_pat
     assert "repair/reintegration" in overlay.attrib["name"]
     decisions = json.loads(Path(report["review_decisions_file"]).read_text(encoding="utf-8"))
     assert decisions["locations"][0]["decision"] == "pending"
+
+
+class _Opaque:
+    def __str__(self) -> str:
+        return "opaque </script>"
+
+
+def _jsonable_sample(tmp_path: Path) -> dict:
+    return {
+        "path": tmp_path / "a.net.xml",
+        "nested": {"tuple": (1, 2.5, None), "set": {"only"}, 3: "int key", "3": "string key", "opaque": _Opaque()},
+        "rows": [{"b": True, "a": float("nan")}, [], {}, "</script><!--", "<", "/"],
+        "text": "line\nbreak ä \U0001f600",
+    }
+
+
+def test_streamed_review_json_writes_the_bytes_of_the_converted_copy(tmp_path: Path) -> None:
+    from astra_sumo.core.artifact_io import write_json_atomic
+    from astra_sumo.core.workflow_review_html import _json_script, _jsonable, _write_json, _write_json_script
+
+    value = _jsonable_sample(tmp_path)
+    _write_json(tmp_path / "streamed.json", value)
+    write_json_atomic(tmp_path / "copied.json", _jsonable(value), sort_keys=True)
+    assert (tmp_path / "streamed.json").read_bytes() == (tmp_path / "copied.json").read_bytes()
+
+    class Chunks:
+        def __init__(self) -> None:
+            self.parts: list[str] = []
+
+        def write(self, text: str) -> None:
+            self.parts.append(text)
+
+    chunks = Chunks()
+    _write_json_script(chunks, value)
+    assert "".join(chunks.parts) == _json_script(value)
+    assert "</" not in "".join(chunks.parts)

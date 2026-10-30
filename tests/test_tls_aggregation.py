@@ -702,3 +702,67 @@ def test_build_tls_aggregation_variant_reports_controlled_node_parse_failure(tmp
     assert report["tls_aggregation_status"] == "failed"
     assert "could not derive TLS-controlled junctions" in report["error"]
     assert report["tls_aggregation_variant_file"] == ""
+
+
+def test_source_network_controlled_junctions_match_the_sumolib_network_model(signal_network: Path) -> None:
+    import sumolib.net
+    from astra_sumo.core.tls_aggregation import _read_source_network
+
+    net = sumolib.net.readNet(str(signal_network), withPrograms=True)
+    expected = {}
+    for tls in net.getTrafficLights():
+        node_ids = [tls.getID()] if tls.getID() in net._id2node else []
+        for incoming, outgoing, _ in tls.getConnections():
+            node_ids += [incoming.getEdge().getToNode().getID(), outgoing.getEdge().getFromNode().getID()]
+        expected[tls.getID()] = sorted({node_id for node_id in node_ids if not node_id.startswith(":")})
+    source = _read_source_network(signal_network, controlled_nodes=True)
+    assert source["controlled_nodes_error"] is None
+    assert source["controlled_nodes"] == expected == {"D": ["D"], "joinedS_B_C": ["B", "C"]}
+    root = ET.parse(signal_network).getroot()
+    assert source["positions"] == {
+        junction.get("id"): (float(junction.get("x")), float(junction.get("y")))
+        for junction in root.findall("junction") if not junction.get("id").startswith(":")
+    }
+    assert set(source["tl_logics"]) == {"D", "joinedS_B_C"}
+    assert source["counts"]["source_tl_logic_count"] == 2
+    assert source["counts"]["source_tls_controlled_connection_count"] == sum(
+        1 for connection in root.findall("connection") if connection.get("tl") and connection.get("linkIndex"))
+
+
+def test_uncontrolled_tls_cleanup_rewrites_the_variant_as_elementtree_writes_it(tmp_path: Path) -> None:
+    from astra_sumo.core.tls_aggregation import _demote_uncontrolled_tls_artifacts, _tls_counts
+
+    text = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n<!-- generated -->\n'
+        '<net version="1.20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n\n'
+        '    <location netOffset="0,0"/>\n\n'
+        '    <tlLogic id="kept" type="static" programID="0" offset="0">\n'
+        '        <phase duration="30" state="G"/>\n    </tlLogic>\n'
+        '    <tlLogic id="orphan" type="static" programID="0" offset="0">\n'
+        '        <phase duration="30" state="G"/>\n    </tlLogic>\n\n'
+        '    <junction id="kept" type="traffic_light" x="0" y="0"><request index="0" response="0" foes="0"/></junction>\n'
+        '    <junction id="lonely" type="traffic_light" x="9" y="0"/>\n'
+        '    <junction id=":kept_0" type="internal" x="0" y="0"/>\n\n'
+        '    <connection from="a" to="b" via=":kept_0_0" tl="kept" linkIndex="0"/>\n'
+        '</net>\n'
+    )
+    variant = tmp_path / "variant.net.xml"
+    variant.write_text(text, encoding="utf-8")
+    report = _demote_uncontrolled_tls_artifacts(variant)
+
+    tree = ET.ElementTree(ET.fromstring(text.encode("utf-8")))
+    root = tree.getroot()
+    root.remove(root.find("tlLogic[@id='orphan']"))
+    root.find("junction[@id='lonely']").set("type", "priority")
+    ET.indent(root, space="    ")
+    expected = tmp_path / "expected.net.xml"
+    tree.write(expected, encoding="utf-8", xml_declaration=True)
+    assert variant.read_bytes() == expected.read_bytes()
+    assert report["tls_orphan_traffic_light_junction_demoted_ids"] == ["lonely"]
+    assert report["tls_uncontrolled_tllogic_removed_ids"] == ["orphan"]
+    assert _tls_counts(variant) == {
+        "tls_aggregated_traffic_light_junction_count": 1,
+        "tls_aggregated_tl_logic_count": 1,
+        "tls_aggregated_controlled_connection_count": 1,
+        "tls_aggregated_tl_connection_missing_linkindex_count": 0,
+    }

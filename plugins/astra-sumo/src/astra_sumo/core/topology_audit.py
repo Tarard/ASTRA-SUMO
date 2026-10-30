@@ -14,6 +14,7 @@ from .modal_aggregation_policy import classify_cluster_modal_policy, classify_ed
 from .candidate_contracts import file_sha256
 from .artifact_io import write_json_atomic
 from .osm_network import _net_xy_to_latlon
+from .xml_stream import DirectChildren, binary_blocks
 from .road_corridor import (
     enrich_clusters_with_corridor_audit,
     graph_from_topology_inputs,
@@ -55,11 +56,11 @@ def audit_topology_fragmentation(
         return finish(_failure(f"net file does not exist: {net_file}"))
 
     try:
-        junctions, edges = _read_network_graph(net_file)
+        junctions, edges, location = _read_network_graph_and_location(net_file)
     except (OSError, ET.ParseError, KeyError, ValueError) as exc:
         return finish(_failure(f"{type(exc).__name__}: {exc}"))
 
-    xy_to_latlon = _coordinate_converter(net_file)
+    xy_to_latlon = _coordinate_converter(location)
     clusters = _dense_clusters(
         junctions,
         radius_m=cluster_radius_m,
@@ -545,49 +546,81 @@ def _short_output_path(output_dir: Path, prefix: str, suffix: str) -> Path:
     return output_dir / f"p_{digest}_{suffix}"
 
 
-def _read_network_graph(net_file: Path) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
-    root = ET.parse(net_file).getroot()
-    junctions = []
-    for junction in root.findall("junction"):
-        junction_id = junction.attrib["id"]
-        junction_type = junction.attrib.get("type", "")
-        if junction_id.startswith(":") or junction_type == "internal":
-            continue
-        junctions.append(
-            {
-                "id": junction_id,
-                "type": junction_type,
-                "x": float(junction.attrib["x"]),
-                "y": float(junction.attrib["y"]),
-            }
-        )
-    edges = []
-    for edge in root.findall("edge"):
-        edge_id = edge.attrib.get("id", "")
-        if edge_id.startswith(":") or edge.attrib.get("function") == "internal":
-            continue
-        from_node = edge.attrib.get("from")
-        to_node = edge.attrib.get("to")
-        if not from_node or not to_node:
-            continue
-        lanes = edge.findall("lane")
-        shape = _edge_shape(edge, lanes)
-        edges.append(
-            {
-                "id": edge_id,
-                "from": from_node,
-                "to": to_node,
-                "type": edge.attrib.get("type", ""),
-                "function": edge.attrib.get("function", ""),
-                "allow": edge.attrib.get("allow", ""),
-                "disallow": edge.attrib.get("disallow", ""),
-                "name": edge.attrib.get("name", ""),
-                "lane_count": len(lanes),
-                "length": _edge_length(shape, lanes),
-                "shape": shape,
-            }
-        )
-    return junctions, edges
+def _junction_record(junction: ET.Element) -> dict[str, Any] | None:
+    junction_id = junction.attrib["id"]
+    junction_type = junction.attrib.get("type", "")
+    if junction_id.startswith(":") or junction_type == "internal":
+        return None
+    return {
+        "id": junction_id,
+        "type": junction_type,
+        "x": float(junction.attrib["x"]),
+        "y": float(junction.attrib["y"]),
+    }
+
+
+def _edge_record(edge: ET.Element) -> dict[str, Any] | None:
+    edge_id = edge.attrib.get("id", "")
+    if edge_id.startswith(":") or edge.attrib.get("function") == "internal":
+        return None
+    from_node = edge.attrib.get("from")
+    to_node = edge.attrib.get("to")
+    if not from_node or not to_node:
+        return None
+    lanes = edge.findall("lane")
+    shape = _edge_shape(edge, lanes)
+    return {
+        "id": edge_id,
+        "from": from_node,
+        "to": to_node,
+        "type": edge.attrib.get("type", ""),
+        "function": edge.attrib.get("function", ""),
+        "allow": edge.attrib.get("allow", ""),
+        "disallow": edge.attrib.get("disallow", ""),
+        "name": edge.attrib.get("name", ""),
+        "lane_count": len(lanes),
+        "length": _edge_length(shape, lanes),
+        "shape": shape,
+    }
+
+
+def _read_network_graph_and_location(
+    net_file: Path,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, str] | None]:
+    """Read junctions, edges and the last ``location`` element, one top-level element at a time.
+
+    Records follow document order. As for a parsed tree, a parse error wins over a bad junction, and a bad
+    junction over a bad edge; both are raised after the file has been read.
+    """
+    junctions: list[dict[str, Any]] = []
+    edges: list[dict[str, Any]] = []
+    location: dict[str, str] | None = None
+    junction_error: Exception | None = None
+    edge_error: Exception | None = None
+    for element in DirectChildren(binary_blocks(net_file)):
+        if element.tag == "junction" and junction_error is None:
+            try:
+                record = _junction_record(element)
+            except (KeyError, ValueError) as exc:
+                junction_error = exc
+                continue
+            if record is not None:
+                junctions.append(record)
+        elif element.tag == "edge" and edge_error is None:
+            try:
+                record = _edge_record(element)
+            except (KeyError, ValueError) as exc:
+                edge_error = exc
+                continue
+            if record is not None:
+                edges.append(record)
+        elif element.tag == "location":
+            location = dict(element.attrib)
+    if junction_error is not None:
+        raise junction_error
+    if edge_error is not None:
+        raise edge_error
+    return junctions, edges, location
 
 
 def _dense_clusters(
@@ -1141,14 +1174,19 @@ def _edge_length(shape: list[tuple[float, float]], lanes: list[ET.Element]) -> f
     return sum(math.hypot(right[0] - left[0], right[1] - left[1]) for left, right in zip(shape, shape[1:]))
 
 
-def _coordinate_converter(net_file: Path) -> Callable[[float, float], tuple[float, float]] | None:
+def _coordinate_converter(location: Mapping[str, str] | None) -> Callable[[float, float], tuple[float, float]] | None:
+    """Project with sumolib from the network ``location`` alone, as a loaded sumolib network projects."""
     try:
-        import sumolib  # type: ignore
-
-        net = sumolib.net.readNet(str(net_file))
-        return lambda x, y: _net_xy_to_latlon(net, x, y)
-    except Exception:  # noqa: BLE001 - optional sumolib projection has an explicit XY fallback.
+        import sumolib.net  # type: ignore
+    except ImportError:  # optional sumolib projection has an explicit XY fallback.
         return None
+    net = sumolib.net.Net()
+    if location is not None:
+        try:
+            net.setLocation(location["netOffset"], location["convBoundary"], location["origBoundary"], location["projParameter"])
+        except KeyError:  # sumolib does not load a network whose location lacks an attribute.
+            return None
+    return lambda x, y: _net_xy_to_latlon(net, x, y)
 
 
 def _cluster_latlon(

@@ -81,12 +81,13 @@ def test_route_generation_does_not_search_a_path_for_every_possible_pair(tmp_pat
     source = tmp_path / "routing.net.xml"
     policy = _routing_model(source, "cycle")
     from astra_sumo.core import local_network_conversion
-    original = local_network_conversion.loaded_turn_permissions
+    original = local_network_conversion.streamed_loaded_turn_permissions
     calls = []
-    def counted(root):
-        calls.append(root)
-        return original(root)
-    monkeypatch.setattr(local_network_conversion, "loaded_turn_permissions", counted)
+    def counted(path, **kwargs):
+        calls.append(path)
+        return original(path, **kwargs)
+    monkeypatch.setattr(local_network_conversion, "streamed_loaded_turn_permissions", counted)
+    monkeypatch.setattr(local_network_conversion, "loaded_turn_permissions", lambda root: pytest.fail("tree read"))
     audit._write_source_reachable_trips(source, policy, tmp_path / "trips.xml", vehicle_count=100, seed=104)
     assert len(calls) == 1
 
@@ -115,3 +116,14 @@ def test_source_sampling_matches_native_loaded_turn_access(tmp_path, restriction
     assert report["reachable_od_pair_count"] == expected_pairs
     assert report["reachable_destination_count_by_source"]["e0"] == expected_targets
     assert report["method"].endswith("/v2")
+
+
+def test_od_policy_and_sampling_read_the_network_one_element_at_a_time(tmp_path, monkeypatch):
+    source = tmp_path / "routing.net.xml"
+    policy = _routing_model(source, "restricted")
+    expected_report = audit._write_source_reachable_trips(source, policy, tmp_path / "expected.xml", vehicle_count=30, seed=7)
+    monkeypatch.setattr(audit.ET, "parse", lambda *args, **kwargs: pytest.fail("whole-tree read"))
+    assert audit.build_routeability_od_policy([source]) == policy
+    report = audit._write_source_reachable_trips(source, policy, tmp_path / "trips.xml", vehicle_count=30, seed=7)
+    assert report == expected_report
+    assert (tmp_path / "trips.xml").read_bytes() == (tmp_path / "expected.xml").read_bytes()

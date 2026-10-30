@@ -4,9 +4,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable, Mapping
 import math
-import xml.etree.ElementTree as ET
 
 from PIL import Image, ImageDraw, ImageFont
+
+from .xml_stream import DirectChildren, binary_blocks
 
 
 @dataclass(frozen=True)
@@ -89,43 +90,44 @@ def _point_near_bounds(
 
 
 def _read_net(net_file: Path) -> NetDrawing:
-    root = ET.parse(net_file).getroot()
+    """Read the drawing of a network one top-level element at a time: first-lane shapes of edges and junctions."""
     segments: list[Segment] = []
     junctions: dict[str, tuple[float, float]] = {}
     tls_points: list[tuple[float, float]] = []
-    all_points: list[tuple[float, float]] = []
+    edge_points: list[tuple[float, float]] = []
+    junction_points: list[tuple[float, float]] = []
 
-    for edge in root.findall("edge"):
-        edge_id = edge.get("id", "")
-        if edge_id.startswith(":") or edge.get("function") == "internal":
-            continue
-        lane = edge.find("lane")
-        if lane is None:
-            continue
-        points = _parse_shape(lane.get("shape"))
-        if len(points) < 2:
-            continue
-        all_points.extend(points)
-        segments.append(Segment(points=points, category=_edge_category(edge.get("type", ""))))
-
-    for junction in root.findall("junction"):
-        junction_id = junction.get("id", "")
-        if junction_id.startswith(":") or junction.get("type") == "internal":
-            continue
-        try:
-            point = (float(junction.get("x", "0")), float(junction.get("y", "0")))
-        except ValueError:
-            continue
-        junctions[junction_id] = point
-        if junction.get("type") == "traffic_light":
-            tls_points.append(point)
-        all_points.append(point)
+    for element in DirectChildren(binary_blocks(net_file)):
+        if element.tag == "edge":
+            edge_id = element.get("id", "")
+            if edge_id.startswith(":") or element.get("function") == "internal":
+                continue
+            lane = element.find("lane")
+            if lane is None:
+                continue
+            points = _parse_shape(lane.get("shape"))
+            if len(points) < 2:
+                continue
+            edge_points.extend(points)
+            segments.append(Segment(points=points, category=_edge_category(element.get("type", ""))))
+        elif element.tag == "junction":
+            junction_id = element.get("id", "")
+            if junction_id.startswith(":") or element.get("type") == "internal":
+                continue
+            try:
+                point = (float(element.get("x", "0")), float(element.get("y", "0")))
+            except ValueError:
+                continue
+            junctions[junction_id] = point
+            if element.get("type") == "traffic_light":
+                tls_points.append(point)
+            junction_points.append(point)
 
     return NetDrawing(
         segments=tuple(segments),
         junctions=junctions,
         traffic_lights=tuple(tls_points),
-        bounds=_expanded_bounds(all_points),
+        bounds=_expanded_bounds(edge_points + junction_points),
     )
 
 

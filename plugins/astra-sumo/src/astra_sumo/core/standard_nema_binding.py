@@ -16,6 +16,7 @@ from .artifact_io import write_json_atomic, write_text_atomic
 from .candidate_contracts import file_sha256
 from .command_runner import run_command
 from .connection_mode_audit import (
+    UNREAD_PARAMETER_OWNERS,
     audit_standard_connection_mode,
     build_connection_mode_catalog,
     lane_supports_motorized,
@@ -24,6 +25,7 @@ from .connection_mode_audit import (
 from .routeability_audit import run_routeability_audit
 from .sumo_commands import discover_binaries
 from .local_network_conversion import with_geometry_precision
+from .xml_stream import compact_tree, text_blocks
 
 
 _CONNECTION_TAG = re.compile(r"<connection(?=\s)[^<>]*/>", re.DOTALL)
@@ -98,8 +100,13 @@ def build_standard_nema_phase_binding(
 
     source_sha256 = file_sha256(source)
     try:
-        source_text = source.read_text(encoding="utf-8")
-        root = ET.fromstring(source_text)
+        if requested_junction:
+            source_text = source.read_text(encoding="utf-8")
+            root = ET.fromstring(source_text)
+        else:
+            # A scan patches nothing: the text is not kept, and the tree leaves out parameters it never reads.
+            source_text = ""
+            root = compact_tree(text_blocks(source), without_params_of=UNREAD_PARAMETER_OWNERS)
     except (OSError, UnicodeError, ET.ParseError) as exc:
         return _persist_input_failure(
             source=source,
@@ -112,6 +119,10 @@ def build_standard_nema_phase_binding(
     catalog = _build_catalog(root)
     records = _scan_standard_junctions(catalog)
     counts = _scan_counts(records)
+    traffic_side = str(catalog["traffic_side"]["effective"])
+    if not requested_junction:
+        # The scan reports are written from the records alone.
+        del catalog, root
     _write_connection_mode_report(
         paths["connection_mode_report_file"],
         source=source,
@@ -127,7 +138,7 @@ def build_standard_nema_phase_binding(
         requested_junction=requested_junction,
         records=records,
         counts=counts,
-        traffic_side=str(catalog["traffic_side"]["effective"]),
+        traffic_side=traffic_side,
     )
 
     if not requested_junction:
@@ -485,6 +496,13 @@ def _build_catalog(root: ET.Element) -> dict[str, Any]:
                 lane_owners=lane_owners,
             )
         )
+    # Connection indices by owner and by controller, in document order, so a junction does not scan them all.
+    indices_by_owner: dict[str | None, list[int]] = defaultdict(list)
+    indices_by_controller: dict[str, list[int]] = defaultdict(list)
+    for index, (connection, owner) in enumerate(zip(connections, connection_owners)):
+        indices_by_owner[owner].append(index)
+        if connection.attrib.get("tl"):
+            indices_by_controller[connection.attrib["tl"]].append(index)
     return {
         "root": root,
         "traffic_side": resolve_network_traffic_side(root),
@@ -492,6 +510,8 @@ def _build_catalog(root: ET.Element) -> dict[str, Any]:
         "edges": edges,
         "connections": connections,
         "connection_owners": connection_owners,
+        "connection_indices_by_owner": indices_by_owner,
+        "connection_indices_by_controller": indices_by_controller,
         "tl_logics": tl_logics,
         "logics_by_id": logics_by_id,
         "connection_mode_catalog": build_connection_mode_catalog(root),
@@ -575,7 +595,7 @@ def _classify_standard_junction(catalog: Mapping[str, Any], junction_id: str) ->
         blockers.append("junction_coordinates_missing_or_invalid")
         position = (0.0, 0.0)
 
-    owned_indices = [index for index, owner in enumerate(owners) if owner == junction_id]
+    owned_indices = list(catalog["connection_indices_by_owner"].get(junction_id, ()))
     direct_indices = [
         index
         for index in owned_indices
@@ -619,11 +639,9 @@ def _classify_standard_junction(catalog: Mapping[str, Any], junction_id: str) ->
     if controller_id and len(logic_entries) != 1:
         blockers.append(f"embedded_tllogic_count_not_one:{len(logic_entries)}")
 
-    controller_connection_indices = [
-        index
-        for index, connection in enumerate(connections)
-        if controller_id and connection.attrib.get("tl") == controller_id
-    ]
+    controller_connection_indices = (
+        list(catalog["connection_indices_by_controller"].get(controller_id, ())) if controller_id else []
+    )
     foreign_owners = sorted(
         {
             owners[index] or "unresolved"

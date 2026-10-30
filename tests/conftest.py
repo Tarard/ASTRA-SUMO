@@ -55,3 +55,54 @@ def pytest_collection_modifyitems(config: pytest.Config, items: list[pytest.Item
         base_nodeid = item.nodeid.split("[", 1)[0]
         if base_nodeid in HISTORICAL_HAMBURG_TESTS:
             item.add_marker(marker)
+
+
+_SIGNAL_NODES = """<nodes>
+    <node id="A" x="13.7300" y="51.0500" type="priority"/>
+    <node id="B" x="13.7314" y="51.0500" type="traffic_light"/>
+    <node id="C" x="13.73157" y="51.0500" type="traffic_light"/>
+    <node id="D" x="13.73297" y="51.0500" type="traffic_light"/>
+    <node id="E" x="13.7314" y="51.0509" type="priority"/>
+    <node id="F" x="13.73157" y="51.0491" type="priority"/>
+    <node id="G" x="13.73437" y="51.0500" type="priority"/>
+    <node id="H" x="13.73297" y="51.0509" type="priority"/>
+</nodes>
+"""
+_SIGNAL_EDGES = """<edges>
+    <edge id="AB" from="A" to="B" numLanes="2" speed="13.89"><param key="origId" value="10 11"/><param key="name" value="West Street"/></edge>
+    <edge id="BA" from="B" to="A" numLanes="2" speed="13.89"><param key="origId" value="-10"/></edge>
+    <edge id="BE" from="B" to="E" numLanes="1" speed="13.89" name="North Road"/>
+    <edge id="EB" from="E" to="B" numLanes="1" speed="13.89" name="North Road"/>
+    <edge id="BC" from="B" to="C" numLanes="2" speed="13.89"/>
+    <edge id="CB" from="C" to="B" numLanes="2" speed="13.89"/>
+    <edge id="CF" from="C" to="F" numLanes="1" speed="13.89"/>
+    <edge id="FC" from="F" to="C" numLanes="1" speed="13.89"/>
+    <edge id="CD" from="C" to="D" numLanes="2" speed="13.89"/>
+    <edge id="DC" from="D" to="C" numLanes="2" speed="13.89"/>
+    <edge id="DG" from="D" to="G" numLanes="1" speed="13.89"/>
+    <edge id="GD" from="G" to="D" numLanes="1" speed="13.89"/>
+    <edge id="DH" from="D" to="H" numLanes="1" speed="13.89"/>
+    <edge id="HD" from="H" to="D" numLanes="1" speed="13.89"/>
+</edges>
+"""
+
+
+@pytest.fixture(scope="session")
+def signal_network(tmp_path_factory) -> Path:
+    """A native network with a joined controller (no junction of its id), a single one, crossings, walking areas,
+    edge parameters and a UTM projection, built once by the packaged netconvert from geographic nodes."""
+    import os
+    import subprocess
+
+    sumo = pytest.importorskip("sumo")
+    netconvert = Path(sumo.__file__).parent / "bin" / ("netconvert.exe" if os.name == "nt" else "netconvert")
+    if not netconvert.is_file():
+        pytest.skip("The SUMO package netconvert is required.")
+    directory = tmp_path_factory.mktemp("signal-network")
+    (directory / "n.nod.xml").write_text(_SIGNAL_NODES, encoding="utf-8")
+    (directory / "n.edg.xml").write_text(_SIGNAL_EDGES, encoding="utf-8")
+    network = directory / "signals.net.xml"
+    subprocess.run([str(netconvert), "--node-files", "n.nod.xml", "--edge-files", "n.edg.xml", "--proj.utm",
+                    "--tls.join", "--tls.join-dist", "20", "--sidewalks.guess", "--crossings.guess",
+                    "--output-file", str(network)], cwd=directory, check=True, capture_output=True)
+    return network

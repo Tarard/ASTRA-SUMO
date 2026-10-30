@@ -9,7 +9,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import sys
+import tempfile
 from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
@@ -132,12 +134,25 @@ def _exit_code(result: AstraToolResult | dict[str, Any]) -> int:
     return 1
 
 
+def _print_json(result: dict[str, Any]) -> None:
+    """Print ``json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True)`` without building the string.
+
+    A city workflow result is about a gigabyte of JSON. It is encoded into a temporary file and copied to stdout,
+    so a result that cannot be encoded still prints nothing.
+    """
+    with tempfile.TemporaryFile("w+", encoding="utf-8", errors="surrogatepass", newline="") as spool:
+        json.dump(result, spool, ensure_ascii=False, indent=2, sort_keys=True)
+        spool.seek(0)
+        shutil.copyfileobj(spool, sys.stdout)
+    print()
+
+
 def _emit(result: AstraToolResult | dict[str, Any], *, json_output: bool) -> int:
     if json_output:
         if isinstance(result, AstraToolResult):
             print(result.model_dump_json(indent=2))
         else:
-            print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
+            _print_json(result)
     else:
         if isinstance(result, AstraToolResult):
             print(f"{result.status}: {result.summary}")

@@ -20,7 +20,7 @@ import xml.etree.ElementTree as ET
 
 from .artifact_io import atomic_writer, copy_file_atomic, write_json_atomic
 from .command_runner import run_command
-from .xml_stream import DirectChildren, read_blocks
+from .xml_stream import DirectChildren, binary_blocks, read_blocks
 
 
 DEFAULT_ALLOWED_HIGHWAYS = {
@@ -611,39 +611,43 @@ def _origin_name_output_summary(net_file: Path) -> dict[str, Any]:
     if not net_file.is_file():
         summary["reason"] = "sumo_net_not_created"
         return summary
+
+    # The network is read one top-level element at a time; counts are kept only when the whole file parses.
+    road_edge_count = parameter_count = observed_edge_count = 0
+    observed_tokens: set[str] = set()
     try:
-        root = ET.parse(net_file).getroot()
+        for edge in DirectChildren(binary_blocks(net_file)):
+            if edge.tag != "edge":
+                continue
+            edge_id = edge.attrib.get("id", "")
+            function = edge.attrib.get("function", "").strip().casefold()
+            if edge_id.startswith(":") or function not in {"", "normal"}:
+                continue
+            road_edge_count += 1
+            edge_has_observed_origin = False
+            for container in (edge, *edge.findall("lane")):
+                for parameter in container.findall("param"):
+                    if parameter.attrib.get("key", "").casefold() != "origid":
+                        continue
+                    raw_value = parameter.attrib.get("value", "").strip()
+                    if not raw_value:
+                        continue
+                    edge_has_observed_origin = True
+                    parameter_count += 1
+                    observed_tokens.update(
+                        token
+                        for token in raw_value.replace(",", " ").replace(";", " ").split()
+                        if token
+                    )
+            if edge_has_observed_origin:
+                observed_edge_count += 1
     except (OSError, ET.ParseError) as exc:
         summary["reason"] = f"sumo_net_not_parseable:{type(exc).__name__}"
         return summary
-
-    observed_tokens: set[str] = set()
-    for edge in root.findall("edge"):
-        edge_id = edge.attrib.get("id", "")
-        function = edge.attrib.get("function", "").strip().casefold()
-        if edge_id.startswith(":") or function not in {"", "normal"}:
-            continue
-        summary["road_edge_count"] += 1
-        edge_has_observed_origin = False
-        for container in (edge, *edge.findall("lane")):
-            for parameter in container.findall("param"):
-                if parameter.attrib.get("key", "").casefold() != "origid":
-                    continue
-                raw_value = parameter.attrib.get("value", "").strip()
-                if not raw_value:
-                    continue
-                edge_has_observed_origin = True
-                summary["observed_orig_id_parameter_count"] += 1
-                observed_tokens.update(
-                    token
-                    for token in raw_value.replace(",", " ").replace(";", " ").split()
-                    if token
-                )
-        if edge_has_observed_origin:
-            summary["road_edge_with_observed_orig_id_count"] += 1
+    summary["road_edge_count"] = road_edge_count
+    summary["road_edge_with_observed_orig_id_count"] = observed_edge_count
+    summary["observed_orig_id_parameter_count"] = parameter_count
     summary["observed_orig_id_token_count"] = len(observed_tokens)
-    road_edge_count = int(summary["road_edge_count"])
-    observed_edge_count = int(summary["road_edge_with_observed_orig_id_count"])
     if road_edge_count == 0:
         summary["status"] = "not_applicable"
         summary["reason"] = "no_external_road_edges"
@@ -1731,8 +1735,9 @@ def _iter_osm_signal_nodes(osm_file: Path) -> list[dict[str, Any]]:
     opener = gzip.open if osm_file.suffix == ".gz" else open
     signals = []
     with opener(osm_file, "rt", encoding="utf-8") as handle:
-        for _event, elem in ET.iterparse(handle, events=("end",)):
-            if elem.tag == "node":
+        # Every top-level element is dropped once read, so ways and relations do not pile up in the tree.
+        for element in DirectChildren(read_blocks(handle)):
+            for elem in element.iter("node"):
                 tags = {tag.attrib.get("k"): tag.attrib.get("v") for tag in elem.findall("tag")}
                 if tags.get("highway") == "traffic_signals":
                     signals.append(
@@ -1742,7 +1747,6 @@ def _iter_osm_signal_nodes(osm_file: Path) -> list[dict[str, Any]]:
                             "lon": float(elem.attrib["lon"]),
                         }
                     )
-                elem.clear()
     return signals
 
 
@@ -1753,21 +1757,123 @@ def _nearest_signal(lat: float, lon: float, signals: list[dict[str, Any]]) -> tu
     return best["osm_signal_id"], haversine_m(lat, lon, best["lat"], best["lon"])
 
 
-def _edge_name_lookup(net_file: Path) -> dict[str, str]:
-    names = {}
-    current_edge = None
-    for event, elem in ET.iterparse(net_file, events=("start", "end")):
-        if event == "start" and elem.tag == "edge":
-            current_edge = elem.attrib.get("id")
-            if elem.attrib.get("name"):
-                names[current_edge] = elem.attrib["name"]
-        elif event == "end":
-            if elem.tag == "param" and current_edge and elem.attrib.get("key") in {"name", "origId"}:
-                names.setdefault(current_edge, elem.attrib.get("value", ""))
-            elif elem.tag == "edge":
-                current_edge = None
-            elem.clear()
-    return names
+def _record_edge_name(names: dict[str, str], edge: ET.Element) -> None:
+    """Name an edge by its name attribute, else by its first name or origId parameter, edge or lane level."""
+    edge_id = edge.attrib.get("id")
+    if edge.attrib.get("name"):
+        names[edge_id] = edge.attrib["name"]
+    if edge_id:
+        for parameter in edge.iter("param"):
+            if parameter.attrib.get("key") in {"name", "origId"}:
+                names.setdefault(edge_id, parameter.attrib.get("value", ""))
+
+
+def _sumolib_lane_position(lane_counts: Mapping[str, int], edge_id: str, spelled: str) -> int:
+    """The lane list position sumolib's ``edge.getLane(int(spelled))`` reads, raising as it raises."""
+    count = lane_counts[edge_id]
+    index = int(spelled)
+    if not -count <= index < count:
+        raise IndexError("list index out of range")
+    return index % count
+
+
+class SumolibTlsView:
+    """What ``sumolib.net.readNet(net_file, withPrograms=True)`` loads about traffic lights, fed one top-level
+    element at a time.
+
+    It keeps the location, the coordinates of the first junction of each non-internal id, the junction ids sumolib
+    creates (non-internal junctions and the end junctions of plain edges), the end junctions and lane count of each
+    plain edge (a later edge of the same id only adds lanes) and, per traffic light in order of first appearance,
+    its loaded connections as ``(from edge, lane position, to edge, lane position)`` in document order. Connections
+    from internal edges or touching crossings, walking areas or macro connectors are not loaded. A connection to an
+    unknown edge or lane raises ``KeyError`` or ``IndexError`` and a malformed index ``ValueError``, as in sumolib.
+    """
+
+    def __init__(self) -> None:
+        self.location: dict[str, str] | None = None
+        self.coordinates: dict[str, tuple[float, float]] = {}
+        self.node_ids: set[str] = set()
+        self.edge_ends: dict[str, tuple[str | None, str | None]] = {}
+        self.lane_counts: dict[str, int] = {}
+        self.unloaded_edges: set[str] = set()
+        self.controllers: dict[str, list[tuple[str, int, str, int]]] = {}
+        self._names: dict[str, str] = {}
+
+    def _shared(self, value: str | None) -> str | None:
+        return None if value is None else self._names.setdefault(value, value)
+
+    def add(self, element: ET.Element) -> None:
+        attributes = element.attrib
+        if element.tag == "edge":
+            function = attributes.get("function", "")
+            if function == "":
+                edge_id = attributes["id"]
+                if edge_id not in self.edge_ends:
+                    ends = (self._shared(attributes.get("from")), self._shared(attributes.get("to")))
+                    self.edge_ends[edge_id] = ends
+                    self.node_ids.update(node_id for node_id in ends if node_id is not None)
+                self.lane_counts[edge_id] = self.lane_counts.get(edge_id, 0) + len(element.findall("lane"))
+            elif function in {"crossing", "walkingarea", "connector"}:
+                self.unloaded_edges.add(attributes["id"])
+        elif element.tag == "junction":
+            junction_id = attributes["id"]
+            if junction_id[0] != ":":
+                self.node_ids.add(self._shared(junction_id))
+                if junction_id not in self.coordinates:
+                    self.coordinates[junction_id] = (float(attributes["x"]), float(attributes["y"]))
+        elif element.tag == "tlLogic":
+            self.controllers.setdefault(attributes["id"], [])
+        elif element.tag == "connection":
+            first = attributes["from"]
+            if first[0] == ":":
+                return
+            last = attributes["to"]
+            if first in self.unloaded_edges or last in self.unloaded_edges:
+                return
+            first_lane = _sumolib_lane_position(self.lane_counts, first, attributes["fromLane"])
+            last_lane = _sumolib_lane_position(self.lane_counts, last, attributes["toLane"])
+            tl_id = attributes.get("tl", "")
+            if tl_id:
+                int(attributes["linkIndex"])
+                self.controllers.setdefault(tl_id, []).append((first, first_lane, last, last_lane))
+        elif element.tag == "location":
+            self.location = dict(attributes)
+
+
+def _streamed_tls_network(net_file: Path) -> tuple[SumolibTlsView, dict[str, str]]:
+    """Read the sumolib traffic-light view and the edge names of a network in one streamed pass."""
+    view = SumolibTlsView()
+    names: dict[str, str] = {}
+    for element in DirectChildren(binary_blocks(net_file)):
+        if element.tag == "edge":
+            _record_edge_name(names, element)
+        view.add(element)
+    return view, names
+
+
+def _streamed_lane_shapes(net_file: Path, wanted: set[tuple[str, int]]) -> dict[tuple[str, int], list[tuple[float, float]]]:
+    """The 2D shapes sumolib loads for the wanted ``(plain edge, lane position)`` lanes, read in one pass."""
+    import sumolib.net  # type: ignore
+
+    if not wanted:
+        return {}
+    wanted_edges = {edge_id for edge_id, _ in wanted}
+    positions: dict[str, int] = {}
+    shapes: dict[tuple[str, int], list[tuple[float, float]]] = {}
+    for element in DirectChildren(binary_blocks(net_file)):
+        if element.tag != "edge" or element.attrib.get("function", "") != "":
+            continue
+        edge_id = element.attrib["id"]
+        if edge_id not in wanted_edges:
+            continue
+        for lane in element.findall("lane"):
+            position = positions.get(edge_id, 0)
+            positions[edge_id] = position + 1
+            if (edge_id, position) in wanted:
+                shapes[(edge_id, position)] = [
+                    (x, y) for x, y, _z in sumolib.net.convertShape(lane.attrib.get("shape", ""))
+                ]
+    return shapes
 
 
 def _parse_utm_zone(proj_parameter: str) -> int:
@@ -1844,38 +1950,60 @@ def extract_tls_candidates(
     except ModuleNotFoundError as exc:
         raise RuntimeError("sumolib is required for TLS coordinate extraction") from exc
 
-    net = sumolib.net.readNet(str(net_file), withPrograms=True)
+    # A streamed pass replaces the sumolib object model of the whole network; the projection is sumolib's,
+    # from the network location alone.
+    network, edge_names = _streamed_tls_network(net_file)
+    net = sumolib.net.Net()
+    location = network.location
+    if location is not None:
+        net.setLocation(location["netOffset"], location["convBoundary"], location["origBoundary"], location["projParameter"])
+    nodes = network.coordinates
+    controllers = {
+        tls_id: connections
+        for tls_id, connections in network.controllers.items()
+        if len(connections) >= min_connections
+    }
+    del network
     signals = _iter_osm_signal_nodes(osm_file) if osm_file is not None else []
-    edge_names = _edge_name_lookup(net_file)
+    # Lane shapes are read only for controllers without a junction of their own id.
+    shapes = _streamed_lane_shapes(
+        net_file,
+        {
+            lane
+            for tls_id, connections in controllers.items()
+            if tls_id not in nodes
+            for first, first_lane, last, last_lane in connections
+            for lane in ((first, first_lane), (last, last_lane))
+        },
+    )
     rows = []
-    for tls in net.getTrafficLights():
-        connections = tls.getConnections()
-        if len(connections) < min_connections:
-            continue
+    for tls_id, connections in controllers.items():
         try:
-            node = net.getNode(tls.getID())
-            lat, lon = _net_xy_to_latlon(net, node.getCoord()[0], node.getCoord()[1])
+            x, y = nodes[tls_id]
+            lat, lon = _net_xy_to_latlon(net, x, y)
         except Exception:  # noqa: BLE001 - malformed third-party TLS objects use lane-shape fallback.
+            lanes = [lane for first, first_lane, last, last_lane in connections for lane in ((first, first_lane), (last, last_lane))]
+            if any(lane not in shapes for lane in lanes):
+                shapes.update(_streamed_lane_shapes(net_file, set(lanes)))
             points = []
-            for incoming_lane, outgoing_lane, _ in connections:
-                for lane in (incoming_lane, outgoing_lane):
-                    shape = lane.getShape()
-                    if shape:
-                        points.extend([shape[0], shape[-1]])
+            for lane in lanes:
+                shape = shapes[lane]
+                if shape:
+                    points.extend([shape[0], shape[-1]])
             if not points:
                 continue
             x = sum(point[0] for point in points) / len(points)
             y = sum(point[1] for point in points) / len(points)
             lat, lon = _net_xy_to_latlon(net, x, y)
         signal_id, signal_distance = _nearest_signal(lat, lon, signals)
-        incoming_edge_ids = sorted({incoming_lane.getEdge().getID() for incoming_lane, _, _ in connections})
-        outgoing_edge_ids = sorted({outgoing_lane.getEdge().getID() for _, outgoing_lane, _ in connections})
+        incoming_edge_ids = sorted({first for first, _, _, _ in connections})
+        outgoing_edge_ids = sorted({last for _, _, last, _ in connections})
         incoming_names = sorted({edge_names.get(edge_id, "") for edge_id in incoming_edge_ids if edge_names.get(edge_id, "")})
         outgoing_names = sorted({edge_names.get(edge_id, "") for edge_id in outgoing_edge_ids if edge_names.get(edge_id, "")})
         has_osm_signal = signal_distance is not None and signal_distance <= 35.0
         rows.append(
             {
-                "tls_id": tls.getID(),
+                "tls_id": tls_id,
                 "lat": f"{lat:.7f}",
                 "lon": f"{lon:.7f}",
                 "connection_count": len(connections),
@@ -1889,7 +2017,7 @@ def extract_tls_candidates(
                 "google_maps_url": google_maps_url(lat, lon),
                 "google_audit_status": "needs_google_review",
                 "google_audit_note": "",
-                **regional_map_fields(lat, lon, label=f"SUMO TLS {tls.getID()}"),
+                **regional_map_fields(lat, lon, label=f"SUMO TLS {tls_id}"),
                 **google_maps_baseline_fields(google_maps_temporal_scope, google_maps_target_date),
             }
         )
@@ -2284,34 +2412,64 @@ def _lane_allows_passenger(lane: ET.Element) -> bool:
 
 
 def read_net_edges(path: Path) -> tuple[dict[str, EdgeInfo], dict[str, set[str]]]:
+    """Read the plain edges of a network and the edges each one connects to, one top-level element at a time.
+
+    A connection counts when both of its edges are plain edges of the network. When an edge follows a
+    connection in the file, the connections are read again once every edge is known. An edge without an id
+    raises ``KeyError`` after the whole file has parsed, as for a parsed tree.
+    """
     edges: dict[str, EdgeInfo] = {}
     connections: dict[str, set[str]] = {}
-    root = ET.parse(path).getroot()
-    for edge in root.findall("edge"):
-        edge_id = edge.attrib["id"]
-        if edge.attrib.get("function") or edge_id.startswith(":"):
-            continue
-        params = [
-            param.attrib.get("value", "")
-            for param in edge.findall("param")
-            if param.attrib.get("key") in {"name", "bridge:name", "loc_name", "alt_name", "destination"}
-            and param.attrib.get("value")
-        ]
-        if edge.attrib.get("name"):
-            params.append(edge.attrib["name"])
-        lanes = edge.findall("lane")
-        edges[edge_id] = EdgeInfo(
-            edge_id=edge_id,
-            from_node=edge.attrib.get("from", ""),
-            to_node=edge.attrib.get("to", ""),
-            name_values=tuple(params),
-            allows_passenger=any(_lane_allows_passenger(lane) for lane in lanes),
-        )
-    for connection in root.findall("connection"):
+
+    def connect(connection: ET.Element) -> None:
         from_edge = connection.attrib.get("from")
         to_edge = connection.attrib.get("to")
         if from_edge in edges and to_edge in edges:
             connections.setdefault(from_edge, set()).add(to_edge)
+
+    failure: KeyError | None = None
+    connection_seen = edge_after_connection = False
+    for element in DirectChildren(binary_blocks(path)):
+        if failure is not None:
+            continue
+        if element.tag == "connection":
+            connection_seen = True
+            if not edge_after_connection:
+                connect(element)
+            continue
+        if element.tag != "edge":
+            continue
+        edge_after_connection |= connection_seen
+        try:
+            edge_id = element.attrib["id"]
+        except KeyError as exc:
+            failure = exc
+            continue
+        if element.attrib.get("function") or edge_id.startswith(":"):
+            continue
+        params = [
+            param.attrib.get("value", "")
+            for param in element.findall("param")
+            if param.attrib.get("key") in {"name", "bridge:name", "loc_name", "alt_name", "destination"}
+            and param.attrib.get("value")
+        ]
+        if element.attrib.get("name"):
+            params.append(element.attrib["name"])
+        lanes = element.findall("lane")
+        edges[edge_id] = EdgeInfo(
+            edge_id=edge_id,
+            from_node=element.attrib.get("from", ""),
+            to_node=element.attrib.get("to", ""),
+            name_values=tuple(params),
+            allows_passenger=any(_lane_allows_passenger(lane) for lane in lanes),
+        )
+    if failure is not None:
+        raise failure
+    if edge_after_connection:
+        connections.clear()
+        for element in DirectChildren(binary_blocks(path)):
+            if element.tag == "connection":
+                connect(element)
     return edges, connections
 
 

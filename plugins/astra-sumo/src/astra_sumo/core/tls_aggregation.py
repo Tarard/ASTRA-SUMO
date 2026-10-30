@@ -11,6 +11,8 @@ import xml.etree.ElementTree as ET
 from .command_runner import run_command
 from .connection_mode_audit import audit_network_connection_mode
 from .local_network_conversion import with_geometry_precision
+from .osm_network import SumolibTlsView
+from .xml_stream import DirectChildren, binary_blocks, rewrite_indented
 
 
 TlsPhysicalConnectionKey = tuple[str, str, str, str, str]
@@ -244,7 +246,9 @@ def build_tls_aggregation_variant(
     candidates_file = _short_output_path(output_dir, prefix, "_representatives.csv")
     variant_file = output_dir / "tls_aggregated.net.xml"
     command_record = _short_output_path(output_dir, prefix, "_netconvert.cmd.txt")
-    source_tls_counts = _source_tls_program_counts(net_file)
+    # One streamed pass over the source collects everything the plan and the program preservation read from it.
+    source = _read_source_network(net_file, controlled_nodes=controlled_nodes_by_tls_func is None)
+    source_tls_counts = source["counts"]
 
     if cluster_count == 0:
         plan_file.write_text(
@@ -285,11 +289,12 @@ def build_tls_aggregation_variant(
 
     clusters = _read_clusters(clusters_path)
     try:
-        controlled_nodes_by_tls = (
-            controlled_nodes_by_tls_func(net_file)
-            if controlled_nodes_by_tls_func is not None
-            else _controlled_nodes_by_tls(net_file)
-        )
+        if controlled_nodes_by_tls_func is not None:
+            controlled_nodes_by_tls = controlled_nodes_by_tls_func(net_file)
+        elif source["controlled_nodes_error"] is not None:
+            raise source["controlled_nodes_error"]
+        else:
+            controlled_nodes_by_tls = source["controlled_nodes"]
     except Exception as exc:  # noqa: BLE001 - callback boundary is persisted as a blocked report.
         return {
             **_failure(f"could not derive TLS-controlled junctions: {type(exc).__name__}: {exc}"),
@@ -306,9 +311,10 @@ def build_tls_aggregation_variant(
     )
     representative_node_ids, spatially_pruned_representatives = _spatially_prune_representatives(
         representative_node_ids,
-        _junction_positions(net_file),
+        source["positions"],
         tls_representative_prune_dist_m,
     )
+    del source["positions"], source["controlled_nodes"]
     plan = {
         "tls_aggregation_status": "planned_for_review_variant",
         "net_file": str(net_file),
@@ -373,7 +379,9 @@ def build_tls_aggregation_variant(
 
     status = "pass" if result.get("status") == "pass" and variant_file.exists() else "fail"
     tls_program_preservation = (
-        _preserve_compatible_tls_programs(net_file, variant_file, representatives) if status == "pass" else _empty_preservation()
+        _preserve_compatible_tls_programs(net_file, variant_file, representatives, source_logics=source["tl_logics"])
+        if status == "pass"
+        else _empty_preservation()
     )
     tls_orphan_cleanup = _demote_uncontrolled_tls_artifacts(variant_file) if status == "pass" else _empty_tls_orphan_cleanup()
     counts = _tls_counts(variant_file) if variant_file.exists() else {}
@@ -461,18 +469,86 @@ def _split_tls_ids(value: str) -> list[str]:
     return [item.strip() for item in value.replace(",", ";").split(";") if item.strip()]
 
 
-def _junction_positions(net_file: Path) -> dict[str, tuple[float, float]]:
-    root = ET.parse(net_file).getroot()
-    positions = {}
-    for junction in root.findall("junction"):
-        junction_id = junction.attrib.get("id", "")
-        if not junction_id or junction_id.startswith(":"):
-            continue
+def _controlled_nodes_by_tls(view: SumolibTlsView) -> dict[str, list[str]]:
+    """The junctions each traffic light controls, as derived from sumolib's network: the junction with the
+    controller id, if any, and the end junction of each incoming and the start junction of each outgoing edge of
+    its loaded connections, without internal junctions."""
+    mapping: dict[str, list[str]] = {}
+    for tl_id, connections in view.controllers.items():
+        node_ids = [tl_id] if tl_id in view.node_ids else []
+        for first, _first_lane, last, _last_lane in connections:
+            for node_id in (view.edge_ends[first][1], view.edge_ends[last][0]):
+                if node_id is None:  # sumolib's edge without that junction has no node to name
+                    raise AttributeError("'NoneType' object has no attribute 'getID'")
+                if not node_id.startswith(":"):
+                    node_ids.append(node_id)
+        mapping[tl_id] = sorted(set(node_ids))
+    return mapping
+
+
+def _read_source_network(net_file: Path, *, controlled_nodes: bool) -> dict[str, Any]:
+    """Read what the aggregation needs from its source network, one top-level element at a time.
+
+    The result holds the source TLS program and connection counts, the positions of non-internal junctions, the
+    tlLogic elements by id (the last one of an id wins) and, when asked, the junctions each traffic light
+    controls as sumolib derives them. When sumolib could not load the network, ``controlled_nodes_error`` holds
+    the error it raises instead.
+    """
+    counts = dict.fromkeys(
+        (
+            "source_tl_logic_count",
+            "source_actuated_tl_logic_count",
+            "source_tls_phase_count",
+            "source_tls_phase_with_minmax_count",
+            "source_tls_controlled_connection_count",
+            "source_tl_connection_missing_linkindex_count",
+        ),
+        0,
+    )
+    positions: dict[str, tuple[float, float]] = {}
+    tl_logics: dict[str, ET.Element] = {}
+    view = SumolibTlsView() if controlled_nodes else None
+    error: Exception | None = None
+    for element in DirectChildren(binary_blocks(net_file)):
+        attributes = element.attrib
+        if element.tag == "tlLogic":
+            phases = element.findall("phase")
+            counts["source_tl_logic_count"] += 1
+            counts["source_actuated_tl_logic_count"] += attributes.get("type") == "actuated"
+            counts["source_tls_phase_count"] += len(phases)
+            counts["source_tls_phase_with_minmax_count"] += sum(
+                1 for phase in phases if phase.attrib.get("minDur") or phase.attrib.get("maxDur")
+            )
+            if attributes.get("id"):
+                tl_logics[attributes["id"]] = element
+        elif element.tag == "connection" and attributes.get("tl"):
+            key = "source_tls_controlled_connection_count" if attributes.get("linkIndex") else "source_tl_connection_missing_linkindex_count"
+            counts[key] += 1
+        elif element.tag == "junction":
+            junction_id = attributes.get("id", "")
+            if junction_id and not junction_id.startswith(":"):
+                try:
+                    positions[junction_id] = (float(attributes.get("x", "0")), float(attributes.get("y", "0")))
+                except ValueError:
+                    pass
+        if view is not None and error is None:
+            try:
+                view.add(element)
+            except (KeyError, IndexError, ValueError) as exc:
+                error = exc
+    nodes = None
+    if view is not None and error is None:
         try:
-            positions[junction_id] = (float(junction.attrib.get("x", "0")), float(junction.attrib.get("y", "0")))
-        except ValueError:
-            continue
-    return positions
+            nodes = _controlled_nodes_by_tls(view)
+        except AttributeError as exc:
+            error = exc
+    return {
+        "counts": counts,
+        "positions": positions,
+        "tl_logics": tl_logics,
+        "controlled_nodes": nodes,
+        "controlled_nodes_error": error,
+    }
 
 
 def _spatially_prune_representatives(
@@ -510,31 +586,6 @@ def _spatially_prune_representatives(
     return kept, pruned
 
 
-def _controlled_nodes_by_tls(net_file: Path) -> dict[str, list[str]]:
-    try:
-        import sumolib.net  # type: ignore
-    except ModuleNotFoundError as exc:
-        raise RuntimeError("sumolib is required for TLS aggregation") from exc
-
-    net = sumolib.net.readNet(str(net_file), withPrograms=True)
-    mapping: dict[str, list[str]] = {}
-    for tls in net.getTrafficLights():
-        node_ids = []
-        try:
-            node_ids.append(net.getNode(tls.getID()).getID())
-        except (KeyError, RuntimeError, ValueError):
-            # Some multi-node controllers do not have a node with the TLS id;
-            # connection endpoint nodes below remain authoritative.
-            node_ids = []
-        for incoming_lane, outgoing_lane, _link in tls.getConnections():
-            for node in (incoming_lane.getEdge().getToNode(), outgoing_lane.getEdge().getFromNode()):
-                node_id = node.getID()
-                if not node_id.startswith(":"):
-                    node_ids.append(node_id)
-        mapping[tls.getID()] = sorted(set(node_ids))
-    return mapping
-
-
 def _write_representatives_csv(path: Path, rows: list[dict[str, str]]) -> None:
     with path.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(
@@ -546,36 +597,57 @@ def _write_representatives_csv(path: Path, rows: list[dict[str, str]]) -> None:
 
 
 def _tls_counts(net_file: Path) -> dict[str, int]:
-    root = ET.parse(net_file).getroot()
-    connection_counts = _tls_connection_counts(root)
-    return {
-        "tls_aggregated_traffic_light_junction_count": sum(
-            1 for junction in root.findall("junction") if junction.attrib.get("type") == "traffic_light"
-        ),
-        "tls_aggregated_tl_logic_count": len(root.findall("tlLogic")),
-        "tls_aggregated_controlled_connection_count": connection_counts["controlled"],
-        "tls_aggregated_tl_connection_missing_linkindex_count": connection_counts["missing_linkindex"],
+    counts = {
+        "tls_aggregated_traffic_light_junction_count": 0,
+        "tls_aggregated_tl_logic_count": 0,
+        "tls_aggregated_controlled_connection_count": 0,
+        "tls_aggregated_tl_connection_missing_linkindex_count": 0,
     }
+    for element in DirectChildren(binary_blocks(net_file)):
+        if element.tag == "junction" and element.attrib.get("type") == "traffic_light":
+            counts["tls_aggregated_traffic_light_junction_count"] += 1
+        elif element.tag == "tlLogic":
+            counts["tls_aggregated_tl_logic_count"] += 1
+        elif element.tag == "connection" and element.attrib.get("tl"):
+            if element.attrib.get("linkIndex"):
+                counts["tls_aggregated_controlled_connection_count"] += 1
+            else:
+                counts["tls_aggregated_tl_connection_missing_linkindex_count"] += 1
+    return counts
 
 
 def _preserve_compatible_tls_programs(
     source_net_file: Path,
     variant_file: Path,
     representatives: list[Mapping[str, str]],
+    *,
+    source_logics: Mapping[str, ET.Element] | None = None,
 ) -> dict[str, Any]:
-    source_root = ET.parse(source_net_file).getroot()
-    target_tree = ET.parse(variant_file)
-    target_root = target_tree.getroot()
-    source_by_id = {tl.attrib["id"]: tl for tl in source_root.findall("tlLogic") if tl.attrib.get("id")}
-    target_by_id = {tl.attrib["id"]: tl for tl in target_root.findall("tlLogic") if tl.attrib.get("id")}
+    """Put a compatible source program in place of each representative's rebuilt tlLogic.
+
+    Both networks are streamed: only tlLogic elements are kept, and the variant is rewritten one top-level element
+    at a time with the bytes ``ET.indent`` and ``ElementTree.write`` give the edited tree. ``source_logics`` are
+    the source tlLogic elements by id when the caller has already read them.
+    """
+    source_by_id = (
+        source_logics
+        if source_logics is not None
+        else _read_source_network(source_net_file, controlled_nodes=False)["tl_logics"]
+    )
+    target_by_id: dict[str, tuple[int, ET.Element]] = {}
+    for index, element in enumerate(DirectChildren(binary_blocks(variant_file))):
+        if element.tag == "tlLogic" and element.attrib.get("id"):
+            target_by_id[element.attrib["id"]] = (index, element)
+    replacements: dict[int, ET.Element] = {}
     preserved = 0
     skipped: list[dict[str, str]] = []
     for row in representatives:
         target_id = str(row.get("representative_node_id", ""))
-        target = target_by_id.get(target_id)
-        if target is None:
+        entry = target_by_id.get(target_id)
+        if entry is None:
             skipped.append({"representative_node_id": target_id, "reason": "missing_target_tllogic"})
             continue
+        index, target = entry
         source = next(
             (
                 source_by_id[tls_id]
@@ -587,17 +659,17 @@ def _preserve_compatible_tls_programs(
         if source is None:
             skipped.append({"representative_node_id": target_id, "reason": "no_compatible_source_tllogic"})
             continue
+        if index in replacements:
+            # The tree version looks the replaced element up again and fails.
+            raise ValueError(f"{target!r} is not in list")
         replacement = ET.Element("tlLogic", dict(source.attrib))
         replacement.set("id", target_id)
         for child in source:
             replacement.append(copy.deepcopy(child))
-        index = list(target_root).index(target)
-        target_root.remove(target)
-        target_root.insert(index, replacement)
+        replacements[index] = replacement
         preserved += 1
     if preserved:
-        ET.indent(target_root, space="    ")
-        target_tree.write(variant_file, encoding="utf-8", xml_declaration=True)
+        rewrite_indented(variant_file, lambda index, element: replacements.get(index, element))
     return {
         "tls_program_preserved_count": preserved,
         "tls_program_skipped_count": len(skipped),
@@ -1011,41 +1083,50 @@ def _safe_int(value: Any) -> int | None:
 
 
 def _demote_uncontrolled_tls_artifacts(net_file: Path) -> dict[str, Any]:
-    tree = ET.parse(net_file)
-    root = tree.getroot()
-    junction_ids = {
-        junction.attrib["id"]
-        for junction in root.findall("junction")
-        if junction.attrib.get("id") and not junction.attrib.get("id", "").startswith(":")
-    }
+    """Demote traffic-light junctions without a controlled link and drop tlLogics without one.
+
+    A first streamed pass collects junction ids and controlled links; the network is rewritten one top-level
+    element at a time only when something changes, with the bytes ``ET.indent`` and ``ElementTree.write`` give.
+    """
+    junction_ids: set[str] = set()
+    controlled_links: list[tuple[str, str]] = []
+    traffic_light_junctions: list[tuple[int, str]] = []
+    tl_logics: list[tuple[int, str]] = []
+    for index, element in enumerate(DirectChildren(binary_blocks(net_file))):
+        attributes = element.attrib
+        if element.tag == "junction":
+            junction_id = attributes.get("id", "")
+            if junction_id and not junction_id.startswith(":"):
+                junction_ids.add(junction_id)
+            if attributes.get("type") == "traffic_light":
+                traffic_light_junctions.append((index, junction_id))
+        elif element.tag == "connection":
+            tl_id = attributes.get("tl", "")
+            if tl_id and attributes.get("linkIndex"):
+                controlled_links.append((tl_id, attributes.get("via", "")))
+        elif element.tag == "tlLogic":
+            tl_logics.append((index, attributes.get("id", "")))
     controlled_junctions: set[str] = set()
     controlled_tls_ids: set[str] = set()
-    for connection in root.findall("connection"):
-        tl_id = connection.attrib.get("tl", "")
-        if not tl_id or not connection.attrib.get("linkIndex"):
-            continue
+    for tl_id, via in controlled_links:
         controlled_tls_ids.add(tl_id)
-        junction_id = _connection_junction_id(connection, junction_ids)
+        junction_id = _link_junction_id(tl_id, via, junction_ids)
         if junction_id:
             controlled_junctions.add(junction_id)
+    demoted_at = {index: junction_id for index, junction_id in traffic_light_junctions if junction_id not in controlled_junctions}
+    removed_at = {index: tl_id for index, tl_id in tl_logics if tl_id not in controlled_tls_ids}
+    demoted = list(demoted_at.values())
+    removed_tllogics = list(removed_at.values())
 
-    demoted = []
-    for junction in root.findall("junction"):
-        junction_id = junction.attrib.get("id", "")
-        if junction.attrib.get("type") == "traffic_light" and junction_id not in controlled_junctions:
-            junction.set("type", "priority")
-            demoted.append(junction_id)
-
-    removed_tllogics = []
-    for tl_logic in list(root.findall("tlLogic")):
-        tl_id = tl_logic.attrib.get("id", "")
-        if tl_id not in controlled_tls_ids:
-            root.remove(tl_logic)
-            removed_tllogics.append(tl_id)
+    def edit(index: int, element: ET.Element) -> ET.Element | None:
+        if index in removed_at:
+            return None
+        if index in demoted_at:
+            element.set("type", "priority")
+        return element
 
     if demoted or removed_tllogics:
-        ET.indent(root, space="    ")
-        tree.write(net_file, encoding="utf-8", xml_declaration=True)
+        rewrite_indented(net_file, edit)
     return {
         "tls_orphan_traffic_light_junction_demoted_count": len(demoted),
         "tls_orphan_traffic_light_junction_demoted_ids": sorted(demoted),
@@ -1169,17 +1250,19 @@ _demote_tls_ids = demote_tls_ids
 
 
 def _connection_junction_id(connection: ET.Element, junction_ids: set[str]) -> str:
-    via = connection.attrib.get("via", "")
+    return _link_junction_id(connection.attrib.get("tl", ""), connection.attrib.get("via", ""), junction_ids)
+
+
+def _link_junction_id(tl_id: str, via: str, junction_ids: set[str]) -> str:
+    """The longest junction id that the via lane names (``:<junction>_...``), else the controller id if it is one."""
     if via.startswith(":"):
         lane_id = via[1:]
-        matches = [
-            junction_id
-            for junction_id in junction_ids
-            if lane_id == junction_id or lane_id.startswith(f"{junction_id}_")
-        ]
-        if matches:
-            return max(matches, key=len)
-    tl_id = connection.attrib.get("tl", "")
+        if lane_id in junction_ids:
+            return lane_id
+        end = len(lane_id)
+        while (end := lane_id.rfind("_", 0, end)) >= 0:
+            if lane_id[:end] in junction_ids:
+                return lane_id[:end]
     return tl_id if tl_id in junction_ids else ""
 
 
@@ -1194,31 +1277,6 @@ def _empty_tls_orphan_cleanup() -> dict[str, Any]:
 
 def _empty_preservation() -> dict[str, Any]:
     return {"tls_program_preserved_count": 0, "tls_program_skipped_count": 0, "tls_program_skips": []}
-
-
-def _source_tls_program_counts(net_file: Path) -> dict[str, int]:
-    root = ET.parse(net_file).getroot()
-    tl_logics = root.findall("tlLogic")
-    phases = [phase for tl_logic in tl_logics for phase in tl_logic.findall("phase")]
-    connection_counts = _tls_connection_counts(root)
-    return {
-        "source_tl_logic_count": len(tl_logics),
-        "source_actuated_tl_logic_count": sum(1 for tl_logic in tl_logics if tl_logic.attrib.get("type") == "actuated"),
-        "source_tls_phase_count": len(phases),
-        "source_tls_phase_with_minmax_count": sum(
-            1 for phase in phases if phase.attrib.get("minDur") or phase.attrib.get("maxDur")
-        ),
-        "source_tls_controlled_connection_count": connection_counts["controlled"],
-        "source_tl_connection_missing_linkindex_count": connection_counts["missing_linkindex"],
-    }
-
-
-def _tls_connection_counts(root: ET.Element) -> dict[str, int]:
-    connections = [connection for connection in root.findall("connection") if connection.attrib.get("tl")]
-    return {
-        "controlled": sum(1 for connection in connections if connection.attrib.get("linkIndex")),
-        "missing_linkindex": sum(1 for connection in connections if not connection.attrib.get("linkIndex")),
-    }
 
 
 def _tls_connection_preservation(source_counts: Mapping[str, int], variant_counts: Mapping[str, int]) -> dict[str, int | str]:

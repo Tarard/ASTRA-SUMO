@@ -2071,3 +2071,25 @@ def test_netconvert_roundtrip_signal_group_drift_blocks_sumo_and_routeability(tm
     )
     assert len(commands) == 1
     assert routeability_called is False
+
+
+def test_file_audits_on_a_compact_tree_report_what_a_parsed_tree_reports(signal_network: Path, tmp_path: Path) -> None:
+    from astra_sumo.core import standard_nema_binding
+
+    root = ET.parse(signal_network).getroot()
+    assert root.find("edge/param") is not None
+    expected = audit_network_connection_mode(root)
+    report = build_network_connection_mode_audit(signal_network, output_dir=tmp_path / "audit")
+    assert {key: value for key, value in report.items() if key in expected} == expected
+    assert report["junction_count"] > 0 and report["direct_movement_count"] > 0
+    written = json.loads(Path(report["report_file"]).read_text(encoding="utf-8"))
+    assert written == json.loads(json.dumps(report))
+
+    expected_records = standard_nema_binding._scan_standard_junctions(
+        standard_nema_binding._build_catalog(ET.fromstring(signal_network.read_text(encoding="utf-8")))
+    )
+    scan = build_standard_nema_phase_binding(signal_network, output_dir=tmp_path / "nema", junction_id=None,
+                                             run_runtime_checks=False, run_routeability=False)
+    assert scan["status"] == "pass"
+    assert [record["junction_id"] for record in expected_records] == ["B", "C", "D"]
+    assert scan["candidates"] == json.loads(json.dumps(expected_records))

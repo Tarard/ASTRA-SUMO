@@ -13,36 +13,83 @@ from .command_runner import run_command
 from .candidate_contracts import file_sha256
 from .artifact_io import write_json_atomic, write_text_atomic
 from .sumo_commands import discover_binaries
+from .xml_stream import DirectChildren, binary_blocks
 from ..evidence.output_inspection import inspect_run_outputs
 
 
 CommandRunner = Callable[..., Any]
 
 
-def build_routeability_od_policy(net_files: Sequence[Path]) -> dict[str, Any]:
-    """Use the first network's OD roles and shared physical lane locations."""
+def _od_edge_record(edge: ET.Element, passenger_lane: Callable[[ET.Element], bool]) -> tuple[str | None, Any]:
+    """The OD fit (``None``) or exclusion reason and the passenger-lane geometry fingerprint of one edge."""
+    lanes = [lane for lane in edge.findall("lane") if passenger_lane(lane)]
+    lengths = [float(lane.get("length", "0")) for lane in lanes]
+    if not lengths:
+        reason = "no_passenger_lane"
+    elif any(not math.isfinite(length) or length < 5.0 for length in lengths):
+        reason = "shorter_than_standard_vehicle"
+    else:
+        reason = None
+    geometry = (len(edge.findall("lane")), tuple((lane.get("id"), lane.get("index"), float(lane.get("length", "0")), tuple(tuple(map(float, point.split(","))) for point in lane.get("shape", "").split())) for lane in lanes)) if lanes and all(lane.get("shape") for lane in lanes) else None
+    return reason, geometry
+
+
+def _read_od_network(path: Path, *, keep_geometry: bool) -> tuple[dict[str, Any], set[str], set[str], Any]:
+    """Read one network's OD edge records, connection endpoints and first location, one top-level element at a time.
+
+    As for a parsed tree, the last edge of an id decides its record and the first edge of an id its position;
+    an invalid record raises after the file has been read, for the first such edge id in document order.
+    Geometry fingerprints are kept only when asked, since only a shared pool compares them.
+    """
     from .source_movement_support import _modes
 
+    modes: dict[tuple[str | None, str | None], bool] = {}
+
+    def passenger_lane(lane: ET.Element) -> bool:
+        key = (lane.get("allow"), lane.get("disallow"))
+        if key not in modes:
+            modes[key] = "passenger" in _modes(lane)
+        return modes[key]
+
+    records: dict[str, Any] = {}
+    incoming: set[str] = set()
+    outgoing: set[str] = set()
+    location: dict[str, str] | None = None
+    for element in DirectChildren(binary_blocks(path)):
+        if element.tag == "edge":
+            if element.get("id", "").startswith(":") or element.get("function") == "internal":
+                continue
+            try:
+                reason, geometry = _od_edge_record(element, passenger_lane)
+            except ValueError as exc:
+                records[element.get("id")] = exc
+                continue
+            records[element.get("id")] = (reason, geometry if keep_geometry else None)
+        elif element.tag == "connection":
+            incoming.add(element.get("to"))
+            outgoing.add(element.get("from"))
+        elif element.tag == "location" and location is None:
+            location = dict(element.attrib)
+    for record in records.values():
+        if isinstance(record, ValueError):
+            raise record
+    return records, incoming, outgoing, location
+
+
+def build_routeability_od_policy(net_files: Sequence[Path]) -> dict[str, Any]:
+    """Use the first network's OD roles and shared physical lane locations."""
     networks, fingerprints, frames = [], [], []
     for value in net_files:
         path = Path(value).resolve(strict=True)
-        root = ET.parse(path).getroot()
-        edges = {edge.get("id"): edge for edge in root.findall("edge") if not edge.get("id", "").startswith(":") and edge.get("function") != "internal"}
-        incoming = {row.get("to") for row in root.findall("connection")}
-        outgoing = {row.get("from") for row in root.findall("connection")}
+        edges, incoming, outgoing, location = _read_od_network(path, keep_geometry=len(net_files) > 1)
         fits, reasons = set(), {}
         geometry = {}
-        for key, edge in edges.items():
-            lanes = [lane for lane in edge.findall("lane") if "passenger" in _modes(lane)]
-            lengths = [float(lane.get("length", "0")) for lane in lanes]
-            if not lengths:
-                reasons[key] = "no_passenger_lane"
-            elif any(not math.isfinite(length) or length < 5.0 for length in lengths):
-                reasons[key] = "shorter_than_standard_vehicle"
-            else:
+        for key, (reason, fingerprint) in edges.items():
+            if reason is None:
                 fits.add(key)
-            geometry[key] = (len(edge.findall("lane")), tuple((lane.get("id"), lane.get("index"), float(lane.get("length", "0")), tuple(tuple(map(float, point.split(","))) for point in lane.get("shape", "").split())) for lane in lanes)) if lanes and all(lane.get("shape") for lane in lanes) else None
-        location = root.find("location")
+            else:
+                reasons[key] = reason
+            geometry[key] = fingerprint
         frames.append((location.get("projParameter"), tuple(map(float, location.get("netOffset", "0,0").split(",")))) if location is not None else None)
         fingerprints.append(geometry)
         networks.append({"path": str(path), "sha256": file_sha256(path), "physical_edge_ids": sorted(fits), "source_edge_ids": sorted(fits & outgoing), "destination_edge_ids": sorted(fits & incoming), "excluded_edges": reasons, "source_excluded_edges": {key: reasons.get(key, "no_outgoing_connection") for key in edges.keys() - (fits & outgoing)}, "destination_excluded_edges": {key: reasons.get(key, "no_incoming_connection") for key in edges.keys() - (fits & incoming)}})
@@ -76,7 +123,7 @@ def _write_source_reachable_trips(reference_net: Path, policy: Mapping[str, Any]
     from graphlib import TopologicalSorter
     from scipy.sparse import csr_matrix
     from scipy.sparse.csgraph import connected_components
-    from .local_network_conversion import loaded_turn_permissions
+    from .local_network_conversion import streamed_loaded_turn_permissions
     from .osm_access import _permission_set
 
     if vehicle_count <= 0 or not isinstance(seed, int) or isinstance(seed, bool) or seed < 0:
@@ -84,22 +131,35 @@ def _write_source_reachable_trips(reference_net: Path, policy: Mapping[str, Any]
     if trip_file.resolve() == reference_net.resolve() or trip_file.exists() and trip_file.samefile(reference_net):
         raise ValueError("trip output must not replace the reference network")
     reference_hash = file_sha256(reference_net)
-    root = ET.parse(reference_net).getroot()
     destinations = set(policy["destination_edge_ids"])
-    edges = {edge.get("id"): edge for edge in root.findall("edge")
-             if not edge.get("id", "").startswith(":") and edge.get("function") not in {"internal", "crossing", "walkingarea"}}
-    positions = {identity: index for index, identity in enumerate(edges)}
-    links = [(positions[start], positions[target]) for (start, _, target, _), modes in loaded_turn_permissions(root).items()
+    # The network is streamed once: edge order, the lane declarations of source edges and the loaded turns.
+    source_ids = set(policy["source_edge_ids"])
+    positions: dict[str | None, int] = {}
+    source_lanes: dict[str, list[dict[str, str]]] = {}
+
+    def visit(element: ET.Element) -> None:
+        if element.tag != "edge":
+            return
+        identity = element.get("id")
+        if element.get("id", "").startswith(":") or element.get("function") in {"internal", "crossing", "walkingarea"}:
+            return
+        positions.setdefault(identity, len(positions))
+        if identity in source_ids:
+            source_lanes[identity] = [dict(lane.attrib) for lane in element.findall("lane")]
+
+    permissions, version = streamed_loaded_turn_permissions(reference_net, visit=visit)
+    links = [(positions[start], positions[target]) for (start, _, target, _), modes in permissions.items()
              if "passenger" in modes]
+    del permissions
     rows, columns = zip(*links) if links else ([], [])
-    graph = csr_matrix(([True] * len(links), (rows, columns)), shape=(len(edges), len(edges)), dtype=bool)
+    graph = csr_matrix(([True] * len(links), (rows, columns)), shape=(len(positions), len(positions)), dtype=bool)
     count, components = connected_components(graph, directed=True, connection="strong")
     successors = {index: set() for index in range(count)}
     for left, right in links:
         a, b = int(components[left]), int(components[right])
         if a != b:
             successors[a].add(b)
-    destination_ids = sorted(destinations & edges.keys())
+    destination_ids = sorted(destinations & positions.keys())
     destination_bits = {identity: 1 << index for index, identity in enumerate(destination_ids)}
     reachable = [0] * count
     for identity in destination_ids:
@@ -107,11 +167,11 @@ def _write_source_reachable_trips(reference_net: Path, policy: Mapping[str, Any]
     # Edges in one strong component share destinations. Bitsets avoid all-pairs path searches and lists.
     for component in TopologicalSorter(successors).static_order():
         for target in successors[component]:
-            reachable[component] |= reachable[target]
+            # A component without bits of its own shares its successor's integer instead of copying it.
+            reachable[component] = reachable[component] | reachable[target] if reachable[component] else reachable[target]
     choices, source_components, usable = {}, {}, 0
     for source in policy["source_edge_ids"]:
-        if not any("passenger" in _permission_set(lane.attrib, network_version=root.get("version", "0.0"))
-                   for lane in edges[source].findall("lane")):
+        if not any("passenger" in _permission_set(lane, network_version=version) for lane in source_lanes[source]):
             raise RuntimeError(f"'{source}' does not allow passenger")
         component = int(components[positions[source]])
         source_components[source] = component

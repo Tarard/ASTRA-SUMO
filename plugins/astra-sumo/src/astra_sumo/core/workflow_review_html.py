@@ -10,9 +10,10 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 from urllib.parse import quote
 
-from .artifact_io import write_json_atomic
+from .artifact_io import atomic_writer, write_json_atomic
 from .network_visualization import build_network_review_visuals
 from .claim_tiers import evaluate_claim_tiers
+from .xml_stream import DirectChildren, binary_blocks
 
 
 def _jsonable(value: Any) -> Any:
@@ -29,6 +30,60 @@ def _jsonable(value: Any) -> Any:
     return value
 
 
+class _JsonableDict(dict):
+    """A mapping as the JSON encoder sees ``_jsonable(mapping)``, converting each value only when it is encoded.
+
+    The pure-Python encoder that ``json.dump`` and an indented ``json.dumps`` use reads ``len`` and ``items``, so a
+    city-scale report is encoded without a converted copy. The C encoder reads the dict storage instead and must
+    not be given this view.
+    """
+
+    def __init__(self, mapping: Mapping[Any, Any]) -> None:
+        super().__init__()
+        if all(isinstance(key, str) for key in mapping):
+            self._items: Mapping[Any, Any] = mapping
+        else:
+            # Keys that only become equal as strings keep the last value, as the converted copy does.
+            self._items = {str(key): item for key, item in mapping.items()}
+
+    def __len__(self) -> int:
+        return len(self._items)
+
+    def items(self) -> Any:  # type: ignore[override]
+        return ((key, _lazy_jsonable(item)) for key, item in self._items.items())
+
+
+class _JsonableList(list):
+    """A list, tuple or set as the JSON encoder sees ``_jsonable(value)``, converting items as they are encoded."""
+
+    def __init__(self, items: Any) -> None:
+        super().__init__()
+        self._source = items
+
+    def __len__(self) -> int:
+        return len(self._source)
+
+    def __iter__(self) -> Any:
+        return (_lazy_jsonable(item) for item in self._source)
+
+
+def _lazy_jsonable(value: Any) -> Any:
+    """``_jsonable(value)`` for the pure-Python JSON encoder, converting only what it is encoding."""
+    if isinstance(value, Path):
+        return str(value)
+    if isinstance(value, Mapping):
+        return _JsonableDict(value)
+    if isinstance(value, (list, tuple, set)):
+        return _JsonableList(value)
+    if value is None or isinstance(value, (str, int, float)):
+        return value
+    try:
+        json.dumps(value)
+    except TypeError:
+        return str(value)
+    return value
+
+
 def _json_block(value: Any) -> str:
     return escape(json.dumps(_jsonable(value), indent=2, ensure_ascii=False, sort_keys=True))
 
@@ -37,8 +92,23 @@ def _json_script(value: Any) -> str:
     return json.dumps(_jsonable(value), ensure_ascii=False, sort_keys=True).replace("</", "<\\/")
 
 
+_REVIEW_DATA_SCRIPT = '<script type="application/json" id="torii-review-data">'
+# Page text is HTML-escaped, so the script tag followed by this marker occurs once in the page.
+_REVIEW_DATA_MARKER = "<torii-review-data/>"
+
+
+def _write_json_script(handle: Any, value: Any) -> None:
+    """Write ``_json_script(value)`` chunk by chunk, keeping a trailing '<' so no '</' is split between chunks."""
+    pending = ""
+    for chunk in json.JSONEncoder(ensure_ascii=False, sort_keys=True).iterencode(_lazy_jsonable(value)):
+        text = pending + chunk
+        pending = "<" if text.endswith("<") else ""
+        handle.write(text[: len(text) - len(pending)].replace("</", "<\\/"))
+    handle.write(pending)
+
+
 def _write_json(path: Path, value: Any) -> None:
-    write_json_atomic(path, _jsonable(value), sort_keys=True)
+    write_json_atomic(path, _lazy_jsonable(value), sort_keys=True)
 
 
 def _as_path(value: str | Path | None) -> Path | None:
@@ -1153,37 +1223,47 @@ def _review_overlay_locations(
     net_path = _as_path(net_file)
     if net_path is None or not net_path.exists():
         return []
+    # The network is streamed. As for a parsed tree, an unreadable network gives no locations and a junction
+    # coordinate that is not a number raises once the whole file has been read.
+    junction_xy: dict[str, tuple[float, float]] = {}
+    edge_xy: dict[str, tuple[float, float]] = {}
+    coordinate_error: ValueError | None = None
     try:
-        root = ET.parse(net_path).getroot()
+        for element in DirectChildren(binary_blocks(net_path)):
+            if element.tag == "junction":
+                if (
+                    coordinate_error is None
+                    and element.attrib.get("id")
+                    and element.attrib.get("x") is not None
+                    and element.attrib.get("y") is not None
+                ):
+                    try:
+                        junction_xy[element.attrib["id"]] = (float(element.attrib["x"]), float(element.attrib["y"]))
+                    except ValueError as exc:
+                        coordinate_error = exc
+            elif element.tag == "edge":
+                edge_id = element.attrib.get("id", "")
+                if not edge_id:
+                    continue
+                points: list[tuple[float, float]] = []
+                for lane in element.findall("lane"):
+                    for raw_point in lane.attrib.get("shape", "").split():
+                        try:
+                            x_text, y_text = raw_point.split(",", 1)
+                            points.append((float(x_text), float(y_text)))
+                        except (ValueError, TypeError):
+                            continue
+                    if points:
+                        break
+                if len(points) >= 2:
+                    edge_xy[edge_id] = (
+                        (points[0][0] + points[-1][0]) / 2.0,
+                        (points[0][1] + points[-1][1]) / 2.0,
+                    )
     except (OSError, ET.ParseError):
         return []
-    junction_xy = {
-        junction.attrib["id"]: (float(junction.attrib["x"]), float(junction.attrib["y"]))
-        for junction in root.findall("junction")
-        if junction.attrib.get("id")
-        and junction.attrib.get("x") is not None
-        and junction.attrib.get("y") is not None
-    }
-    edge_xy: dict[str, tuple[float, float]] = {}
-    for edge in root.findall("edge"):
-        edge_id = edge.attrib.get("id", "")
-        if not edge_id:
-            continue
-        points: list[tuple[float, float]] = []
-        for lane in edge.findall("lane"):
-            for raw_point in lane.attrib.get("shape", "").split():
-                try:
-                    x_text, y_text = raw_point.split(",", 1)
-                    points.append((float(x_text), float(y_text)))
-                except (ValueError, TypeError):
-                    continue
-            if points:
-                break
-        if len(points) >= 2:
-            edge_xy[edge_id] = (
-                (points[0][0] + points[-1][0]) / 2.0,
-                (points[0][1] + points[-1][1]) / 2.0,
-            )
+    if coordinate_error is not None:
+        raise coordinate_error
 
     reference_join = workflow_summary.get("reference_join_audit", {})
     if not isinstance(reference_join, Mapping):
@@ -1975,7 +2055,8 @@ def build_workflow_review_html(
         visual_panels = "<p>No network visualization could be generated for this review.</p>"
     cluster_zoom_panels = _cluster_zoom_gallery(cluster_zoom_pngs, base_dir=output_dir)
     color_buttons = _color_batch_buttons(cluster_zoom_pngs)
-    review_data_json = _json_script(review_app)
+    # The review data is streamed into the page when it is written; the page holds a marker until then.
+    review_data_json = _REVIEW_DATA_MARKER
     nav_items = _review_nav_items(review_app["navigation"])
     summary_card_html = _summary_cards(review_app["summary_cards"])
     junction_card_html = _junction_cards(review_junctions)
@@ -2338,7 +2419,7 @@ def build_workflow_review_html(
   </style>
 </head>
 <body>
-  <script type="application/json" id="torii-review-data">{review_data_json}</script>
+  {_REVIEW_DATA_SCRIPT}{review_data_json}</script>
   <main class="torii-review-app">
     <aside class="torii-sidebar" aria-label="ASTRA navigation">
       <div class="brand">
@@ -2456,7 +2537,11 @@ def build_workflow_review_html(
 </body>
 </html>
     """
-    html_file.write_text(html, encoding="utf-8")
+    head, tail = html.split(_REVIEW_DATA_SCRIPT + _REVIEW_DATA_MARKER)
+    with atomic_writer(html_file, mode="w", encoding="utf-8") as handle:
+        handle.write(head + _REVIEW_DATA_SCRIPT)
+        _write_json_script(handle, review_app)
+        handle.write(tail)
     artifact_hashes, artifact_hash_gate = _artifact_hashes(
         artifacts,
         base_dir=output_dir,

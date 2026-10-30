@@ -6,7 +6,8 @@ import re
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, BinaryIO
-import xml.etree.ElementTree as ET
+
+from .xml_stream import DirectChildren, read_blocks
 
 
 def normalize_road_name(value: str) -> str:
@@ -42,48 +43,51 @@ def parse_osm_way_context(osm_file: Path) -> dict[str, Any]:
     )
     highway_way_count = 0
     with _open_osm(osm_file) as handle:
-        for _event, elem in ET.iterparse(handle, events=("end",)):
-            if _local_name(elem.tag) != "way":
-                continue
+        # Every top-level element (node, way, relation) is dropped from the tree once it has been read.
+        for element in DirectChildren(read_blocks(handle)):
+            for elem in element.iter():
+                if _local_name(elem.tag) != "way":
+                    continue
 
-            tags = {
-                child.attrib.get("k", ""): child.attrib.get("v", "")
-                for child in elem
-                if _local_name(child.tag) == "tag"
-            }
-            highway = tags.get("highway", "").strip()
-            if not highway:
-                elem.clear()
-                continue
+                tags = {
+                    child.attrib.get("k", ""): child.attrib.get("v", "")
+                    for child in elem
+                    if _local_name(child.tag) == "tag"
+                }
+                highway = tags.get("highway", "").strip()
+                if not highway:
+                    continue
 
-            node_refs = [
-                child.attrib["ref"]
-                for child in elem
-                if _local_name(child.tag) == "nd" and child.attrib.get("ref")
-            ]
-            name = tags.get("name", "").strip()
-            ref = tags.get("ref", "").strip()
-            corridor_key = corridor_key_from_osm(name=name, ref=ref, highway=highway)
-            highway_way_count += 1
-            for node_ref in node_refs:
-                record = node_context[node_ref]
-                if name:
-                    record["names"].add(name)
-                if ref:
-                    record["refs"].add(ref)
-                record["highways"].add(highway)
-                if corridor_key:
-                    record["corridor_keys"].add(corridor_key)
-            elem.clear()
+                node_refs = [
+                    child.attrib["ref"]
+                    for child in elem
+                    if _local_name(child.tag) == "nd" and child.attrib.get("ref")
+                ]
+                name = tags.get("name", "").strip()
+                ref = tags.get("ref", "").strip()
+                corridor_key = corridor_key_from_osm(name=name, ref=ref, highway=highway)
+                highway_way_count += 1
+                for node_ref in node_refs:
+                    record = node_context[node_ref]
+                    if name:
+                        record["names"].add(name)
+                    if ref:
+                        record["refs"].add(ref)
+                    record["highways"].add(highway)
+                    if corridor_key:
+                        record["corridor_keys"].add(corridor_key)
 
+    node_count = len(node_context)
+    # Each node's sets are released as soon as its sorted lists exist.
+    node_way_context = {
+        node_id: {field: sorted(values) for field, values in sorted(node_context.pop(node_id).items())}
+        for node_id in sorted(node_context)
+    }
     return {
         "osm_file": str(osm_file),
         "way_count": highway_way_count,
-        "node_count": len(node_context),
-        "node_way_context": {
-            node_id: {field: sorted(values) for field, values in sorted(record.items())}
-            for node_id, record in sorted(node_context.items())
-        },
+        "node_count": node_count,
+        "node_way_context": node_way_context,
     }
 
 
