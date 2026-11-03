@@ -13,7 +13,7 @@
 | `network_layers` | optional for `standard`, not allowed for `reference_matched`: `vehicle`, `multimodal` or both; each needs its modes in `traffic_layers`; omitted means `multimodal` when `bicycle` or `pedestrian` is requested, plus `vehicle` when a vehicle mode such as `passenger` or `bus` is |
 | `reference_net_file` | required for `reference_matched`, not allowed for `standard`: the reference `.net.xml` |
 | `source_osm_path` | optional frozen OSM XML; without it the bbox is downloaded from Overpass |
-| `timeout_seconds` | default 240; the limit for each netconvert and sumo call |
+| `timeout_seconds` | default 240; per call, not for the whole run: each netconvert, sumo and duarouter call and, without `source_osm_path`, each Overpass request (up to 3 attempts per tile) |
 
 ```json
 {"output_dir": "outputs/area-v1", "bbox": "<west>,<south>,<east>,<north>", "profile": "standard", "traffic_layers": "passenger"}
@@ -31,22 +31,24 @@
   change the programs netconvert generates.
 - To import only some road classes, build with `sumo_osm_build_network` and `highway_classes` (`arterial`, `drive`,
   `drive_plus_unclassified`, `full_vehicle` or a comma list of OSM `highway` values).
-- A city-wide bbox from `astra place resolve` is usually far larger than the study area. Narrow it first.
-- A whole city needs a far larger `timeout_seconds`: the Dresden city run used 7200 for a 1 GB master `.net.xml`.
-  Its master SUMO load check peaked at 7.3 GB, and the result JSON was 855 MB (174 MB for central Dresden). On a
-  16 GB machine, `OPENBLAS_NUM_THREADS=1` and a watchdog that stops the run when free commit memory runs low kept
-  that run within memory.
+- A city-wide bbox from `astra place resolve` is usually far larger than the study area. Narrow it first. When the
+  study area really is the whole city, a multimodal master can reach about 1 GB and its SUMO load check can need
+  about 7 GiB of memory: leave that much free and run nothing else heavy alongside. Keep `timeout_seconds` at a few
+  times the longest expected call (minutes, not hours), because a call that hangs runs until the limit.
 
 ## Reading the cleanup result
 
-- `gate_status` holds one value per check: `network_build`, `connectivity`, `topology_audit`, `routeability_audit`,
-  `connection_mode_audit`, `tls_reality_audit`, `tls_aggregation`, `network_layers`, `master_tls_cycles`, plus
-  `reference_*` gates for `reference_matched`.
+- `gate_status` holds one value per check, among them `network_build`, `connectivity`, `topology_audit`,
+  `routeability_audit`, `connection_mode_audit`, `tls_reality_audit`, `standard_nema_scan`, `netedit` and `sumo_gui`.
+  `tls_aggregation` appears when the aggregation ran, `network_layers` and `master_tls_cycles` when the run has
+  layers, and `reference_matched` adds the `reference_*` and parity gates.
 - `status: fail` means a broken build or structure. Open review items cap a sound run at `review_required` (exit code
   1); `review_required_gates` lists each such gate with its `reason`.
-- `netedit` and `sumo_gui` read `blocked` when the run opened no GUI, and `tls_aggregation` reads `blocked` when it
-  wrote a review variant; none of them fails the run. `topology_audit: blocked` (suspicious dense junction clusters)
-  is a review item under `standard` and fails the structure under `reference_matched`.
+- `netedit` and `sumo_gui` read `blocked` after a build, because the cleanup opens no GUI (`not_started` when the
+  run stops earlier), and `tls_aggregation` reads `blocked` when it wrote a review variant; none of them fails the
+  run. Under `standard`, `topology_audit: blocked` means suspicious dense junction clusters and is a review item.
+  Under `reference_matched`, a candidate audit with clusters is compared with the reference's topology audit, and
+  `blocked` (clusters that do not match the reference, or no usable reference audit) fails the structure.
 - `network_layers` has one entry per layer with `net_file`, `sha256`, `derived_from_sha256`, `modes`, `edge_count`,
   `removed_edge_count`, `identity` and `gate`. `master_net_file` is the master. The traffic-light audit and
   aggregation run once on the master. The connectivity, topology, routeability, connection-mode and NEMA checks run
@@ -58,10 +60,12 @@
   gating. A crossing that keeps some of its crossed edges stays the same signal link (`identity.reduced_crossings`).
   netconvert re-plans the program of a controller that lost a whole crossing; a second conversion loads the master
   program back with `--tllogic-files` (`identity.signal_restore`, `measured` when it replaced the first cut).
-  Re-planned crossing timelines the restore could not keep set the layer gate to `review_required` with reason
-  `crossing_signal_timelines_replanned`, controllers in `identity.replanned_crossing_controllers`. Sidewalk and bike
-  lanes on road edges stay in the vehicle layer. The vehicle layer keeps the master's state strings, so its SUMO load
-  warns `Unused states in tlLogic` for the indices of removed links; that is expected.
+  Restored programs have their state strings trimmed to the first cut's length. A controller that netconvert left
+  with the master's state strings warns `Unused states in tlLogic ... after tl-index N` on the layer's SUMO load,
+  once, when its highest link indices were removed; that is expected. Re-planned crossing timelines the restore
+  could not keep set the layer gate to `review_required` with reason `crossing_signal_timelines_replanned`,
+  controllers in `identity.replanned_crossing_controllers`. Sidewalk and bike lanes on road edges stay in the vehicle
+  layer.
 - `network_layers.multimodal.components` gives the largest-component share of the bicycle and pedestrian edges,
   measured without pruning; below 98 % sets the layer gate to `review_required`. `plain_cycleway_tags` counts the
   road ways with a plain `cycleway=lane|track` that got no bike lane. `master_tls_cycles` lists every program's cycle
@@ -74,11 +78,13 @@
 - An OSM turn restriction with `except=bicycle` next to a bike lane becomes a bicycle-only connection into a lane
   without bicycles; `connection_mode_audit` lists it as the review finding
   `non_motorized_connection_without_lane_permission`, not as a structural failure.
-- The result JSON embeds `connection_mode_audit.junctions`, which grows with the network: 727 of the Dresden city
-  run's 855 MB.
-- The routeability audit routes with duarouter, which ignores lane-change bans (`changeLeft`/`changeRight` from OSM
-  `change:lanes`). An unfinished vehicle can be stuck at a lane end its route cannot legally leave; check the marking
-  before treating it as a network fault.
+- Current limitation: the printed result embeds the whole `connection_mode_audit` with its per-junction rows, so a
+  city run prints hundreds of MB. Redirect stdout to a file, then read `status`, `gate_status` and the file paths
+  from it with a streaming parser.
+- The routeability audit routes on edges with duarouter, then simulates with sumo. The routes do not account for
+  lane-change bans (`changeLeft`/`changeRight`, from the OSM `change` and `change:*` tags). netconvert lifts a ban
+  that would create a dead end, but a vehicle can still be stuck at a lane end its route cannot legally leave; check
+  the marking before treating it as a network fault.
 - `build.osm_access_correction` describes the access correction. `decisions` lists each settled way finding with its
   `rule` and `reason`; `review` keeps only open items. `added_class_movements` measures each class a lane gained:
   rows with `status: no_effect` were reverted (`new_class_has_no_loaded_movement`), because the correction creates no
@@ -88,11 +94,13 @@
   (an addition could not be reverted).
 - When strict connectivity fails, the run extracts the largest passenger component and checks that instead:
   `connected_core_file`, with the dropped parts in `connected_core_discarded_components_review_file`. The core is a
-  second netconvert cut: `--keep-edges.postload` first, then a plain keep-edges cut when that fails
-  (`connected_core.fallback_used`, `connected_core.command_attempts`). The report does not say why the first attempt
-  failed. On the Dresden city network the postload attempt ran until the 7200 s timeout. The core gets no signal
-  identity check. `connectivity: partial` means no strictly connected core was found but the largest passenger
-  component covers at least 98 % of passenger edges; treat that result as a diagnostic.
+  further netconvert cut of `passenger_gate_net_file`: `--keep-edges.postload` first, then a plain keep-edges cut
+  when that fails (`connected_core.fallback_used`, `connected_core.command_attempts`). When the fallback succeeds,
+  `connected_core.netconvert` holds only its result, so the report does not say why the first attempt failed. The
+  postload attempt can run until `timeout_seconds` before the fallback starts, so building the core can take up to
+  twice `timeout_seconds`. The core gets no signal identity check. `connectivity: partial` means no strictly
+  connected core was found but the largest passenger component covers at least 98 % of passenger edges; treat that
+  result as a diagnostic.
 - `claim_tiers.highest_passed_tier` and each tier's `failed_gates` say which checks still block a stronger claim.
 - `workflow_review_html_file` is the review page the run writes itself. `warnings` report that review variants were
   created; the TLS variant path is `tls_aggregation_variant_file`. No variant is adopted until reviewed.
@@ -199,4 +207,13 @@ out of experiment configurations.
 
 ## MATSim networks
 
-ASTRA has no MATSim importer. `netconvert --matsim-files` is lossy: it drops self-loop links and rounds values.
+ASTRA has no MATSim importer. `netconvert --matsim-files` (SUMO 1.27.1) changes the network:
+
+- it reads `modes` as a space-separated list, so a comma list such as `car,bike` gives the link no vehicle class
+  and no connections, without a warning;
+- it rounds `permlanes` half up to whole lanes and drops a link below 0.5 lanes with only a warning;
+- it splits a self-loop link into two edges through a new junction;
+- it takes lengths from the geometry unless `--matsim.keep-length true` is set, and rounds coordinates, speeds and
+  lengths to `--precision` decimals (2 by default).
+
+Compare link, lane and mode counts with the MATSim source before using the result.

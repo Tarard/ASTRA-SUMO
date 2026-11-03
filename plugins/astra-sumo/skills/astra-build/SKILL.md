@@ -84,7 +84,7 @@ a finished network belongs to `$astra-calibrate`. Report the source basis, the c
 ## References
 
 - `references/osm-to-sumo-workflow.md`: cleanup request and gates, traffic-light review, junction joins,
-  reference-matched builds, the typed edit ledger, synthetic intersections, background layers.
+  reference-matched builds, the typed edit ledger, synthetic intersections, background layers, MATSim networks.
 - `references/review-images.md`: the `astra review render` request, image colours, schematic review page, NetEdit
   options.
 - `references/classification.md`: intersection and signal-device classification, road arms, OSM way fragments,
