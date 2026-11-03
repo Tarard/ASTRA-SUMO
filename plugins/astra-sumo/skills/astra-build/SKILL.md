@@ -1,6 +1,6 @@
 ---
 name: astra-build
-description: Use when a request builds, cleans, audits, edits, compares or reviews a SUMO road network or its traffic infrastructure - an OSM area, an existing .net.xml, a Hamburg drawing or MAP/KML with aerial images, traffic lights, intersection or OCIT-C signal-device classification, parking buildings, aerial review images or NetEdit edits. Names the ASTRA commands to run, in order.
+description: Use when a request builds, cleans, audits, edits, compares or reviews a SUMO road network or its traffic infrastructure - an OSM area, an existing .net.xml, a MATSim network, a Hamburg drawing or MAP/KML with aerial images, traffic lights, intersection or OCIT-C signal-device classification, parking buildings, aerial review images or NetEdit edits. Names the ASTRA commands to run, in order.
 ---
 
 # ASTRA Build
@@ -32,6 +32,7 @@ its steps in order and read the named outputs. Open a reference only when a step
 |---|---|---|
 | Network for a place or bbox from OSM | `astra place resolve "<place>" --json` when only a name is given (check `payload.candidate_display_name`, take `payload.candidate_bbox`); write the cleanup request; `astra workflow sumo_osm_cleanup_workflow <request.json> --json` | `status`, `gate_status`, `claim_tiers`, `warnings`, `workflow_review_html_file`; fields and gates in `references/osm-to-sumo-workflow.md` |
 | Network as it was at a past date | `astra workflow sumo_osm_build_network` with `bbox`, `output_dir`, `historical_date` (Overpass form, such as `2013-06-01T00:00:00Z`); then the cleanup with `source_osm_path` set to the returned `source_osm_file` | as above |
+| Network from a MATSim `network.xml` | no ASTRA importer: `netconvert --matsim-files <network.xml> --matsim.keep-length true --output-file <new.net.xml>`, then `astra network audit` and `astra network routeability` on it | MATSim networks in `references/osm-to-sumo-workflow.md`: comma `modes` lists lose every vehicle class; compare link, lane and mode counts with the source |
 | Check an existing network | `astra network audit <net.xml> <new-dir> --json` (`--profile quick` checks topology only); `astra network routeability <net.xml> <new-dir> --json`; optionally `astra network review-effects <net.xml> <new-dir> --parent-net-file <parent.net.xml> --json` to order findings by traffic effect | `findings`, report paths in `artifacts`, routeability `status` |
 | Compare a source and a candidate | `astra network compare <source.net.xml> <candidate.net.xml> <new-dir> --json`; `astra network routeability` on the candidate | Connection Mode changes the candidate introduces |
 | One typed edit: junction join or shape, lane connection, lane count, width, permissions, speed, stop line, duplicate signal | ledger with one operation; `astra network verify-edit <ledger.json> <new-dir> --json` (`--facts-file <facts.json>` also measures road facts) | `status`, `warnings`, `candidate_net_file`, `new_lane_service`; ledger format in `references/osm-to-sumo-workflow.md` |
