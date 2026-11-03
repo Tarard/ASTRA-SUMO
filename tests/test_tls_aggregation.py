@@ -766,3 +766,30 @@ def test_uncontrolled_tls_cleanup_rewrites_the_variant_as_elementtree_writes_it(
         "tls_aggregated_controlled_connection_count": 1,
         "tls_aggregated_tl_connection_missing_linkindex_count": 0,
     }
+
+
+def test_controlled_junctions_are_blocked_for_a_network_sumolib_cannot_load(signal_network: Path, tmp_path: Path) -> None:
+    from astra_sumo.core.tls_aggregation import _read_source_network
+
+    broken = tmp_path / "no_speed.net.xml"
+    text = signal_network.read_text(encoding="utf-8")
+    broken.write_text(text.replace('<lane id="AB_0" index="0" allow="pedestrian" speed="13.89"',
+                                   '<lane id="AB_0" index="0" allow="pedestrian"', 1), encoding="utf-8")
+    assert broken.read_text(encoding="utf-8") != text
+    clusters_file = tmp_path / "tls_clusters.csv"
+    clusters_file.write_text("cluster_id,tls_ids,tls_count,google_maps_url\nG001,D,1,https://maps.example/g1\n",
+                             encoding="utf-8")
+
+    source = _read_source_network(broken, controlled_nodes=True)
+    assert source["controlled_nodes"] is None
+    assert repr(source["controlled_nodes_error"]) == "KeyError('speed')"
+    assert set(source["tl_logics"]) == {"D", "joinedS_B_C"}
+    report = build_tls_aggregation_variant(
+        net_file=broken,
+        tls_audit_report={"status": "pass", "tls_cluster_count": 1, "clusters_file": str(clusters_file)},
+        output_dir=tmp_path / "tls_aggregation",
+        prefix="demo_tls",
+        command_runner=lambda *_args, **_kwargs: (_ for _ in ()).throw(AssertionError("should not run netconvert")),
+    )
+    assert report["error"] == "could not derive TLS-controlled junctions: KeyError: 'speed'"
+    assert report["tls_aggregation_variant_file"] == ""

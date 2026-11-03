@@ -147,3 +147,58 @@ def test_topology_audit_shortens_long_artifact_paths(tmp_path: Path) -> None:
     assert Path(report["topology_connection_cell_candidates_file"]).is_file()
     assert Path(report["report_file"]).is_file()
     assert Path(report["clusters_file"]).name.startswith("p_")
+
+
+def _cell_network(count: int) -> str:
+    rows = []
+    for index in range(count):
+        x = index * 100
+        a, b, c = f"a{index}", f"b{index}", f"c{index}"
+        rows += [
+            f'<edge id="w{index}" from="w{index}" to="{a}" type="highway.primary"><lane id="w{index}_0" index="0" '
+            f'allow="passenger" length="20" shape="{x - 20},0 {x},0"/></edge>',
+            f'<edge id="e{index}" from="{b}" to="e{index}" type="highway.primary"><lane id="e{index}_0" index="0" '
+            f'allow="passenger" length="20" shape="{x + 6},0 {x + 26},0"/></edge>',
+            f'<edge id="n{index}" from="n{index}" to="{c}" type="highway.secondary"><lane id="n{index}_0" index="0" '
+            f'allow="passenger" length="20" shape="{x + 3},20 {x + 3},4"/></edge>',
+            f'<edge id="s{index}" from="{a}" to="s{index}" type="highway.secondary"><lane id="s{index}_0" index="0" '
+            f'allow="passenger" length="20" shape="{x},0 {x},-20"/></edge>',
+            f'<edge id="ab{index}" from="{a}" to="{b}" type="highway.primary"><lane id="ab{index}_0" index="0" '
+            f'allow="passenger" length="6" shape="{x},0 {x + 6},0"/></edge>',
+            f'<edge id="bc{index}" from="{b}" to="{c}" type="highway.secondary"><lane id="bc{index}_0" index="0" '
+            f'allow="passenger" length="5" shape="{x + 6},0 {x + 3},4"/></edge>',
+        ]
+        for node, nx, ny in ((f"w{index}", x - 20, 0), (a, x, 0), (b, x + 6, 0), (c, x + 3, 4),
+                             (f"e{index}", x + 26, 0), (f"n{index}", x + 3, 20), (f"s{index}", x, -20)):
+            rows.append(f'<junction id="{node}" x="{nx}" y="{ny}" type="priority"/>')
+    return "<net>\n" + "\n".join(rows) + "\n</net>\n"
+
+
+def test_connection_cells_do_not_depend_on_string_hashing(tmp_path: Path) -> None:
+    import json
+    import os
+    import subprocess
+    import sys
+
+    net_file = tmp_path / "cells.net.xml"
+    net_file.write_text(_cell_network(12), encoding="utf-8")
+    script = (
+        "import json, sys\n"
+        "from pathlib import Path\n"
+        "from astra_sumo.core.topology_audit import audit_topology_fragmentation\n"
+        "report = audit_topology_fragmentation(net_file=Path(sys.argv[1]), output_dir=Path(sys.argv[2]),"
+        " cluster_radius_m=8, min_cluster_nodes=3)\n"
+        "print(json.dumps(report['topology_connection_cell_candidates'], sort_keys=True))\n"
+    )
+    outputs = []
+    for seed in ("0", "1", "2", "3"):
+        environment = {**os.environ, "PYTHONHASHSEED": seed}
+        completed = subprocess.run(
+            [sys.executable, "-c", script, str(net_file), str(tmp_path / "audit")],
+            env=environment, capture_output=True, text=True, check=True,
+        )
+        outputs.append(completed.stdout)
+    assert len(set(outputs)) == 1
+    cells = json.loads(outputs[0])
+    assert [cell["node_ids"] for cell in cells] == [[f"a{index}", f"b{index}", f"c{index}"] for index in range(12)]
+    assert [cell["cell_id"] for cell in cells] == [f"TC{index:03d}" for index in range(1, 13)]

@@ -8,6 +8,7 @@ not spawn this CLI.
 from __future__ import annotations
 
 import argparse
+import codecs
 import json
 import shutil
 import sys
@@ -134,14 +135,25 @@ def _exit_code(result: AstraToolResult | dict[str, Any]) -> int:
     return 1
 
 
+_JSON_CHUNK_SIZE = 1 << 20
+
+
 def _print_json(result: dict[str, Any]) -> None:
     """Print ``json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True)`` without building the string.
 
     A city workflow result is about a gigabyte of JSON. It is encoded into a temporary file and copied to stdout,
-    so a result that cannot be encoded still prints nothing.
+    so a result that cannot be serialized still prints nothing. Before the copy every character is encoded as
+    stdout encodes it, so a result stdout cannot encode also prints nothing, as ``print`` of the whole string.
     """
     with tempfile.TemporaryFile("w+", encoding="utf-8", errors="surrogatepass", newline="") as spool:
         json.dump(result, spool, ensure_ascii=False, indent=2, sort_keys=True)
+        encoding = getattr(sys.stdout, "encoding", None)
+        if encoding:
+            encoder = codecs.getincrementalencoder(encoding)(getattr(sys.stdout, "errors", None) or "strict")
+            spool.seek(0)
+            while chunk := spool.read(_JSON_CHUNK_SIZE):
+                encoder.encode(chunk)
+            encoder.encode("", final=True)
         spool.seek(0)
         shutil.copyfileobj(spool, sys.stdout)
     print()

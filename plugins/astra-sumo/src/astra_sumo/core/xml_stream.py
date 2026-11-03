@@ -36,6 +36,18 @@ def text_blocks(path: Path, size: int = BLOCK_SIZE) -> Iterator[str]:
         yield from read_blocks(handle, size)
 
 
+def _close(blocks: Iterator[object]) -> None:
+    """Close a block generator now, so the file it reads is released when parsing ends or fails.
+
+    A parse error raised from the parser keeps itself, and with it the suspended generator still inside its
+    ``with open(...)``, alive in a reference cycle, so the file would stay open (and locked on Windows) until the
+    cyclic garbage collector runs.
+    """
+    close = getattr(blocks, "close", None)
+    if close is not None:
+        close()
+
+
 def compact_tree(blocks: Iterable[str | bytes], *, without_params_of: Iterable[str] = ()) -> ET.Element:
     """Parse a whole document into a tree whose equal attribute values, texts and tails are one shared string.
 
@@ -49,29 +61,33 @@ def compact_tree(blocks: Iterable[str | bytes], *, without_params_of: Iterable[s
     shared: dict[str, str] = {}
     open_elements: list[ET.Element] = []
     root: ET.Element | None = None
-    for block in chain(blocks, [None]):
-        if block is None:
-            parser.close()
-        else:
-            parser.feed(block)
-        for event, element in parser.read_events():
-            if event == "start":
-                if root is None:
-                    root = element
-                open_elements.append(element)
-                continue
-            open_elements.pop()
-            attributes = element.attrib
-            for key, value in attributes.items():
-                attributes[key] = shared.setdefault(value, value)
-            if element.text is not None:
-                element.text = shared.setdefault(element.text, element.text)
-            # Each child's tail is complete once its parent ends.
-            for child in element:
-                if child.tail is not None:
-                    child.tail = shared.setdefault(child.tail, child.tail)
-            if element.tag == "param" and open_elements and open_elements[-1].tag in drop:
-                open_elements[-1].remove(element)
+    source = iter(blocks)
+    try:
+        for block in chain(source, [None]):
+            if block is None:
+                parser.close()
+            else:
+                parser.feed(block)
+            for event, element in parser.read_events():
+                if event == "start":
+                    if root is None:
+                        root = element
+                    open_elements.append(element)
+                    continue
+                open_elements.pop()
+                attributes = element.attrib
+                for key, value in attributes.items():
+                    attributes[key] = shared.setdefault(value, value)
+                if element.text is not None:
+                    element.text = shared.setdefault(element.text, element.text)
+                # Each child's tail is complete once its parent ends.
+                for child in element:
+                    if child.tail is not None:
+                        child.tail = shared.setdefault(child.tail, child.tail)
+                if element.tag == "param" and open_elements and open_elements[-1].tag in drop:
+                    open_elements[-1].remove(element)
+    finally:
+        _close(source)
     return root  # parser.close() raises for a document without a root element
 
 
@@ -93,28 +109,32 @@ class DirectChildren:
     def __iter__(self) -> Iterator[ET.Element]:
         parser = ET.XMLPullParser(self._events)
         previous, depth = None, 0
-        for block in chain(self._blocks, [None]):
-            if block is None:
-                parser.close()
-            else:
-                parser.feed(block)
-            for event, element in parser.read_events():
-                if event == "start-ns":
-                    self.namespaces.append(element)
-                elif event == "start":
-                    if self.root is None:
-                        self.root = element
-                        continue
-                    if depth == 0 and previous is not None:
-                        # The new sibling is already attached, so the finished child is the first one.
-                        yield previous
-                        previous = None
-                        del self.root[0]
-                    depth += 1
-                elif element is not self.root:
-                    depth -= 1
-                    if depth == 0:
-                        previous = element
+        source = iter(self._blocks)
+        try:
+            for block in chain(source, [None]):
+                if block is None:
+                    parser.close()
+                else:
+                    parser.feed(block)
+                for event, element in parser.read_events():
+                    if event == "start-ns":
+                        self.namespaces.append(element)
+                    elif event == "start":
+                        if self.root is None:
+                            self.root = element
+                            continue
+                        if depth == 0 and previous is not None:
+                            # The new sibling is already attached, so the finished child is the first one.
+                            yield previous
+                            previous = None
+                            del self.root[0]
+                        depth += 1
+                    elif element is not self.root:
+                        depth -= 1
+                        if depth == 0:
+                            previous = element
+        finally:
+            _close(source)
         if previous is not None:
             yield previous
             del self.root[0]

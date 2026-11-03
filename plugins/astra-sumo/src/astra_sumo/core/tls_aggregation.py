@@ -507,9 +507,16 @@ def _read_source_network(net_file: Path, *, controlled_nodes: bool) -> dict[str,
     )
     positions: dict[str, tuple[float, float]] = {}
     tl_logics: dict[str, ET.Element] = {}
-    view = SumolibTlsView() if controlled_nodes else None
+    view: SumolibTlsView | None = None
     error: Exception | None = None
-    for element in DirectChildren(binary_blocks(net_file)):
+    if controlled_nodes:
+        try:
+            view = SumolibTlsView()
+        except ModuleNotFoundError as exc:
+            error = RuntimeError("sumolib is required for TLS aggregation")
+            error.__cause__ = exc
+    stream = DirectChildren(binary_blocks(net_file))
+    for element in stream:
         attributes = element.attrib
         if element.tag == "tlLogic":
             phases = element.findall("phase")
@@ -533,14 +540,15 @@ def _read_source_network(net_file: Path, *, controlled_nodes: bool) -> dict[str,
                     pass
         if view is not None and error is None:
             try:
-                view.add(element)
-            except (KeyError, IndexError, ValueError) as exc:
+                view.add(element, stream.root)
+            except Exception as exc:  # noqa: BLE001 - any error of sumolib's load blocks the derivation.
                 error = exc
     nodes = None
     if view is not None and error is None:
         try:
+            view.finish(stream.root)
             nodes = _controlled_nodes_by_tls(view)
-        except AttributeError as exc:
+        except Exception as exc:  # noqa: BLE001 - any error of sumolib's load blocks the derivation.
             error = exc
     return {
         "counts": counts,

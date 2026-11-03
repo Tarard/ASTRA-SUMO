@@ -2978,6 +2978,18 @@ def test_tls_candidates_reject_a_connection_to_an_unknown_lane_as_sumolib_does(s
         extract_tls_candidates(net_file=broken)
 
 
+def test_tls_candidates_reject_a_network_sumolib_cannot_load(signal_network: Path, tmp_path: Path) -> None:
+    from astra_sumo.core.osm_network import extract_tls_candidates
+
+    broken = tmp_path / "no_speed.net.xml"
+    text = signal_network.read_text(encoding="utf-8")
+    broken.write_text(text.replace('<lane id="AB_0" index="0" allow="pedestrian" speed="13.89"',
+                                   '<lane id="AB_0" index="0" allow="pedestrian"', 1), encoding="utf-8")
+    assert broken.read_text(encoding="utf-8") != text
+    with pytest.raises(KeyError, match="speed"):
+        extract_tls_candidates(net_file=broken)
+
+
 def test_origin_name_summary_streams_the_final_network(signal_network: Path, tmp_path: Path) -> None:
     from astra_sumo.core.osm_network import _origin_name_output_summary
 

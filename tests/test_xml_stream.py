@@ -1,12 +1,20 @@
 from __future__ import annotations
 
+import gc
 import io
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
 import pytest
 
-from astra_sumo.core.xml_stream import DirectChildren, compact_tree, read_blocks, rewrite_indented
+from astra_sumo.core.xml_stream import (
+    DirectChildren,
+    binary_blocks,
+    compact_tree,
+    read_blocks,
+    rewrite_indented,
+    text_blocks,
+)
 
 
 DOCUMENT = b"""<?xml version="1.0" encoding="UTF-8"?>
@@ -114,3 +122,66 @@ def test_compact_tree_shares_equal_strings_and_leaves_out_unread_parameters(size
     first, second = compact.iter("lane")
     assert first.get("allow") is second.get("allow")
     assert compact_tree(read_blocks(io.BytesIO(document), size)).find("edge/lane/param") is not None
+
+
+def _parse_direct_children(blocks):
+    return list(DirectChildren(blocks))
+
+
+def _parse_compact_tree(blocks):
+    return compact_tree(blocks)
+
+
+@pytest.mark.parametrize("parse", [_parse_direct_children, _parse_compact_tree])
+@pytest.mark.parametrize("blocks", [binary_blocks, text_blocks])
+def test_a_mid_file_parse_error_releases_the_file_at_once(tmp_path, parse, blocks):
+    # A parse error raised by the parser sits in a reference cycle; the file must not wait for the collector.
+    broken = tmp_path / "broken.net.xml"
+    broken.write_bytes(DOCUMENT.replace(b"<junction", b"<<&&>>junction"))
+    collecting = gc.isenabled()
+    gc.disable()
+    try:
+        with pytest.raises(ET.ParseError):
+            parse(blocks(broken, 7))
+        moved = broken.replace(tmp_path / "moved.net.xml")
+        moved.unlink()
+    finally:
+        if collecting:
+            gc.enable()
+    assert not moved.exists()
+
+
+@pytest.mark.parametrize("parse", [_parse_direct_children, _parse_compact_tree])
+def test_the_block_source_is_closed_when_parsing_fails(parse):
+    closed = []
+
+    def blocks():
+        try:
+            yield from read_blocks(io.BytesIO(DOCUMENT.replace(b"<junction", b"<<junction")), 5)
+        finally:
+            closed.append(True)
+
+    collecting = gc.isenabled()
+    gc.disable()
+    try:
+        with pytest.raises(ET.ParseError):
+            parse(blocks())
+        assert closed == [True]
+    finally:
+        if collecting:
+            gc.enable()
+
+
+def test_stopping_early_closes_the_block_source():
+    closed = []
+
+    def blocks():
+        try:
+            yield from read_blocks(io.BytesIO(DOCUMENT), 5)
+        finally:
+            closed.append(True)
+
+    children = iter(DirectChildren(blocks()))
+    assert next(children).tag == "edge"
+    children.close()
+    assert closed == [True]

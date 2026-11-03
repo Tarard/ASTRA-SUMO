@@ -20,6 +20,7 @@ import xml.etree.ElementTree as ET
 
 from .artifact_io import atomic_writer, copy_file_atomic, write_json_atomic
 from .command_runner import run_command
+from .sumolib_load_check import SumolibLoadCheck
 from .xml_stream import DirectChildren, binary_blocks, read_blocks
 
 
@@ -1779,14 +1780,14 @@ def _sumolib_lane_position(lane_counts: Mapping[str, int], edge_id: str, spelled
 
 class SumolibTlsView:
     """What ``sumolib.net.readNet(net_file, withPrograms=True)`` loads about traffic lights, fed one top-level
-    element at a time.
+    element at a time with ``add`` and then ``finish``, both with the document root.
 
     It keeps the location, the coordinates of the first junction of each non-internal id, the junction ids sumolib
     creates (non-internal junctions and the end junctions of plain edges), the end junctions and lane count of each
     plain edge (a later edge of the same id only adds lanes) and, per traffic light in order of first appearance,
     its loaded connections as ``(from edge, lane position, to edge, lane position)`` in document order. Connections
-    from internal edges or touching crossings, walking areas or macro connectors are not loaded. A connection to an
-    unknown edge or lane raises ``KeyError`` or ``IndexError`` and a malformed index ``ValueError``, as in sumolib.
+    from internal edges or touching crossings, walking areas or macro connectors are not loaded. Each element is
+    first checked as sumolib loads it, so a network sumolib cannot load raises the error sumolib raises.
     """
 
     def __init__(self) -> None:
@@ -1794,27 +1795,28 @@ class SumolibTlsView:
         self.coordinates: dict[str, tuple[float, float]] = {}
         self.node_ids: set[str] = set()
         self.edge_ends: dict[str, tuple[str | None, str | None]] = {}
-        self.lane_counts: dict[str, int] = {}
-        self.unloaded_edges: set[str] = set()
         self.controllers: dict[str, list[tuple[str, int, str, int]]] = {}
         self._names: dict[str, str] = {}
+        self._check = SumolibLoadCheck(with_programs=True)
+        self.lane_counts = self._check.lane_counts
+        self.unloaded_edges = self._check.unloaded_edges
 
     def _shared(self, value: str | None) -> str | None:
         return None if value is None else self._names.setdefault(value, value)
 
-    def add(self, element: ET.Element) -> None:
+    def finish(self, root: ET.Element) -> None:
+        self._check.finish(root)
+
+    def add(self, element: ET.Element, root: ET.Element) -> None:
+        self._check.add(element, root)
         attributes = element.attrib
         if element.tag == "edge":
-            function = attributes.get("function", "")
-            if function == "":
+            if attributes.get("function", "") == "":
                 edge_id = attributes["id"]
                 if edge_id not in self.edge_ends:
                     ends = (self._shared(attributes.get("from")), self._shared(attributes.get("to")))
                     self.edge_ends[edge_id] = ends
                     self.node_ids.update(node_id for node_id in ends if node_id is not None)
-                self.lane_counts[edge_id] = self.lane_counts.get(edge_id, 0) + len(element.findall("lane"))
-            elif function in {"crossing", "walkingarea", "connector"}:
-                self.unloaded_edges.add(attributes["id"])
         elif element.tag == "junction":
             junction_id = attributes["id"]
             if junction_id[0] != ":":
@@ -1844,10 +1846,12 @@ def _streamed_tls_network(net_file: Path) -> tuple[SumolibTlsView, dict[str, str
     """Read the sumolib traffic-light view and the edge names of a network in one streamed pass."""
     view = SumolibTlsView()
     names: dict[str, str] = {}
-    for element in DirectChildren(binary_blocks(net_file)):
+    stream = DirectChildren(binary_blocks(net_file))
+    for element in stream:
         if element.tag == "edge":
             _record_edge_name(names, element)
-        view.add(element)
+        view.add(element, stream.root)
+    view.finish(stream.root)
     return view, names
 
 

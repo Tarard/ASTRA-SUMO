@@ -14,6 +14,7 @@ from .modal_aggregation_policy import classify_cluster_modal_policy, classify_ed
 from .candidate_contracts import file_sha256
 from .artifact_io import write_json_atomic
 from .osm_network import _net_xy_to_latlon
+from .sumolib_load_check import SumolibLoadCheck
 from .xml_stream import DirectChildren, binary_blocks
 from .road_corridor import (
     enrich_clusters_with_corridor_audit,
@@ -56,11 +57,11 @@ def audit_topology_fragmentation(
         return finish(_failure(f"net file does not exist: {net_file}"))
 
     try:
-        junctions, edges, location = _read_network_graph_and_location(net_file)
+        junctions, edges, location, sumolib_loads = _read_network_graph_and_location(net_file)
     except (OSError, ET.ParseError, KeyError, ValueError) as exc:
         return finish(_failure(f"{type(exc).__name__}: {exc}"))
 
-    xy_to_latlon = _coordinate_converter(location)
+    xy_to_latlon = _coordinate_converter(location, sumolib_loads=sumolib_loads)
     clusters = _dense_clusters(
         junctions,
         radius_m=cluster_radius_m,
@@ -586,8 +587,9 @@ def _edge_record(edge: ET.Element) -> dict[str, Any] | None:
 
 def _read_network_graph_and_location(
     net_file: Path,
-) -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, str] | None]:
-    """Read junctions, edges and the last ``location`` element, one top-level element at a time.
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, str] | None, bool]:
+    """Read junctions, edges and the last ``location`` element, one top-level element at a time, and whether
+    ``sumolib.net.readNet`` loads the network (``False`` also when sumolib is not installed).
 
     Records follow document order. As for a parsed tree, a parse error wins over a bad junction, and a bad
     junction over a bad edge; both are raised after the file has been read.
@@ -597,7 +599,17 @@ def _read_network_graph_and_location(
     location: dict[str, str] | None = None
     junction_error: Exception | None = None
     edge_error: Exception | None = None
-    for element in DirectChildren(binary_blocks(net_file)):
+    try:
+        sumolib_check: SumolibLoadCheck | None = SumolibLoadCheck()
+    except ImportError:
+        sumolib_check = None
+    stream = DirectChildren(binary_blocks(net_file))
+    for element in stream:
+        if sumolib_check is not None:
+            try:
+                sumolib_check.add(element, stream.root)
+            except Exception:  # noqa: BLE001 - any error of sumolib's load leaves the projection to the XY fallback.
+                sumolib_check = None
         if element.tag == "junction" and junction_error is None:
             try:
                 record = _junction_record(element)
@@ -616,11 +628,16 @@ def _read_network_graph_and_location(
                 edges.append(record)
         elif element.tag == "location":
             location = dict(element.attrib)
+    if sumolib_check is not None:
+        try:
+            sumolib_check.finish(stream.root)
+        except Exception:  # noqa: BLE001 - any error of sumolib's load leaves the projection to the XY fallback.
+            sumolib_check = None
     if junction_error is not None:
         raise junction_error
     if edge_error is not None:
         raise edge_error
-    return junctions, edges, location
+    return junctions, edges, location, sumolib_check is not None
 
 
 def _dense_clusters(
@@ -675,12 +692,13 @@ def _connection_cell_candidates(
         if float(edge.get("length") or 0.0) <= short_edge_max_length_m
         and classify_edge_modal_role(edge)["modal_primary_role"] == "vehicle_core"
     ]
-    graph: dict[str, set[str]] = {}
+    # Neighbors keep document order, so the cells and their numbering do not depend on string hashing.
+    graph: dict[str, dict[str, None]] = {}
     for edge in short_vehicle_edges:
         left = str(edge["from"])
         right = str(edge["to"])
-        graph.setdefault(left, set()).add(right)
-        graph.setdefault(right, set()).add(left)
+        graph.setdefault(left, {})[right] = None
+        graph.setdefault(right, {})[left] = None
 
     candidates = []
     for component in _connected_node_components(graph):
@@ -699,8 +717,9 @@ def _connection_cell_candidates(
             for edge in edges
             if str(edge["from"]) in component and str(edge["to"]) in component
         ]
-        centroid_x = _mean(float(junction_by_id[node]["x"]) for node in component if node in junction_by_id)
-        centroid_y = _mean(float(junction_by_id[node]["y"]) for node in component if node in junction_by_id)
+        members = sorted(component)
+        centroid_x = _mean(float(junction_by_id[node]["x"]) for node in members if node in junction_by_id)
+        centroid_y = _mean(float(junction_by_id[node]["y"]) for node in members if node in junction_by_id)
         candidates.append(
             {
                 "cell_id": f"TC{len(candidates) + 1:03d}",
@@ -717,18 +736,21 @@ def _connection_cell_candidates(
     return candidates
 
 
-def _connected_node_components(graph: dict[str, set[str]]) -> list[set[str]]:
-    remaining = set(graph)
+def _connected_node_components(graph: Mapping[str, Iterable[str]]) -> list[set[str]]:
+    """The connected components in the order of their first node in ``graph``."""
+    seen: set[str] = set()
     components = []
-    while remaining:
-        start = remaining.pop()
+    for start in graph:
+        if start in seen:
+            continue
+        seen.add(start)
         component = {start}
         stack = [start]
         while stack:
             node = stack.pop()
-            for neighbor in graph.get(node, set()):
-                if neighbor in remaining:
-                    remaining.remove(neighbor)
+            for neighbor in graph.get(node, ()):
+                if neighbor not in seen:
+                    seen.add(neighbor)
                     component.add(neighbor)
                     stack.append(neighbor)
         components.append(component)
@@ -1174,8 +1196,15 @@ def _edge_length(shape: list[tuple[float, float]], lanes: list[ET.Element]) -> f
     return sum(math.hypot(right[0] - left[0], right[1] - left[1]) for left, right in zip(shape, shape[1:]))
 
 
-def _coordinate_converter(location: Mapping[str, str] | None) -> Callable[[float, float], tuple[float, float]] | None:
-    """Project with sumolib from the network ``location`` alone, as a loaded sumolib network projects."""
+def _coordinate_converter(
+    location: Mapping[str, str] | None,
+    *,
+    sumolib_loads: bool,
+) -> Callable[[float, float], tuple[float, float]] | None:
+    """Project with sumolib from the network ``location`` alone, as a loaded sumolib network projects; ``None``
+    when sumolib does not load the network."""
+    if not sumolib_loads:
+        return None
     try:
         import sumolib.net  # type: ignore
     except ImportError:  # optional sumolib projection has an explicit XY fallback.

@@ -167,11 +167,35 @@ def test_topology_projection_equals_the_projection_of_a_loaded_sumolib_network(s
     from astra_sumo.core.osm_network import _net_xy_to_latlon
     from astra_sumo.core.topology_audit import _coordinate_converter, _read_network_graph_and_location
 
-    junctions, edges, location = _read_network_graph_and_location(signal_network)
-    convert = _coordinate_converter(location)
+    junctions, edges, location, sumolib_loads = _read_network_graph_and_location(signal_network)
+    assert sumolib_loads is True
+    convert = _coordinate_converter(location, sumolib_loads=sumolib_loads)
     net = sumolib.net.readNet(str(signal_network))
     assert {junction["id"] for junction in junctions} == {node.getID() for node in net.getNodes()}
     assert {edge["id"] for edge in edges} == {edge.getID() for edge in net.getEdges(withInternal=False)}
     for junction in junctions:
         assert convert(junction["x"], junction["y"]) == _net_xy_to_latlon(net, junction["x"], junction["y"])
-    assert _coordinate_converter({"netOffset": "0,0"}) is None
+    assert _coordinate_converter({"netOffset": "0,0"}, sumolib_loads=True) is None
+    assert _coordinate_converter(location, sumolib_loads=False) is None
+
+
+def test_topology_projection_falls_back_to_xy_for_a_network_sumolib_cannot_load(
+    signal_network: Path, tmp_path: Path
+) -> None:
+    from astra_sumo.core.topology_audit import _read_network_graph_and_location
+
+    broken = tmp_path / "no_speed.net.xml"
+    text = signal_network.read_text(encoding="utf-8")
+    broken.write_text(text.replace('<lane id="AB_0" index="0" allow="pedestrian" speed="13.89"',
+                                   '<lane id="AB_0" index="0" allow="pedestrian"', 1), encoding="utf-8")
+    assert broken.read_text(encoding="utf-8") != text
+    junctions, edges, location, sumolib_loads = _read_network_graph_and_location(broken)
+    assert junctions and edges and location is not None
+    assert sumolib_loads is False
+    report = audit_topology_fragmentation(net_file=broken, output_dir=tmp_path / "audit", cluster_radius_m=200,
+                                          min_cluster_nodes=2)
+    import csv
+
+    with Path(report["clusters_file"]).open(encoding="utf-8", newline="") as handle:
+        statuses = {row["coordinate_status"] for row in csv.DictReader(handle)}
+    assert statuses == {"xy_fallback_no_geo_projection"}
