@@ -403,6 +403,24 @@ def test_multimodal_master_keeps_the_signal_groups_of_the_vehicle_roads(tmp_path
     assert grouping["skipped_controllers"] == []
 
 
+def test_multimodal_master_gives_crossing_signals_their_own_controller(tmp_path):
+    netconvert, _ = _binaries()
+    osm = Path(__file__).parent / "fixtures/osm_multimodal_crossing_signal_groups.osm.xml"
+    common = {"bbox": "10.9975,47.9990,11.0030,48.0010", "source_osm_path": osm, "clip_source_ways_to_bbox": False,
+              "netconvert_binary": netconvert}
+    vehicle = build_osm_network(output_dir=tmp_path / "vehicle", allowed_highways={"secondary", "residential"}, **common)
+    master = build_osm_network(output_dir=tmp_path / "master", allowed_highways={"secondary", "residential", "footway"},
+                               netconvert_profile="multimodal", multimodal_modes=["pedestrian"], **common)
+
+    assert (vehicle["status"], master["status"]) == ("pass", "pass")
+    assert _controller_nodes(Path(vehicle["net_file"])) == {"joinedS_2_3_7": {"2", "3", "7"}}
+    assert _controller_nodes(Path(master["net_file"])) == {"joinedS_2_3_7": {"2", "3"}, "7": {"7"}}
+    grouping = master["netconvert_signal_grouping"]
+    assert (grouping["joined_controller_count"], grouping["patched_node_count"]) == (1, 2)
+    assert grouping["split_controllers"] == [
+        {"tl": "joinedS_2_3_7", "crossing_signal_nodes": ["7"], "junction_signal_nodes": ["2", "3"], "dissolved": False}]
+
+
 # A joined controller J over A and B. B's crossing over the vehicle road AB/BA has walking areas fed only by the
 # footways F1B and BF2, which the vehicle layer removes, so netconvert drops that crossing and re-plans J.
 _JOINED_NODES = """<nodes>

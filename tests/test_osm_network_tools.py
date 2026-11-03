@@ -2107,6 +2107,87 @@ def test_multimodal_master_takes_its_signal_groups_from_a_vehicle_road_build(tmp
     assert "signal_grouping=measured" in Path(report["command_record"]).read_text(encoding="utf-8")
 
 
+_SIGNAL = {"highway": "traffic_signals"}
+_MARKED_SIGNAL = {"highway": "traffic_signals", "crossing": "traffic_signals"}
+# Signal nodes along one primary road; 7, 9 and 15 are junctions with a residential road through them.
+_CROSSING_SIGNAL_TAGS = {
+    "2": _SIGNAL, "3": _SIGNAL, "4": _SIGNAL, "5": _SIGNAL, "11": _SIGNAL, "14": _SIGNAL,
+    "7": {"highway": "crossing"},
+    "8": {"crossing": "traffic_signals;marked"},
+    "9": _MARKED_SIGNAL,
+    "10": {"highway": "traffic_signals", "traffic_signals": "pedestrian_crossing"},
+    "12": _MARKED_SIGNAL,
+    "13": {**_MARKED_SIGNAL, "traffic_signals:direction": "forward"},
+    "15": {"crossing": "traffic_signals"},
+}
+
+
+def _crossing_signal_osm(path: Path) -> None:
+    order = ["1", "2", "3", "7", "4", "8", "9", "5", "10", "11", "12", "13", "14", "15", "6"]
+    nodes = [(node_id, 51.0, 13.700 + index * 0.0003) for index, node_id in enumerate(order)]
+    sides = {node_id: (f"{node_id}01", f"{node_id}02") for node_id in ("7", "9", "15")}
+    nodes += [(side, 51.0 + offset, lon) for node_id, lat, lon in list(nodes) if node_id in sides
+              for side, offset in zip(sides[node_id], (0.001, -0.001))]
+    text = "".join(f'<node id="{node_id}" lat="{lat}" lon="{lon:.4f}">'
+                   + "".join(f'<tag k="{key}" v="{value}"/>'
+                             for key, value in _CROSSING_SIGNAL_TAGS.get(node_id, {}).items())
+                   + "</node>" for node_id, lat, lon in nodes)
+    ways = [("10", order, "primary"), *((f"2{index}", [first, node_id, last], "residential")
+                                        for index, (node_id, (first, last)) in enumerate(sides.items()))]
+    text += "".join(f'<way id="{way_id}">' + "".join(f'<nd ref="{ref}"/>' for ref in refs)
+                    + f'<tag k="highway" v="{highway}"/></way>' for way_id, refs, highway in ways)
+    path.write_text(f'<osm version="0.6">{text}</osm>', encoding="utf-8")
+
+
+def _joined_plain_nodes(controllers: dict[str, list[str]]) -> str:
+    return "<nodes>" + "".join(f'<node id="{node_id}" x="0" y="0" type="traffic_light" tl="{tl}"/>'
+                               for tl, members in controllers.items() for node_id in members) + "</nodes>"
+
+
+def test_multimodal_signal_groups_leave_crossing_signals_out(tmp_path: Path) -> None:
+    source = tmp_path / "input.osm.xml"
+    _crossing_signal_osm(source)
+    controllers = {"joinedS_2_3_7": ["2", "3", "7"], "joinedS_4_8_9": ["4", "8", "9"], "joinedS_5_10": ["5", "10"],
+                   "joinedS_11_12_13": ["11", "12", "13"], "joinedS_14_15": ["14", "15"]}
+    calls: list[list[str]] = []
+    report = build_osm_network(bbox="13.6000,50.9800,13.9000,51.1500", prefix="demo", output_dir=tmp_path / "build",
+                               source_osm_path=source, allowed_highways={"primary", "residential"},
+                               netconvert_profile="multimodal", multimodal_modes=["pedestrian"],
+                               command_runner=_signal_reference_runner(calls, _joined_plain_nodes(controllers)))
+
+    grouping = report["netconvert_signal_grouping"]
+    node_file = tmp_path / "build" / calls[-1][calls[-1].index("--node-files") + 1]
+    # highway=crossing splits even on a junction (7); other crossing tags split only off a junction (8, 10, 12)
+    # and never from a highway=traffic_signals stop line with a direction (13).
+    assert [(node.get("id"), node.get("tl")) for node in ET.parse(node_file).getroot()] == [
+        ("11", "joinedS_11_12_13"), ("13", "joinedS_11_12_13"), ("14", "joinedS_14_15"), ("15", "joinedS_14_15"),
+        ("2", "joinedS_2_3_7"), ("3", "joinedS_2_3_7"), ("4", "joinedS_4_8_9"), ("9", "joinedS_4_8_9")]
+    assert (grouping["joined_controller_count"], grouping["patched_node_count"]) == (4, 8)
+    assert (grouping["crossing_signal_node_count"], grouping["split_controller_count"]) == (4, 4)
+    assert grouping["split_controllers"] == [
+        {"tl": "joinedS_11_12_13", "crossing_signal_nodes": ["12"], "junction_signal_nodes": ["11", "13"],
+         "dissolved": False},
+        {"tl": "joinedS_2_3_7", "crossing_signal_nodes": ["7"], "junction_signal_nodes": ["2", "3"], "dissolved": False},
+        {"tl": "joinedS_4_8_9", "crossing_signal_nodes": ["8"], "junction_signal_nodes": ["4", "9"], "dissolved": False},
+        {"tl": "joinedS_5_10", "crossing_signal_nodes": ["10"], "junction_signal_nodes": ["5"], "dissolved": True}]
+
+
+def test_multimodal_master_joins_no_signal_when_every_group_dissolves(tmp_path: Path) -> None:
+    source = tmp_path / "input.osm.xml"
+    _crossing_signal_osm(source)
+    calls: list[list[str]] = []
+    report = build_osm_network(bbox="13.6000,50.9800,13.9000,51.1500", prefix="demo", output_dir=tmp_path / "build",
+                               source_osm_path=source, allowed_highways={"primary", "residential"},
+                               netconvert_profile="multimodal", multimodal_modes=["pedestrian"],
+                               command_runner=_signal_reference_runner(calls, _joined_plain_nodes(
+                                   {"joinedS_5_10": ["5", "10"]})))
+
+    grouping = report["netconvert_signal_grouping"]
+    assert (grouping["status"], grouping["reason"], grouping["split_controller_count"]) == (
+        "no_effect", "every_joined_group_dissolved", 1)
+    assert "--node-files" not in calls[-1] and "--tls.join" not in calls[-1]
+
+
 def test_multimodal_master_falls_back_to_netconvert_joining_when_the_reference_build_fails(tmp_path: Path) -> None:
     source = tmp_path / "input.osm.xml"
     source.write_text(_SIGNAL_GROUP_OSM, encoding="utf-8")

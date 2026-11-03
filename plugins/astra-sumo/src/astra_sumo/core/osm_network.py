@@ -869,6 +869,34 @@ def _completed_elements(handle: Any) -> Iterator[ET.Element]:
                 root.remove(element)
 
 
+_SPLIT_CONTROLLER_LIMIT = 20
+# traffic_signals values for a light that turns red only to let pedestrians or cyclists cross.
+_CROSSING_ONLY_SIGNAL_VALUES = frozenset({"crossing", "pedestrian_crossing", "cyclist_crossing", "hawk"})
+
+
+def _tag_values(tags: Mapping[str, str], key: str) -> set[str]:
+    return {value.strip() for value in (tags.get(key) or "").split(";") if value.strip()}
+
+
+def _is_crossing_signal(tags: Mapping[str, str], road_neighbours: int) -> bool:
+    """Whether a signal node serves a crossing, from its OSM tags and its neighbour count on the vehicle roads.
+
+    ``highway=crossing`` is a crossing signal wherever it sits; such nodes on a junction, kept in their group, still
+    gave 222-306 s programs on central Dresden extracts. The other crossing tags count only off a junction (at most two
+    neighbours): a crossing-only ``traffic_signals`` value, ``crossing=traffic_signals`` or ``crossing:signals=yes``.
+    On a junction they mark the junction's own signal, and so does ``crossing=traffic_signals`` on a
+    ``highway=traffic_signals`` stop line with ``traffic_signals:direction``.
+    """
+    if tags.get("highway") == "crossing":
+        return True
+    if road_neighbours > 2:
+        return False
+    if _tag_values(tags, "traffic_signals") & _CROSSING_ONLY_SIGNAL_VALUES:
+        return True
+    marked = "traffic_signals" in _tag_values(tags, "crossing") or tags.get("crossing:signals") == "yes"
+    return marked and not (tags.get("highway") == "traffic_signals" and "traffic_signals:direction" in tags)
+
+
 def _vehicle_signal_groups(
     *,
     filtered_osm: Path,
@@ -886,10 +914,16 @@ def _vehicle_signal_groups(
     """Signal groups of a vehicle-road build of the same input, as a node file for the multimodal master.
 
     netconvert's --tls.join clusters signals across short edges of any class. In a multimodal build the short
-    footway, cycleway and crossing segments link neighbouring junctions, so whole blocks become one controller
-    (Dresden Neustadt: 17 junctions, 612 s cycle, where the vehicle-road build has separate 90 s controllers). The
-    vehicle-road build runs the same join on the vehicle highways only; every node whose controller id differs from
-    its own id gets that id in the node file, which the master loads instead of --tls.join.
+    footway, cycleway and crossing segments link neighbouring junctions, so whole blocks become one controller.
+    The vehicle-road build runs the same join on the vehicle highways only; every node whose controller id differs
+    from its own id gets that id in the node file, which the master loads instead of --tls.join.
+
+    Crossing signals (``_is_crossing_signal``, neighbours counted on the reference OSM's highway ways) stay out of
+    every group and keep their own controller. On vehicle roads only they control no conflict, so the join takes
+    them in by distance alone. In the master each brings crossings and bike links, and netconvert gives every signal
+    group of a joined program its own green. Central Dresden: Georgplatz joined 9 junction and 8 crossing signals
+    into a 612 s, 54-phase program, 90 s without the crossings. A joined controller keeps the reference build's id
+    while two or more of its signals remain; a group left with one signal dissolves, and that signal keeps its own.
     """
     from .road_scope import HIGHWAY_CLASS_PRESETS
 
@@ -919,11 +953,23 @@ def _vehicle_signal_groups(
                     (element.get("id"), element.get("type") or "traffic_light"))
     except ET.ParseError:
         return {**report, "status": "blocked", "reason": "vehicle_signal_reference_build_failed"}
-    source_nodes = set()
+    members = {node_id for rows in controllers.values() for node_id, _ in rows}
+    source_nodes: set[str] = set()
+    member_tags: dict[str, dict[str, str]] = {}
+    neighbours: dict[str, set[str]] = {node_id: set() for node_id in members}
     for element in _completed_elements(_open_xml(reference_osm, "rt")):
         if element.tag == "node":
             source_nodes.add(element.get("id"))
-    patched, skipped = [], []
+            if element.get("id") in members:
+                member_tags[element.get("id")] = {tag.get("k"): tag.get("v") for tag in element.findall("tag")}
+        elif element.tag == "way" and any(tag.get("k") == "highway" for tag in element.findall("tag")):
+            refs = [nd.get("ref") for nd in element.findall("nd")]
+            for index, ref in enumerate(refs):
+                if ref in members:
+                    neighbours[ref].update(refs[max(index - 1, 0):index] + refs[index + 1:index + 2])
+    crossing_signals = {node_id for node_id, tags in member_tags.items()
+                        if _is_crossing_signal(tags, len(neighbours[node_id] - {node_id}))}
+    patched, skipped, split = [], [], []
     for tl_id, members in sorted(controllers.items()):
         if all(node_id == tl_id for node_id, _ in members):
             continue
@@ -932,11 +978,20 @@ def _vehicle_signal_groups(
             skipped.append({"tl": tl_id, "reason": "node_not_in_source_osm" if missing else "node_has_several_controllers",
                             "nodes": missing or [node_id for node_id, _ in members]})
             continue
-        patched.extend((node_id, node_type, tl_id) for node_id, node_type in members)
+        kept = [(node_id, node_type) for node_id, node_type in members if node_id not in crossing_signals]
+        if len(kept) < len(members):
+            split.append({"tl": tl_id, "crossing_signal_nodes": [node_id for node_id, _ in members
+                                                                 if node_id in crossing_signals],
+                          "junction_signal_nodes": [node_id for node_id, _ in kept], "dissolved": len(kept) < 2})
+        if len(kept) > 1:
+            patched.extend((node_id, node_type, tl_id) for node_id, node_type in kept)
     report.update(controller_count=len(controllers), joined_controller_count=len({tl for _, _, tl in patched}),
-                  patched_node_count=len(patched), skipped_controllers=skipped)
+                  patched_node_count=len(patched), skipped_controllers=skipped,
+                  crossing_signal_node_count=sum(len(row["crossing_signal_nodes"]) for row in split),
+                  split_controller_count=len(split), split_controllers=split[:_SPLIT_CONTROLLER_LIMIT])
     if not patched:
-        return {**report, "status": "no_effect", "reason": "no_joined_vehicle_signals"}
+        reason = "every_joined_group_dissolved" if split else "no_joined_vehicle_signals"
+        return {**report, "status": "no_effect", "reason": reason}
     nodes = ET.Element("nodes")
     for node_id, node_type, tl_id in patched:
         ET.SubElement(nodes, "node", {"id": node_id, "type": node_type, "tl": tl_id})

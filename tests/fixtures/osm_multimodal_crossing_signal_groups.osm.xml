@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic test fixture: two signalised crossroads 26 m apart and a signalised footway crossing 20 m further on.
+     netconvert's tls.join on the vehicle roads joins all three signals into one controller; the master keeps the
+     crossroads joined and gives the crossing signal its own controller. -->
+<osm version="0.6">
+  <bounds minlat="47.9990" minlon="10.9975" maxlat="48.0010" maxlon="11.0030"/>
+  <node id="1" lat="48.0000" lon="10.9980"/>
+  <node id="2" lat="48.0000" lon="10.9990"><tag k="highway" v="traffic_signals"/></node>
+  <node id="3" lat="48.0000" lon="10.99935"><tag k="highway" v="traffic_signals"/></node>
+  <node id="7" lat="48.0000" lon="10.99962"><tag k="highway" v="crossing"/><tag k="crossing" v="traffic_signals"/></node>
+  <node id="6" lat="48.0000" lon="11.0025"/>
+  <node id="11" lat="48.0006" lon="10.9990"/>
+  <node id="12" lat="47.9994" lon="10.9990"/>
+  <node id="13" lat="48.0006" lon="10.99935"/>
+  <node id="14" lat="47.9994" lon="10.99935"/>
+  <node id="31" lat="48.0004" lon="10.99962"/>
+  <node id="32" lat="47.9996" lon="10.99962"/>
+  <way id="100">
+    <nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="7"/><nd ref="6"/>
+    <tag k="highway" v="secondary"/><tag k="sidewalk" v="no"/>
+  </way>
+  <way id="101"><nd ref="11"/><nd ref="2"/><nd ref="12"/><tag k="highway" v="residential"/></way>
+  <way id="102"><nd ref="13"/><nd ref="3"/><nd ref="14"/><tag k="highway" v="residential"/></way>
+  <way id="300"><nd ref="31"/><nd ref="7"/><nd ref="32"/><tag k="highway" v="footway"/><tag k="footway" v="crossing"/></way>
+</osm>

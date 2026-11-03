@@ -280,8 +280,10 @@ Traffic-light checks run once on the master. Passenger checks run on the
 `vehicle` layer, which is cut only when a vehicle mode is requested too;
 otherwise they run on the master. The master does not let netconvert join
 signals across cycleways and paths: it loads the controller groups of a
-vehicle-road build of the same input as a node file, so its controller ids and
-members match a vehicle-only build.
+vehicle-road build of the same input as a node file, without that build's
+crossing signals. Each crossing signal keeps its own controller, and so does
+the one signal of a group left with no other; every other controller id and
+member matches a vehicle-only build.
 
 ## Layer 3: Executor
 

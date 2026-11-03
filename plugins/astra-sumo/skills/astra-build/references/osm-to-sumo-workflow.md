@@ -60,7 +60,13 @@
   and, in `long_cycle_controllers`, those above 120 s; any such controller sets `gate_status.master_tls_cycles` to
   `review_required` (reason `long_signal_cycles`). The master's signal groups come from a vehicle-road build of the
   same input (`build.netconvert_signal_grouping`), so cycleways and paths do not join neighbouring signals; bicycle and
-  crossing links can still add phases to a controller, and the vehicle layer inherits them. When the routeability
+  crossing links can still add phases to a controller, and the vehicle layer inherits them. Crossing signals stay
+  out of the groups and keep their own controller: every `highway=crossing` node and, off a vehicle-road junction
+  (at most two road neighbours), a node with `crossing=traffic_signals`, `crossing:signals=yes` or a crossing-only
+  `traffic_signals` value (`crossing`, `pedestrian_crossing`, `cyclist_crossing`, `hawk`), except a
+  `highway=traffic_signals` stop line with `traffic_signals:direction`. Joined to the junction signals at Georgplatz
+  in Dresden they made one 612 s program. `split_controller_count` counts the groups they left, `split_controllers`
+  lists the first 20, and a group left with one signal is dissolved. When the routeability
   audit does not pass,
   `routeability_long_signal_cycles` names the unfinished vehicles whose routes pass such a controller.
 - An OSM turn restriction with `except=bicycle` next to a bike lane becomes a bicycle-only connection into a lane
