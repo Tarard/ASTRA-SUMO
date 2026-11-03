@@ -79,9 +79,13 @@ or tests use.
 Setup: `uv sync --frozen --extra dev --extra native` (Python 3.12 and SUMO 1.27.1 in `.venv`).
 
 - Focused, naming the test files of the area you changed: `.venv/Scripts/python.exe -m pytest tests/test_network_explore.py -q -p no:cacheprovider`
+- OSM workflow and network layers: `.venv/Scripts/python.exe -m pytest tests/test_network_layers.py tests/test_road_hierarchy.py tests/test_osm_network_tools.py tests/test_osm_cleanup_v2.py tests/test_network_plan.py -q -p no:cacheprovider`
 - Docs, skills, catalog or packaging: `.venv/Scripts/python.exe -m pytest tests/test_repository_navigation.py tests/test_docs_plugin_install.py tests/test_bundled_sumo_skill.py tests/test_topic_skill_catalog.py tests/test_plugin_packaging.py -q -p no:cacheprovider`
 - Full suite, about 18 minutes (CI runs it): `.venv/Scripts/python.exe -m pytest -q -p no:cacheprovider`
 - Lint: `.venv/Scripts/python.exe -m ruff check plugins/astra-sumo/src tests` and `git diff --check`
+- In a git worktree, the editable install still imports the main checkout's `plugins/astra-sumo/src`, while pytest's
+  `pythonpath` uses the worktree's. Set `PYTHONPATH` to the worktree's `plugins/astra-sumo/src` when running `astra`
+  or Python there.
 
 End with the files changed and why, each check you ran with its result line, and what is not done or not
 verified. If an input is missing, stop and name it; never invent data.

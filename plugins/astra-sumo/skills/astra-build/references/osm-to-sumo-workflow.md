@@ -13,7 +13,7 @@
 | `network_layers` | optional for `standard`, not allowed for `reference_matched`: `vehicle`, `multimodal` or both; each needs its modes in `traffic_layers`; omitted means `multimodal` when `bicycle` or `pedestrian` is requested, plus `vehicle` when a vehicle mode such as `passenger` or `bus` is |
 | `reference_net_file` | required for `reference_matched`, not allowed for `standard`: the reference `.net.xml` |
 | `source_osm_path` | optional frozen OSM XML; without it the bbox is downloaded from Overpass |
-| `timeout_seconds` | default 240 |
+| `timeout_seconds` | default 240; the limit for each netconvert and sumo call |
 
 ```json
 {"output_dir": "outputs/area-v1", "bbox": "<west>,<south>,<east>,<north>", "profile": "standard", "traffic_layers": "passenger"}
@@ -32,6 +32,10 @@
 - To import only some road classes, build with `sumo_osm_build_network` and `highway_classes` (`arterial`, `drive`,
   `drive_plus_unclassified`, `full_vehicle` or a comma list of OSM `highway` values).
 - A city-wide bbox from `astra place resolve` is usually far larger than the study area. Narrow it first.
+- A whole city needs a far larger `timeout_seconds`: the Dresden city run used 7200 for a 1 GB master `.net.xml`.
+  Its master SUMO load check peaked at 7.3 GB, and the result JSON was 855 MB (174 MB for central Dresden). On a
+  16 GB machine, `OPENBLAS_NUM_THREADS=1` and a watchdog that stops the run when free commit memory runs low kept
+  that run within memory.
 
 ## Reading the cleanup result
 
@@ -40,6 +44,9 @@
   `reference_*` gates for `reference_matched`.
 - `status: fail` means a broken build or structure. Open review items cap a sound run at `review_required` (exit code
   1); `review_required_gates` lists each such gate with its `reason`.
+- `netedit` and `sumo_gui` read `blocked` when the run opened no GUI, and `tls_aggregation` reads `blocked` when it
+  wrote a review variant; none of them fails the run. `topology_audit: blocked` (suspicious dense junction clusters)
+  is a review item under `standard` and fails the structure under `reference_matched`.
 - `network_layers` has one entry per layer with `net_file`, `sha256`, `derived_from_sha256`, `modes`, `edge_count`,
   `removed_edge_count`, `identity` and `gate`. `master_net_file` is the master. The traffic-light audit and
   aggregation run once on the master. The connectivity, topology, routeability, connection-mode and NEMA checks run
@@ -53,7 +60,8 @@
   program back with `--tllogic-files` (`identity.signal_restore`, `measured` when it replaced the first cut).
   Re-planned crossing timelines the restore could not keep set the layer gate to `review_required` with reason
   `crossing_signal_timelines_replanned`, controllers in `identity.replanned_crossing_controllers`. Sidewalk and bike
-  lanes on road edges stay in the vehicle layer.
+  lanes on road edges stay in the vehicle layer. The vehicle layer keeps the master's state strings, so its SUMO load
+  warns `Unused states in tlLogic` for the indices of removed links; that is expected.
 - `network_layers.multimodal.components` gives the largest-component share of the bicycle and pedestrian edges,
   measured without pruning; below 98 % sets the layer gate to `review_required`. `plain_cycleway_tags` counts the
   road ways with a plain `cycleway=lane|track` that got no bike lane. `master_tls_cycles` lists every program's cycle
@@ -66,6 +74,11 @@
 - An OSM turn restriction with `except=bicycle` next to a bike lane becomes a bicycle-only connection into a lane
   without bicycles; `connection_mode_audit` lists it as the review finding
   `non_motorized_connection_without_lane_permission`, not as a structural failure.
+- The result JSON embeds `connection_mode_audit.junctions`, which grows with the network: 727 of the Dresden city
+  run's 855 MB.
+- The routeability audit routes with duarouter, which ignores lane-change bans (`changeLeft`/`changeRight` from OSM
+  `change:lanes`). An unfinished vehicle can be stuck at a lane end its route cannot legally leave; check the marking
+  before treating it as a network fault.
 - `build.osm_access_correction` describes the access correction. `decisions` lists each settled way finding with its
   `rule` and `reason`; `review` keeps only open items. `added_class_movements` measures each class a lane gained:
   rows with `status: no_effect` were reverted (`new_class_has_no_loaded_movement`), because the correction creates no
@@ -74,9 +87,12 @@
   `review` items, such as time windows without a scenario date) or `newly_allowed_modes_require_connectivity_review`
   (an addition could not be reverted).
 - When strict connectivity fails, the run extracts the largest passenger component and checks that instead:
-  `connected_core_file`, with the dropped parts in `connected_core_discarded_components_review_file`.
-  `connectivity: partial` means no strictly connected core was found but the largest passenger component covers at
-  least 98 % of passenger edges; treat that result as a diagnostic.
+  `connected_core_file`, with the dropped parts in `connected_core_discarded_components_review_file`. The core is a
+  second netconvert cut: `--keep-edges.postload` first, then a plain keep-edges cut when that fails
+  (`connected_core.fallback_used`, `connected_core.command_attempts`). The report does not say why the first attempt
+  failed. On the Dresden city network the postload attempt ran until the 7200 s timeout. The core gets no signal
+  identity check. `connectivity: partial` means no strictly connected core was found but the largest passenger
+  component covers at least 98 % of passenger edges; treat that result as a diagnostic.
 - `claim_tiers.highest_passed_tier` and each tier's `failed_gates` say which checks still block a stronger claim.
 - `workflow_review_html_file` is the review page the run writes itself. `warnings` report that review variants were
   created; the TLS variant path is `tls_aggregation_variant_file`. No variant is adopted until reviewed.
@@ -173,7 +189,14 @@ patch. None of them reconstructs a real road.
 
 ## Background layers
 
-A road import contains no water, buildings or land use. For a visual backdrop, download a full OSM extract and run
-`polyconvert --osm-files <full.osm.xml> --net-file <net.xml> --type-file $SUMO_HOME/data/typemap/osmPolyconvert.typ.xml
---output-file <poly.add.xml>`, then load it beside the network in `sumo-gui`. Polygons are display only; keep heavy
-layers and GUI view settings out of experiment configurations.
+A road import contains no water, buildings or land use, and the cleanup's filtered OSM has no buildings. For a visual
+backdrop, download a full OSM extract of the bbox. Write a stub `<net>` file that holds only the network's
+`<location>` element, then run `polyconvert --osm-files <full.osm.xml> --net-file <location-stub.net.xml> --type-file
+$SUMO_HOME/data/typemap/osmPolyconvert.typ.xml --prune.in-net true --output-file <poly.add.xml>`: the stub gives the
+projection and boundary without loading a large network, and `--prune.in-net` drops polygons outside that boundary.
+Load the result beside the network in `sumo-gui`. Polygons are display only; keep heavy layers and GUI view settings
+out of experiment configurations.
+
+## MATSim networks
+
+ASTRA has no MATSim importer. `netconvert --matsim-files` is lossy: it drops self-loop links and rounds values.
