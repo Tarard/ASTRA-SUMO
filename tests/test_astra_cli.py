@@ -79,3 +79,13 @@ def test_json_result_stdout_cannot_encode_prints_nothing(monkeypatch) -> None:
     replacing.flush()
     expected = (json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("cp1252", "replace")
     assert replacing.buffer.getvalue() == expected
+
+
+def test_json_result_without_stdout_keeps_the_status_exit_code(monkeypatch) -> None:
+    import sys
+
+    from astra_sumo import cli
+
+    monkeypatch.setattr(sys, "stdout", None)
+    result = {"status": "review_required"}
+    assert cli._emit(result, json_output=True) == cli._exit_code(result) == 1

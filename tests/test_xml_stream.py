@@ -185,3 +185,12 @@ def test_stopping_early_closes_the_block_source():
     assert next(children).tag == "edge"
     children.close()
     assert closed == [True]
+
+
+def test_a_caller_owned_file_passed_as_its_own_blocks_stays_open():
+    handle = io.BytesIO(DOCUMENT)
+    assert next(iter(DirectChildren(handle))).tag == "edge"
+    assert not handle.closed
+    handle.seek(0)
+    assert ET.tostring(compact_tree(handle)) == ET.tostring(ET.fromstring(DOCUMENT))
+    assert not handle.closed

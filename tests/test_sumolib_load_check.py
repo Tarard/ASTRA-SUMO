@@ -99,3 +99,19 @@ def test_load_check_counts_the_lanes_sumolib_loads(signal_network: Path) -> None
     net = sumolib_net.readNet(str(signal_network))
     assert check.lane_counts == {edge.getID(): edge.getLaneNumber() for edge in net.getEdges(withInternal=False)}
     assert check.unloaded_edges == net._crossings_and_walkingAreas | net._macroConnectors
+
+
+def test_load_check_raises_for_a_network_in_an_xml_namespace(tmp_path: Path) -> None:
+    # sumolib reads such elements by their local name; the streamed readers would read nothing and pass.
+    net = tmp_path / "namespaced.net.xml"
+    net.write_text(
+        '<net xmlns="http://example.org/net" version="1.20">'
+        '<edge id="e" from="a" to="b"><lane id="e_0" speed="1" length="5" shape="0,0 5,0"/></edge></net>',
+        encoding="utf-8",
+    )
+    check = SumolibLoadCheck(with_programs=True)
+    stream = DirectChildren(binary_blocks(net))
+    with pytest.raises(ValueError, match="namespace"):
+        for element in stream:
+            check.add(element, stream.root)
+        check.finish(stream.root)

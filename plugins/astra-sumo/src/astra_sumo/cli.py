@@ -147,6 +147,8 @@ def _print_json(result: dict[str, Any]) -> None:
     """
     with tempfile.TemporaryFile("w+", encoding="utf-8", errors="surrogatepass", newline="") as spool:
         json.dump(result, spool, ensure_ascii=False, indent=2, sort_keys=True)
+        if sys.stdout is None:  # print writes nothing without a stdout
+            return
         encoding = getattr(sys.stdout, "encoding", None)
         if encoding:
             encoder = codecs.getincrementalencoder(encoding)(getattr(sys.stdout, "errors", None) or "strict")

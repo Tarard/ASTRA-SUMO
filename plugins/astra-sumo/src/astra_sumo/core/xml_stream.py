@@ -10,6 +10,7 @@ from __future__ import annotations
 from collections.abc import Callable, Iterable, Iterator
 from itertools import chain
 from pathlib import Path
+from types import GeneratorType
 from typing import IO, AnyStr
 from xml.etree import ElementTree as ET
 
@@ -41,11 +42,11 @@ def _close(blocks: Iterator[object]) -> None:
 
     A parse error raised from the parser keeps itself, and with it the suspended generator still inside its
     ``with open(...)``, alive in a reference cycle, so the file would stay open (and locked on Windows) until the
-    cyclic garbage collector runs.
+    cyclic garbage collector runs. Other block sources, such as an open file passed as its own blocks, belong to
+    the caller and stay open.
     """
-    close = getattr(blocks, "close", None)
-    if close is not None:
-        close()
+    if isinstance(blocks, GeneratorType):
+        blocks.close()
 
 
 def compact_tree(blocks: Iterable[str | bytes], *, without_params_of: Iterable[str] = ()) -> ET.Element:

@@ -692,7 +692,7 @@ def _connection_cell_candidates(
         if float(edge.get("length") or 0.0) <= short_edge_max_length_m
         and classify_edge_modal_role(edge)["modal_primary_role"] == "vehicle_core"
     ]
-    # Neighbors keep document order, so the cells and their numbering do not depend on string hashing.
+    # The graph keeps its nodes in document order, so the cells and their numbering do not depend on string hashing.
     graph: dict[str, dict[str, None]] = {}
     for edge in short_vehicle_edges:
         left = str(edge["from"])

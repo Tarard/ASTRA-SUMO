@@ -35,7 +35,8 @@ class SumolibLoadCheck:
     conversions, so the first element sumolib cannot load raises the error sumolib raises. Only the lane count of
     each plain edge, the ids of crossing, walking-area and macro-connector edges and the bidi references are kept.
     Elements of the network format before SUMO 0.13 (``succ``, ``succlane``, ``ROWLogic``, ``logicitem``) are not
-    checked.
+    checked. A network element in an XML namespace raises ``ValueError``: sumolib reads it by its local name, which
+    the streamed readers do not, so such a network fails instead of passing with nothing read.
     """
 
     def __init__(self, *, with_programs: bool = False) -> None:
@@ -94,7 +95,11 @@ class SumolibLoadCheck:
         self._end(root.tag)
 
     def _start_element(self, element: ET.Element) -> None:
-        handler = self._starts.get(element.tag)
+        tag = element.tag
+        if tag[:1] == "{" and tag.partition("}")[2] in self._starts:
+            # sumolib's parser reports a namespaced element by its local name, the streamed readers by the full name.
+            raise ValueError(f"the network element {tag} is in an XML namespace")
+        handler = self._starts.get(tag)
         if handler is not None:
             handler(element.attrib)
 
