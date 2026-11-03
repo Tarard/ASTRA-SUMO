@@ -271,8 +271,11 @@ permissions, coordinate frame (netOffset and projection) and the signal timeline
 of each retained link match the master. netconvert recomputes junction shapes,
 lane geometry and lengths, junction types and connection right of way around the
 removed edges; the layer measures and reports those changes. Phase indices are
-specific to each layer, and netconvert re-plans the crossing phases of a
-controller that lost a crossing; the layer reports those for review.
+specific to each layer. netconvert re-plans the program of a controller that
+lost a crossing; a second conversion of the same input loads the master program
+back with `--tllogic-files`, its states cut to the layer's links, and replaces
+the first cut only when nothing else changed. Re-planned crossing timelines the
+restore cannot keep are reported for review.
 Traffic-light checks run once on the master. Passenger checks run on the
 `vehicle` layer, which is cut only when a vehicle mode is requested too;
 otherwise they run on the master. The master does not let netconvert join

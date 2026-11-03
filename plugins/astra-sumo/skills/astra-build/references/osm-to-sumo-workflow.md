@@ -49,9 +49,11 @@
   indices are per layer. netconvert recomputes junction shapes, lane geometry and lengths, junction types and
   connection right of way around removed edges: `identity.geometry` and `identity.right_of_way` count them without
   gating. A crossing that keeps some of its crossed edges stays the same signal link (`identity.reduced_crossings`).
-  A controller that lost a whole crossing gets its crossing phases re-planned by netconvert: the layer gate is then
-  `review_required` with reason `crossing_signal_timelines_replanned`, controllers in
-  `identity.replanned_crossing_controllers`. Sidewalk and bike lanes on road edges stay in the vehicle layer.
+  netconvert re-plans the program of a controller that lost a whole crossing; a second conversion loads the master
+  program back with `--tllogic-files` (`identity.signal_restore`, `measured` when it replaced the first cut).
+  Re-planned crossing timelines the restore could not keep set the layer gate to `review_required` with reason
+  `crossing_signal_timelines_replanned`, controllers in `identity.replanned_crossing_controllers`. Sidewalk and bike
+  lanes on road edges stay in the vehicle layer.
 - `network_layers.multimodal.components` gives the largest-component share of the bicycle and pedestrian edges,
   measured without pruning; below 98 % sets the layer gate to `review_required`. `plain_cycleway_tags` counts the
   road ways with a plain `cycleway=lane|track` that got no bike lane. `master_tls_cycles` lists every program's cycle

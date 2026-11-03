@@ -2,26 +2,31 @@
 
 A derived layer keeps the master's edge, lane, junction and signal identifiers, its coordinate frame and the
 signal timeline of every retained controlled link, so one OSM-keyed mapping serves every layer. Phase indices
-are layer-specific: netconvert may merge phases whose only difference was a removed link. A controller that loses
-a pedestrian crossing gets its crossing phases re-planned by netconvert; those crossing timelines are listed for
-review instead of blocking the layer. A crossing that keeps some of its crossed edges is the same link with fewer
-crossed edges. netconvert also recomputes junction shapes, lane geometry and right of way around removed edges;
-those changes are measured and reported, not gated.
+are layer-specific: netconvert may merge phases whose only difference was a removed link. netconvert re-plans the
+program of a controller that loses a pedestrian crossing; a second conversion of the same input loads the master
+program back with ``--tllogic-files``, every state cut to the layer's links (``identity.signal_restore``).
+Re-planned crossing timelines the restore cannot keep are listed for review, and changed vehicle timelines block
+the layer. A crossing that keeps some of its crossed edges is the same link with fewer crossed edges. netconvert
+also recomputes junction shapes, lane geometry and right of way around removed edges; those changes are measured
+and reported, not gated.
 """
 from __future__ import annotations
 
 from collections import Counter, defaultdict
-from collections.abc import Iterable, Mapping
+from collections.abc import Iterable, Iterator, Mapping
 import gzip
+from itertools import zip_longest
 import math
 from pathlib import Path
+import re
 from typing import Any
 import xml.etree.ElementTree as ET
+from xml.sax.saxutils import unescape
 
-from .artifact_io import write_json_atomic
+from .artifact_io import atomic_writer, copy_file_atomic, write_json_atomic
 from .candidate_contracts import file_sha256
 from .osm_access import _permission_set
-from .road_hierarchy import keep_selected_edges_natively
+from .road_hierarchy import keep_selected_edges_natively, run_native_keep
 from .sumo_commands import run_sumo_load_audit
 
 
@@ -42,10 +47,22 @@ _CLAIM_BOUNDARY = ("Edges are removed from the master only. Identity checks cove
                    "coordinate frame (netOffset and projection) and signal timing of retained links. netconvert "
                    "recomputes junction shapes, lane geometry and lengths, junction types and connection right of "
                    "way around removed edges; identity.geometry and identity.right_of_way count those changes. Phase "
-                   "indices are specific to each layer, and crossing timelines of a controller that lost a crossing "
-                   "are re-planned by netconvert and listed for review.")
+                   "indices are specific to each layer. A controller that netconvert re-planned for a lost crossing "
+                   "gets its master program back through a second conversion with --tllogic-files, its states cut to "
+                   "the layer's links (identity.signal_restore); re-planned crossing timelines the restore cannot keep "
+                   "are listed for review.")
 # netconvert rebuilds the pedestrian phases of a loaded program whose crossing count changed.
 _CROSSING_REVIEW_REASON = "crossing_signal_timelines_replanned"
+_SIGNAL_RESTORE_PROGRAMS = "signal-restore.tll.xml"
+_SIGNAL_RESTORE_PROPOSAL = "signal-restore-proposal.net.xml"
+_SIGNAL_RESTORE_BASIS = ("netconvert (SUMO 1.27.1, NBLoadedSUMOTLDef::patchIfCrossingsAdded) re-plans a loaded program "
+                         "whose valid crossing count changed unless its states are as long as its retained links and "
+                         "valid crossings; the master program of each re-planned controller, every state cut to the "
+                         "first cut's length, is loaded with --tllogic-files in a second conversion of the same input, "
+                         "which replaces the first cut only when it differs from it in those programs alone, fewer "
+                         "controllers keep a changed timeline and no identity check that held fails")
+_TLLOGIC_START = re.compile(rb'<tlLogic\b[^>]*\bid="([^"]*)"[^>]*\bprogramID="([^"]*)"')
+_XML_ATTRIBUTE_ENTITIES = {"&quot;": '"', "&apos;": "'"}
 
 
 def _direct_children(net_file: Path):
@@ -110,9 +127,12 @@ def _net_inventory(net_file: Path) -> dict[str, Any]:
         elif element.tag == "junction" and element.get("type") != "internal":
             junctions[element.get("id", "")] = (element.get("type", ""), element.get("shape", ""))
         elif element.tag == "tlLogic":
+            element.tail = None
             programs[(element.get("id", ""), element.get("programID", ""))] = {
                 "type": element.get("type"), "offset": element.get("offset"),
-                "phases": [(float(phase.get("duration", "0")), phase.get("state", "")) for phase in element.findall("phase")]}
+                "phases": [(float(phase.get("duration", "0")), phase.get("state", "")) for phase in element.findall("phase")],
+                # The declaration as written, so a signal restore loads the master program with every attribute.
+                "source": ET.tostring(element, encoding="unicode")}
         elif element.tag == "connection":
             first, last, tl = element.get("from", ""), element.get("to", ""), element.get("tl")
             if tl or not (first.startswith(":") or last.startswith(":")):
@@ -399,7 +419,12 @@ def _layer_identity(master: Mapping[str, Any], layer: Mapping[str, Any], kept: s
         "changed_orig_ids": changed["orig_ids"][:_EXAMPLE_LIMIT],
         "lost_connections": [list(key) for key in lost[:_EXAMPLE_LIMIT]],
         "added_connections": [list(key) for key in added[:_EXAMPLE_LIMIT]],
+        "changed_signal_timeline_count": len(timelines),
         "changed_signal_timelines": timelines[:_EXAMPLE_LIMIT],
+        # Every program with a changed or re-planned retained-link timeline or a changed cycle, offset or type.
+        "changed_timeline_controllers": sorted(
+            [list(row) for row in {(row["tl"], row["program_id"]) for row in (*timelines, *replanned, *controllers)
+                                   if "tl" in row and row["reason"] != "controller_not_in_master"}]),
         "replanned_crossing_link_count": len(replanned),
         "replanned_crossing_controllers": sorted({row["tl"] for row in replanned}),
         "replanned_crossing_timelines": replanned[:_EXAMPLE_LIMIT],
@@ -411,6 +436,185 @@ def _layer_identity(master: Mapping[str, Any], layer: Mapping[str, Any], kept: s
     }
 
 
+def _state_length(program: Mapping[str, Any]) -> int | None:
+    lengths = {len(state) for _, state in program["phases"]}
+    return lengths.pop() if len(lengths) == 1 else None
+
+
+def _signal_restore_plan(master: Mapping[str, Any], layer: Mapping[str, Any],
+                         controllers: Iterable[Iterable[str]]) -> dict[str, list[dict[str, Any]]]:
+    """Changed controllers whose master program, states cut to the first cut's length, netconvert keeps as loaded.
+
+    netconvert re-plans a program when the controller lost a loaded crossing and the remaining crossings keep their
+    sequential link indices; the re-planned states end after those crossings, so they are shorter than the master's.
+    A controller qualifies when it lost a crossing link, its states got shorter and every retained link keeps its
+    master controller and an index below the cut, so every cut column is unused or belongs to a removed link.
+    """
+    master_links, _ = _layer_keyed_master_links(master["controlled_links"], layer["edges"])
+    removed = set(master_links) - set(layer["controlled_links"])
+    lost_crossing_tls = {tl for key in removed if key[0] == "crossing" for tl, _ in master_links[key]}
+    owners: dict[tuple[str, str], list[tuple[str, ...]]] = defaultdict(list)
+    for key, values in master_links.items():
+        for value in values:
+            owners[value].append(key)
+    retained: dict[str, list[tuple[Any, tuple[tuple[str, str], ...]]]] = defaultdict(list)
+    for key, values in layer["controlled_links"].items():
+        for tl in {tl for tl, _ in values}:
+            retained[tl].append((master_links.get(key), values))
+    planned, skipped = [], []
+    for tl, program_id in (tuple(row) for row in controllers):
+        before, after = master["programs"].get((tl, program_id)), layer["programs"].get((tl, program_id))
+        row = {"tl": tl, "program_id": program_id}
+        if before is None or after is None or not before["phases"] or not after["phases"]:
+            reason = "program_without_phases"
+        elif tl not in lost_crossing_tls:
+            reason = "controller_lost_no_crossing"
+        elif (length := _state_length(after)) is None or (master_length := _state_length(before)) is None:
+            reason = "state_length_not_uniform"
+        elif length >= master_length:
+            # Not the crossing re-plan, so the identity keeps gating it.
+            reason = "layer_states_not_shorter_than_master"
+        elif any(old != new or not all(index.isdigit() and int(index) < length for _, index in new)
+                 for old, new in retained[tl]):
+            reason = "retained_link_index_changed_or_cut"
+        else:
+            cut = range(length, master_length)
+            planned.append({**row, "master_state_length": master_length, "state_length": length,
+                            "cut_link_indices": list(cut),
+                            "cut_link_kinds": sorted({key[0] for index in cut for key in owners.get((tl, str(index)), ())}
+                                                     or {"unused"}),
+                            "master_phase_count": len(before["phases"]), "first_cut_phase_count": len(after["phases"])})
+            continue
+        skipped.append({**row, "reason": reason})
+    return {"planned": planned, "skipped": skipped}
+
+
+def _write_signal_restore(master: Mapping[str, Any], planned: Iterable[Mapping[str, Any]],
+                          destination: Path) -> dict[str, Any]:
+    """The master declaration of each planned program with every phase state cut to the planned length."""
+    root = ET.Element("tlLogics")
+    for row in planned:
+        logic = ET.fromstring(master["programs"][(row["tl"], row["program_id"])]["source"])
+        for phase in logic.findall("phase"):
+            phase.set("state", phase.get("state", "")[:row["state_length"]])
+        root.append(logic)
+    ET.indent(root)
+    with atomic_writer(destination, mode="wb") as handle:
+        ET.ElementTree(root).write(handle, encoding="utf-8", xml_declaration=True)
+    return {"path": str(destination), "sha256": file_sha256(destination), "controller_count": len(root)}
+
+
+def _lines_outside_programs(net_file: Path, programs: set[tuple[str, str]]) -> Iterator[bytes]:
+    """Lines from <net> on, without the tlLogic declarations of ``programs``; the header names the options."""
+    with Path(net_file).open("rb") as handle:
+        for line in handle:
+            if line.lstrip().startswith(b"<net "):
+                yield line
+                break
+        skipping = False
+        for line in handle:
+            if skipping:
+                skipping = b"</tlLogic>" not in line
+                continue
+            match = _TLLOGIC_START.search(line)
+            if match and tuple(unescape(value.decode("utf-8"), _XML_ATTRIBUTE_ENTITIES)
+                               for value in match.groups()) in programs:
+                skipping = not (b"</tlLogic>" in line or line.rstrip().endswith(b"/>"))
+                continue
+            yield line
+
+
+def _changes_outside_programs(first: Path, second: Path, programs: set[tuple[str, str]]) -> dict[str, Any]:
+    """Lines in which two conversions of the same input differ, other than the restored programs.
+
+    netconvert writes the same input the same way, so a line-by-line comparison is exact; any drift in layout only
+    adds differences and rejects the restore.
+    """
+    count, examples = 0, []
+    for number, (before, after) in enumerate(zip_longest(_lines_outside_programs(first, programs),
+                                                         _lines_outside_programs(second, programs)), start=1):
+        if before != after:
+            count += 1
+            if len(examples) < _EXAMPLE_LIMIT:
+                examples.append({"line": number, "first": (before or b"").decode("utf-8", "replace").strip()[:200],
+                                 "second": (after or b"").decode("utf-8", "replace").strip()[:200]})
+    return {"basis": "lines from <net> on, restored tlLogic declarations left out", "changed_line_count": count,
+            "changed_lines": examples}
+
+
+def _identity_summary(identity: Mapping[str, Any]) -> dict[str, Any]:
+    controllers = identity.get("changed_timeline_controllers", [])
+    return {"identity_status": identity.get("status"), "failed_checks": identity.get("failed_checks", []),
+            "review_reason": identity.get("review_reason"),
+            "changed_signal_timeline_count": identity.get("changed_signal_timeline_count", 0),
+            "replanned_crossing_link_count": identity.get("replanned_crossing_link_count", 0),
+            "changed_timeline_controller_count": len(controllers),
+            "changed_timeline_controllers": controllers[:_EXAMPLE_LIMIT]}
+
+
+def _signal_restore_outcome(first: Mapping[str, Any], restored: Mapping[str, Any]) -> dict[str, Any]:
+    """Whether the restored conversion replaces the first cut, with the restore status and reason."""
+    regressed = sorted(check for check, ok in restored["checks"].items() if first["checks"].get(check) and not ok)
+    before = {tuple(row) for row in first["changed_timeline_controllers"]}
+    after = {tuple(row) for row in restored["changed_timeline_controllers"]}
+    replaced = not regressed and after < before
+    reason = ("signal_restore_changed_other_identity" if regressed else "signal_timelines_not_restored" if not replaced
+              else "signal_timelines_partly_restored" if after else "")
+    return {"status": "measured" if replaced else "blocked", **({"reason": reason} if reason else {}),
+            "restored": {**_identity_summary(restored), "regressed_checks": regressed, "replaced_first_cut": replaced}}
+
+
+def _restore_signal_programs(source: Path, output: Path, kept_file: Path, candidate: Path, conversion: Mapping[str, Any],
+                             report: dict[str, Any], kept: set[str], *, netconvert_binary: str,
+                             timeout_seconds: float) -> dict[str, Any]:
+    """The identity of the layer after restoring the master programs netconvert re-planned for a lost crossing.
+
+    The restored conversion replaces ``candidate`` only when ``_signal_restore_outcome`` says so; otherwise the first
+    cut stays with its own identity. The restore record is the identity's ``signal_restore``.
+    """
+    master_inventory, layer_inventory = _net_inventory(source), _net_inventory(candidate)
+    identity = _layer_identity(master_inventory, layer_inventory, kept)
+    if not identity["changed_timeline_controllers"]:
+        identity["signal_restore"] = {"status": "no_effect", "reason": "no_changed_signal_timeline"}
+        return identity
+    plan = _signal_restore_plan(master_inventory, layer_inventory, identity["changed_timeline_controllers"])
+    first_cut = conversion["attempts"][0]["output"]
+    restore: dict[str, Any] = {
+        "status": "blocked", "reason": "no_restorable_controller", "basis": _SIGNAL_RESTORE_BASIS,
+        "planned_controller_count": len(plan["planned"]), "planned_controllers": plan["planned"][:_EXAMPLE_LIMIT],
+        "skipped_controller_count": len(plan["skipped"]), "skipped_controllers": plan["skipped"][:_EXAMPLE_LIMIT],
+        "first_cut": {"path": first_cut["path"], "sha256": first_cut["sha256"], **_identity_summary(identity)}}
+    identity["signal_restore"] = restore
+    if not plan["planned"]:
+        return identity
+    programs = _write_signal_restore(master_inventory, plan["planned"], output / _SIGNAL_RESTORE_PROGRAMS)
+    # Neither inventory is held while netconvert converts a city-sized master again.
+    del master_inventory, layer_inventory
+    proposal = output / _SIGNAL_RESTORE_PROPOSAL
+    _, attempt, successful = run_native_keep(conversion["prepared"]["path"], kept_file, proposal,
+                                             netconvert_binary=netconvert_binary, timeout_seconds=timeout_seconds,
+                                             tllogic_file=programs["path"])
+    attempt["purpose"] = "signal_restore"
+    report["native_attempts"].append(attempt)
+    report["native_conversion_count"] = len(report["native_attempts"])
+    restore.update(programs_file=programs, reason="signal_restore_conversion_failed")
+    if not successful:
+        return identity
+    outside = _changes_outside_programs(Path(first_cut["path"]), proposal,
+                                        {(row["tl"], row["program_id"]) for row in plan["planned"]})
+    restore.update(outside_restored_programs=outside, reason="signal_restore_changed_other_elements")
+    if outside["changed_line_count"]:
+        return identity
+    restored = _layer_identity(_net_inventory(source), _net_inventory(proposal), kept)
+    restore.pop("reason")
+    restore.update(_signal_restore_outcome(identity, restored))
+    if not restore["restored"]["replaced_first_cut"]:
+        return identity
+    copy_file_atomic(proposal, candidate)
+    restored["signal_restore"] = restore
+    return restored
+
+
 def derive_network_layer(master_net_file: Path | str, output_dir: Path | str, layer: str, *,
                          netconvert_binary: str = "netconvert", sumo_binary: str = "sumo",
                          timeout_seconds: float = 240.0) -> dict[str, Any]:
@@ -418,6 +622,10 @@ def derive_network_layer(master_net_file: Path | str, output_dir: Path | str, la
 
     Uses ``netconvert --sumo-net-file <master> --keep-edges.input-file <list> --offset.disable-normalization true
     --precision 6`` (preload, never ``--keep-edges.postload``), then the identity checks and a SUMO load audit.
+    When netconvert re-planned a controller for a lost crossing, the same conversion runs again with
+    ``--tllogic-files`` holding that controller's master program, every state cut to the first cut's length; the
+    result replaces the first cut only when it differs from it in those programs alone, fewer controllers keep a
+    changed timeline and no identity check that held fails (``identity.signal_restore``).
     The output directory must be new and the master is never written. Status is ``measured`` when edges were
     removed and every check holds, ``no_effect`` when the layer keeps every master edge (the layer is then the
     master file), and ``blocked`` with a reason otherwise.
@@ -462,8 +670,9 @@ def derive_network_layer(master_net_file: Path | str, output_dir: Path | str, la
                 report.update(reason="native_layer_conversion_failed",
                               identity={"status": "blocked", "reason": "native_layer_conversion_failed"})
             else:
-                identity = _layer_identity(_net_inventory(source), _net_inventory(candidate),
-                                           set(selection["kept_edge_ids"]))
+                identity = _restore_signal_programs(source, output, kept_file, candidate, conversion, report,
+                                                    set(selection["kept_edge_ids"]),
+                                                    netconvert_binary=netconvert_binary, timeout_seconds=timeout_seconds)
                 load = run_sumo_load_audit(net_file=candidate, output_dir=output / "sumo-load",
                                            sumo_binary=str(sumo_binary), timeout_seconds=timeout_seconds)
                 report.update(net_file=str(candidate), sha256=file_sha256(candidate), identity=identity, sumo_load=load)

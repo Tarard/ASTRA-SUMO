@@ -72,6 +72,8 @@ def test_vehicle_layer_removes_only_edges_and_keeps_master_identity(master, tmp_
     # The crossing over the removed cycleway and the links into it go with it; the controller stays.
     assert ["crossing", "1", "-202 202"] in report["identity"]["removed_controlled_links"]
     assert report["identity"]["removed_tls_ids"] == []
+    assert report["identity"]["signal_restore"] == {"status": "no_effect", "reason": "no_changed_signal_timeline"}
+    assert report["native_conversion_count"] == 1
 
     before, after = ET.parse(master).getroot(), ET.parse(report["net_file"]).getroot()
     old_edges, new_edges = _ordinary_edges(before), _ordinary_edges(after)
@@ -205,6 +207,10 @@ def test_layer_whose_signal_timing_changed_is_blocked(master, tmp_path, monkeypa
     assert {"controlled_link_timelines_equal", "controller_cycle_offset_type_equal"} <= set(
         report["identity"]["failed_checks"])
     assert report["master_unchanged"]
+    # Same state length, so this is not netconvert's crossing re-plan and no master program is restored.
+    restore = report["identity"]["signal_restore"]
+    assert (restore["status"], restore["reason"]) == ("blocked", "no_restorable_controller")
+    assert {row["reason"] for row in restore["skipped_controllers"]} == {"layer_states_not_shorter_than_master"}
 
 
 def test_replanned_crossing_phases_of_a_controller_that_lost_a_crossing_need_review(master, tmp_path, monkeypatch):
@@ -235,6 +241,9 @@ def test_replanned_crossing_phases_of_a_controller_that_lost_a_crossing_need_rev
     assert all(identity["checks"].values()) and identity["changed_signal_timelines"] == []
     assert identity["replanned_crossing_link_count"] >= 1
     assert identity["replanned_crossing_controllers"] == [ET.parse(master).getroot().find("tlLogic").get("id")]
+    restore = identity["signal_restore"]
+    assert (restore["status"], restore["reason"]) == ("blocked", "no_restorable_controller")
+    assert {row["reason"] for row in restore["skipped_controllers"]} == {"layer_states_not_shorter_than_master"}
 
 
 def _inventory(phases, crossing_links, edges=()):
@@ -392,3 +401,222 @@ def test_multimodal_master_keeps_the_signal_groups_of_the_vehicle_roads(tmp_path
     grouping = master["netconvert_signal_grouping"]
     assert (grouping["status"], grouping["joined_controller_count"], grouping["patched_node_count"]) == ("measured", 1, 2)
     assert grouping["skipped_controllers"] == []
+
+
+# A joined controller J over A and B. B's crossing over the vehicle road AB/BA has walking areas fed only by the
+# footways F1B and BF2, which the vehicle layer removes, so netconvert drops that crossing and re-plans J.
+_JOINED_NODES = """<nodes>
+  <node id="A" x="0" y="0" type="traffic_light" tl="J"/><node id="B" x="-20" y="0" type="traffic_light" tl="J"/>
+  <node id="N" x="0" y="150"/><node id="S" x="0" y="-150"/><node id="E" x="150" y="0"/><node id="W" x="-170" y="0"/>
+  <node id="F1" x="-20" y="80"/><node id="F2" x="-20" y="-80"/>
+</nodes>"""
+_JOINED_EDGES = """<edges>
+  <edge id="NA" from="N" to="A" numLanes="1" speed="13.89" sidewalkWidth="2"/>
+  <edge id="AN" from="A" to="N" numLanes="1" speed="13.89" sidewalkWidth="2"/>
+  <edge id="SA" from="S" to="A" numLanes="1" speed="13.89" sidewalkWidth="2"/>
+  <edge id="AS" from="A" to="S" numLanes="1" speed="13.89" sidewalkWidth="2"/>
+  <edge id="EA" from="E" to="A" numLanes="1" speed="13.89" sidewalkWidth="2"/>
+  <edge id="AE" from="A" to="E" numLanes="1" speed="13.89" sidewalkWidth="2"/>
+  <edge id="BA" from="B" to="A" numLanes="1" speed="13.89" disallow="pedestrian"/>
+  <edge id="AB" from="A" to="B" numLanes="1" speed="13.89" disallow="pedestrian"/>
+  <edge id="WB" from="W" to="B" numLanes="1" speed="13.89" disallow="pedestrian"/>
+  <edge id="BW" from="B" to="W" numLanes="1" speed="13.89" disallow="pedestrian"/>
+  <edge id="F1B" from="F1" to="B" numLanes="1" speed="2.78" allow="pedestrian" width="2" spreadType="center"/>
+  <edge id="BF2" from="B" to="F2" numLanes="1" speed="2.78" allow="pedestrian" width="2" spreadType="center"/>
+</edges>"""
+_JOINED_CROSSINGS = """<connections>
+  <crossing node="A" edges="NA AN"/><crossing node="A" edges="EA AE"/><crossing node="A" edges="SA AS"/>
+  <crossing node="A" edges="AB BA"/><crossing node="B" edges="AB BA"/>
+</connections>"""
+_JOINED_PROGRAMS = {
+    # An exclusive pedestrian phase: the re-plan runs crossings with the vehicle phases and turns G into g.
+    "static_exclusive_pedestrian_phase": """<tlLogics><tlLogic id="J" type="static" programID="0" offset="0">
+  <phase duration="37" state="GGgrrrGGgrrrGGrrrrr"/><phase duration="3" state="yyyrrryyyrrrGGrrrrr"/>
+  <phase duration="32" state="rrrGGgrrrGGgGGrrrrr"/><phase duration="3" state="rrryyyrrryyyGGrrrrr"/>
+  <phase duration="8" state="rrrrrrrrrrrrrrGGGGG"/><phase duration="5" state="rrrrrrrrrrrrrrrrrrr"/>
+</tlLogic></tlLogics>""",
+    "actuated_with_phase_attributes": """<tlLogics><tlLogic id="J" type="actuated" programID="0" offset="7">
+  <param key="max-gap" value="3.5"/>
+  <phase duration="37" minDur="10" maxDur="50" name="main" state="GGgrrrGGgrrrGGrrrrr"/>
+  <phase duration="3" state="yyyrrryyyrrrGGrrrrr"/>
+  <phase duration="32" minDur="8" maxDur="40" name="side" state="rrrGGgrrrGGgGGrrrrr"/>
+  <phase duration="3" state="rrryyyrrryyyGGrrrrr"/>
+  <phase duration="8" minDur="6" maxDur="12" name="ped" state="rrrrrrrrrrrrrrGGGGG"/>
+  <phase duration="5" state="rrrrrrrrrrrrrrrrrrr"/>
+</tlLogic></tlLogics>""",
+    # netconvert's own program: the re-plan changes crossing timelines only, which used to need review.
+    "generated": None,
+}
+
+
+def _joined_master(tmp_path, program):
+    netconvert, _ = _binaries()
+    files = {"j.nod.xml": _JOINED_NODES, "j.edg.xml": _JOINED_EDGES, "j.con.xml": _JOINED_CROSSINGS}
+    if _JOINED_PROGRAMS[program]:
+        files["j.tll.xml"] = _JOINED_PROGRAMS[program]
+    for name, text in files.items():
+        (tmp_path / name).write_text(text, encoding="utf-8")
+    master = tmp_path / "master.net.xml"
+    subprocess.run([netconvert, "-n", "j.nod.xml", "-e", "j.edg.xml", "-x", "j.con.xml",
+                    *(["-i", "j.tll.xml"] if "j.tll.xml" in files else []), "--no-turnarounds", "--walkingareas",
+                    "--output-file", str(master)], cwd=tmp_path, check=True, capture_output=True)
+    return master
+
+
+def _program(net, tl="J"):
+    logic = next(row for row in ET.parse(net).getroot().findall("tlLogic") if row.get("id") == tl)
+    return dict(logic.attrib), [dict(phase.attrib) for phase in logic.findall("phase")], [
+        dict(row.attrib) for row in logic.findall("param")]
+
+
+@pytest.mark.parametrize("program", sorted(_JOINED_PROGRAMS))
+def test_vehicle_layer_gets_back_the_master_program_netconvert_replanned_for_a_lost_crossing(tmp_path, program):
+    netconvert, simulator = _binaries()
+    master = _joined_master(tmp_path, program)
+    master_hash = file_sha256(master)
+    report = derive_network_layer(master, tmp_path / "vehicle", "vehicle", netconvert_binary=netconvert,
+                                  sumo_binary=simulator)
+    identity = report["identity"]
+    restore = identity["signal_restore"]
+    assert (report["status"], report.get("reason")) == ("measured", None), restore
+    assert all(identity["checks"].values()) and "review_reason" not in identity
+    assert identity["replanned_crossing_link_count"] == 0 and identity["changed_timeline_controllers"] == []
+    assert ["crossing", "B", "AB BA"] in identity["removed_controlled_links"]
+    assert (restore["status"], restore.get("reason")) == ("measured", None)
+    assert [(row["tl"], row["state_length"], row["master_state_length"], row["cut_link_indices"], row["cut_link_kinds"])
+            for row in restore["planned_controllers"]] == [("J", 18, 19, [18], ["crossing"])]
+    first = restore["first_cut"]
+    assert first["changed_timeline_controllers"] == [["J", "0"]]
+    if program == "generated":
+        assert first["review_reason"] == "crossing_signal_timelines_replanned"
+    else:
+        assert first["failed_checks"] == ["controlled_link_timelines_equal"]
+    assert restore["outside_restored_programs"]["changed_line_count"] == 0
+    assert restore["restored"]["replaced_first_cut"] and restore["restored"]["regressed_checks"] == []
+    assert report["native_conversion_count"] == 2
+    assert "--tllogic-files" in report["native_attempts"][1]["command"]["command"]
+    assert report["sumo_load"]["status"] == "pass" and report["master_unchanged"] and file_sha256(master) == master_hash
+    # Re-parsed independently: the layer program is the master program with every state cut to 18 columns.
+    master_logic, master_phases, master_params = _program(master)
+    layer_logic, layer_phases, layer_params = _program(report["net_file"])
+    assert layer_logic == master_logic and layer_params == master_params
+    assert layer_phases == [{**phase, "state": phase["state"][:18]} for phase in master_phases]
+    assert _program(first["path"])[1] != layer_phases
+    assert file_sha256(Path(report["net_file"])) == report["sha256"] == report["native_attempts"][1]["output"]["sha256"]
+
+
+@pytest.mark.parametrize("written", ["uncut_states", "invalid_state"])
+def test_layer_keeps_the_first_cut_when_the_restore_does_not_keep_the_master_timing(tmp_path, monkeypatch, written):
+    netconvert, simulator = _binaries()
+    master = _joined_master(tmp_path, "static_exclusive_pedestrian_phase")
+    write = network_layers._write_signal_restore
+
+    def unchanged(inventory, planned, destination):
+        rows = [{**row, "state_length": row["master_state_length"] if written == "uncut_states" else 1}
+                for row in planned]
+        return write(inventory, rows, destination)
+
+    monkeypatch.setattr(network_layers, "_write_signal_restore", unchanged)
+    report = derive_network_layer(master, tmp_path / "vehicle", "vehicle", netconvert_binary=netconvert,
+                                  sumo_binary=simulator)
+    restore = report["identity"]["signal_restore"]
+    assert (report["status"], report["reason"]) == ("blocked", "layer_identity_check_failed")
+    assert report["identity"]["failed_checks"] == ["controlled_link_timelines_equal"]
+    assert report["native_conversion_count"] == 2
+    assert (restore["status"], restore["reason"]) == ("blocked", "signal_timelines_not_restored" if written == "uncut_states"
+                                                      else "signal_restore_conversion_failed")
+    assert file_sha256(Path(report["net_file"])) == restore["first_cut"]["sha256"]
+
+
+def test_restore_that_changes_anything_outside_the_restored_programs_keeps_the_first_cut(tmp_path, monkeypatch):
+    netconvert, simulator = _binaries()
+    master = _joined_master(tmp_path, "generated")
+    native = network_layers.run_native_keep
+
+    def shifted(prepared, keep_file, proposal, **kwargs):
+        result = native(prepared, keep_file, proposal, **kwargs)
+        text = Path(proposal).read_text(encoding="utf-8")
+        Path(proposal).write_text(text.replace('<edge id="AB"', '<edge id="AB" name="moved"', 1), encoding="utf-8")
+        return result
+
+    monkeypatch.setattr(network_layers, "run_native_keep", shifted)
+    report = derive_network_layer(master, tmp_path / "vehicle", "vehicle", netconvert_binary=netconvert,
+                                  sumo_binary=simulator)
+    restore = report["identity"]["signal_restore"]
+    assert (restore["status"], restore["reason"]) == ("blocked", "signal_restore_changed_other_elements")
+    assert restore["outside_restored_programs"]["changed_line_count"] == 1
+    assert (report["status"], report["reason"]) == ("measured", "crossing_signal_timelines_replanned")
+    assert file_sha256(Path(report["net_file"])) == restore["first_cut"]["sha256"]
+
+
+def _restore_inventory(phases, links, edges="abc"):
+    return {"edges": {edge: {"lanes": [], "permissions": [], "orig_ids": []} for edge in edges},
+            "junctions": {"J"}, "location": {}, "connections": {},
+            "programs": {("t", "0"): {"type": "static", "offset": "0", "phases": phases,
+                                      "source": '<tlLogic id="t" type="static" programID="0" offset="0">'
+                                                + "".join(f'<phase duration="{d}" state="{s}"/>' for d, s in phases)
+                                                + '<param key="k" value="v"/></tlLogic>'}},
+            "controlled_links": {("crossing", "J", edge): (("t", index),) for edge, index in links.items()}}
+
+
+def test_signal_restore_plan_and_outcome_on_inventories(tmp_path):
+    inventory = _restore_inventory
+    master = inventory([(10.0, "Grr"), (10.0, "rGG")], {"a": "0", "b": "1", "c": "2"})
+    replanned = inventory([(10.0, "rr"), (10.0, "GG")], {"a": "0", "b": "1"}, edges="ab")
+    plan = network_layers._signal_restore_plan(master, replanned, [["t", "0"]])
+    assert plan == {"planned": [{"tl": "t", "program_id": "0", "master_state_length": 3, "state_length": 2,
+                                 "cut_link_indices": [2], "cut_link_kinds": ["crossing"], "master_phase_count": 2,
+                                 "first_cut_phase_count": 2}], "skipped": []}
+    written = network_layers._write_signal_restore(master, plan["planned"], tmp_path / "r.tll.xml")
+    logic = ET.parse(written["path"]).getroot().find("tlLogic")
+    assert [phase.get("state") for phase in logic.findall("phase")] == ["Gr", "rG"]
+    assert logic.find("param").attrib == {"key": "k", "value": "v"} and written["controller_count"] == 1
+
+    def reason(layer):
+        return network_layers._signal_restore_plan(master, layer, [["t", "0"]])["skipped"][0]["reason"]
+
+    # Same state length: not the crossing re-plan, so the identity keeps gating it.
+    assert reason(inventory([(10.0, "rrr"), (10.0, "GGr")], {"a": "0", "b": "1"}, edges="ab")) == (
+        "layer_states_not_shorter_than_master")
+    # Every crossing kept: nothing explains the change.
+    assert reason(inventory([(10.0, "rr"), (10.0, "GG")], {"a": "0", "b": "1", "c": "2"})) == (
+        "controller_lost_no_crossing")
+    # A retained link at another index.
+    assert reason(inventory([(10.0, "rr"), (10.0, "GG")], {"a": "1", "b": "0"}, edges="ab")) == (
+        "retained_link_index_changed_or_cut")
+    # A retained link at or past the cut.
+    shared = inventory([(10.0, "Grr"), (10.0, "rGG")], {"a": "0", "b": "2", "c": "2"})
+    assert network_layers._signal_restore_plan(shared, inventory([(10.0, "rr"), (10.0, "GG")], {"a": "0", "b": "2"},
+                                                                 edges="ab"), [["t", "0"]])["skipped"][0]["reason"] == (
+        "retained_link_index_changed_or_cut")
+
+    first = network_layers._layer_identity(master, replanned, set("ab"))
+    assert first["changed_timeline_controllers"] == [["t", "0"]]
+    good = network_layers._signal_restore_outcome(first, network_layers._layer_identity(
+        master, inventory([(10.0, "Gr"), (10.0, "rG")], {"a": "0", "b": "1"}, edges="ab"), set("ab")))
+    assert (good["status"], good["restored"]["replaced_first_cut"]) == ("measured", True) and "reason" not in good
+    same = network_layers._signal_restore_outcome(first, first)
+    assert (same["status"], same["reason"], same["restored"]["replaced_first_cut"]) == (
+        "blocked", "signal_timelines_not_restored", False)
+    two = {"checks": {"held": True}, "changed_timeline_controllers": [["t", "0"], ["u", "0"]]}
+    partly = network_layers._signal_restore_outcome(two, {**two, "changed_timeline_controllers": [["u", "0"]]})
+    assert (partly["status"], partly["reason"], partly["restored"]["replaced_first_cut"]) == (
+        "measured", "signal_timelines_partly_restored", True)
+    regressed = network_layers._signal_restore_outcome(two, {"checks": {"held": False}, "changed_timeline_controllers": []})
+    assert (regressed["status"], regressed["reason"], regressed["restored"]["regressed_checks"]) == (
+        "blocked", "signal_restore_changed_other_identity", ["held"])
+
+
+def test_changes_outside_programs_skips_the_header_and_the_restored_declarations(tmp_path):
+    head = '<?xml version="1.0"?>\n<!-- {} -->\n<net version="1.20">\n    <edge id="e"/>\n'
+    first, second = tmp_path / "a.net.xml", tmp_path / "b.net.xml"
+    first.write_text(head.format("pass 1") + '    <tlLogic id="t&amp;1" type="static" programID="0" offset="0">\n'
+                     '        <phase duration="5" state="G"/>\n        <phase duration="5" state="r"/>\n    </tlLogic>\n'
+                     '    <tlLogic id="u" type="static" programID="0" offset="0">\n        <phase duration="9" state="G"/>\n'
+                     '    </tlLogic>\n</net>\n', encoding="utf-8")
+    second.write_text(head.format("pass 2 --tllogic-files x") + '    <tlLogic id="t&amp;1" type="static" programID="0" '
+                      'offset="0">\n        <phase duration="10" state="G"/>\n    </tlLogic>\n'
+                      '    <tlLogic id="u" type="static" programID="0" offset="0">\n        <phase duration="9" state="G"/>\n'
+                      '    </tlLogic>\n</net>\n', encoding="utf-8")
+    assert network_layers._changes_outside_programs(first, second, {("t&1", "0")})["changed_line_count"] == 0
+    assert network_layers._changes_outside_programs(first, second, set())["changed_line_count"] > 0

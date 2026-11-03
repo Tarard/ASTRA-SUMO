@@ -351,13 +351,26 @@ def keep_selected_edges_natively(source, output, keep_file, candidate, *, netcon
         return {"cleanup": cleanup}
     effective = Path(cleanup["effective_net_file"])
     prepared = prepare_permission_preserving_input(effective, output / "permission-input.net.xml")
-    command = with_geometry_precision([str(netconvert_binary), "--sumo-net-file", prepared["path"],
-        "--keep-edges.input-file", str(keep_file), "--offset.disable-normalization", "true",
-        "--output-file", str(candidate)])
     # Preload pruning avoids the known postload crash or stall on the frozen Ring1 source.
-    proposal = output / "preload-proposal.net.xml"
-    command[command.index("--output-file") + 1] = str(proposal)
-    native = run_command(command, cwd=output, timeout_seconds=timeout_seconds)
+    native, attempt, successful = run_native_keep(prepared["path"], keep_file, output / "preload-proposal.net.xml",
+                                                  netconvert_binary=netconvert_binary, timeout_seconds=timeout_seconds)
+    if successful:
+        copy_file_atomic(output / "preload-proposal.net.xml", candidate)
+    return {"cleanup": cleanup, "effective": effective, "prepared": prepared, "native": native, "attempts": [attempt]}
+
+
+def run_native_keep(prepared_file, keep_file, proposal, *, netconvert_binary="netconvert", timeout_seconds=240,
+                    tllogic_file=None):
+    """Convert ``prepared_file`` to ``proposal`` keeping the edges in ``keep_file`` with one preload conversion.
+
+    ``tllogic_file`` loads signal programs over the ones in the input. Returns the command result, the attempt
+    record and whether netconvert succeeded and wrote a SUMO network.
+    """
+    proposal = Path(proposal)
+    command = with_geometry_precision([str(netconvert_binary), "--sumo-net-file", str(prepared_file),
+        "--keep-edges.input-file", str(keep_file), "--offset.disable-normalization", "true",
+        *(["--tllogic-files", str(tllogic_file)] if tllogic_file else []), "--output-file", str(proposal)])
+    native = run_command(command, cwd=proposal.parent, timeout_seconds=timeout_seconds)
     attempt = {"command": native.to_dict()}
     successful = native.status == "pass" and native.returncode == 0
     if proposal.is_file():
@@ -375,9 +388,7 @@ def keep_selected_edges_natively(source, output, keep_file, candidate, *, netcon
             except (ET.ParseError, ValueError) as error:
                 successful = False
                 attempt["output"].update(status="invalid_native_output", error=str(error))
-    if successful and proposal.is_file():
-        copy_file_atomic(proposal, candidate)
-    return {"cleanup": cleanup, "effective": effective, "prepared": prepared, "native": native, "attempts": [attempt]}
+    return native, attempt, successful and proposal.is_file()
 
 
 def materialize_road_selection(*, net_file, output_dir, selection, vehicle_class="passenger",
