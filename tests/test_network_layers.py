@@ -449,11 +449,20 @@ _JOINED_PROGRAMS = {
 }
 
 
-def _joined_master(tmp_path, program):
+# Phases 3 and 4 differ only in B's crossing column, which the vehicle layer cuts, and phase 5 names phase 7.
+_MERGING_PROGRAMS = {"next_after_phases_the_cut_merges": """<tlLogics><tlLogic id="J" type="static" programID="0" offset="0">
+  <phase duration="30" state="GGgrrrGGgrrrGGrrrrr"/><phase duration="3" state="yyyrrryyyrrrGGrrrrr"/>
+  <phase duration="20" state="rrrGGgrrrGGgGGrrrrr"/><phase duration="10" state="rrrGGgrrrGGgGGrrrrG"/>
+  <phase duration="3" state="rrryyyrrryyyGGrrrrr" next="6"/><phase duration="8" state="rrrrrrrrrrrrrrGGGGr"/>
+  <phase duration="5" state="rrrrrrrrrrrrrrrrrrr"/><phase duration="4" state="rrrrrrrrrrrrGGrrrrr"/>
+</tlLogic></tlLogics>"""}
+
+
+def _joined_master(tmp_path, program, programs=_JOINED_PROGRAMS):
     netconvert, _ = _binaries()
     files = {"j.nod.xml": _JOINED_NODES, "j.edg.xml": _JOINED_EDGES, "j.con.xml": _JOINED_CROSSINGS}
-    if _JOINED_PROGRAMS[program]:
-        files["j.tll.xml"] = _JOINED_PROGRAMS[program]
+    if programs[program]:
+        files["j.tll.xml"] = programs[program]
     for name, text in files.items():
         (tmp_path / name).write_text(text, encoding="utf-8")
     master = tmp_path / "master.net.xml"
@@ -620,3 +629,57 @@ def test_changes_outside_programs_skips_the_header_and_the_restored_declarations
                       '    </tlLogic>\n</net>\n', encoding="utf-8")
     assert network_layers._changes_outside_programs(first, second, {("t&1", "0")})["changed_line_count"] == 0
     assert network_layers._changes_outside_programs(first, second, set())["changed_line_count"] > 0
+
+    # Without a <net> line nothing is compared, so the files never count as equal.
+    rootless = tmp_path / "c.net.xml"
+    rootless.write_text('<net>\n    <edge id="e"/>\n</net>\n', encoding="utf-8")
+    assert network_layers._changes_outside_programs(rootless, rootless, set())["changed_line_count"] == 1
+
+
+def test_roundabouts_are_compared_by_their_outermost_entries(tmp_path):
+    # netconvert keeps a varying subset of the entries inside a larger roundabout where removed edges split it.
+    whole = '    <roundabout nodes="1 2 3" edges="a b c"/>\n'
+    files = {name: tmp_path / f"{name}.net.xml" for name in ("first", "second", "other")}
+    for name, entries in {"first": whole + '    <roundabout nodes="1" edges="a"/>\n',
+                          "second": whole + '    <roundabout nodes="2" edges="b"/>\n',
+                          "other": '    <roundabout nodes="1 2" edges="a b"/>\n'}.items():
+        files[name].write_text('<net version="1.20">\n    <edge id="e"/>\n' + entries + "</net>\n", encoding="utf-8")
+
+    same = network_layers._changes_outside_programs(files["first"], files["second"], set())
+    assert (same["changed_line_count"], same["changed_roundabout_count"]) == (0, 0)
+    assert same["contained_roundabout_entry_difference_count"] == 2
+    changed = network_layers._changes_outside_programs(files["first"], files["other"], set())
+    assert (changed["changed_line_count"], changed["changed_roundabout_count"]) == (0, 2)
+    assert changed["changed_roundabouts"] == [{"edges": "a b", "only_in": "second"}, {"edges": "a b c", "only_in": "first"}]
+
+
+def test_restore_that_netconvert_rewrites_keeps_the_first_cut(tmp_path):
+    # netconvert merges the two phases the cut made equal and leaves next="6" pointing at another phase.
+    netconvert, simulator = _binaries()
+    master = _joined_master(tmp_path, "next_after_phases_the_cut_merges", _MERGING_PROGRAMS)
+    report = derive_network_layer(master, tmp_path / "vehicle", "vehicle", netconvert_binary=netconvert,
+                                  sumo_binary=simulator)
+    restore = report["identity"]["signal_restore"]
+    assert (restore["status"], restore["reason"], restore["rewritten_programs"]) == (
+        "blocked", "signal_restore_program_rewritten", [["J", "0"]])
+    assert not restore["restored"]["replaced_first_cut"] and report["native_conversion_count"] == 2
+    assert (report["status"], report["identity"]["failed_checks"]) == ("blocked", ["controlled_link_timelines_equal"])
+    assert file_sha256(Path(report["net_file"])) == restore["first_cut"]["sha256"]
+
+
+def test_restore_that_cannot_be_written_keeps_the_first_cut(tmp_path, monkeypatch):
+    netconvert, simulator = _binaries()
+    master = _joined_master(tmp_path, "generated")
+
+    def locked(source, destination):
+        raise PermissionError(13, "another process has the layer open", str(destination))
+
+    monkeypatch.setattr(network_layers, "copy_file_atomic", locked)
+    report = derive_network_layer(master, tmp_path / "vehicle", "vehicle", netconvert_binary=netconvert,
+                                  sumo_binary=simulator)
+    restore = report["identity"]["signal_restore"]
+    assert (restore["status"], restore["reason"]) == ("blocked", "signal_restore_not_written")
+    assert restore["error"].startswith("PermissionError") and not restore["restored"]["replaced_first_cut"]
+    assert (report["status"], report["reason"]) == ("measured", "crossing_signal_timelines_replanned")
+    assert file_sha256(Path(report["net_file"])) == restore["first_cut"]["sha256"]
+    assert json.loads(Path(report["manifest_file"]).read_text(encoding="utf-8"))["status"] == "measured"

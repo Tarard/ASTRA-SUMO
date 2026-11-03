@@ -59,9 +59,11 @@ _SIGNAL_RESTORE_BASIS = ("netconvert (SUMO 1.27.1, NBLoadedSUMOTLDef::patchIfCro
                          "whose valid crossing count changed unless its states are as long as its retained links and "
                          "valid crossings; the master program of each re-planned controller, every state cut to the "
                          "first cut's length, is loaded with --tllogic-files in a second conversion of the same input, "
-                         "which replaces the first cut only when it differs from it in those programs alone, fewer "
-                         "controllers keep a changed timeline and no identity check that held fails")
+                         "which replaces the first cut only when it differs from it in those programs alone (roundabouts "
+                         "compared by their outermost entries), holds each program as written, fewer controllers keep "
+                         "a changed timeline and no identity check that held fails")
 _TLLOGIC_START = re.compile(rb'<tlLogic\b[^>]*\bid="([^"]*)"[^>]*\bprogramID="([^"]*)"')
+_ROUNDABOUT = re.compile(rb'^\s*<roundabout\b[^>]*\bnodes="([^"]*)"[^>]*\bedges="([^"]*)"[^>]*/>\s*$')
 _XML_ATTRIBUTE_ENTITIES = {"&quot;": '"', "&apos;": "'"}
 
 
@@ -489,26 +491,58 @@ def _signal_restore_plan(master: Mapping[str, Any], layer: Mapping[str, Any],
     return {"planned": planned, "skipped": skipped}
 
 
+def _cut_program(source: str, state_length: int) -> ET.Element:
+    """A program declaration with every phase state cut to ``state_length`` and everything else as declared."""
+    logic = ET.fromstring(source)
+    for phase in logic.findall("phase"):
+        phase.set("state", phase.get("state", "")[:state_length])
+    return logic
+
+
+def _declaration(element: ET.Element) -> tuple[Any, ...]:
+    """Tag, attributes and children of an element, without layout text."""
+    return element.tag, sorted(element.attrib.items()), [_declaration(child) for child in element]
+
+
 def _write_signal_restore(master: Mapping[str, Any], planned: Iterable[Mapping[str, Any]],
                           destination: Path) -> dict[str, Any]:
     """The master declaration of each planned program with every phase state cut to the planned length."""
     root = ET.Element("tlLogics")
     for row in planned:
-        logic = ET.fromstring(master["programs"][(row["tl"], row["program_id"])]["source"])
-        for phase in logic.findall("phase"):
-            phase.set("state", phase.get("state", "")[:row["state_length"]])
-        root.append(logic)
+        root.append(_cut_program(master["programs"][(row["tl"], row["program_id"])]["source"], row["state_length"]))
     ET.indent(root)
     with atomic_writer(destination, mode="wb") as handle:
         ET.ElementTree(root).write(handle, encoding="utf-8", xml_declaration=True)
     return {"path": str(destination), "sha256": file_sha256(destination), "controller_count": len(root)}
 
 
-def _lines_outside_programs(net_file: Path, programs: set[tuple[str, str]]) -> Iterator[bytes]:
-    """Lines from <net> on, without the tlLogic declarations of ``programs``; the header names the options."""
+def _rewritten_programs(sources: Mapping[tuple[str, str], str], restored: Mapping[str, Any],
+                        planned: Iterable[Mapping[str, Any]]) -> list[list[str]]:
+    """Planned programs that the restored conversion does not hold exactly as written to the program file.
+
+    netconvert merges consecutive phases that became equal and does not renumber ``next``, so a program whose cut
+    phases merged would no longer run the master's sequence.
+    """
+    rewritten = []
+    for row in planned:
+        key = (row["tl"], row["program_id"])
+        expected = _cut_program(sources[key], row["state_length"])
+        program = restored["programs"].get(key)
+        if program is None or _declaration(ET.fromstring(program["source"])) != _declaration(expected):
+            rewritten.append(list(key))
+    return rewritten
+
+
+def _lines_outside_programs(net_file: Path, programs: set[tuple[str, str]], seen: dict[str, Any]) -> Iterator[bytes]:
+    """Lines from <net> on, without the tlLogic declarations of ``programs`` and the roundabout entries.
+
+    The header names the options. Roundabout entries go to ``seen["roundabouts"]`` as (nodes, edges) sets, and
+    ``seen["root"]`` records whether the <net> line was found.
+    """
     with Path(net_file).open("rb") as handle:
         for line in handle:
             if line.lstrip().startswith(b"<net "):
+                seen["root"] = True
                 yield line
                 break
         skipping = False
@@ -521,25 +555,53 @@ def _lines_outside_programs(net_file: Path, programs: set[tuple[str, str]]) -> I
                                for value in match.groups()) in programs:
                 skipping = not (b"</tlLogic>" in line or line.rstrip().endswith(b"/>"))
                 continue
+            entry = _ROUNDABOUT.match(line)
+            if entry:
+                seen["roundabouts"].add(tuple(frozenset(value.decode("utf-8", "replace").split())
+                                              for value in entry.groups()))
+                continue
             yield line
+
+
+def _outermost_roundabouts(entries: set[tuple[frozenset[str], frozenset[str]]]) -> set[tuple[frozenset[str], ...]]:
+    """Roundabout entries whose nodes and edges do not all lie in another entry."""
+    return {entry for entry in entries
+            if not any(other != entry and entry[0] <= other[0] and entry[1] <= other[1] for other in entries)}
 
 
 def _changes_outside_programs(first: Path, second: Path, programs: set[tuple[str, str]]) -> dict[str, Any]:
     """Lines in which two conversions of the same input differ, other than the restored programs.
 
     netconvert writes the same input the same way, so a line-by-line comparison is exact; any drift in layout only
-    adds differences and rejects the restore.
+    adds differences and rejects the restore. The exception is netconvert's roundabout list: where removed edges
+    split a roundabout, it keeps a varying subset of the entries that lie inside a larger one (SUMO 1.27.1), so the
+    roundabouts are compared by their outermost entries and the differing contained entries are counted.
     """
     count, examples = 0, []
-    for number, (before, after) in enumerate(zip_longest(_lines_outside_programs(first, programs),
-                                                         _lines_outside_programs(second, programs)), start=1):
-        if before != after:
+    before: dict[str, Any] = {"root": False, "roundabouts": set()}
+    after: dict[str, Any] = {"root": False, "roundabouts": set()}
+    for number, (old, new) in enumerate(zip_longest(_lines_outside_programs(first, programs, before),
+                                                    _lines_outside_programs(second, programs, after)), start=1):
+        if old != new:
             count += 1
             if len(examples) < _EXAMPLE_LIMIT:
-                examples.append({"line": number, "first": (before or b"").decode("utf-8", "replace").strip()[:200],
-                                 "second": (after or b"").decode("utf-8", "replace").strip()[:200]})
-    return {"basis": "lines from <net> on, restored tlLogic declarations left out", "changed_line_count": count,
-            "changed_lines": examples}
+                examples.append({"line": number, "first": (old or b"").decode("utf-8", "replace").strip()[:200],
+                                 "second": (new or b"").decode("utf-8", "replace").strip()[:200]})
+    if not (before["root"] and after["root"]):
+        # Without the <net> line nothing was compared, so the files cannot count as equal.
+        count += 1
+        examples.append({"line": 0, "first": "<net> found" if before["root"] else "no <net> line",
+                         "second": "<net> found" if after["root"] else "no <net> line"})
+    outer_before, outer_after = _outermost_roundabouts(before["roundabouts"]), _outermost_roundabouts(after["roundabouts"])
+    changed = sorted((" ".join(sorted(edges)), side) for side, rows in (("first", outer_before - outer_after),
+                                                                         ("second", outer_after - outer_before))
+                     for _, edges in rows)
+    return {"basis": "lines from <net> on, restored tlLogic declarations left out; roundabouts by outermost entry",
+            "changed_line_count": count, "changed_lines": examples,
+            "changed_roundabout_count": len(changed),
+            "changed_roundabouts": [{"edges": edges, "only_in": side} for edges, side in changed[:_EXAMPLE_LIMIT]],
+            "contained_roundabout_entry_difference_count": len(
+                (before["roundabouts"] ^ after["roundabouts"]) - outer_before - outer_after)}
 
 
 def _identity_summary(identity: Mapping[str, Any]) -> dict[str, Any]:
@@ -587,30 +649,44 @@ def _restore_signal_programs(source: Path, output: Path, kept_file: Path, candid
     identity["signal_restore"] = restore
     if not plan["planned"]:
         return identity
-    programs = _write_signal_restore(master_inventory, plan["planned"], output / _SIGNAL_RESTORE_PROGRAMS)
-    # Neither inventory is held while netconvert converts a city-sized master again.
-    del master_inventory, layer_inventory
-    proposal = output / _SIGNAL_RESTORE_PROPOSAL
-    _, attempt, successful = run_native_keep(conversion["prepared"]["path"], kept_file, proposal,
-                                             netconvert_binary=netconvert_binary, timeout_seconds=timeout_seconds,
-                                             tllogic_file=programs["path"])
-    attempt["purpose"] = "signal_restore"
-    report["native_attempts"].append(attempt)
-    report["native_conversion_count"] = len(report["native_attempts"])
-    restore.update(programs_file=programs, reason="signal_restore_conversion_failed")
-    if not successful:
+    sources = {(row["tl"], row["program_id"]): master_inventory["programs"][(row["tl"], row["program_id"])]["source"]
+               for row in plan["planned"]}
+    try:
+        programs = _write_signal_restore(master_inventory, plan["planned"], output / _SIGNAL_RESTORE_PROGRAMS)
+        # Neither inventory is held while netconvert converts a city-sized master again.
+        del master_inventory, layer_inventory
+        proposal = output / _SIGNAL_RESTORE_PROPOSAL
+        _, attempt, successful = run_native_keep(conversion["prepared"]["path"], kept_file, proposal,
+                                                 netconvert_binary=netconvert_binary, timeout_seconds=timeout_seconds,
+                                                 tllogic_file=programs["path"])
+        attempt["purpose"] = "signal_restore"
+        report["native_attempts"].append(attempt)
+        report["native_conversion_count"] = len(report["native_attempts"])
+        restore.update(programs_file=programs, reason="signal_restore_conversion_failed")
+        if not successful:
+            return identity
+        outside = _changes_outside_programs(Path(first_cut["path"]), proposal, set(sources))
+        restore.update(outside_restored_programs=outside, reason="signal_restore_changed_other_elements")
+        if outside["changed_line_count"] or outside["changed_roundabout_count"]:
+            return identity
+        proposal_inventory = _net_inventory(proposal)
+        restored = _layer_identity(_net_inventory(source), proposal_inventory, kept)
+        restore.pop("reason")
+        restore.update(_signal_restore_outcome(identity, restored))
+        if not restore["restored"]["replaced_first_cut"]:
+            return identity
+        rewritten = _rewritten_programs(sources, proposal_inventory, plan["planned"])
+        if rewritten:
+            restore.update(status="blocked", reason="signal_restore_program_rewritten", rewritten_programs=rewritten)
+            restore["restored"]["replaced_first_cut"] = False
+            return identity
+        copy_file_atomic(proposal, candidate)
+    except OSError as error:
+        # The candidate is still the first cut: copy_file_atomic replaces it only with a complete copy.
+        restore.update(status="blocked", reason="signal_restore_not_written", error=f"{type(error).__name__}: {error}")
+        if "restored" in restore:
+            restore["restored"]["replaced_first_cut"] = False
         return identity
-    outside = _changes_outside_programs(Path(first_cut["path"]), proposal,
-                                        {(row["tl"], row["program_id"]) for row in plan["planned"]})
-    restore.update(outside_restored_programs=outside, reason="signal_restore_changed_other_elements")
-    if outside["changed_line_count"]:
-        return identity
-    restored = _layer_identity(_net_inventory(source), _net_inventory(proposal), kept)
-    restore.pop("reason")
-    restore.update(_signal_restore_outcome(identity, restored))
-    if not restore["restored"]["replaced_first_cut"]:
-        return identity
-    copy_file_atomic(proposal, candidate)
     restored["signal_restore"] = restore
     return restored
 
@@ -624,8 +700,9 @@ def derive_network_layer(master_net_file: Path | str, output_dir: Path | str, la
     --precision 6`` (preload, never ``--keep-edges.postload``), then the identity checks and a SUMO load audit.
     When netconvert re-planned a controller for a lost crossing, the same conversion runs again with
     ``--tllogic-files`` holding that controller's master program, every state cut to the first cut's length; the
-    result replaces the first cut only when it differs from it in those programs alone, fewer controllers keep a
-    changed timeline and no identity check that held fails (``identity.signal_restore``).
+    result replaces the first cut only when it differs from it in those programs alone, holds each of them as
+    written, fewer controllers keep a changed timeline and no identity check that held fails
+    (``identity.signal_restore``). A restore that fails or cannot be written leaves the first cut as the layer.
     The output directory must be new and the master is never written. Status is ``measured`` when edges were
     removed and every check holds, ``no_effect`` when the layer keeps every master edge (the layer is then the
     master file), and ``blocked`` with a reason otherwise.
