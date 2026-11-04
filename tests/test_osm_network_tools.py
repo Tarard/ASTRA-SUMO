@@ -5,6 +5,7 @@ import json
 import shutil
 from pathlib import Path
 from types import SimpleNamespace
+from typing import Any
 from unittest.mock import Mock
 import xml.etree.ElementTree as ET
 
@@ -2237,6 +2238,205 @@ def test_multimodal_master_joins_no_signal_when_every_group_dissolves(tmp_path: 
     assert (grouping["status"], grouping["reason"], grouping["split_controller_count"]) == (
         "no_effect", "every_joined_group_dissolved", 1)
     assert "--node-files" not in calls[-1] and "--tls.join" not in calls[-1]
+
+
+# A priority junction 1 with a stop-line signal 15 m up each arm; 15 also carries a crossing.
+_STOP_LINE_ARMS = {"2": ((-200, 0), "12", (-15, 0)), "3": ((200, 0), "13", (15, 0)),
+                   "4": ((0, 200), "14", (0, 15)), "5": ((0, -200), "15", (0, -15))}
+
+
+def _stop_line_reference_runner(calls: list[list[str]], *, check_programs: str = "", masters: list[str] | None = None):
+    """Fake netconvert: the reference build writes plain nodes, edges and signalised connections of the junction.
+
+    The check build (plain prefix vehicle_reference_check) adds ``check_programs`` to its tll file; master builds
+    write the next of ``masters`` (an empty net when none is left).
+    """
+    nodes = ['<node id="1" x="0" y="0" type="priority"/>']
+    edges, connections = [], []
+    for end, (end_xy, signal, signal_xy) in _STOP_LINE_ARMS.items():
+        nodes += [f'<node id="{end}" x="{end_xy[0]}" y="{end_xy[1]}" type="dead_end"/>',
+                  f'<node id="{signal}" x="{signal_xy[0]}" y="{signal_xy[1]}" type="traffic_light" tl="{signal}"/>']
+        for start, stop in ((end, signal), (signal, "1"), ("1", signal), (signal, end)):
+            edges.append(f'<edge id="{start}_{stop}" from="{start}" to="{stop}" numLanes="1" '
+                         'disallow="tram rail_urban rail rail_electric rail_fast ship"/>')
+        connections += [f'<connection from="{end}_{signal}" to="{signal}_1" fromLane="0" toLane="0" tl="{signal}" '
+                        'linkIndex="0"/>',
+                        f'<connection from="1_{signal}" to="{signal}_{end}" fromLane="0" toLane="0" tl="{signal}" '
+                        'linkIndex="1"/>']
+    plain = {"nod": f"<nodes>{''.join(nodes)}</nodes>", "edg": f"<edges>{''.join(edges)}</edges>",
+             "tll": f"<tlLogics>{''.join(connections)}</tlLogics>"}
+    masters = list(masters or [])
+
+    def runner(command: list[str], *, cwd: Path, timeout_seconds: float) -> CommandResult:
+        calls.append(command)
+        if "--plain-output-prefix" in command:
+            prefix = cwd / command[command.index("--plain-output-prefix") + 1]
+            for suffix, text in plain.items():
+                if suffix == "tll" and prefix.name == "vehicle_reference_check":
+                    text = f"<tlLogics>{check_programs}{''.join(connections)}</tlLogics>"
+                Path(f"{prefix}.{suffix}.xml").write_text(text, encoding="utf-8")
+        else:
+            (cwd / command[command.index("--output-file") + 1]).write_text(
+                masters.pop(0) if masters else "<net/>", encoding="utf-8")
+        return CommandResult(command=command, cwd=str(cwd), status="pass", returncode=0)
+    return runner
+
+
+def _stop_line_osm(path: Path) -> None:
+    tags = {"12": _SIGNAL, "13": _SIGNAL, "14": _SIGNAL, "15": {"highway": "crossing", "crossing": "traffic_signals"}}
+    text = '<node id="1" lat="51.0" lon="13.7"/>'
+    for index, (end, (_, signal, _)) in enumerate(_STOP_LINE_ARMS.items()):
+        text += f'<node id="{end}" lat="51.0{index}" lon="13.71"/><node id="{signal}" lat="51.0{index}5" lon="13.705">'
+        text += "".join(f'<tag k="{key}" v="{value}"/>' for key, value in tags[signal].items()) + "</node>"
+        text += (f'<way id="{end}0"><nd ref="1"/><nd ref="{signal}"/><nd ref="{end}"/>'
+                 '<tag k="highway" v="primary"/></way>')
+    path.write_text(f'<osm version="0.6">{text}</osm>', encoding="utf-8")
+
+
+def _build_stop_line_junction(tmp_path: Path, calls: list[list[str]], **runner_options: Any) -> dict[str, Any]:
+    source = tmp_path / "input.osm.xml"
+    _stop_line_osm(source)
+    return build_osm_network(bbox="13.6000,50.9800,13.9000,51.1500", prefix="demo", output_dir=tmp_path / "build",
+                             source_osm_path=source, allowed_highways={"primary"},
+                             netconvert_profile="multimodal", multimodal_modes=["pedestrian"],
+                             command_runner=_stop_line_reference_runner(calls, **runner_options))
+
+
+def _node_rows(path: Path) -> list[tuple[str | None, str | None, str | None]]:
+    return [(node.get("id"), node.get("type"), node.get("tl")) for node in ET.parse(path).getroot()]
+
+
+@pytest.mark.parametrize(("distance_m", "crossing_signals", "expected_centres"),
+                         [(36.0, "keep", 1), (36.0, "demote", 1), (10.0, "keep", 0)])
+def test_multimodal_master_signals_a_junction_from_its_stop_line_signals(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, distance_m: float, crossing_signals: str, expected_centres: int
+) -> None:
+    from astra_sumo.core import osm_network
+
+    monkeypatch.setattr(osm_network, "_STOP_LINE_SIGNAL_DISTANCE_M", distance_m)
+    monkeypatch.setattr(osm_network, "_STOP_LINE_CROSSING_SIGNALS", crossing_signals)
+    calls: list[list[str]] = []
+    report = _build_stop_line_junction(tmp_path, calls)
+
+    grouping = report["netconvert_signal_grouping"]
+    centres = grouping["stop_line_centres"]
+    assert (centres["centre_count"], grouping["centre_controller_count"]) == (expected_centres, expected_centres)
+    if not expected_centres:
+        assert (grouping["status"], grouping["reason"]) == ("no_effect", "no_joined_vehicle_signals")
+        assert centres["rejected_cluster_counts"] == {"no_signalised_approach": 1}
+        assert "--node-files" not in calls[-1] and len(calls) == 2
+        return
+    # Reference build, the check build with the node file, then the master.
+    assert [Path(command[command.index("--plain-output-prefix") + 1]).name for command in calls[:2]] == [
+        "vehicle_reference", "vehicle_reference_check"]
+    assert "--tls.join" not in calls[1] and "--node-files" in calls[1] and len(calls) == 3
+    node_file = tmp_path / "build" / calls[-1][calls[-1].index("--node-files") + 1]
+    # The junction gets one controller and the three stop lines become priority nodes. The crossing signal keeps
+    # its own controller or becomes a priority node as well.
+    demoted = [("15", "priority", None)] if crossing_signals == "demote" else []
+    assert _node_rows(node_file) == [
+        ("1", "traffic_light", "SL_1"), ("12", "priority", None), ("13", "priority", None), ("14", "priority", None),
+        *demoted]
+    assert (grouping["status"], grouping["centre_node_count"], grouping["demoted_signal_node_count"],
+            grouping["kept_crossing_signal_node_count"], grouping["demoted_crossing_signal_node_count"]) == (
+        "measured", 1, 3 + len(demoted), int(crossing_signals == "keep"), len(demoted))
+    assert centres["centres"] == [{"tl": "SL_1", "nodes": ["1"], "passenger_approach_count": 4,
+                                   "signalised_passenger_approach_count": 4,
+                                   "demoted_signal_nodes": ["12", "13", "14"], "crossing_signal_nodes": ["15"]}]
+    assert centres["guard_rounds"] == [{"returncode": 0, "centre_programs": 0, "long_centres": {}}]
+    # The fake master is empty, so no row took effect; nothing was rebuilt.
+    assert (grouping["master_check"]["status"], grouping["master_check"]["not_applied_count"],
+            grouping["master_rebuild_count"]) == ("review_required", 4 + len(demoted), 0)
+    assert any("did not take effect in the master" in warning for warning in report["warnings"])
+
+
+def test_stop_line_centre_with_a_long_program_is_dropped(tmp_path: Path) -> None:
+    calls: list[list[str]] = []
+    long_program = ('<tlLogic id="SL_1" type="static" programID="0" offset="0">'
+                    + '<phase duration="31" state="G"/><phase duration="3" state="y"/>' * 8 + "</tlLogic>")
+    report = _build_stop_line_junction(tmp_path, calls, check_programs=long_program)
+
+    grouping = report["netconvert_signal_grouping"]
+    centres = grouping["stop_line_centres"]
+    # 272 s is above the 90 s limit: the single-node centre is dropped and its stop lines keep their signals.
+    assert centres["guard_rounds"] == [{"returncode": 0, "centre_programs": 1, "long_centres": {"SL_1": 272.0}}]
+    assert (centres["centre_count"], centres["long_cycle_fallback_count"], grouping["dropped_nodes"]) == (0, 1, ["1"])
+    assert (grouping["status"], grouping["reason"]) == ("no_effect", "no_joined_vehicle_signals")
+    assert "--node-files" not in calls[-1]
+
+
+def _series_master(down_state: str) -> str:
+    """A master where crossing signal 15 sits 0.2 m before centre SL_1 on the lane from arm 5."""
+    return (
+        '<net><edge id="5_15" from="5" to="15"><lane id="5_15_0" length="100"/></edge>'
+        '<edge id="15_1" from="15" to="1"><lane id="15_1_0" length="0.2"/></edge>'
+        '<edge id="1_12" from="1" to="12"><lane id="1_12_0" length="15"/></edge>'
+        '<tlLogic id="15" type="static" programID="0" offset="0"><phase duration="45" state="G"/>'
+        '<phase duration="45" state="r"/></tlLogic>'
+        '<tlLogic id="SL_1" type="static" programID="0" offset="0">'
+        f'<phase duration="45" state="{down_state[0]}"/><phase duration="45" state="{down_state[1]}"/></tlLogic>'
+        '<connection from="5_15" to="15_1" fromLane="0" toLane="0" tl="15" linkIndex="0"/>'
+        '<connection from="15_1" to="1_12" fromLane="0" toLane="0" tl="SL_1" linkIndex="0"/></net>')
+
+
+@pytest.mark.parametrize(("down_state", "trap"), [("rG", True), ("GG", False)])
+def test_series_signal_traps_need_common_green_below_one_car_of_storage(
+    tmp_path: Path, down_state: str, trap: bool
+) -> None:
+    from astra_sumo.core.osm_network import _series_signal_traps
+
+    net = tmp_path / "master.net.xml"
+    net.write_text(_series_master(down_state), encoding="utf-8")
+    series = _series_signal_traps(net)
+
+    assert (series["pair_count"], series["trap_count"]) == (1, int(trap))
+    if trap:
+        assert {key: series["traps"][0][key] for key in ("upstream_node", "downstream_node", "storage_m",
+                                                          "common_green_s", "horizon_s")} == {
+            "upstream_node": "15", "downstream_node": "1", "storage_m": 0.2, "common_green_s": 0, "horizon_s": 90}
+
+
+def test_master_is_rebuilt_once_with_the_crossing_signal_that_blocks_a_centre_demoted(tmp_path: Path) -> None:
+    calls: list[list[str]] = []
+    report = _build_stop_line_junction(tmp_path, calls, masters=[_series_master("rG")])
+
+    grouping = report["netconvert_signal_grouping"]
+    node_file = tmp_path / "build" / calls[-1][calls[-1].index("--node-files") + 1]
+    # Reference, check and master, then the same three again with crossing signal 15 demoted.
+    assert len(calls) == 6 and grouping["master_rebuild_count"] == 1
+    assert [row["series_trap_count"] for row in grouping["master_rounds"]] == [1, 0]
+    assert _node_rows(node_file)[-1] == ("15", "priority", None)
+    assert grouping["stop_line_centres"]["series_demoted_signal_node_count"] == 1
+
+
+def test_signal_node_file_check_finds_rows_that_did_not_take_effect_and_crossing_changes(tmp_path: Path) -> None:
+    from astra_sumo.core.osm_network import _signal_node_file_master_check
+
+    node_file = tmp_path / "groups.nod.xml"
+    node_file.write_text('<nodes><node id="1" type="traffic_light" tl="SL_1"/><node id="12" type="priority"/>'
+                         '<node id="13" type="priority"/><node id="14" type="traffic_light" tl="SL_14"/></nodes>',
+                         encoding="utf-8")
+    net = tmp_path / "master.net.xml"
+    net.write_text(
+        '<net><edge id=":1_c0" function="crossing" crossingEdges="a"/><edge id=":12_c0" function="crossing" '
+        'crossingEdges="b"/><edge id="a" from="12" to="1"/><edge id="b" from="13" to="12"/>'
+        '<edge id="c" from="9" to="14"/><tlLogic id="SL_1" type="static" programID="0" offset="0">'
+        '<phase duration="42" state="Gr"/><phase duration="48" state="rG"/></tlLogic>'
+        '<junction id="1" type="traffic_light" intLanes=":1_c0_0"/><junction id="12" type="priority" '
+        'intLanes=":12_c0_0"/><junction id="13" type="traffic_light"/><junction id="14" type="priority"/>'
+        '<connection from="a" to="x" fromLane="0" toLane="0" tl="SL_1" linkIndex="0"/>'
+        '<connection from=":1_w0" to=":1_c0" fromLane="0" toLane="0" tl="SL_1" linkIndex="1"/>'
+        '<connection from="b" to="a" fromLane="0" toLane="0" tl="13" linkIndex="0"/></net>', encoding="utf-8")
+
+    check = _signal_node_file_master_check(node_file, net)
+
+    # 13 is still a signal and 14 never got its controller; 12's crossing lost its signal, 1's gained one.
+    assert (check["status"], check["node_file_row_count"], check["not_applied_count"]) == ("review_required", 4, 2)
+    assert [(row["node"], row["found_type"], row["found_tls"]) for row in check["not_applied"]] == [
+        ("13", "traffic_light", []), ("14", "priority", [])]
+    assert (check["crossings_unsignalised_at_demoted_nodes"], check["crossings_signalised_at_centres"],
+            check["signalised_crossing_count"]) == (1, 1, 1)
+    assert (check["centre_cycle_max_s"], check["long_centre_cycles"], check["series_pair_count"]) == (90.0, {}, 0)
 
 
 def test_multimodal_master_falls_back_to_netconvert_joining_when_the_reference_build_fails(tmp_path: Path) -> None:

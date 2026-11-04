@@ -897,6 +897,426 @@ def _is_crossing_signal(tags: Mapping[str, str], road_neighbours: int) -> bool:
     return marked and not (tags.get("highway") == "traffic_signals" and "traffic_signals:direction" in tags)
 
 
+def _carries_crossing(tags: Mapping[str, str]) -> bool:
+    """Whether OSM puts a crossing on a signal node, wherever it sits (see _STOP_LINE_CROSSING_SIGNALS)."""
+    return (tags.get("highway") == "crossing" or bool(_tag_values(tags, "crossing") - {"no"})
+            or tags.get("crossing:signals") == "yes"
+            or bool(_tag_values(tags, "traffic_signals") & _CROSSING_ONLY_SIGNAL_VALUES))
+
+
+# Stop-line signal centres. OSM maps a signal at the stop line of each approach, so netconvert gives every approach
+# its own controller and the junction itself stays a priority node. A junction (a node with 3+ road neighbours, or
+# nodes of that kind linked by road chains of at most _STOP_LINE_CLUSTER_DISTANCE_M) whose external passenger
+# approaches all, up to _STOP_LINE_SIGNAL_SLACK of them, carry a signal within _STOP_LINE_SIGNAL_DISTANCE_M upstream
+# gets one controller "SL_<smallest node id>". Every signal within that distance on an approach and the signals on
+# the chains inside the junction serve it and become priority nodes; a joined group gives up the members that serve
+# a centre. Signals that carry a crossing (_is_crossing_signal, _carries_crossing, or a footway, cycleway or path
+# through the node) follow _STOP_LINE_CROSSING_SIGNALS. An approach that ends at a dead end within _STOP_LINE_STUB_M
+# (a road the extract cuts) does not count. When a cluster does not qualify, each of its nodes without a controller
+# is tried alone. The distances run node to node, which at a wide junction is about 10 m more than along the lanes.
+# The values are module constants: a request cannot set them.
+_STOP_LINE_SIGNAL_DISTANCE_M = 36.0
+_STOP_LINE_CLUSTER_DISTANCE_M = 30.0
+_STOP_LINE_STUB_M = 30.0
+_STOP_LINE_SIGNAL_SLACK = 0
+# What happens to the crossing signals that served a centre: "keep" their own controller, "join" the centre's
+# controller, or "demote" them to priority nodes like the stop lines. A kept crossing signal that blocks the centre
+# is demoted by the series check below once the master shows it.
+_STOP_LINE_CROSSING_SIGNALS = "keep"
+_STOP_LINE_CENTRE_PREFIX = "SL_"
+_STOP_LINE_CENTRE_LIMIT = 20
+_RAIL_NODE_TYPES = frozenset({"rail_crossing", "rail_signal"})
+# netconvert fits a program into its 90 s cycle only up to 7 sequential green groups; a multi-node centre gets one
+# group per incoming edge, so 8 or more keep 31 s green and 3 s yellow each (272 s, 408 s on central Dresden). A centre
+# above _STOP_LINE_CYCLE_LIMIT_S is replaced by its members that qualify alone, and a single-node centre above it is
+# dropped. The vehicle-road check build catches most of them; the master catches the ones that its paths add.
+_STOP_LINE_CYCLE_LIMIT_S = 90.0
+_STOP_LINE_GUARD_ROUNDS = 3
+# Two controllers in series on a vehicle lane with less than one car of storage between them act as one stop line
+# whose green is the time both are green; with no common green at all the lane is blocked for good. When the common
+# green is under _SERIES_MIN_COMMON_GREEN_SHARE of the shorter green, the signal node of the pair is demoted
+# (_series_demotions) and the master rebuilt, at most _SIGNAL_REBUILD_ROUNDS times. On central Dresden, 0.5 left as
+# many signalised crossings in the core as no centres at all (436 against 420) and cleared the 0.5x boundary load as
+# well as 1.0 did (2-15 of 1224 vehicles unfinished against 4-12, 17-33 when only pairs without common green go).
+_SERIES_STORAGE_M = 7.5
+_SERIES_WALK_LANES = 4
+_SERIES_HORIZON_CAP_S = 3600
+_SERIES_MIN_COMMON_GREEN_SHARE = 0.5
+_SIGNAL_REBUILD_ROUNDS = 3
+
+
+class _PlainRoadGraph(NamedTuple):
+    nodes: dict[str, tuple[float, float, str, str | None]]  # id: x, y, type, tl
+    edges: dict[str, tuple[str, str, float, bool]]  # road edges only, id: from, to, length, allows passenger
+    incoming: dict[str, list[str]]
+    neighbours: dict[str, set[str]]
+    pair_length: dict[tuple[str, str], float]
+    controlled_into: dict[str, set[str]]  # edge id: controllers of the signalised connections into it
+
+
+def _polyline_length(points: list[tuple[float, float]]) -> float:
+    return sum(math.dist(a, b) for a, b in zip(points, points[1:]))
+
+
+def _plain_road_graph(plain_prefix: Path) -> _PlainRoadGraph | None:
+    """The vehicle roads of a plain netconvert output: edges whose lanes allow a vehicle-layer class."""
+    from .network_layers import VEHICLE_LAYER_CLASSES
+    from .osm_access import _permission_set
+
+    node_path, edge_path, tll_path = (Path(f"{plain_prefix}.{suffix}.xml") for suffix in ("nod", "edg", "tll"))
+    if not (node_path.is_file() and edge_path.is_file()):
+        return None
+    nodes: dict[str, tuple[float, float, str, str | None]] = {}
+    for element in _completed_elements(node_path.open("rb")):
+        if element.tag == "node":
+            nodes[element.get("id")] = (float(element.get("x", 0)), float(element.get("y", 0)),
+                                        element.get("type") or "", element.get("tl"))
+    road_classes = frozenset(VEHICLE_LAYER_CLASSES)
+    permissions: dict[tuple[str | None, str | None], frozenset[str]] = {}
+
+    def allowed(attributes: Mapping[str, str]) -> frozenset[str]:
+        key = (attributes.get("allow"), attributes.get("disallow"))
+        if key not in permissions:
+            permissions[key] = frozenset(_permission_set(attributes))
+        return permissions[key]
+
+    edges: dict[str, tuple[str, str, float, bool]] = {}
+    for element in _completed_elements(edge_path.open("rb")):
+        if element.tag != "edge" or element.get("from") not in nodes or element.get("to") not in nodes:
+            continue
+        lanes = [lane.attrib for lane in element.findall("lane")]
+        classes = frozenset().union(*(allowed(lane if "allow" in lane or "disallow" in lane else element.attrib)
+                                      for lane in lanes or [element.attrib]))
+        if not classes & road_classes:
+            continue
+        start, end = (nodes[element.get(key)][:2] for key in ("from", "to"))
+        if element.get("length"):
+            length = float(element.get("length"))
+        else:
+            shape = [tuple(map(float, point.split(",")[:2])) for point in (element.get("shape") or "").split()]
+            length = _polyline_length([start, *shape, end])
+        edges[element.get("id")] = (element.get("from"), element.get("to"), length, "passenger" in classes)
+    incoming: dict[str, list[str]] = {}
+    neighbours: dict[str, set[str]] = {}
+    pair_length: dict[tuple[str, str], float] = {}
+    for edge_id, (start, end, length, _) in sorted(edges.items()):
+        if start == end:
+            continue
+        incoming.setdefault(end, []).append(edge_id)
+        neighbours.setdefault(start, set()).add(end)
+        neighbours.setdefault(end, set()).add(start)
+        for pair in ((start, end), (end, start)):
+            pair_length[pair] = min(length, pair_length.get(pair, length))
+    controlled_into: dict[str, set[str]] = {}
+    if tll_path.is_file():
+        for element in _completed_elements(tll_path.open("rb")):
+            if element.tag == "connection" and element.get("tl") and element.get("to") in edges:
+                controlled_into.setdefault(element.get("to"), set()).add(element.get("tl"))
+    return _PlainRoadGraph(nodes, edges, incoming, neighbours, pair_length, controlled_into)
+
+
+def _upstream_signals(graph: _PlainRoadGraph, edge_id: str, limit_m: float) -> tuple[str, float, list[tuple[str, float]]]:
+    """Follow the traffic on ``edge_id`` back through two-neighbour nodes to the first other node.
+
+    Returns that node, its distance along the road and the signals passed within ``limit_m``, nearest first: nodes
+    with at most two neighbours whose signalised connections lead into the walked edge, with their distance to the
+    end of ``edge_id``.
+    """
+    signals: list[tuple[str, float]] = []
+    distance, seen = 0.0, set()
+    while True:
+        start, end, length, _ = graph.edges[edge_id]
+        distance += length
+        seen.add(edge_id)
+        neighbour_count = len(graph.neighbours.get(start, ()))
+        if neighbour_count <= 2 and distance <= limit_m and graph.controlled_into.get(edge_id):
+            signals.append((start, distance))
+        upstream = [row for row in graph.incoming.get(start, ())
+                    if graph.edges[row][0] not in (end, start) and row not in seen]
+        if neighbour_count != 2 or not upstream:
+            return start, distance, signals
+        edge_id = upstream[0]
+
+
+def _chain_end(graph: _PlainRoadGraph, first: str, second: str, junctions: set[str], limit_m: float) -> tuple[str, float]:
+    """The node where the road from ``first`` through ``second`` stops having two neighbours, and its distance."""
+    previous, current, distance = first, second, graph.pair_length[(first, second)]
+    while distance <= limit_m and current not in junctions and len(graph.neighbours.get(current, ())) == 2:
+        following = next(iter(graph.neighbours[current] - {previous}))
+        previous, current = current, following
+        distance += graph.pair_length[(previous, current)]
+    return current, distance
+
+
+def _node_order(node_id: str) -> tuple[int, str]:
+    return len(node_id), node_id
+
+
+def _stop_line_centres(
+    graph: _PlainRoadGraph,
+    *,
+    source_nodes: set[str],
+    crossing_signals: set[str],
+    grouped_signals: set[str],
+    signal_distance_m: float,
+    cluster_distance_m: float,
+    slack: int,
+    stub_m: float,
+    split_clusters: set[str] | None = None,
+    dropped_nodes: set[str] | None = None,
+) -> dict[str, Any]:
+    """Junction centres that the stop-line signals around them should control, and the signals that served them.
+
+    Junction nodes linked by a road chain of at most ``cluster_distance_m`` form one cluster; every chain between two
+    nodes of a cluster lies inside it. A signalised junction node takes part when it is a member of a joined group
+    (``grouped_signals``) or a crossing signal, but it is never a centre on its own. Approaches are the road edges into
+    the cluster from outside it, and only passenger approaches decide, as in netconvert's --tls.guess-signals: at
+    least two signalised, at most ``slack`` without a signal and fewer missing than found. An approach whose walk
+    ends at a dead end within ``stub_m`` does not count. When a cluster of several nodes does not qualify, each of
+    its nodes is tried alone. The long-cycle guard passes the ids of the clusters to try node by node at once
+    (``split_clusters``) and the nodes that are never a centre on their own (``dropped_nodes``).
+    """
+    split_clusters, dropped_nodes = split_clusters or set(), dropped_nodes or set()
+    junctions = {node_id for node_id, (_, _, node_type, tl) in graph.nodes.items()
+                 if node_type not in _RAIL_NODE_TYPES and len(graph.neighbours.get(node_id, ())) >= 3
+                 and (tl is None or node_id in grouped_signals or node_id in crossing_signals)}
+    parent = {node_id: node_id for node_id in junctions}
+
+    def find(node_id: str) -> str:
+        while parent[node_id] != node_id:
+            parent[node_id] = parent[parent[node_id]]
+            node_id = parent[node_id]
+        return node_id
+
+    for node_id in sorted(junctions):
+        for neighbour in sorted(graph.neighbours[node_id]):
+            end, distance = _chain_end(graph, node_id, neighbour, junctions, cluster_distance_m)
+            if end != node_id and end in junctions and distance <= cluster_distance_m:
+                parent[find(end)] = find(node_id)
+    clusters: dict[str, list[str]] = {}
+    for node_id in junctions:
+        clusters.setdefault(find(node_id), []).append(node_id)
+    limit_m = max(signal_distance_m, cluster_distance_m, stub_m)
+
+    def centre(members: list[str]) -> tuple[dict[str, Any] | None, str]:
+        inside = set(members)
+        approaches, inner, stubs = [], [], []
+        for node_id in members:
+            for edge_id in graph.incoming.get(node_id, ()):
+                if graph.edges[edge_id][0] == node_id:
+                    continue
+                end, distance, signals = _upstream_signals(graph, edge_id, limit_m)
+                if end in inside:
+                    inner.extend(node for node, _ in signals)
+                    continue
+                if len(graph.neighbours.get(end, ())) == 1 and distance <= stub_m:
+                    stubs.append(edge_id)
+                    continue
+                within = [(node, round(at, 2)) for node, at in signals if at <= signal_distance_m]
+                approaches.append({"edge": edge_id, "junction": node_id, "passenger": graph.edges[edge_id][3],
+                                   "signal": within[0][0] if within else None,
+                                   "signal_distance_m": within[0][1] if within else None,
+                                   "signals": [node for node, _ in within]})
+        passenger = [row for row in approaches if row["passenger"]]
+        found = sum(1 for row in passenger if row["signal"])
+        missing = len(passenger) - found
+        if found < 2 or missing > slack or missing >= found:
+            return None, ("no_signalised_approach" if not found else "unsignalised_approach" if missing
+                          else "fewer_than_two_signalised_approaches")
+        if not inside <= source_nodes:
+            return None, "node_not_in_source_osm"
+        served = sorted(({node for row in approaches for node in row["signals"]} | set(inner)) - inside, key=_node_order)
+        return {
+            "tl": _STOP_LINE_CENTRE_PREFIX + members[0], "nodes": members,
+            "diameter_m": round(max((math.dist(graph.nodes[a][:2], graph.nodes[b][:2])
+                                     for a in members for b in members), default=0.0), 2),
+            "passenger_approach_count": len(passenger), "signalised_passenger_approach_count": found,
+            "approaches": approaches, "dead_end_stub_edges": stubs,
+            "inner_signal_nodes": sorted(set(inner), key=_node_order),
+            "signalised_member_nodes": [node for node in members if graph.nodes[node][3]],
+            "demoted_signal_nodes": [node for node in served if node in source_nodes and node not in crossing_signals],
+            "crossing_signal_nodes": [node for node in served if node in source_nodes and node in crossing_signals],
+            "grouped_signal_nodes": [node for node in served if node in grouped_signals],
+        }, ""
+
+    centres, rejected, fallback, guarded = [], Counter(), 0, []
+    for members in sorted((sorted(rows, key=_node_order) for rows in clusters.values()),
+                          key=lambda rows: _node_order(rows[0])):
+        tl_id = _STOP_LINE_CENTRE_PREFIX + members[0]
+        if len(members) == 1 and members[0] in dropped_nodes:
+            guarded.append({"tl": tl_id, "nodes": members, "action": "dropped"})
+            continue
+        row, reason = (None, "long_cycle") if tl_id in split_clusters else centre(members)
+        if row is not None:
+            centres.append(row)
+            continue
+        rejected[reason] += 1
+        if len(members) > 1:
+            # A cluster that does not qualify as a whole: each of its nodes may still qualify alone. A node that
+            # already has a controller keeps it.
+            singles = [row for row, _ in (centre([node_id]) for node_id in members
+                                          if graph.nodes[node_id][3] is None and node_id not in dropped_nodes)
+                       if row is not None]
+            centres.extend(singles)
+            fallback += len(singles)
+            if tl_id in split_clusters:
+                guarded.append({"tl": tl_id, "nodes": members, "action": "single_nodes",
+                                "single_centres": [row["tl"] for row in singles]})
+    # A signal that served two centres is demoted once.
+    demoted = sorted({node for row in centres for node in row["demoted_signal_nodes"]}, key=_node_order)
+    return {
+        "signal_distance_m": signal_distance_m, "cluster_distance_m": cluster_distance_m, "slack": slack,
+        "stub_m": stub_m, "junction_node_count": len(junctions), "junction_cluster_count": len(clusters),
+        "multi_node_junction_cluster_count": sum(1 for rows in clusters.values() if len(rows) > 1),
+        "centre_count": len(centres), "multi_node_centre_count": sum(1 for row in centres if len(row["nodes"]) > 1),
+        "single_node_fallback_centre_count": fallback,
+        "centre_node_count": sum(len(row["nodes"]) for row in centres),
+        "demoted_signal_node_count": len(demoted),
+        "served_crossing_signal_node_count": len({node for row in centres for node in row["crossing_signal_nodes"]}),
+        "served_grouped_signal_node_count": len({node for row in centres for node in row["grouped_signal_nodes"]}),
+        "rejected_cluster_counts": dict(sorted(rejected.items())), "long_cycle_fallbacks": guarded,
+        "centres": centres, "demoted_signal_nodes": demoted,
+    }
+
+
+def _program_cycles(path: Path, prefix: str) -> dict[str, float]:
+    """Cycle of every program in a net or plain tll file whose controller id starts with ``prefix``."""
+    cycles: dict[str, float] = {}
+    for element in _completed_elements(path.open("rb")):
+        if element.tag == "tlLogic" and element.get("id", "").startswith(prefix):
+            cycles[element.get("id")] = round(sum(float(phase.get("duration", "0"))
+                                                  for phase in element.findall("phase")), 6)
+    return cycles
+
+
+def _signal_node_rows(
+    patched: list[tuple[str, str, str]], centres: list[dict[str, Any]], demoted: Iterable[str],
+) -> tuple[list[tuple[str, str, str | None]], list[str]]:
+    """Node file rows: joined groups without the members that serve a centre or are demoted, centres, demotions.
+
+    A joined group left with fewer than two members dissolves, and its last member keeps its own controller.
+    """
+    centre_nodes = {node_id: row["tl"] for row in centres for node_id in row["nodes"]}
+    demoted = set(demoted) - set(centre_nodes)
+    groups: dict[str, list[tuple[str, str]]] = {}
+    for node_id, node_type, tl_id in patched:
+        if node_id not in demoted and node_id not in centre_nodes:
+            groups.setdefault(tl_id, []).append((node_id, node_type))
+    dissolved = sorted({tl_id for _, _, tl_id in patched} - {tl_id for tl_id, rows in groups.items() if len(rows) > 1})
+    rows: list[tuple[str, str, str | None]] = [
+        (node_id, node_type, tl_id) for tl_id, members in groups.items() if len(members) > 1
+        for node_id, node_type in members]
+    rows += [(node_id, "traffic_light", tl_id) for node_id, tl_id in centre_nodes.items()]
+    rows += [(node_id, "priority", None) for node_id in sorted(demoted, key=_node_order)]
+    return rows, dissolved
+
+
+def _series_demotions(
+    graph: _PlainRoadGraph, traps: Iterable[Mapping[str, Any]], *, source_nodes: set[str], centre_nodes: set[str],
+) -> tuple[list[str], list[dict[str, Any]]]:
+    """The signal node to demote for each series trap of the master, and the traps that keep both signals.
+
+    A node can be demoted when it is not a centre node, has at most two road neighbours (a stop line or crossing
+    off the junction) and comes from the source OSM. When both can, the downstream one goes: drivers keep the
+    first stop line they meet.
+    """
+    demoted: set[str] = set()
+    unresolved = []
+    for trap in traps:
+        candidates = [trap[key] for key in ("downstream_node", "upstream_node")
+                      if trap[key] in source_nodes and trap[key] not in centre_nodes
+                      and len(graph.neighbours.get(trap[key], ())) <= 2]
+        if candidates:
+            demoted.add(candidates[0])
+        else:
+            unresolved.append(dict(trap))
+    return sorted(demoted, key=_node_order), unresolved
+
+
+def _series_signal_traps(net_file: Path) -> dict[str, Any]:
+    """Pairs of controllers in series on a vehicle lane with less than _SERIES_STORAGE_M between their stop lines.
+
+    From each signalised vehicle link the walk follows the lane it leads into, and further through unsignalised
+    connections, while the summed length of these normal lanes stays below _SERIES_STORAGE_M and at most
+    _SERIES_WALK_LANES lanes; a signalised link of another controller on the way closes a pair. The two links'
+    greens (G or g, per second over the least common multiple of both cycles, capped at _SERIES_HORIZON_CAP_S) are
+    compared: a pair is a trap when both links turn green but are green together for less than
+    _SERIES_MIN_COMMON_GREEN_SHARE of the shorter green.
+    """
+    storage_m, walk_lanes = _SERIES_STORAGE_M, _SERIES_WALK_LANES
+    min_share, horizon_cap_s = _SERIES_MIN_COMMON_GREEN_SHARE, _SERIES_HORIZON_CAP_S
+    from .network_layers import VEHICLE_LAYER_CLASSES
+    from .osm_access import _permission_set
+
+    vehicle_classes = frozenset(VEHICLE_LAYER_CLASSES)
+    lane_length: dict[str, float] = {}
+    edge_to: dict[str, str] = {}
+    out: dict[str, list[tuple[str, str | None, int]]] = {}
+    programs: dict[str, tuple[int, list[str]]] = {}
+    for element in _completed_elements(net_file.open("rb")):
+        if element.tag == "edge" and not element.get("function"):
+            edge_to[element.get("id")] = element.get("to")
+            for lane in element.findall("lane"):
+                attributes = lane.attrib if "allow" in lane.attrib or "disallow" in lane.attrib else element.attrib
+                if _permission_set(attributes) & vehicle_classes:
+                    lane_length[lane.get("id")] = float(lane.get("length", "0"))
+        elif element.tag == "tlLogic" and element.get("id") not in programs:
+            seconds = [phase.get("state", "") for phase in element.findall("phase")
+                       for _ in range(max(1, round(float(phase.get("duration", "0")))))]
+            offset = round(float(element.get("offset", "0") or 0))
+            programs[element.get("id")] = (offset, seconds)
+        elif element.tag == "connection" and element.get("from") in edge_to:
+            from_lane = f"{element.get('from')}_{element.get('fromLane')}"
+            to_lane = f"{element.get('to')}_{element.get('toLane')}"
+            if from_lane in lane_length and to_lane in lane_length:
+                out.setdefault(from_lane, []).append(
+                    (to_lane, element.get("tl"), int(element.get("linkIndex", "-1"))))
+    green_cache: dict[tuple[str, int], list[bool]] = {}
+
+    def green(tl_id: str, index: int) -> list[bool]:
+        if (tl_id, index) not in green_cache:
+            _, seconds = programs[tl_id]
+            green_cache[(tl_id, index)] = [len(state) > index and state[index] in "Gg" for state in seconds]
+        return green_cache[(tl_id, index)]
+
+    pairs: dict[tuple[str, int, str, int], dict[str, Any]] = {}
+    for from_lane, links in out.items():
+        for to_lane, tl_id, index in links:
+            if not tl_id or tl_id not in programs or lane_length[to_lane] >= storage_m:
+                continue
+            frontier = [(to_lane, lane_length[to_lane], 1)]
+            while frontier:
+                lane, storage, depth = frontier.pop()
+                for next_lane, next_tl, next_index in out.get(lane, ()):
+                    if next_tl and next_tl != tl_id and next_tl in programs:
+                        key = (tl_id, index, next_tl, next_index)
+                        if key not in pairs or storage < pairs[key]["storage_m"]:
+                            pairs[key] = {"upstream_tl": tl_id, "upstream_link": index,
+                                          "upstream_node": edge_to[from_lane.rsplit("_", 1)[0]],
+                                          "upstream_lane": from_lane, "downstream_tl": next_tl,
+                                          "downstream_link": next_index, "downstream_lane": lane,
+                                          "downstream_node": edge_to[lane.rsplit("_", 1)[0]],
+                                          "storage_m": round(storage, 2)}
+                    elif not next_tl and depth < walk_lanes and storage + lane_length[next_lane] < storage_m:
+                        frontier.append((next_lane, storage + lane_length[next_lane], depth + 1))
+    traps = []
+    for (up_tl, up_index, down_tl, down_index), row in sorted(pairs.items()):
+        up, down = green(up_tl, up_index), green(down_tl, down_index)
+        up_offset, down_offset = programs[up_tl][0], programs[down_tl][0]
+        horizon = min(math.lcm(len(up), len(down)), horizon_cap_s)
+        up_green = down_green = common = 0
+        for second in range(horizon):
+            a, b = up[(second - up_offset) % len(up)], down[(second - down_offset) % len(down)]
+            up_green, down_green, common = up_green + a, down_green + b, common + (a and b)
+        shorter = min(up_green, down_green)
+        row.update(horizon_s=horizon, upstream_green_s=up_green, downstream_green_s=down_green, common_green_s=common)
+        if shorter and common < min_share * shorter:
+            traps.append(row)
+    return {"storage_m": storage_m, "min_common_green_share": min_share, "pair_count": len(pairs),
+            "trap_count": len(traps), "no_common_green_count": sum(1 for row in traps if not row["common_green_s"]),
+            "traps": traps}
+
+
 def _vehicle_signal_groups(
     *,
     filtered_osm: Path,
@@ -910,6 +1330,10 @@ def _vehicle_signal_groups(
     netconvert_binary: str,
     command_runner: Callable[..., Any],
     timeout_seconds: float,
+    split_clusters: Iterable[str] = (),
+    dropped_nodes: Iterable[str] = (),
+    long_centres: Iterable[str] = (),
+    series_traps: Iterable[Mapping[str, Any]] = (),
 ) -> dict[str, Any]:
     """Signal groups of a vehicle-road build of the same input, as a node file for the multimodal master.
 
@@ -924,6 +1348,11 @@ def _vehicle_signal_groups(
     group of a joined program its own green. Central Dresden: Georgplatz joined 9 junction and 8 crossing signals
     into a 612 s, 54-phase program, 90 s without the crossings. A joined controller keeps the reference build's id
     while two or more of its signals remain; a group left with one signal dissolves, and that signal keeps its own.
+
+    The same file carries the stop-line centres (_stop_line_centres) and the signals they demote. A check build of
+    the vehicle roads with the node file shows each centre's program; a centre above _STOP_LINE_CYCLE_LIMIT_S is
+    split into its nodes or dropped. The master check passes back the centres it found long (``long_centres``),
+    the fallbacks already made (``split_clusters``, ``dropped_nodes``) and its series traps (``series_traps``).
     """
     from .road_scope import HIGHWAY_CLASS_PRESETS
 
@@ -989,17 +1418,220 @@ def _vehicle_signal_groups(
                   patched_node_count=len(patched), skipped_controllers=skipped,
                   crossing_signal_node_count=sum(len(row["crossing_signal_nodes"]) for row in split),
                   split_controller_count=len(split), split_controllers=split[:_SPLIT_CONTROLLER_LIMIT])
-    if not patched:
+    centres: list[dict[str, Any]] = []
+    rows: list[tuple[str, str, str | None]] = list(patched)
+    split_clusters, dropped_nodes = set(split_clusters or ()), set(dropped_nodes or ())
+    node_file = work_dir / "vehicle_signal_groups.nod.xml"
+    graph = _plain_road_graph(plain_prefix)
+    if graph is None:
+        report["stop_line_centres"] = {"status": "blocked", "reason": "reference_plain_edges_missing"}
+    else:
+        kept_signals = {node_id for node_id, _, _ in patched} | {
+            node_id for row in skipped for node_id, _ in controllers[row["tl"]]}
+        # A footway, cycleway or path through a signal node gives it a crossing in the master as well.
+        signal_nodes = {node_id for rows in controllers.values() for node_id, _ in rows}
+        on_paths: set[str] = set()
+        for element in _completed_elements(_open_xml(filtered_osm, "rt")):
+            if element.tag == "way":
+                highway = next((tag.get("v") for tag in element.findall("tag") if tag.get("k") == "highway"), None)
+                if highway and highway not in HIGHWAY_CLASS_PRESETS["full_vehicle"]:
+                    on_paths.update(nd.get("ref") for nd in element.findall("nd") if nd.get("ref") in signal_nodes)
+        tagged = crossing_signals | {node_id for node_id, tags in member_tags.items() if _carries_crossing(tags)}
+        crossings = tagged | on_paths
+        check_prefix = work_dir / "vehicle_reference_check"
+        check_command = [netconvert_binary, "--osm-files", _relative_to_root(reference_osm, root),
+                         "--plain-output-prefix", _relative_to_root(check_prefix, root), *input_options,
+                         "--no-internal-links", "--node-files", _relative_to_root(node_file, root)]
+        pending, guard_rounds = set(long_centres or ()), []
+        for guard_round in range(_STOP_LINE_GUARD_ROUNDS + 1):
+            found = _stop_line_centres(graph, source_nodes=source_nodes, crossing_signals=crossings,
+                                       grouped_signals=kept_signals, signal_distance_m=_STOP_LINE_SIGNAL_DISTANCE_M,
+                                       cluster_distance_m=_STOP_LINE_CLUSTER_DISTANCE_M,
+                                       slack=_STOP_LINE_SIGNAL_SLACK, stub_m=_STOP_LINE_STUB_M,
+                                       split_clusters=split_clusters, dropped_nodes=dropped_nodes)
+            centres = found.pop("centres")
+            by_tl = {row["tl"]: row for row in centres}
+            centre_nodes = {node_id for row in centres for node_id in row["nodes"]}
+            served_crossings = {node_id for row in centres for node_id in row["crossing_signal_nodes"]}
+            series_demoted, unresolved = _series_demotions(graph, series_traps or (), source_nodes=source_nodes,
+                                                           centre_nodes=centre_nodes)
+            demoted = {*found["demoted_signal_nodes"], *series_demoted,
+                       *(served_crossings if _STOP_LINE_CROSSING_SIGNALS == "demote" else ())}
+            rows, dissolved = _signal_node_rows(patched, centres, demoted)
+            _write_signal_node_file(node_file, rows)
+            long = {tl_id for tl_id in pending if tl_id in by_tl}
+            pending = set()
+            if not long and centres and guard_round < _STOP_LINE_GUARD_ROUNDS:
+                # The vehicle-road build with the node file shows the centre programs netconvert makes.
+                checked = _result_to_dict(command_runner(check_command, cwd=root, timeout_seconds=timeout_seconds))
+                check_tll = Path(f"{check_prefix}.tll.xml")
+                cycles = (_program_cycles(check_tll, _STOP_LINE_CENTRE_PREFIX)
+                          if checked.get("status") == "pass" and check_tll.is_file() else {})
+                long = {tl_id for tl_id, cycle in cycles.items() if cycle > _STOP_LINE_CYCLE_LIMIT_S and tl_id in by_tl}
+                guard_rounds.append({"returncode": checked.get("returncode"), "centre_programs": len(cycles),
+                                     "long_centres": {tl_id: cycles[tl_id] for tl_id in sorted(long)}})
+            if not long or guard_round == _STOP_LINE_GUARD_ROUNDS:
+                break
+            for tl_id in long:
+                if len(by_tl[tl_id]["nodes"]) > 1:
+                    split_clusters.add(tl_id)
+                else:
+                    dropped_nodes.add(by_tl[tl_id]["nodes"][0])
+        found.update(kept_path_crossing_signal_node_count=len(served_crossings - tagged),
+                     cycle_limit_s=_STOP_LINE_CYCLE_LIMIT_S, guard_rounds=guard_rounds,
+                     split_clusters=sorted(split_clusters, key=_node_order),
+                     dropped_nodes=sorted(dropped_nodes, key=_node_order),
+                     series_demoted_signal_nodes=series_demoted, unresolved_series_traps=unresolved,
+                     dissolved_joined_controllers=dissolved)
+        detail_file = work_dir / "stop_line_centres.json"
+        write_json_atomic(detail_file, {**found, "centres": centres})
+        report["stop_line_centres"] = {
+            "status": "measured" if centres else "no_effect",
+            **{key: value for key, value in found.items()
+               if key not in ("demoted_signal_nodes", "series_demoted_signal_nodes", "unresolved_series_traps",
+                              "long_cycle_fallbacks")},
+            "long_cycle_fallback_count": len(found["long_cycle_fallbacks"]),
+            "series_demoted_signal_node_count": len(series_demoted), "unresolved_series_trap_count": len(unresolved),
+            "crossing_signals": _STOP_LINE_CROSSING_SIGNALS, "detail_file": str(detail_file.resolve()),
+            "centres": [{key: row[key] for key in ("tl", "nodes", "passenger_approach_count",
+                                                   "signalised_passenger_approach_count", "demoted_signal_nodes",
+                                                   "crossing_signal_nodes")}
+                        for row in centres[:_STOP_LINE_CENTRE_LIMIT]]}
+        report.update(demoted_signal_node_count=sum(1 for _, node_type, tl_id in rows if tl_id is None),
+                      demoted_crossing_signal_node_count=sum(
+                          1 for node_id, _, tl_id in rows if tl_id is None and node_id in crossings),
+                      kept_crossing_signal_node_count=len(served_crossings - {node_id for node_id, _, tl_id in rows
+                                                                             if tl_id is None}))
+    report.update(centre_controller_count=len(centres), centre_node_count=sum(len(row["nodes"]) for row in centres),
+                  split_clusters=sorted(split_clusters, key=_node_order),
+                  dropped_nodes=sorted(dropped_nodes, key=_node_order))
+    if not rows:
         reason = "every_joined_group_dissolved" if split else "no_joined_vehicle_signals"
         return {**report, "status": "no_effect", "reason": reason}
-    nodes = ET.Element("nodes")
-    for node_id, node_type, tl_id in patched:
-        ET.SubElement(nodes, "node", {"id": node_id, "type": node_type, "tl": tl_id})
-    ET.indent(nodes)
-    node_file = work_dir / "vehicle_signal_groups.nod.xml"
-    node_file.write_bytes(ET.tostring(nodes, encoding="utf-8", xml_declaration=True))
+    if graph is None:
+        _write_signal_node_file(node_file, rows)
     return {**report, "status": "measured", "node_file": str(node_file.resolve()),
             "node_file_sha256": _file_sha256(node_file)}
+
+
+def _write_signal_node_file(path: Path, rows: Iterable[tuple[str, str, str | None]]) -> None:
+    nodes = ET.Element("nodes")
+    for node_id, node_type, tl_id in rows:
+        ET.SubElement(nodes, "node", {"id": node_id, "type": node_type, **({"tl": tl_id} if tl_id else {})})
+    ET.indent(nodes)
+    path.write_bytes(ET.tostring(nodes, encoding="utf-8", xml_declaration=True))
+
+
+_SIGNAL_TYPES = frozenset({"traffic_light", "traffic_light_right_on_red", "traffic_light_unregulated"})
+
+
+def _signal_node_file_master_check(node_file: Path, net_file: Path) -> dict[str, Any]:
+    """Whether every row of the signal node file took effect in the master, its centre cycles, crossings and traps.
+
+    A row with a ``tl`` took effect when its node is a signal junction and a connection from an edge ending there
+    carries that controller; a priority row, when its node is not a signal junction. A demoted row was a signal node
+    in the reference build, so its crossings would have been signalised without the node file; a centre node was a
+    priority node, so its signalised crossings are new. ``series_traps`` lists every pair of _series_signal_traps.
+    """
+    rows = [(element.get("id"), element.get("type"), element.get("tl"))
+            for element in ET.parse(node_file).getroot() if element.tag == "node"]
+    wanted = {node_id for node_id, _, _ in rows}
+    edge_to: dict[str, str] = {}
+    crossing_edges: set[str] = set()
+    junctions: dict[str, tuple[str, list[str]]] = {}
+    controllers_at: dict[str, set[str]] = {}
+    controlled_crossings: set[str] = set()
+    for element in _completed_elements(net_file.open("rb")):
+        if element.tag == "edge":
+            if element.get("function") == "crossing":
+                crossing_edges.add(element.get("id"))
+            elif not element.get("function"):
+                edge_to[element.get("id")] = element.get("to")
+        elif element.tag == "junction" and element.get("id") in wanted:
+            junctions[element.get("id")] = (element.get("type") or "", (element.get("intLanes") or "").split())
+        elif element.tag == "connection" and element.get("tl"):
+            node_id = edge_to.get(element.get("from"))
+            if node_id in wanted:
+                controllers_at.setdefault(node_id, set()).add(element.get("tl"))
+            for key in ("from", "to"):
+                if element.get(key) in crossing_edges:
+                    controlled_crossings.add(element.get(key))
+
+    def crossings(node_id: str) -> set[str]:
+        return {lane.rsplit("_", 1)[0] for lane in junctions.get(node_id, ("", []))[1]} & crossing_edges
+
+    not_applied, lost, gained = [], set(), set()
+    for node_id, node_type, tl_id in rows:
+        found_type = junctions.get(node_id, (None, []))[0]
+        found_tls = sorted(controllers_at.get(node_id, ()))
+        applied = (found_type in _SIGNAL_TYPES and tl_id in found_tls) if tl_id else (
+            found_type is not None and found_type not in _SIGNAL_TYPES)
+        if not applied:
+            not_applied.append({"node": node_id, "type": node_type, "tl": tl_id, "found_type": found_type,
+                                "found_tls": found_tls})
+        if tl_id is None:
+            lost |= crossings(node_id)
+        elif tl_id.startswith(_STOP_LINE_CENTRE_PREFIX):
+            gained |= crossings(node_id) & controlled_crossings
+    cycles = _program_cycles(net_file, _STOP_LINE_CENTRE_PREFIX)
+    longest = sorted(cycles.items(), key=lambda row: (-row[1], row[0]))
+    series = _series_signal_traps(net_file)
+    return {
+        "status": "review_required" if not_applied else "pass",
+        **({"reason": "node_file_rows_not_applied"} if not_applied else {}),
+        "node_file_row_count": len(rows), "not_applied_count": len(not_applied),
+        "missing_node_count": sum(1 for row in not_applied if row["found_type"] is None),
+        "not_applied": not_applied[:_STOP_LINE_CENTRE_LIMIT],
+        "crossings_unsignalised_at_demoted_nodes": len(lost),
+        "crossings_signalised_at_centres": len(gained),
+        "signalised_crossing_count": len(controlled_crossings),
+        "centre_controller_count": len(cycles),
+        "centre_cycle_max_s": longest[0][1] if longest else None,
+        "long_centre_cycles": {tl_id: cycle for tl_id, cycle in longest if cycle > _STOP_LINE_CYCLE_LIMIT_S},
+        "series_pair_count": series["pair_count"], "series_trap_count": series["trap_count"],
+        "series_no_common_green_count": series["no_common_green_count"],
+        "series_traps": series["traps"],
+    }
+
+
+def _settle_master_signals(
+    signal_grouping: dict[str, Any], result: dict[str, Any], *, net_file: Path,
+    regroup: Callable[..., dict[str, Any]], rebuild: Callable[[], dict[str, Any]],
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Check the master against its signal node file and rebuild it while the check finds something to change.
+
+    The vehicle-road build cannot show the green groups that paths and crossings add, nor the programs of crossing
+    signals, so each master is streamed: a centre program above the cycle limit gets the long-cycle fallback and a
+    series trap the demotion of _series_demotions. The master is rebuilt with the new node file at most
+    _SIGNAL_REBUILD_ROUNDS times; what the last check still finds stays in the report.
+    """
+    rounds: list[dict[str, Any]] = []
+    traps_seen: dict[tuple[str, ...], dict[str, Any]] = {}
+    long_seen: set[str] = set()
+    while result.get("status") == "pass" and net_file.is_file():
+        check = _signal_node_file_master_check(Path(signal_grouping["node_file"]), net_file)
+        traps = check.pop("series_traps")
+        traps_file = Path(signal_grouping["node_file"]).with_name(f"master_series_traps_round{len(rounds) + 1}.json")
+        write_json_atomic(traps_file, {"net_file": str(net_file.resolve()), "traps": traps})
+        new_traps = {key: row for row in traps if (key := tuple(row[name] for name in (
+            "upstream_node", "downstream_node", "upstream_lane", "downstream_lane"))) not in traps_seen}
+        long = sorted(set(check["long_centre_cycles"]) - long_seen)
+        rounds.append({"round": len(rounds) + 1, "node_file_sha256": signal_grouping["node_file_sha256"], **check,
+                       "new_series_trap_count": len(new_traps), "series_traps_file": str(traps_file.resolve())})
+        if not (new_traps or long) or len(rounds) > _SIGNAL_REBUILD_ROUNDS:
+            break
+        traps_seen.update(new_traps)
+        long_seen.update(long)
+        regrouped = regroup(split_clusters=signal_grouping.get("split_clusters", ()),
+                            dropped_nodes=signal_grouping.get("dropped_nodes", ()), long_centres=long,
+                            series_traps=list(traps_seen.values()))
+        if regrouped.get("status") == "blocked":
+            break
+        signal_grouping = regrouped
+        result = rebuild()
+    final = rounds[-1] if rounds else {"status": "blocked", "reason": "master_build_failed"}
+    return {**signal_grouping, "master_rebuild_count": max(len(rounds) - 1, 0), "master_rounds": rounds,
+            "master_check": final}, result
 
 
 def _normalized_netconvert_profile(profile: str | None) -> str:
@@ -1221,12 +1853,16 @@ def build_osm_network(
         signal_grouping: dict[str, Any] | None = None
         signal_warnings: list[str] = []
         if normalized_profile == MULTIMODAL_NETCONVERT_PROFILE:
-            signal_grouping = _vehicle_signal_groups(
-                filtered_osm=filtered_osm, root=root, work_dir=logs_dir / f"{prefix}_signal_groups",
-                allowed_highways=allowed, tls_join_distance_m=tls_join_distance_m,
-                input_options=["--proj.utm", *traffic_side_options, *type_options, *geo_boundary_options],
-                include_railway=include_railway, allowed_railways=allowed_railways,
-                netconvert_binary=netconvert_binary, command_runner=command_runner, timeout_seconds=timeout_seconds)
+            def group_signals(**fallbacks: Any) -> dict[str, Any]:
+                return _vehicle_signal_groups(
+                    filtered_osm=filtered_osm, root=root, work_dir=logs_dir / f"{prefix}_signal_groups",
+                    allowed_highways=allowed, tls_join_distance_m=tls_join_distance_m,
+                    input_options=["--proj.utm", *traffic_side_options, *type_options, *geo_boundary_options],
+                    include_railway=include_railway, allowed_railways=allowed_railways,
+                    netconvert_binary=netconvert_binary, command_runner=command_runner,
+                    timeout_seconds=timeout_seconds, **fallbacks)
+
+            signal_grouping = group_signals()
             if signal_grouping["status"] == "blocked":
                 signal_warnings.append("The vehicle-road signal reference build failed; netconvert joined the "
                                        "multimodal signals across every road class instead.")
@@ -1328,6 +1964,13 @@ def build_osm_network(
         result = _result_to_dict(
             command_runner(command, cwd=root, timeout_seconds=timeout_seconds)
         )
+        if signal_grouping is not None and signal_grouping.get("node_file"):
+            signal_grouping, result = _settle_master_signals(
+                signal_grouping, result, net_file=net_file, regroup=group_signals,
+                rebuild=lambda: _result_to_dict(command_runner(command, cwd=root, timeout_seconds=timeout_seconds)))
+            if signal_grouping["master_check"]["status"] != "pass":
+                signal_warnings.append(f"{signal_grouping['master_check']['not_applied_count']} signal node file "
+                                       "rows did not take effect in the master.")
         _write_text(
             netconvert_log,
             "\n".join(

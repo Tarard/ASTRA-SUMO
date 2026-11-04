@@ -287,7 +287,16 @@ signals across cycleways and paths: it loads the controller groups of a
 vehicle-road build of the same input as a node file, without that build's
 crossing signals. Each crossing signal keeps its own controller, and so does
 the one signal of a group left with no other; every other controller id and
-member matches a vehicle-only build.
+member matches a vehicle-only build. Where OSM maps the signals at the stop
+lines of a junction whose centre has none, the node file gives the centre one
+controller (`SL_<node>`) and demotes the stop-line signals within 36 m of it.
+A centre whose program is longer than 90 s in a vehicle-only build with the
+node file is split into its nodes or dropped. The master is then streamed: a
+centre above 90 s, or two controllers less than one car apart on a lane that
+are green together for less than half of the shorter green, changes the node
+file, and the master is rebuilt at most three times. The build reports the
+node-file rows that did not take effect and the crossings that lost or gained a
+signal.
 
 ## Layer 3: Executor
 
