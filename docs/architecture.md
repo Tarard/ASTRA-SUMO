@@ -294,9 +294,14 @@ A centre whose program is longer than 90 s in a vehicle-only build with the
 node file is split into its nodes or dropped. The master is then streamed: a
 centre above 90 s, or two controllers less than one car apart on a lane that
 are green together for less than half of the shorter green, changes the node
-file, and the master is rebuilt at most three times. The build reports the
-node-file rows that did not take effect and the crossings that lost or gained a
-signal.
+file. Once no centre is long, the node file also joins split junctions: nodes
+with three or more vehicle-road neighbours linked by a vehicle edge that the
+junction polygons cut to under 1 m, each group taking in the rest of any
+multi-node controller it touches (at most 30 m across). The next master drops
+every join that changes an OSM turn restriction with its via node in the group
+or gives a centre a program over 90 s. The master is rebuilt at most six times.
+The build reports the node-file rows that did not take effect, the joins and the
+crossings that lost or gained a signal.
 
 ## Layer 3: Executor
 

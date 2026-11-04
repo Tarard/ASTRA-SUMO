@@ -2439,6 +2439,27 @@ def test_signal_node_file_check_finds_rows_that_did_not_take_effect_and_crossing
     assert (check["centre_cycle_max_s"], check["long_centre_cycles"], check["series_pair_count"]) == (90.0, {}, 0)
 
 
+def test_signal_node_file_check_maps_joined_rows_to_their_cluster(tmp_path: Path) -> None:
+    from astra_sumo.core.osm_network import _signal_node_file_master_check
+
+    node_file = tmp_path / "groups.nod.xml"
+    node_file.write_text('<nodes><node id="1" type="traffic_light" tl="SL_1"/><node id="2" type="traffic_light" '
+                         'tl="SL_1"/><node id="12" type="priority"/><join nodes="1 2"/></nodes>', encoding="utf-8")
+    net = tmp_path / "master.net.xml"
+    net.write_text(
+        '<net><edge id="a" from="12" to="cluster_1_2"/><tlLogic id="cluster_1_2" type="static" programID="0" '
+        'offset="0"><phase duration="136" state="G"/></tlLogic><junction id="cluster_1_2" type="traffic_light"/>'
+        '<junction id="12" type="priority"/><connection from="a" to="x" fromLane="0" toLane="0" tl="cluster_1_2" '
+        'linkIndex="0"/></net>', encoding="utf-8")
+
+    check = _signal_node_file_master_check(node_file, net)
+
+    # Both centre rows took effect in the joined junction, whose 136 s program counts as a long centre.
+    assert (check["status"], check["join_count"], check["joined_row_count"], check["missing_join_count"]) == (
+        "pass", 1, 2, 0)
+    assert (check["long_centre_cycles"], check["long_joined_cycles"]) == ({}, {"cluster_1_2": 136.0})
+
+
 def test_multimodal_master_falls_back_to_netconvert_joining_when_the_reference_build_fails(tmp_path: Path) -> None:
     source = tmp_path / "input.osm.xml"
     source.write_text(_SIGNAL_GROUP_OSM, encoding="utf-8")

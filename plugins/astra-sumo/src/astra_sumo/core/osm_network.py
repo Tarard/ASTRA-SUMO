@@ -942,7 +942,7 @@ _SERIES_STORAGE_M = 7.5
 _SERIES_WALK_LANES = 4
 _SERIES_HORIZON_CAP_S = 3600
 _SERIES_MIN_COMMON_GREEN_SHARE = 0.5
-_SIGNAL_REBUILD_ROUNDS = 3
+_SIGNAL_REBUILD_ROUNDS = 6
 
 
 class _PlainRoadGraph(NamedTuple):
@@ -1334,6 +1334,7 @@ def _vehicle_signal_groups(
     dropped_nodes: Iterable[str] = (),
     long_centres: Iterable[str] = (),
     series_traps: Iterable[Mapping[str, Any]] = (),
+    joins: Iterable[Iterable[str]] = (),
 ) -> dict[str, Any]:
     """Signal groups of a vehicle-road build of the same input, as a node file for the multimodal master.
 
@@ -1353,6 +1354,7 @@ def _vehicle_signal_groups(
     the vehicle roads with the node file shows each centre's program; a centre above _STOP_LINE_CYCLE_LIMIT_S is
     split into its nodes or dropped. The master check passes back the centres it found long (``long_centres``),
     the fallbacks already made (``split_clusters``, ``dropped_nodes``) and its series traps (``series_traps``).
+    ``joins`` are split-junction groups (split_junctions.split_junction_groups) the node file joins.
     """
     from .road_scope import HIGHWAY_CLASS_PRESETS
 
@@ -1420,6 +1422,7 @@ def _vehicle_signal_groups(
                   split_controller_count=len(split), split_controllers=split[:_SPLIT_CONTROLLER_LIMIT])
     centres: list[dict[str, Any]] = []
     rows: list[tuple[str, str, str | None]] = list(patched)
+    joins = [sorted(nodes) for nodes in joins]
     split_clusters, dropped_nodes = set(split_clusters or ()), set(dropped_nodes or ())
     node_file = work_dir / "vehicle_signal_groups.nod.xml"
     graph = _plain_road_graph(plain_prefix)
@@ -1458,7 +1461,7 @@ def _vehicle_signal_groups(
             demoted = {*found["demoted_signal_nodes"], *series_demoted,
                        *(served_crossings if _STOP_LINE_CROSSING_SIGNALS == "demote" else ())}
             rows, dissolved = _signal_node_rows(patched, centres, demoted)
-            _write_signal_node_file(node_file, rows)
+            _write_signal_node_file(node_file, rows, joins)
             long = {tl_id for tl_id in pending if tl_id in by_tl}
             pending = set()
             if not long and centres and guard_round < _STOP_LINE_GUARD_ROUNDS:
@@ -1504,20 +1507,24 @@ def _vehicle_signal_groups(
                                                                              if tl_id is None}))
     report.update(centre_controller_count=len(centres), centre_node_count=sum(len(row["nodes"]) for row in centres),
                   split_clusters=sorted(split_clusters, key=_node_order),
-                  dropped_nodes=sorted(dropped_nodes, key=_node_order))
-    if not rows:
+                  dropped_nodes=sorted(dropped_nodes, key=_node_order), joins=joins)
+    if not rows and not joins:
         reason = "every_joined_group_dissolved" if split else "no_joined_vehicle_signals"
         return {**report, "status": "no_effect", "reason": reason}
     if graph is None:
-        _write_signal_node_file(node_file, rows)
+        _write_signal_node_file(node_file, rows, joins)
     return {**report, "status": "measured", "node_file": str(node_file.resolve()),
             "node_file_sha256": _file_sha256(node_file)}
 
 
-def _write_signal_node_file(path: Path, rows: Iterable[tuple[str, str, str | None]]) -> None:
+def _write_signal_node_file(
+    path: Path, rows: Iterable[tuple[str, str, str | None]], joins: Iterable[Iterable[str]] = (),
+) -> None:
     nodes = ET.Element("nodes")
     for node_id, node_type, tl_id in rows:
         ET.SubElement(nodes, "node", {"id": node_id, "type": node_type, **({"tl": tl_id} if tl_id else {})})
+    for group in joins:
+        ET.SubElement(nodes, "join", {"nodes": " ".join(group)})
     ET.indent(nodes)
     path.write_bytes(ET.tostring(nodes, encoding="utf-8", xml_declaration=True))
 
@@ -1532,10 +1539,18 @@ def _signal_node_file_master_check(node_file: Path, net_file: Path) -> dict[str,
     carries that controller; a priority row, when its node is not a signal junction. A demoted row was a signal node
     in the reference build, so its crossings would have been signalised without the node file; a centre node was a
     priority node, so its signalised crossings are new. ``series_traps`` lists every pair of _series_signal_traps.
+
+    A row whose node a <join> row joined took effect when the joined junction exists and, for a row with a ``tl``,
+    is a signal junction (netconvert names its controller after the cluster). The programs of joined junctions that
+    took a centre are checked against the cycle limit like the centres.
     """
-    rows = [(element.get("id"), element.get("type"), element.get("tl"))
-            for element in ET.parse(node_file).getroot() if element.tag == "node"]
-    wanted = {node_id for node_id, _, _ in rows}
+    from .split_junctions import cluster_id
+
+    root = ET.parse(node_file).getroot()
+    rows = [(element.get("id"), element.get("type"), element.get("tl")) for element in root if element.tag == "node"]
+    joined_into = {node_id: cluster_id(element.get("nodes", "").split())
+                   for element in root if element.tag == "join" for node_id in element.get("nodes", "").split()}
+    wanted = {node_id for node_id, _, _ in rows} | set(joined_into.values())
     edge_to: dict[str, str] = {}
     crossing_edges: set[str] = set()
     junctions: dict[str, tuple[str, list[str]]] = {}
@@ -1560,34 +1575,49 @@ def _signal_node_file_master_check(node_file: Path, net_file: Path) -> dict[str,
     def crossings(node_id: str) -> set[str]:
         return {lane.rsplit("_", 1)[0] for lane in junctions.get(node_id, ("", []))[1]} & crossing_edges
 
-    not_applied, lost, gained = [], set(), set()
+    not_applied, lost, gained, centre_clusters = [], set(), set(), set()
     for node_id, node_type, tl_id in rows:
-        found_type = junctions.get(node_id, (None, []))[0]
-        found_tls = sorted(controllers_at.get(node_id, ()))
-        applied = (found_type in _SIGNAL_TYPES and tl_id in found_tls) if tl_id else (
-            found_type is not None and found_type not in _SIGNAL_TYPES)
+        target = joined_into.get(node_id, node_id)
+        found_type = junctions.get(target, (None, []))[0]
+        found_tls = sorted(controllers_at.get(target, ()))
+        if target != node_id:
+            applied = found_type in _SIGNAL_TYPES if tl_id else found_type is not None
+            if tl_id and tl_id.startswith(_STOP_LINE_CENTRE_PREFIX):
+                centre_clusters.add(target)
+        else:
+            applied = (found_type in _SIGNAL_TYPES and tl_id in found_tls) if tl_id else (
+                found_type is not None and found_type not in _SIGNAL_TYPES)
         if not applied:
             not_applied.append({"node": node_id, "type": node_type, "tl": tl_id, "found_type": found_type,
-                                "found_tls": found_tls})
+                                "found_tls": found_tls, **({"joined_into": target} if target != node_id else {})})
+        if target != node_id:
+            continue
         if tl_id is None:
             lost |= crossings(node_id)
         elif tl_id.startswith(_STOP_LINE_CENTRE_PREFIX):
             gained |= crossings(node_id) & controlled_crossings
     cycles = _program_cycles(net_file, _STOP_LINE_CENTRE_PREFIX)
-    longest = sorted(cycles.items(), key=lambda row: (-row[1], row[0]))
+    cluster_cycles = {tl_id: cycle for tl_id, cycle in _program_cycles(net_file, "cluster_").items()
+                      if tl_id in centre_clusters}
+    longest = sorted({**cycles, **cluster_cycles}.items(), key=lambda row: (-row[1], row[0]))
     series = _series_signal_traps(net_file)
     return {
         "status": "review_required" if not_applied else "pass",
         **({"reason": "node_file_rows_not_applied"} if not_applied else {}),
         "node_file_row_count": len(rows), "not_applied_count": len(not_applied),
         "missing_node_count": sum(1 for row in not_applied if row["found_type"] is None),
+        "join_count": len(set(joined_into.values())), "joined_row_count": sum(1 for row in rows if row[0] in joined_into),
+        "missing_join_count": len(set(joined_into.values()) - set(junctions)),
         "not_applied": not_applied[:_STOP_LINE_CENTRE_LIMIT],
         "crossings_unsignalised_at_demoted_nodes": len(lost),
         "crossings_signalised_at_centres": len(gained),
         "signalised_crossing_count": len(controlled_crossings),
-        "centre_controller_count": len(cycles),
+        "centre_controller_count": len(cycles) + len(cluster_cycles),
         "centre_cycle_max_s": longest[0][1] if longest else None,
-        "long_centre_cycles": {tl_id: cycle for tl_id, cycle in longest if cycle > _STOP_LINE_CYCLE_LIMIT_S},
+        "long_centre_cycles": {tl_id: cycle for tl_id, cycle in longest
+                               if cycle > _STOP_LINE_CYCLE_LIMIT_S and tl_id in cycles},
+        "long_joined_cycles": {tl_id: cycle for tl_id, cycle in cluster_cycles.items()
+                               if cycle > _STOP_LINE_CYCLE_LIMIT_S},
         "series_pair_count": series["pair_count"], "series_trap_count": series["trap_count"],
         "series_no_common_green_count": series["no_common_green_count"],
         "series_traps": series["traps"],
@@ -1595,19 +1625,26 @@ def _signal_node_file_master_check(node_file: Path, net_file: Path) -> dict[str,
 
 
 def _settle_master_signals(
-    signal_grouping: dict[str, Any], result: dict[str, Any], *, net_file: Path,
+    signal_grouping: dict[str, Any], result: dict[str, Any], *, net_file: Path, osm_file: Path,
     regroup: Callable[..., dict[str, Any]], rebuild: Callable[[], dict[str, Any]],
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     """Check the master against its signal node file and rebuild it while the check finds something to change.
 
     The vehicle-road build cannot show the green groups that paths and crossings add, nor the programs of crossing
     signals, so each master is streamed: a centre program above the cycle limit gets the long-cycle fallback and a
-    series trap the demotion of _series_demotions. The master is rebuilt with the new node file at most
+    series trap the demotion of _series_demotions. Once no centre is long, the split junctions of the master
+    (split_junctions.split_junction_groups) are joined; the next master drops every join that changed an OSM turn
+    restriction or gave a centre a long program. The master is rebuilt with the new node file at most
     _SIGNAL_REBUILD_ROUNDS times; what the last check still finds stays in the report.
     """
+    from .split_junctions import (cluster_id, osm_turn_restrictions, read_net, restriction_changes,
+                                  split_junction_groups)
+
     rounds: list[dict[str, Any]] = []
     traps_seen: dict[tuple[str, ...], dict[str, Any]] = {}
     long_seen: set[str] = set()
+    joins: list[list[str]] = []
+    join_state, joining, base_view, restrictions = "pending", {"status": "not_run"}, None, []
     while result.get("status") == "pass" and net_file.is_file():
         check = _signal_node_file_master_check(Path(signal_grouping["node_file"]), net_file)
         traps = check.pop("series_traps")
@@ -1616,22 +1653,47 @@ def _settle_master_signals(
         new_traps = {key: row for row in traps if (key := tuple(row[name] for name in (
             "upstream_node", "downstream_node", "upstream_lane", "downstream_lane"))) not in traps_seen}
         long = sorted(set(check["long_centre_cycles"]) - long_seen)
+        joins_changed = False
+        if join_state == "guard":
+            changes = restriction_changes(base_view, read_net(net_file), joins, restrictions)
+            dropped = {cluster_id(row["group"]) for row in changes} | set(check["long_joined_cycles"])
+            joining.update(restriction_change_count=len(changes), restriction_changes=changes[:_STOP_LINE_CENTRE_LIMIT],
+                           long_joined_cycles=check["long_joined_cycles"], dropped_joins=sorted(dropped))
+            if dropped:
+                joins = [nodes for nodes in joins if cluster_id(nodes) not in dropped]
+                joins_changed = True
+            joining["join_count"] = len(joins)
+            join_state, base_view = "done", None
+        elif join_state == "pending" and not long:
+            base_view = read_net(net_file)
+            found = split_junction_groups(base_view)
+            joins = [row["nodes"] for row in found["groups"]]
+            joining = {"status": "measured" if joins else "no_effect", "edge_m": found["edge_m"],
+                       "span_m": found["span_m"], "linker_edge_count": found["linker_edge_count"],
+                       "join_count": len(joins), "joined_node_count": sum(len(nodes) for nodes in joins),
+                       "skipped_groups": found["skipped"][:_STOP_LINE_CENTRE_LIMIT],
+                       "skipped_group_count": len(found["skipped"])}
+            if joins:
+                restrictions = osm_turn_restrictions(osm_file)
+                join_state, joins_changed = "guard", True
+            else:
+                join_state, base_view = "done", None
         rounds.append({"round": len(rounds) + 1, "node_file_sha256": signal_grouping["node_file_sha256"], **check,
                        "new_series_trap_count": len(new_traps), "series_traps_file": str(traps_file.resolve())})
-        if not (new_traps or long) or len(rounds) > _SIGNAL_REBUILD_ROUNDS:
+        if not (new_traps or long or joins_changed) or len(rounds) > _SIGNAL_REBUILD_ROUNDS:
             break
         traps_seen.update(new_traps)
         long_seen.update(long)
         regrouped = regroup(split_clusters=signal_grouping.get("split_clusters", ()),
                             dropped_nodes=signal_grouping.get("dropped_nodes", ()), long_centres=long,
-                            series_traps=list(traps_seen.values()))
+                            series_traps=list(traps_seen.values()), joins=joins)
         if regrouped.get("status") == "blocked":
             break
         signal_grouping = regrouped
         result = rebuild()
     final = rounds[-1] if rounds else {"status": "blocked", "reason": "master_build_failed"}
     return {**signal_grouping, "master_rebuild_count": max(len(rounds) - 1, 0), "master_rounds": rounds,
-            "master_check": final}, result
+            "master_check": final, "split_junction_joins": joining}, result
 
 
 def _normalized_netconvert_profile(profile: str | None) -> str:
@@ -1966,7 +2028,7 @@ def build_osm_network(
         )
         if signal_grouping is not None and signal_grouping.get("node_file"):
             signal_grouping, result = _settle_master_signals(
-                signal_grouping, result, net_file=net_file, regroup=group_signals,
+                signal_grouping, result, net_file=net_file, osm_file=filtered_osm, regroup=group_signals,
                 rebuild=lambda: _result_to_dict(command_runner(command, cwd=root, timeout_seconds=timeout_seconds)))
             if signal_grouping["master_check"]["status"] != "pass":
                 signal_warnings.append(f"{signal_grouping['master_check']['not_applied_count']} signal node file "
