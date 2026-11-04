@@ -317,6 +317,22 @@ def _build_parser() -> argparse.ArgumentParser:
     routeability.add_argument("--max-end", type=int, default=2400)
     routeability.add_argument("--timeout-seconds", type=float, default=240.0)
     _add_output_argument(routeability)
+    boundary = network_sub.add_parser(
+        "boundary-completeness",
+        help="Classify every passenger entry and exit, count reachable pairs and load every boundary endpoint in SUMO.",
+    )
+    boundary.add_argument("net_file")
+    boundary.add_argument("output_dir")
+    boundary.add_argument("--bbox", help="W,S,E,N WGS84 cut of the network; without it the network extent is the cut.")
+    boundary.add_argument("--prefix", default="boundary_completeness")
+    boundary.add_argument("--margin-m", type=float, default=50.0)
+    boundary.add_argument("--vehicles-per-entry", type=int, default=4)
+    boundary.add_argument("--min-vehicles-per-exit", type=int, default=2)
+    boundary.add_argument("--demand-seconds", type=int, default=1800)
+    boundary.add_argument("--seed", type=int, default=42)
+    boundary.add_argument("--static-only", action="store_true", help="Classify and count reachable pairs without SUMO.")
+    boundary.add_argument("--timeout-seconds", type=float, default=900.0)
+    _add_output_argument(boundary)
     movements = network_sub.add_parser("movement-probes", help="Test every declared official movement through its full internal lane chain.")
     movements.add_argument("candidate_manifest")
     movements.add_argument("output_dir")
@@ -605,6 +621,13 @@ def _dispatch(args: argparse.Namespace) -> int:
             ),
             json_output=json_output,
         )
+    if args.command == "network" and args.network_command == "boundary-completeness":
+        from .core.boundary_completeness import run_boundary_completeness_audit
+
+        return _emit(run_boundary_completeness_audit(net_file=Path(args.net_file), output_dir=Path(args.output_dir),
+            prefix=args.prefix, boundary=args.bbox, margin_m=args.margin_m, vehicles_per_entry=args.vehicles_per_entry,
+            min_vehicles_per_exit=args.min_vehicles_per_exit, demand_seconds=args.demand_seconds, seed=args.seed,
+            run_simulation=not args.static_only, timeout_seconds=args.timeout_seconds), json_output=json_output)
     if args.command == "demand" and args.demand_command == "audit":
         return _emit(
             astra_demand_audit(

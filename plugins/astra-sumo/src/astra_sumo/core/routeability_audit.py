@@ -423,12 +423,15 @@ def run_routeability_audit(
     frozen_trip_file: Path | None = None,
     expected_frozen_trip_sha256: str | None = None,
     source_lane_indices: Mapping[str, Mapping[str, str | None]] | None = None,
+    diagnostic_outputs: bool = False,
 ) -> dict[str, Any]:
     """Test fixed requests or new source-reachable synthetic diagnostic OD.
 
     With a reference network, only that original network determines OD
     connectivity and endpoint eligibility. Verified merges map original
     endpoint positions. No candidate change may remove or replace requests.
+    ``diagnostic_outputs`` also writes unfinished vehicle routes, collisions
+    and the last-step positions of every attempt.
     """
     if not prefix or Path(prefix).name != prefix or prefix in {".", ".."}:
         return _construction_invalid("prefix must be a single file-name component")
@@ -686,6 +689,7 @@ def run_routeability_audit(
             vehicle_count=routing_vehicle_count,
             timeout_seconds=timeout_seconds,
             command_runner=command_runner,
+            diagnostic_outputs=diagnostic_outputs,
         )
         attempts.append(attempt)
         final_attempt = attempt

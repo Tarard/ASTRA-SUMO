@@ -28,6 +28,7 @@ The server exposes one profile per process. The plugin's MCP launcher reads `AST
 ## CLI only
 
 - `astra network routeability <net.xml> <out-dir>` runs random passenger trips in SUMO until every vehicle finishes or `--max-end` (default 2400 s) is reached. It is the check that a network is usable; `network audit` does not run it.
+- `astra network boundary-completeness <net.xml> <out-dir> --bbox W,S,E,N` gives every passenger entry and exit trips and requires every vehicle to arrive; `--static-only` only classifies the endpoints and counts reachable pairs.
 - `astra network select-roads`, `calibrate`, `review-effects`, `verify-edit`, `parking-facilities`, `movement-probes`, `reference-corpus` and `reference-check`, `astra review render` and `astra netedit review` build and review networks; see `$astra-build`.
 - `astra hamburg <subcommand>` runs the Hamburg official-data workflows; see `$astra-build` and `$astra-calibrate`.
 - `astra workflows` and `astra workflow selected` read and run the scenario catalog; the steps are in the astra-simulate `SKILL.md`.

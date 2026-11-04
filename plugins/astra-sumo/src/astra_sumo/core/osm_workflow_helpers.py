@@ -135,6 +135,11 @@ def _connection_mode_gate_value(report: Mapping[str, Any] | None) -> str:
         return "skipped"
     status = str(report.get("status", "fail"))
     return status if status in {"pass", "review_required", "fail"} else "fail"
+def _boundary_completeness_gate_value(report: Mapping[str, Any] | None) -> str:
+    if report is None:
+        return "skipped"
+    status = str(report.get("status", "blocked"))
+    return status if status in {"pass", "review_required"} else "blocked"
 def _int_field(report: Mapping[str, Any], key: str) -> int:
     try:
         return int(report.get(key, 0) or 0)

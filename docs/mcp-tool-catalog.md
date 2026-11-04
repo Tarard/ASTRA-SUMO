@@ -28,6 +28,14 @@ Run routeability through the CLI:
 astra network routeability <network.net.xml> <output-dir> --json
 ```
 
+Classify every passenger entry and exit (cut, dead end, interior gap), count the
+reachable entry-exit pairs and load every boundary endpoint in SUMO, which
+passes only when every vehicle arrives (`--static-only` skips SUMO):
+
+```powershell
+astra network boundary-completeness <network.net.xml> <output-dir> --bbox W,S,E,N --json
+```
+
 Run an allowlisted long, batch, Hamburg-specific, or candidate-generation
 capability with a JSON request:
 

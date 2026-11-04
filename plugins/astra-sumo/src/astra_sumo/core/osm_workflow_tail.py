@@ -312,6 +312,7 @@ _REVIEW_GATE_DEFAULT_REASONS = {
     "topology_audit": "suspicious_dense_junction_clusters_found",
     "routeability_audit": "routeability_review_required",
     "connection_mode_audit": "connection_mode_findings_need_review",
+    "boundary_completeness": "boundary_endpoints_need_review",
 }
 
 

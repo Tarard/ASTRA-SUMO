@@ -169,6 +169,10 @@ they need not have ordinary road `tlLogic` programs. NetEdit is optional for
 flagged visual review and is not part of the automatic proof. Routeability and
 SUMO load remain separate gates because an edge-level route can succeed while
 one lane has no connection or a TLS signal group is bound incorrectly.
+`core/boundary_completeness.py` adds the boundary view that sampled
+routeability lacks: it classifies every passenger entry and exit, counts the
+reachable entry-exit pairs and loads every boundary endpoint through the same
+routeability runner.
 
 The current Ingolstadt same-bbox run covers 2,274 junctions and 13,169 direct
 movements. All 13,169 internal paths are structurally valid; 2,164 junctions

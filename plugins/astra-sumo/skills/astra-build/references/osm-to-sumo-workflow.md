@@ -36,8 +36,12 @@
 ## Reading the cleanup result
 
 - `gate_status` holds one value per check: `network_build`, `connectivity`, `topology_audit`, `routeability_audit`,
-  `connection_mode_audit`, `tls_reality_audit`, `tls_aggregation`, `network_layers`, `master_tls_cycles`, plus
-  `reference_*` gates for `reference_matched`.
+  `connection_mode_audit`, `boundary_completeness`, `tls_reality_audit`, `tls_aggregation`, `network_layers`,
+  `master_tls_cycles`, plus `reference_*` gates for `reference_matched`.
+- `boundary_completeness` classifies every passenger entry and exit against the request bbox (`cut_boundary`,
+  `dead_end`, `interior_gap`) and loads every cut, gap and trap endpoint in SUMO. Gaps, dead ends without a
+  turnaround, unreachable cut endpoints or a vehicle that does not arrive set it to `review_required`; the endpoints
+  are in `boundary_completeness_endpoints_file`.
 - `status: fail` means a broken build or structure. Open review items cap a sound run at `review_required` (exit code
   1); `review_required_gates` lists each such gate with its `reason`.
 - `network_layers` has one entry per layer with `net_file`, `sha256`, `derived_from_sha256`, `modes`, `edge_count`,

@@ -1340,6 +1340,34 @@ def _review_overlay_locations(
                 }
             )
 
+    boundary = workflow_summary.get("boundary_completeness", {})
+    if isinstance(boundary, Mapping):
+        for finding in boundary.get("findings", []) or []:
+            if not isinstance(finding, Mapping):
+                continue
+            try:
+                point = (float(finding["x"]), float(finding["y"]))
+            except (KeyError, TypeError, ValueError):
+                continue
+            reason = str(finding.get("reason", "review_required"))
+            detail = str(finding.get("detail", "") or "")
+            locations.append(
+                {
+                    "location_id": f"boundary_{reason}_{finding.get('role', '')}_{finding.get('edge', '')}",
+                    "category": "boundary_completeness_review",
+                    "color_group": "amber",
+                    "reason": f"Boundary completeness: {reason} at {finding.get('role', '')} {finding.get('edge', '')}"
+                    + (f" ({detail})" if detail else ""),
+                    "junction_id": str(finding.get("node", "")),
+                    "edge_id": str(finding.get("edge", "")),
+                    "x": point[0],
+                    "y": point[1],
+                    "radius_m": 10.0,
+                    "boundary_completeness_reason": reason,
+                    "netedit_required_for_gate": False,
+                }
+            )
+
     standard_nema = workflow_summary.get("standard_nema_scan", {})
     if isinstance(standard_nema, Mapping):
         for record in standard_nema.get("candidates", []) or []:
@@ -1863,6 +1891,9 @@ def build_workflow_review_html(
         "connection_mode_audit_report_file",
         "connection_mode_review_overlay_file",
         "connection_mode_manifest_file",
+        "boundary_completeness_report_file",
+        "boundary_completeness_endpoints_file",
+        "boundary_completeness_review_overlay_file",
         "standard_nema_report_file",
         "standard_nema_connection_mode_report_file",
         "standard_nema_review_overlay_file",

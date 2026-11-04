@@ -106,6 +106,9 @@ def _patch_cleanup_stages(monkeypatch, work_dir: Path, connectivity_report: dict
                 "warnings": [],
             }
         ),
+        "run_boundary_completeness_audit": Mock(
+            return_value={"status": "pass", "reasons": [], "finding_count": 0, "findings": [], "warnings": []}
+        ),
         "build_standard_nema_phase_binding": Mock(
             return_value={
                 "status": "pass",
@@ -223,9 +226,12 @@ def test_osm_cleanup_standard_profile_runs_fixed_audits_and_sets_amap_baseline(t
         "audit_topology_fragmentation",
         "run_routeability_audit",
         "build_network_connection_mode_audit",
+        "run_boundary_completeness_audit",
         "build_standard_nema_phase_binding",
     ):
         assert mocks[name].called, name
+    assert mocks["run_boundary_completeness_audit"].call_args.kwargs["boundary"] == "116.3018,39.9548,116.3176,39.9608"
+    assert report["gate_status"]["boundary_completeness"] == "pass"
     assert not mocks["audit_reference_join_patterns"].called
     assert report["network_profile"] == "standard"
     assert report["map_baseline_source"] == "Amap/Gaode"
@@ -350,6 +356,7 @@ _DOWNSTREAM_GATE_STAGES = (
     "audit_topology_fragmentation",
     "run_routeability_audit",
     "build_network_connection_mode_audit",
+    "run_boundary_completeness_audit",
     "build_standard_nema_phase_binding",
 )
 
@@ -450,6 +457,12 @@ def test_cleanup_still_stops_at_a_build_without_a_usable_network(
              "connection_mode_audit_status": "review_required", "warnings": []},
             "connection_mode_audit", "review_required", "connection_mode_findings_need_review",
         ),
+        (
+            "run_boundary_completeness_audit",
+            {"status": "review_required", "reasons": ["dead_end_without_turnaround"], "finding_count": 1,
+             "findings": [], "warnings": []},
+            "boundary_completeness", "review_required", "boundary_endpoints_need_review",
+        ),
     ],
 )
 def test_cleanup_review_gates_cap_status_instead_of_failing(
@@ -465,6 +478,18 @@ def test_cleanup_review_gates_cap_status_instead_of_failing(
     assert report["gate_status"]["network_build"] == "pass"
     assert (report["status"], report["claim_status"]) == ("review_required", "diagnostic-demo")
     assert report["review_required_gates"] == [{"gate": gate, "reason": reason}]
+
+
+def test_cleanup_fails_when_the_boundary_completeness_audit_cannot_run(tmp_path: Path, monkeypatch) -> None:
+    mocks = _patch_cleanup_stages_without_tls(monkeypatch, tmp_path)
+    mocks["run_boundary_completeness_audit"].return_value = {"status": "blocked", "reasons": ["network_unreadable"]}
+
+    report = run_osm_cleanup_workflow(output_dir=tmp_path / "out", bbox="13.6,50.9,13.9,51.1",
+                                      profile="standard", traffic_layers="passenger")
+
+    assert report["gate_status"]["boundary_completeness"] == "blocked"
+    assert report["boundary_completeness_reasons"] == ["network_unreadable"]
+    assert (report["status"], report["claim_status"]) == ("fail", "construction-invalid")
 
 
 def test_reference_visual_detail_build_that_needs_review_is_kept(tmp_path: Path) -> None:
@@ -537,6 +562,7 @@ _VEHICLE_LAYER_GATE_STAGES = (
     "audit_topology_fragmentation",
     "run_routeability_audit",
     "build_network_connection_mode_audit",
+    "run_boundary_completeness_audit",
     "build_standard_nema_phase_binding",
 )
 

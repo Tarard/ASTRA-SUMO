@@ -8,6 +8,7 @@ from typing import Any, Callable, Literal, Mapping, Sequence
 from .osm_area import osm_map_url_bbox, osm_preview_url, resolve_osm_place
 from .connectivity import extract_largest_passenger_component_core, summarize_passenger_connectivity
 from .connection_mode_audit import build_network_connection_mode_audit
+from .boundary_completeness import run_boundary_completeness_audit
 from .corridor_edit_ledger import build_corridor_edit_ledger
 from .corridor_simplification import build_corridor_geometry_simplification_variant
 from .command_runner import run_command
@@ -80,6 +81,7 @@ from .topology_audit import audit_topology_fragmentation
 from .workflow_review_html import build_workflow_review_html
 
 from .osm_workflow_helpers import (  # noqa: F401 - compatibility re-export
+    _boundary_completeness_gate_value,
     _build_gate_value,
     _candidate_fields,
     _class_set,
@@ -4114,6 +4116,7 @@ def run_osm_cleanup_workflow(
     topology_min_cluster_nodes = 3
     run_routeability_audit_after_build = True
     run_connection_mode_audit_after_build = True
+    run_boundary_completeness_audit_after_build = True
     run_standard_nema_scan_after_build = True
     routeability_vehicle_count = None
     routeability_initial_end = None
@@ -5222,6 +5225,16 @@ def run_osm_cleanup_workflow(
             output_dir=output_dir / "connection_mode_audit",
             prefix=f"{prefix}_connection_mode",
         )
+    boundary_completeness_report = None
+    if run_boundary_completeness_audit_after_build:
+        # Every entry and exit of the request cut is loaded; the bbox decides which endpoints the cut created.
+        boundary_completeness_report = run_boundary_completeness_audit(
+            net_file=net_file,
+            output_dir=output_dir / "boundary_completeness",
+            prefix=f"{prefix}_boundary_completeness",
+            boundary=bbox,
+            timeout_seconds=timeout_seconds,
+        )
     standard_nema_scan_report = None
     if run_standard_nema_scan_after_build:
         standard_nema_scan_report = build_standard_nema_phase_binding(
@@ -5339,6 +5352,7 @@ def run_osm_cleanup_workflow(
         corridor_geometry_simplification_promotion_report,
         routeability_audit_report or {},
         connection_mode_audit_report or {},
+        boundary_completeness_report or {},
         standard_nema_scan_report or {},
         netedit_report,
         reference_visual_detail_netedit_report,
@@ -5550,6 +5564,7 @@ def run_osm_cleanup_workflow(
         gate_status["netedit_connection_mode_review"] = gate_status[
             "connection_mode_audit"
         ]
+    gate_status["boundary_completeness"] = _boundary_completeness_gate_value(boundary_completeness_report)
     gate_status["standard_nema_scan"] = (
         "skipped" if standard_nema_scan_report is None else _gate_value(standard_nema_scan_report)
     )
@@ -5570,6 +5585,7 @@ def run_osm_cleanup_workflow(
         and gate_status.get("routeability_audit", "skipped") in {"pass", "blocked", "review_required", "skipped"}
         and gate_status.get("connection_mode_audit", "skipped")
         in {"pass", "review_required", "skipped"}
+        and gate_status.get("boundary_completeness", "skipped") in {"pass", "review_required", "skipped"}
         and gate_status.get("standard_nema_scan", "skipped") in {"pass", "skipped"}
         and gate_status.get("network_layers", "skipped") in {"pass", "review_required", "skipped"}
         and gate_status.get("master_tls_cycles", "skipped") in {"pass", "review_required", "skipped"}
@@ -5597,6 +5613,7 @@ def run_osm_cleanup_workflow(
             "topology_audit": topology_audit_report,
             "routeability_audit": routeability_audit_report,
             "connection_mode_audit": connection_mode_audit_report,
+            "boundary_completeness": boundary_completeness_report,
             "network_layers": network_layers_section,
             "master_tls_cycles": (None if network_layers_section is None
                                   else network_layers_section["master_tls_cycles"]),
@@ -6900,6 +6917,28 @@ def run_osm_cleanup_workflow(
         "connection_mode_manifest_file": ""
         if connection_mode_audit_report is None
         else str(connection_mode_audit_report.get("manifest_file", "")),
+        "boundary_completeness_status": gate_status["boundary_completeness"],
+        "boundary_completeness_reasons": []
+        if boundary_completeness_report is None
+        else list(boundary_completeness_report.get("reasons", [])),
+        "boundary_completeness_finding_count": 0
+        if boundary_completeness_report is None
+        else int(boundary_completeness_report.get("finding_count", 0)),
+        "boundary_completeness_vehicle_count": 0
+        if boundary_completeness_report is None
+        else int((boundary_completeness_report.get("load") or {}).get("vehicle_count", 0)),
+        "boundary_completeness_arrived_count": 0
+        if boundary_completeness_report is None
+        else int((boundary_completeness_report.get("load") or {}).get("arrived_count", 0)),
+        "boundary_completeness_report_file": ""
+        if boundary_completeness_report is None
+        else str(boundary_completeness_report.get("report_file", "")),
+        "boundary_completeness_endpoints_file": ""
+        if boundary_completeness_report is None
+        else str(boundary_completeness_report.get("endpoints_file", "")),
+        "boundary_completeness_review_overlay_file": ""
+        if boundary_completeness_report is None
+        else str(boundary_completeness_report.get("review_overlay_file", "")),
         "standard_nema_scan_status": "skipped"
         if standard_nema_scan_report is None
         else str(standard_nema_scan_report.get("nema_binding_status", standard_nema_scan_report.get("status", "fail"))),
@@ -7281,6 +7320,7 @@ def run_osm_cleanup_workflow(
         "teacher_guided_direct_replay_reference_promotion": teacher_guided_direct_replay_reference_promotion_report,
         "routeability_audit": routeability_audit_report or {},
         "connection_mode_audit": connection_mode_audit_report or {},
+        "boundary_completeness": boundary_completeness_report or {},
         "standard_nema_scan": standard_nema_scan_report or {},
         "netedit": netedit_report,
         "reference_visual_detail_netedit": reference_visual_detail_netedit_report,
