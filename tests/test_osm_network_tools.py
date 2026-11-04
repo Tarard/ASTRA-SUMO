@@ -1939,7 +1939,7 @@ def test_build_osm_network_from_existing_osm_runs_netconvert_and_records_artifac
             "--proj.utm",
             "--junctions.internal-link-detail",
             "25",
-            "--no-turnarounds",
+            "--no-turnarounds.except-deadend",
             "--osm.all-attributes",
             "--output.original-names",
             "--tls.join",
@@ -2077,7 +2077,7 @@ def test_build_osm_network_reference_visual_detail_profile_imports_pedestrian_tl
     for option in report["netconvert_profile_options"]:
         assert option in command
     assert "--tls.guess.joining" not in command
-    assert "--no-turnarounds" not in command
+    assert not [option for option in command if option.startswith("--no-turnarounds")]
     type_files = command[command.index("--type-files") + 1].split(",")
     assert type_files[:-1] == [
         str(typemap_dir / "osmNetconvert.typ.xml"),
@@ -2304,7 +2304,7 @@ def test_multimodal_profile_adds_only_lane_options_for_the_requested_modes(
     manifest = json.loads(Path(report["build_manifest_file"]).read_text(encoding="utf-8"))
     assert manifest["netconvert"]["multimodal_modes"] == expected_modes
     # Only the lane options differ from vehicle_core, and the signal groups come from the vehicle-road reference
-    # build (no joined signal here, so no node file): turnarounds stay off, no type maps.
+    # build (no joined signal here, so no node file): turnarounds only at dead ends, no type maps.
     tls_join = ["--tls.join", "--tls.join-dist", "35"]
     assert [option for option in command if option not in expected_options] == [
         option for option in vehicle_command if option not in tls_join]
@@ -2313,7 +2313,7 @@ def test_multimodal_profile_adds_only_lane_options_for_the_requested_modes(
     assert report["netconvert_signal_grouping"]["reason"] == "no_joined_vehicle_signals"
     assert not [option for option in report["netconvert_profile_options"]
                 if option.startswith(("--tls.", "--sidewalks.guess"))]
-    assert "--no-turnarounds" in command
+    assert "--no-turnarounds.except-deadend" in command
     assert "--type-files" not in command
     assert "--osm.turn-lanes" not in command
 

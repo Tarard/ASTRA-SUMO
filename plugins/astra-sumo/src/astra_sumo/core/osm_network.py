@@ -1164,10 +1164,12 @@ def build_osm_network(
                     **forced_way_report,
                 },
             )
+        # No U-turns at junctions, but a dead end keeps its turnaround: without one every cul-de-sac traps the
+        # vehicles that enter it (central Dresden: 179 of them, boundary_completeness dead_end_without_turnaround).
         turnaround_options = (
             []
             if normalized_profile in REFERENCE_VISUAL_PROFILES
-            else ["--no-turnarounds"]
+            else ["--no-turnarounds.except-deadend"]
         )
         type_options, type_warnings = (
             _reference_visual_type_options(
