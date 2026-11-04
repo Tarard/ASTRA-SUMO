@@ -5585,7 +5585,7 @@ def run_osm_cleanup_workflow(
         and gate_status.get("routeability_audit", "skipped") in {"pass", "blocked", "review_required", "skipped"}
         and gate_status.get("connection_mode_audit", "skipped")
         in {"pass", "review_required", "skipped"}
-        and gate_status.get("boundary_completeness", "skipped") in {"pass", "review_required", "skipped"}
+        and gate_status.get("boundary_completeness", "skipped") in {"pass", "blocked", "review_required", "skipped"}
         and gate_status.get("standard_nema_scan", "skipped") in {"pass", "skipped"}
         and gate_status.get("network_layers", "skipped") in {"pass", "review_required", "skipped"}
         and gate_status.get("master_tls_cycles", "skipped") in {"pass", "review_required", "skipped"}

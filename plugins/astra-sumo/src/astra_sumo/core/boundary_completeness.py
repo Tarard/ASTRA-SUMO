@@ -7,6 +7,7 @@ import csv
 import io
 import math
 import random
+import re
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, Callable, Mapping
@@ -15,11 +16,14 @@ import xml.etree.ElementTree as ET
 from .artifact_io import write_json_atomic, write_text_atomic
 from .candidate_contracts import file_sha256
 from .command_runner import run_command
+from .connection_mode_audit import _MOTORIZED_MODES
 from .routeability_audit import run_routeability_audit
 from .sumo_commands import discover_binaries
 
 _SKIPPED_FUNCTIONS = {"internal", "crossing", "walkingarea"}
 _LIST_LIMIT = 200
+_TELEPORT = re.compile(r"Teleporting vehicle '([^']+)';.*?lane='([^']*)'")
+_FAILED_STATES = {"collision": "boundary_load_collision", "teleported": "boundary_load_teleport"}
 _COLORS = {"cut_entry_without_cut_exit": "255,0,0", "cut_exit_without_cut_entry": "255,0,0", "interior_gap": "255,165,0",
            "dead_end_without_turnaround": "255,215,0", "boundary_load_incomplete": "200,0,200"}
 CLAIM_BOUNDARY = (
@@ -30,7 +34,8 @@ CLAIM_BOUNDARY = (
 
 
 def _read_network(net_file: Path) -> dict[str, Any]:
-    """The non-internal edges, junction positions, location and passenger turn links of one streamed pass."""
+    """The non-internal edges, junction positions, location, motor-vehicle edges and passenger turn links of one
+    streamed pass."""
     from .local_network_conversion import streamed_loaded_turn_permissions
     from .osm_access import _permission_set
 
@@ -52,22 +57,25 @@ def _read_network(net_file: Path) -> dict[str, Any]:
             location.update(element.attrib)
 
     permissions, version = streamed_loaded_turn_permissions(net_file, visit=visit)
-    passenger: dict[tuple[str | None, str | None], bool] = {}
+    modes: dict[tuple[str | None, str | None], set[str]] = {}
     lane_km: dict[str, float] = {}
+    motor: set[str] = set()
     for identity, (_, _, _, lanes) in edges.items():
         lengths = []
         for allow, disallow, length in lanes:
             key = (allow, disallow)
-            if key not in passenger:
+            if key not in modes:
                 declared = {name: value for name, value in zip(("allow", "disallow"), key) if value is not None}
-                passenger[key] = "passenger" in _permission_set(declared, network_version=version)
-            if passenger[key]:
+                modes[key] = _permission_set(declared, network_version=version)
+            if "passenger" in modes[key]:
                 lengths.append(length)
+            if modes[key] & _MOTORIZED_MODES:
+                motor.add(identity)
         if lengths:
             lane_km[identity] = sum(lengths) / 1000.0
     links = {(start, target) for (start, _, target, _), classes in permissions.items()
              if "passenger" in classes and start in lane_km and target in lane_km}
-    return {"edges": edges, "nodes": nodes, "location": location, "lane_km": lane_km, "links": links}
+    return {"edges": edges, "nodes": nodes, "location": location, "lane_km": lane_km, "motor": motor, "links": links}
 
 
 def _boundary_area(boundary: str | None, location: Mapping[str, str], margin_m: float) -> tuple[Any, str, float]:
@@ -101,7 +109,10 @@ def _boundary_area(boundary: str | None, location: Mapping[str, str], margin_m: 
     if any(not math.isfinite(value) for point in ring for value in point):
         raise ValueError("the boundary does not project to finite network coordinates")
     polygon = Polygon(ring)
-    if not polygon.is_valid or polygon.area <= 0:
+    if boundary is None and polygon.area <= 0:
+        # A network along one axis has no interior: every endpoint lies on its extent and counts as cut.
+        polygon = Polygon()
+    elif not polygon.is_valid or polygon.area <= 0:
         raise ValueError("the boundary is not a valid polygon")
     area = polygon.buffer(-margin_m)
     shapely.prepare(area)
@@ -112,9 +123,9 @@ def _classify_endpoints(network: Mapping[str, Any], area: Any) -> tuple[list[dic
     """Entries and exits with their class.
 
     A link is a turnaround when its target runs between the same two nodes in the opposite direction; it neither makes
-    nor removes an entry or exit. ``dead_end`` is a cul-de-sac: every edge at the node, of any class, runs to one
-    neighbour and a passenger edge runs both ways, so a turnaround can serve it. A one-way road that ends, or a road
-    that continues only for other classes, is an ``interior_gap``.
+    nor removes an entry or exit. ``dead_end`` is a cul-de-sac: every motor-vehicle edge at the node runs to one
+    neighbour and a passenger edge runs both ways, so a turnaround can serve it; footways, cycleways and rail do not
+    count. A one-way road that ends, or a road that continues only for other motor vehicles, is an ``interior_gap``.
     """
     import shapely
 
@@ -130,8 +141,9 @@ def _classify_endpoints(network: Mapping[str, Any], area: Any) -> tuple[list[dic
     passenger_neighbours, neighbours = defaultdict(set), defaultdict(set)
     outgoing, incoming = defaultdict(list), defaultdict(list)
     for identity, (start, end, _, _) in edges.items():
-        neighbours[start].add(end)
-        neighbours[end].add(start)
+        if identity in network["motor"]:
+            neighbours[start].add(end)
+            neighbours[end].add(start)
         if identity in lane_km:
             passenger_neighbours[start].add(end)
             passenger_neighbours[end].add(start)
@@ -306,7 +318,8 @@ def _xml_rows(path: Any, tag: str) -> list[ET.Element]:
 
 
 def _load_outcome(routeability: Mapping[str, Any], trips: list[dict[str, Any]]) -> dict[str, Any]:
-    """Per-vehicle completion of the final attempt from its tripinfo, unfinished vehicle routes and last positions."""
+    """Per-vehicle completion of the final attempt from its tripinfo, unfinished vehicle routes, last positions,
+    collisions and teleports. A collider, its victim and a teleported vehicle fail even when they arrive later."""
     final = routeability.get("final_attempt") or {}
     arrived, departed, last_edge = set(), set(), {}
     for row in _xml_rows(final.get("tripinfo_file"), "tripinfo"):
@@ -325,21 +338,33 @@ def _load_outcome(routeability: Mapping[str, Any], trips: list[dict[str, Any]]) 
         open_edges = [edge for edge, time in zip(edges, times) if time < 0]
         if open_edges or edges:
             last_edge[row.get("id")] = open_edges[0] if open_edges else edges[-1]
-    steps = _xml_rows((final.get("diagnostic_outputs") or {}).get("last_step_positions"), "timestep")
+    diagnostics = final.get("diagnostic_outputs") or {}
+    steps = _xml_rows(diagnostics.get("last_step_positions"), "timestep")
     for row in steps[-1].findall("vehicle") if steps else []:
         departed.add(row.get("id"))
         last_edge[row.get("id")] = row.get("lane", "").rsplit("_", 1)[0]
     failures = {row.get("vehicle_id"): row.get("reason") for row in (final.get("vehicle_routes") or {}).get("failures", [])}
-    complete = arrived - failures.keys()
+    # The failure state and the edge where it happened; the collision output names both vehicles of a collision.
+    failed: dict[str, tuple[str, str]] = {}
+    for row in _xml_rows(diagnostics.get("collisions"), "collision"):
+        for role in ("collider", "victim"):
+            if row.get(role):
+                failed.setdefault(row.get(role), ("collision", row.get("lane", "").rsplit("_", 1)[0]))
+    for line in str((final.get("command") or {}).get("stderr") or "").splitlines():
+        match = _TELEPORT.search(line)
+        if match:
+            failed.setdefault(match.group(1), ("teleported", match.group(2).rsplit("_", 1)[0]))
+    complete = arrived - failures.keys() - failed.keys()
     vehicles = []
     for trip in trips:
         identity = trip["id"]
         if identity in complete:
             continue
-        state = ("not_run" if not final else "not_inserted" if identity not in departed
+        state = ("not_run" if not final else failed[identity][0] if identity in failed
+                 else "not_inserted" if identity not in departed
                  else "unfinished" if identity not in arrived else failures[identity])
         vehicles.append({"vehicle_id": identity, "entry": trip["entry"], "exit": trip["exit"], "depart": trip["depart"],
-                         "state": state, "last_edge": last_edge.get(identity)})
+                         "state": state, "last_edge": failed[identity][1] if identity in failed else last_edge.get(identity)})
     return {"complete": complete, "departed": departed, "vehicles": vehicles}
 
 
@@ -418,9 +443,7 @@ def run_boundary_completeness_audit(*, net_file: Path, output_dir: Path, prefix:
         return report
     if not net_file.is_file():
         return finish("blocked", ["network_missing"])
-    selected = dict(binaries or discover_binaries())
-    if run_simulation and not all(selected.get(name) for name in ("duarouter", "sumo")):
-        return finish("blocked", ["sumo_binaries_missing"])
+    selected = dict(binaries or discover_binaries()) if run_simulation else {}
     net_sha256 = report["net_sha256"] = file_sha256(net_file)
     try:
         network = _read_network(net_file)
@@ -462,6 +485,10 @@ def run_boundary_completeness_audit(*, net_file: Path, output_dir: Path, prefix:
     forward = _closure({components[row["edge"]] for row in entries if row["loaded"]}, reach["successors"])
     backward = _closure({components[row["edge"]] for row in exits if row["loaded"]}, reach["predecessors"])
     off_paths = [identity for identity in network["lane_km"] if not (components[identity] in forward and components[identity] in backward)]
+    # No boundary vehicle can drive these edges and leave again: islands, traps and covered cul-de-sac clusters.
+    static_reasons = ["edges_off_boundary_paths"] if off_paths else []
+    if off_paths:
+        report["warnings"].append(f"{len(off_paths)} passenger edges lie on no path from a loaded entry to a loaded exit")
 
     def without(rows: list[dict[str, Any]]) -> dict[str, Any]:
         by_class: dict[str, list[str]] = defaultdict(list)
@@ -511,6 +538,10 @@ def run_boundary_completeness_audit(*, net_file: Path, output_dir: Path, prefix:
     blocked = False
     if not run_simulation:
         load.update(status="not_applicable", reason="static_only")
+    elif not all(selected.get(name) for name in ("duarouter", "sumo")):
+        # The static part stands without SUMO; only the load is blocked.
+        load.update(status="blocked", reason="sumo_binaries_missing")
+        blocked = True
     elif not loaded_entries:
         load.update(status="not_applicable", reason="no_loaded_endpoint_pair")
         load_reasons.append("no_loaded_endpoint_pair")
@@ -559,7 +590,13 @@ def run_boundary_completeness_audit(*, net_file: Path, output_dir: Path, prefix:
             exits=[{key: row[key] for key in ("edge", "class", "planned", "arrived")} for row in exits if row["loaded"]],
             unfinished_count=len(outcome["vehicles"]), unfinished_vehicles=outcome["vehicles"][:_LIST_LIMIT])
         if not passed and not blocked:
-            load_reasons.append("boundary_load_incomplete" if ran else "boundary_load_run_failed")
+            states = {row["state"] for row in outcome["vehicles"]}
+            failed = [_FAILED_STATES[state] for state in sorted(states & _FAILED_STATES.keys())]
+            if not ran:
+                load_reasons.append("boundary_load_run_failed")
+            elif states - _FAILED_STATES.keys() or not failed:
+                load_reasons.append("boundary_load_incomplete")
+            load_reasons.extend(failed)
             report["warnings"].append(f"boundary load: {len(complete)} of {len(trips)} vehicles arrived")
     report["load"] = load
     report["findings"] = findings
@@ -572,7 +609,7 @@ def run_boundary_completeness_audit(*, net_file: Path, output_dir: Path, prefix:
     report["net_unchanged"] = file_sha256(net_file) == net_sha256
     if not report["net_unchanged"]:
         return finish("blocked", ["input_network_changed"])
+    reasons = sorted({finding["reason"] for finding in findings}) + static_reasons + load_reasons
     if blocked:
-        return finish("blocked", ["sumo_binaries_missing"])
-    reasons = sorted({finding["reason"] for finding in findings}) + load_reasons
+        return finish("blocked", [*reasons, "sumo_binaries_missing"])
     return finish("review_required" if reasons else "pass", reasons)

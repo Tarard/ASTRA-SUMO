@@ -136,10 +136,15 @@ def _connection_mode_gate_value(report: Mapping[str, Any] | None) -> str:
     status = str(report.get("status", "fail"))
     return status if status in {"pass", "review_required", "fail"} else "fail"
 def _boundary_completeness_gate_value(report: Mapping[str, Any] | None) -> str:
+    # Without the SUMO binaries only the load is blocked, as for routeability; the static findings still need review.
+    # An audit that could not read its inputs fails the gate.
     if report is None:
         return "skipped"
     status = str(report.get("status", "blocked"))
-    return status if status in {"pass", "review_required"} else "blocked"
+    reasons = [str(reason) for reason in report.get("reasons", []) or []]
+    if status == "blocked" and "sumo_binaries_missing" in reasons:
+        return "review_required" if set(reasons) - {"sumo_binaries_missing"} else "blocked"
+    return status if status in {"pass", "review_required"} else "fail"
 def _int_field(report: Mapping[str, Any], key: str) -> int:
     try:
         return int(report.get(key, 0) or 0)

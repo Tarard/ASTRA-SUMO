@@ -487,9 +487,34 @@ def test_cleanup_fails_when_the_boundary_completeness_audit_cannot_run(tmp_path:
     report = run_osm_cleanup_workflow(output_dir=tmp_path / "out", bbox="13.6,50.9,13.9,51.1",
                                       profile="standard", traffic_layers="passenger")
 
-    assert report["gate_status"]["boundary_completeness"] == "blocked"
+    assert report["gate_status"]["boundary_completeness"] == "fail"
     assert report["boundary_completeness_reasons"] == ["network_unreadable"]
     assert (report["status"], report["claim_status"]) == ("fail", "construction-invalid")
+
+
+@pytest.mark.parametrize(
+    ("reasons", "gate_value", "outcome", "review_gates"),
+    [
+        (["sumo_binaries_missing"], "blocked", ("pass", "diagnostic-demo"), []),
+        (["interior_gap", "sumo_binaries_missing"], "review_required", ("review_required", "diagnostic-demo"),
+         [{"gate": "boundary_completeness", "reason": "boundary_endpoints_need_review"}]),
+    ],
+)
+def test_cleanup_without_sumo_binaries_keeps_the_boundary_load_blocked_like_routeability(
+    tmp_path: Path, monkeypatch, reasons: list[str], gate_value: str, outcome: tuple[str, str], review_gates: list[dict[str, str]]
+) -> None:
+    mocks = _patch_cleanup_stages_without_tls(monkeypatch, tmp_path)
+    mocks["run_routeability_audit"].return_value = {"status": "blocked", "claim_status": "blocked",
+                                                    "routeability_status": "blocked", "warnings": []}
+    mocks["run_boundary_completeness_audit"].return_value = {"status": "blocked", "reasons": reasons,
+                                                             "finding_count": len(reasons) - 1, "findings": [], "warnings": []}
+
+    report = run_osm_cleanup_workflow(output_dir=tmp_path / "out", bbox="13.6,50.9,13.9,51.1",
+                                      profile="standard", traffic_layers="passenger")
+
+    assert (report["gate_status"]["routeability_audit"], report["gate_status"]["boundary_completeness"]) == ("blocked", gate_value)
+    assert (report["status"], report["claim_status"]) == outcome
+    assert report["review_required_gates"] == review_gates
 
 
 def test_reference_visual_detail_build_that_needs_review_is_kept(tmp_path: Path) -> None:

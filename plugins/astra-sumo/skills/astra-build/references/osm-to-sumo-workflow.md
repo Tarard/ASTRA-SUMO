@@ -40,8 +40,10 @@
   `master_tls_cycles`, plus `reference_*` gates for `reference_matched`.
 - `boundary_completeness` classifies every passenger entry and exit against the request bbox (`cut_boundary`,
   `dead_end`, `interior_gap`) and loads every cut, gap and trap endpoint in SUMO. Gaps, dead ends without a
-  turnaround, unreachable cut endpoints or a vehicle that does not arrive set it to `review_required`; the endpoints
-  are in `boundary_completeness_endpoints_file`.
+  turnaround, unreachable cut endpoints, edges on no boundary path or a vehicle that does not arrive (collided and
+  teleported vehicles count as not arrived) set it to `review_required`; the endpoints are in
+  `boundary_completeness_endpoints_file`. Without the SUMO binaries only the load is `blocked`, as for
+  `routeability_audit`.
 - `status: fail` means a broken build or structure. Open review items cap a sound run at `review_required` (exit code
   1); `review_required_gates` lists each such gate with its `reason`.
 - `network_layers` has one entry per layer with `net_file`, `sha256`, `derived_from_sha256`, `modes`, `edge_count`,

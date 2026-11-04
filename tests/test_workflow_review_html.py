@@ -733,6 +733,39 @@ def test_workflow_review_html_overlays_code_connection_mode_findings(tmp_path: P
     assert workflow["connection_mode_audit"]["netedit_required_for_gate"] is False
 
 
+def test_workflow_review_html_overlays_boundary_completeness_findings(tmp_path: Path) -> None:
+    from astra_sumo.core.workflow_review_html import build_workflow_review_html
+
+    net_file = tmp_path / "candidate.net.xml"
+    net_file.write_text(TINY_SUMO_NET, encoding="utf-8")
+
+    report = build_workflow_review_html(
+        output_dir=tmp_path / "review",
+        prefix="boundary",
+        net_file=net_file,
+        summary={
+            "boundary_completeness": {
+                "status": "review_required",
+                "findings": [
+                    {"status": "review_required", "reason": "interior_gap", "edge": "east", "role": "exit",
+                     "class": "interior_gap", "node": "n1", "x": 120.0, "y": 50.0, "detail": "no_other_passenger_edge"},
+                    {"status": "review_required", "reason": "interior_gap", "edge": "north", "role": "entry", "node": "n0"},
+                ],
+            }
+        },
+        gate_status={"boundary_completeness": "review_required"},
+    )
+
+    assert report["review_overlay_location_count"] == 1
+    assert report["review_overlay_category_counts"] == {"boundary_completeness_review": 1}
+    decisions = json.loads(Path(report["review_decisions_file"]).read_text(encoding="utf-8"))
+    location = decisions["locations"][0]
+    assert (location["location_id"], location["decision"]) == ("boundary_interior_gap_exit_east", "pending")
+    assert "no_other_passenger_edge" in location["reason"]
+    additional = ET.parse(report["netedit_review_additional_file"]).getroot()
+    assert any(poly.attrib["name"].startswith("boundary_interior_gap_exit_east ") for poly in additional.findall("poly"))
+
+
 def test_workflow_review_html_additional_file_marks_discarded_components(tmp_path: Path) -> None:
     from astra_sumo.core.workflow_review_html import build_workflow_review_html
 
