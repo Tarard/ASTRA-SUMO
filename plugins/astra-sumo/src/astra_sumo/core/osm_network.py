@@ -1624,9 +1624,42 @@ def _signal_node_file_master_check(node_file: Path, net_file: Path) -> dict[str,
     }
 
 
+# OSM width tags split over two directions, or a two-way way with lanes=1, give lanes of 1.25-1.75 m. A 1.8 m car on
+# such a lane overlaps the opposite lane, and SUMO reports the passing vehicles as junction collisions (central
+# Dresden: 16 of 22 at low load). Lanes open to passenger cars are widened to this width.
+_MIN_PASSENGER_LANE_WIDTH_M = 2.5
+
+
+def _narrow_passenger_lanes(net_file: Path, min_width_m: float) -> dict[str, list[tuple[int, float]]]:
+    """Normal-edge lanes open to passenger cars that are narrower than ``min_width_m``: edge -> (index, width)."""
+    from .osm_access import _permission_set
+
+    narrow: dict[str, list[tuple[int, float]]] = {}
+    for element in _completed_elements(net_file.open("rb")):
+        if element.tag != "edge" or element.get("function"):
+            continue
+        for lane in element.findall("lane"):
+            attributes = lane.attrib if "allow" in lane.attrib or "disallow" in lane.attrib else element.attrib
+            width = float(lane.get("width") or element.get("width") or 3.2)
+            if width < min_width_m and "passenger" in _permission_set(attributes):
+                narrow.setdefault(element.get("id"), []).append((int(lane.get("index", "0")), round(width, 3)))
+    return narrow
+
+
+def _write_lane_width_patch(path: Path, narrow: Mapping[str, Iterable[tuple[int, float]]]) -> None:
+    edges = ET.Element("edges")
+    for edge_id, lanes in sorted(narrow.items()):
+        edge = ET.SubElement(edges, "edge", {"id": edge_id})
+        for index, _ in lanes:
+            ET.SubElement(edge, "lane", {"index": str(index), "width": f"{_MIN_PASSENGER_LANE_WIDTH_M:g}"})
+    ET.indent(edges)
+    path.write_bytes(ET.tostring(edges, encoding="utf-8", xml_declaration=True))
+
+
 def _settle_master_signals(
     signal_grouping: dict[str, Any], result: dict[str, Any], *, net_file: Path, osm_file: Path,
     regroup: Callable[..., dict[str, Any]], rebuild: Callable[[], dict[str, Any]],
+    lane_width_patch: Path | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     """Check the master against its signal node file and rebuild it while the check finds something to change.
 
@@ -1634,8 +1667,10 @@ def _settle_master_signals(
     signals, so each master is streamed: a centre program above the cycle limit gets the long-cycle fallback and a
     series trap the demotion of _series_demotions. Once no centre is long, the split junctions of the master
     (split_junctions.split_junction_groups) are joined; the next master drops every join that changed an OSM turn
-    restriction or gave a centre a long program. The master is rebuilt with the new node file at most
-    _SIGNAL_REBUILD_ROUNDS times; what the last check still finds stays in the report.
+    restriction or gave a centre a long program. When the joins are settled, the passenger lanes narrower than
+    _MIN_PASSENGER_LANE_WIDTH_M are widened through ``lane_width_patch``, an edge file the master loads. The master is
+    rebuilt with the new files at most _SIGNAL_REBUILD_ROUNDS times; what the last check still finds stays in the
+    report.
     """
     from .split_junctions import (cluster_id, osm_turn_restrictions, read_net, restriction_changes,
                                   split_junction_groups)
@@ -1645,6 +1680,7 @@ def _settle_master_signals(
     long_seen: set[str] = set()
     joins: list[list[str]] = []
     join_state, joining, base_view, restrictions = "pending", {"status": "not_run"}, None, []
+    widening: dict[str, Any] = {"status": "not_run"}
     while result.get("status") == "pass" and net_file.is_file():
         check = _signal_node_file_master_check(Path(signal_grouping["node_file"]), net_file)
         traps = check.pop("series_traps")
@@ -1678,9 +1714,19 @@ def _settle_master_signals(
                 join_state, joins_changed = "guard", True
             else:
                 join_state, base_view = "done", None
+        widths_changed = False
+        if (lane_width_patch is not None and widening["status"] == "not_run" and join_state == "done"
+                and not (new_traps or long or joins_changed)):
+            narrow = _narrow_passenger_lanes(net_file, _MIN_PASSENGER_LANE_WIDTH_M)
+            _write_lane_width_patch(lane_width_patch, narrow)
+            widening = {"status": "measured" if narrow else "no_effect", "min_width_m": _MIN_PASSENGER_LANE_WIDTH_M,
+                        "edge_count": len(narrow), "lane_count": sum(len(lanes) for lanes in narrow.values()),
+                        "narrowest_m": min((width for lanes in narrow.values() for _, width in lanes), default=None),
+                        "patch_file": str(lane_width_patch.resolve()), "patch_sha256": _file_sha256(lane_width_patch)}
+            widths_changed = bool(narrow)
         rounds.append({"round": len(rounds) + 1, "node_file_sha256": signal_grouping["node_file_sha256"], **check,
                        "new_series_trap_count": len(new_traps), "series_traps_file": str(traps_file.resolve())})
-        if not (new_traps or long or joins_changed) or len(rounds) > _SIGNAL_REBUILD_ROUNDS:
+        if not (new_traps or long or joins_changed or widths_changed) or len(rounds) > _SIGNAL_REBUILD_ROUNDS:
             break
         traps_seen.update(new_traps)
         long_seen.update(long)
@@ -1693,7 +1739,7 @@ def _settle_master_signals(
         result = rebuild()
     final = rounds[-1] if rounds else {"status": "blocked", "reason": "master_build_failed"}
     return {**signal_grouping, "master_rebuild_count": max(len(rounds) - 1, 0), "master_rounds": rounds,
-            "master_check": final, "split_junction_joins": joining}, result
+            "master_check": final, "split_junction_joins": joining, "lane_widening": widening}, result
 
 
 def _normalized_netconvert_profile(profile: str | None) -> str:
@@ -1913,6 +1959,7 @@ def build_osm_network(
                                 if parsed_geo_boundary is not None else [])
         tls_join_options = ["--tls.join", "--tls.join-dist", f"{tls_join_distance_m:g}"]
         signal_grouping: dict[str, Any] | None = None
+        lane_width_patch: Path | None = None
         signal_warnings: list[str] = []
         if normalized_profile == MULTIMODAL_NETCONVERT_PROFILE:
             def group_signals(**fallbacks: Any) -> dict[str, Any]:
@@ -1931,6 +1978,11 @@ def build_osm_network(
             else:
                 node_file = signal_grouping["node_file"]
                 tls_join_options = [] if node_file is None else ["--node-files", _relative_to_root(Path(node_file), root)]
+                if node_file is not None:
+                    # The settle loop fills this patch once the joins are settled (_narrow_passenger_lanes).
+                    lane_width_patch = logs_dir / f"{prefix}_lane_widths.edg.xml"
+                    _write_lane_width_patch(lane_width_patch, {})
+                    tls_join_options += ["--edge-files", _relative_to_root(lane_width_patch, root)]
         from .local_network_conversion import with_geometry_precision
 
         command = with_geometry_precision([
@@ -2028,7 +2080,8 @@ def build_osm_network(
         )
         if signal_grouping is not None and signal_grouping.get("node_file"):
             signal_grouping, result = _settle_master_signals(
-                signal_grouping, result, net_file=net_file, osm_file=filtered_osm, regroup=group_signals,
+                signal_grouping, result, net_file=net_file, osm_file=filtered_osm, lane_width_patch=lane_width_patch,
+                regroup=group_signals,
                 rebuild=lambda: _result_to_dict(command_runner(command, cwd=root, timeout_seconds=timeout_seconds)))
             if signal_grouping["master_check"]["status"] != "pass":
                 signal_warnings.append(f"{signal_grouping['master_check']['not_applied_count']} signal node file "

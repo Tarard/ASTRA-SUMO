@@ -2460,6 +2460,25 @@ def test_signal_node_file_check_maps_joined_rows_to_their_cluster(tmp_path: Path
     assert (check["long_centre_cycles"], check["long_joined_cycles"]) == ({}, {"cluster_1_2": 136.0})
 
 
+def test_narrow_passenger_lanes_are_widened_by_an_edge_patch(tmp_path: Path) -> None:
+    from astra_sumo.core.osm_network import _narrow_passenger_lanes, _write_lane_width_patch
+
+    net = tmp_path / "master.net.xml"
+    net.write_text(
+        '<net><edge id=":j_0" function="internal"><lane id=":j_0_0" index="0" width="1.0"/></edge>'
+        '<edge id="a" from="1" to="2"><lane id="a_0" index="0" width="1.25"/><lane id="a_1" index="1" width="3.0"/>'
+        '</edge><edge id="b" from="2" to="3"><lane id="b_0" index="0" width="1.5" allow="pedestrian"/>'
+        '<lane id="b_1" index="1"/></edge></net>', encoding="utf-8")
+
+    # The internal lane, the footway and the default-width lane stay as they are.
+    narrow = _narrow_passenger_lanes(net, 2.5)
+    assert narrow == {"a": [(0, 1.25)]}
+    patch = tmp_path / "widths.edg.xml"
+    _write_lane_width_patch(patch, narrow)
+    assert [(edge.get("id"), [(lane.get("index"), lane.get("width")) for lane in edge])
+            for edge in ET.parse(patch).getroot()] == [("a", [("0", "2.5")])]
+
+
 def test_multimodal_master_falls_back_to_netconvert_joining_when_the_reference_build_fails(tmp_path: Path) -> None:
     source = tmp_path / "input.osm.xml"
     source.write_text(_SIGNAL_GROUP_OSM, encoding="utf-8")

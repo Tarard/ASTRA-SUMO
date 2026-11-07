@@ -299,7 +299,10 @@ with three or more vehicle-road neighbours linked by a vehicle edge that the
 junction polygons cut to under 1 m, each group taking in the rest of any
 multi-node controller it touches (at most 30 m across). The next master drops
 every join that changes an OSM turn restriction with its via node in the group
-or gives a centre a program over 90 s. The master is rebuilt at most six times.
+or gives a centre a program over 90 s. With the joins settled, every lane open
+to passenger cars that is narrower than 2.5 m (OSM width tags split over two
+directions give 1.2-1.75 m) is widened through an edge file the master loads, so
+that passing cars no longer overlap. The master is rebuilt at most six times.
 The build reports the node-file rows that did not take effect, the joins and the
 crossings that lost or gained a signal.
 
