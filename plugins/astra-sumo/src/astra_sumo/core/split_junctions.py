@@ -19,13 +19,16 @@ from pathlib import Path
 from typing import Any
 
 # A vehicle edge whose every lane is shorter than SPLIT_EDGE_M after netconvert cut the junction polygons links two
-# parts of one junction. Between two junctions of one signal controller the limit is CONTROLLER_SPLIT_EDGE_M, one
-# passenger car with its gap (5 m + 2.5 m): a shorter median edge stores no vehicle, so a car that turns into it
-# stands across the first half until the second half gets green and blocks the lane behind it. A group that had to
-# take in the rest of a multi-node controller and is then wider than SPLIT_SPAN_M is left alone.
-SPLIT_EDGE_M = 1.0
+# parts of one junction (central Dresden: 0.1-1.34 m, median edges of Koenneritzstrasse 1.02 and 1.27 m). Between
+# two junctions of one signal controller the limit is CONTROLLER_SPLIT_EDGE_M, one passenger car with its gap
+# (5 m + 2.5 m): a shorter median edge stores no vehicle, so a car that turns into it stands across the first half
+# until the second half gets green and blocks the lane behind it. A group that had to take in the rest of a
+# multi-node controller and is then wider than SPLIT_SPAN_M is left alone.
+SPLIT_EDGE_M = 1.5
 CONTROLLER_SPLIT_EDGE_M = 7.5
 SPLIT_SPAN_M = 30.0
+# Whether an unsignalised node with two neighbours inside a junction polygon joins that junction.
+SPLIT_ATTACH_TWO_NEIGHBOUR_NODES = True
 _WAY_ID = re.compile(r"-?(\d+)")
 
 
@@ -103,18 +106,24 @@ def cluster_id(nodes: Iterable[str]) -> str:
 
 
 def split_junction_groups(
-    view: NetView, *, edge_m: float = SPLIT_EDGE_M, span_m: float = SPLIT_SPAN_M, excluded: Iterable[str] = (),
-    controller_edge_m: float = CONTROLLER_SPLIT_EDGE_M,
+    view: NetView, *, edge_m: float | None = None, span_m: float | None = None, excluded: Iterable[str] = (),
+    controller_edge_m: float | None = None,
 ) -> dict[str, Any]:
-    """Node groups linked by vehicle edges shorter than ``edge_m`` between nodes with 3+ vehicle-road neighbours.
+    """Node groups linked by vehicle edges shorter than ``edge_m`` that start or end at a node with 3+ neighbours.
 
-    An edge between two junctions that one controller signals links them when it is shorter than
-    ``controller_edge_m``. A group takes in every node of a controller that signals two or more junctions and has a
-    node in the group, so that a join never splits a controller; a group that grew that way to more than ``span_m``
-    across is skipped, and so is every group with a node in ``excluded``. A group that the controller edges made
-    wider than ``span_m`` is not joined as a whole: one junction that wide gridlocks. Its parts linked by the edges
-    under ``edge_m`` are judged on their own instead.
+    The other end has 3+ vehicle-road neighbours too, or it is an unsignalised node with two (a way split or
+    crossing node inside the junction polygon); a signalised two-neighbour node is a stop line and stays apart, so
+    that a join never signalises a whole junction. An edge between two junctions with 3+ neighbours that one
+    controller signals links them when it is shorter than ``controller_edge_m``. A group takes in every node of a
+    controller that signals two or more junctions and has a node in the group, so that a join never splits a
+    controller; a group that grew that way to more than ``span_m`` across is skipped, and so is every group with a
+    node in ``excluded``. A group that the controller edges made wider than ``span_m`` is not joined as a whole:
+    one junction that wide gridlocks. Its parts linked by the edges under ``edge_m`` are judged on their own
+    instead.
     """
+    edge_m = SPLIT_EDGE_M if edge_m is None else edge_m
+    span_m = SPLIT_SPAN_M if span_m is None else span_m
+    controller_edge_m = CONTROLLER_SPLIT_EDGE_M if controller_edge_m is None else controller_edge_m
     excluded = set(excluded)
     neighbours: dict[str, set[str]] = {}
     for start, end, _, _, vehicle in view.edges.values():
@@ -125,6 +134,13 @@ def split_junction_groups(
     for tl_id, nodes in view.controller_nodes.items():
         for node_id in nodes:
             signalled_by.setdefault(node_id, set()).add(tl_id)
+
+    def joinable(node_id: str, other: str) -> bool:
+        count = len(neighbours.get(node_id, ()))
+        return count >= 3 or (SPLIT_ATTACH_TWO_NEIGHBOUR_NODES and count == 2 and len(neighbours.get(other, ())) >= 3
+                              and node_id not in signalled_by
+                              and not view.junctions.get(node_id, ("",))[0].startswith("traffic_light"))
+
     multi = {tl_id: nodes for tl_id, nodes in view.controller_nodes.items() if len(nodes) > 1}
     node_controllers: dict[str, set[str]] = {}
     for tl_id, nodes in multi.items():
@@ -132,12 +148,12 @@ def split_junction_groups(
             node_controllers.setdefault(node_id, set()).add(tl_id)
     plain, by_controller = [], []
     for edge_id, (start, end, lengths, _, vehicle) in sorted(view.edges.items()):
-        if not (vehicle and start != end and lengths
-                and len(neighbours.get(start, ())) >= 3 and len(neighbours.get(end, ())) >= 3):
+        if not (vehicle and start != end and lengths):
             continue
-        if max(lengths) < edge_m:
+        if max(lengths) < edge_m and joinable(start, end) and joinable(end, start):
             plain.append((start, end))
-        elif max(lengths) < controller_edge_m and signalled_by.get(start, set()) & signalled_by.get(end, set()):
+        elif (max(lengths) < controller_edge_m and len(neighbours.get(start, ())) >= 3
+              and len(neighbours.get(end, ())) >= 3 and signalled_by.get(start, set()) & signalled_by.get(end, set())):
             by_controller.append((start, end))
 
     def grouping(pairs: list[tuple[str, str]]) -> tuple[list[set[str]], set[str]]:

@@ -147,3 +147,15 @@ def test_osm_turn_restrictions_keep_relations_with_one_via_node(tmp_path: Path) 
 
     assert osm_turn_restrictions(osm) == [
         {"id": "1", "restriction": "no_left_turn", "from": "10", "via": "5", "to": "20"}]
+
+
+def test_split_junction_groups_attach_unsignalised_two_neighbour_nodes_only() -> None:
+    edges = {"jx": ("J", "X", [0.2], True, True), "xj": ("X", "J", [0.2], True, True),
+             "js": ("J", "S", [0.3], True, True), "sj": ("S", "J", [0.3], True, True),
+             "xa": ("X", "A", [80.0], True, True), "sb": ("S", "B", [80.0], True, True),
+             "jc": ("J", "C", [80.0], True, True), "jd": ("J", "D", [80.0], True, True)}
+    view = NetView(edges=edges, junctions={"J": ("priority", 0, 0), "X": ("priority", 5, 0),
+                                           "S": ("traffic_light", -5, 0)},
+                   controller_nodes={"S": {"S"}})
+    # X is a way split inside J's polygon; S is a stop-line signal and keeps its own node.
+    assert [row["nodes"] for row in split_junction_groups(view)["groups"]] == [["J", "X"]]

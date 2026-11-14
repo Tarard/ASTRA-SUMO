@@ -917,6 +917,7 @@ def _carries_crossing(tags: Mapping[str, str]) -> bool:
 # The values are module constants: a request cannot set them.
 _STOP_LINE_SIGNAL_DISTANCE_M = 36.0
 _STOP_LINE_CLUSTER_DISTANCE_M = 30.0
+_STOP_LINE_SUB_CLUSTER_DISTANCE_M = 20.0
 _STOP_LINE_STUB_M = 30.0
 _STOP_LINE_SIGNAL_SLACK = 0
 # What happens to the crossing signals that served a centre: "keep" their own controller, "join" the centre's
@@ -944,7 +945,8 @@ _SERIES_STORAGE_M = 15.0
 _SERIES_WALK_LANES = 4
 _SERIES_HORIZON_CAP_S = 3600
 _SERIES_MIN_COMMON_GREEN_SHARE = 0.5
-_SIGNAL_REBUILD_ROUNDS = 6
+_SIGNAL_REBUILD_ROUNDS = 8
+_JOIN_ROUNDS = 2
 
 
 class _PlainRoadGraph(NamedTuple):
@@ -1082,22 +1084,28 @@ def _stop_line_centres(
     junctions = {node_id for node_id, (_, _, node_type, tl) in graph.nodes.items()
                  if node_type not in _RAIL_NODE_TYPES and len(graph.neighbours.get(node_id, ())) >= 3
                  and (tl is None or node_id in grouped_signals or node_id in crossing_signals)}
-    parent = {node_id: node_id for node_id in junctions}
 
-    def find(node_id: str) -> str:
-        while parent[node_id] != node_id:
-            parent[node_id] = parent[parent[node_id]]
-            node_id = parent[node_id]
-        return node_id
+    def cluster(nodes: set[str], distance_m: float) -> list[list[str]]:
+        """The nodes linked by road chains of at most ``distance_m`` through no other junction, smallest id first."""
+        parent = {node_id: node_id for node_id in nodes}
 
-    for node_id in sorted(junctions):
-        for neighbour in sorted(graph.neighbours[node_id]):
-            end, distance = _chain_end(graph, node_id, neighbour, junctions, cluster_distance_m)
-            if end != node_id and end in junctions and distance <= cluster_distance_m:
-                parent[find(end)] = find(node_id)
-    clusters: dict[str, list[str]] = {}
-    for node_id in junctions:
-        clusters.setdefault(find(node_id), []).append(node_id)
+        def find(node_id: str) -> str:
+            while parent[node_id] != node_id:
+                parent[node_id] = parent[parent[node_id]]
+                node_id = parent[node_id]
+            return node_id
+
+        for node_id in sorted(nodes):
+            for neighbour in sorted(graph.neighbours[node_id]):
+                end, distance = _chain_end(graph, node_id, neighbour, junctions, distance_m)
+                if end != node_id and end in nodes and distance <= distance_m:
+                    parent[find(end)] = find(node_id)
+        grouped: dict[str, list[str]] = {}
+        for node_id in nodes:
+            grouped.setdefault(find(node_id), []).append(node_id)
+        return sorted((sorted(rows, key=_node_order) for rows in grouped.values()), key=lambda rows: _node_order(rows[0]))
+
+    clusters = cluster(junctions, cluster_distance_m)
     limit_m = max(signal_distance_m, cluster_distance_m, stub_m)
 
     def centre(members: list[str]) -> tuple[dict[str, Any] | None, str]:
@@ -1141,9 +1149,51 @@ def _stop_line_centres(
             "grouped_signal_nodes": [node for node in served if node in grouped_signals],
         }, ""
 
+    def unsignalised_side(node_id: str, inside: set[str]) -> bool:
+        """Whether a cluster member has external passenger approaches and none of them carries a signal."""
+        signalised = []
+        for edge_id in graph.incoming.get(node_id, ()):
+            if graph.edges[edge_id][0] == node_id or not graph.edges[edge_id][3]:
+                continue
+            end, distance, signals = _upstream_signals(graph, edge_id, limit_m)
+            if end not in inside and not (len(graph.neighbours.get(end, ())) == 1 and distance <= stub_m):
+                signalised.append(any(at <= signal_distance_m for _, at in signals))
+        return bool(signalised) and not any(signalised)
+
+    def parts(members: list[str]) -> tuple[list[dict[str, Any]], list[str]]:
+        """Centres among the parts of a cluster that does not qualify, and the nodes left for the single tries.
+
+        The members are re-clustered at _STOP_LINE_SUB_CLUSTER_DISTANCE_M first: a 30 m chain often takes the two
+        carriageways of a junction together with a side junction. Of what is left, members whose external approaches
+        all lack a signal are peeled off until none is left to peel, and the rest is clustered again.
+        """
+        found, rest = [], []
+        for part in cluster(set(members), _STOP_LINE_SUB_CLUSTER_DISTANCE_M):
+            row = centre(part)[0] if len(part) > 1 and _STOP_LINE_CENTRE_PREFIX + part[0] not in split_clusters else None
+            if row:
+                found.append(row)
+            else:
+                rest.extend(part)
+        keep = set(rest)
+        while len(keep) > 1:
+            peeled = {node_id for node_id in keep if unsignalised_side(node_id, keep)}
+            if not peeled or peeled == keep:
+                break
+            keep -= peeled
+        if len(keep) > 1 and keep != set(rest):
+            left = [node_id for node_id in rest if node_id not in keep]
+            for part in cluster(keep, cluster_distance_m):
+                row = (centre(part)[0] if len(part) > 1 and _STOP_LINE_CENTRE_PREFIX + part[0] not in split_clusters
+                       else None)
+                if row:
+                    found.append(row)
+                else:
+                    left.extend(part)
+            rest = left
+        return found, sorted(rest, key=_node_order)
+
     centres, rejected, fallback, guarded = [], Counter(), 0, []
-    for members in sorted((sorted(rows, key=_node_order) for rows in clusters.values()),
-                          key=lambda rows: _node_order(rows[0])):
+    for members in clusters:
         tl_id = _STOP_LINE_CENTRE_PREFIX + members[0]
         if len(members) == 1 and members[0] in dropped_nodes:
             guarded.append({"tl": tl_id, "nodes": members, "action": "dropped"})
@@ -1154,13 +1204,15 @@ def _stop_line_centres(
             continue
         rejected[reason] += 1
         if len(members) > 1:
-            # A cluster that does not qualify as a whole: each of its nodes may still qualify alone. A node that
-            # already has a controller keeps it.
-            singles = [row for row, _ in (centre([node_id]) for node_id in members
+            # A cluster that does not qualify as a whole: its parts, then each of its nodes may still qualify. A
+            # cluster the long-cycle guard split goes to single nodes at once. A node that already has a
+            # controller keeps it.
+            found, rest = ([], members) if tl_id in split_clusters else parts(members)
+            singles = [row for row, _ in (centre([node_id]) for node_id in rest
                                           if graph.nodes[node_id][3] is None and node_id not in dropped_nodes)
                        if row is not None]
-            centres.extend(singles)
-            fallback += len(singles)
+            centres.extend([*found, *singles])
+            fallback += len(found) + len(singles)
             if tl_id in split_clusters:
                 guarded.append({"tl": tl_id, "nodes": members, "action": "single_nodes",
                                 "single_centres": [row["tl"] for row in singles]})
@@ -1169,7 +1221,7 @@ def _stop_line_centres(
     return {
         "signal_distance_m": signal_distance_m, "cluster_distance_m": cluster_distance_m, "slack": slack,
         "stub_m": stub_m, "junction_node_count": len(junctions), "junction_cluster_count": len(clusters),
-        "multi_node_junction_cluster_count": sum(1 for rows in clusters.values() if len(rows) > 1),
+        "multi_node_junction_cluster_count": sum(1 for rows in clusters if len(rows) > 1),
         "centre_count": len(centres), "multi_node_centre_count": sum(1 for row in centres if len(row["nodes"]) > 1),
         "single_node_fallback_centre_count": fallback,
         "centre_node_count": sum(len(row["nodes"]) for row in centres),
@@ -1632,6 +1684,8 @@ def _signal_node_file_master_check(node_file: Path, net_file: Path) -> dict[str,
 # such a lane overlaps the opposite lane, and SUMO reports the passing vehicles as junction collisions (central
 # Dresden: 16 of 22 at low load). Lanes open to passenger cars are widened to this width.
 _MIN_PASSENGER_LANE_WIDTH_M = 2.5
+# Widening grows the junction polygons, so more edges are swallowed when the joins come after it.
+_WIDEN_BEFORE_JOINS = True
 
 
 def _narrow_passenger_lanes(net_file: Path, min_width_m: float) -> dict[str, list[tuple[int, float]]]:
@@ -1763,15 +1817,17 @@ def _settle_master_signals(
 
     The vehicle-road build cannot show the green groups that paths and crossings add, nor the programs of crossing
     signals, so each master is streamed: a centre program above the cycle limit gets the long-cycle fallback and a
-    series trap the demotion of _series_demotions. Once no centre is long, the split junctions of the master
-    (split_junctions.split_junction_groups) are joined. A join that only opens turns an OSM restriction forbids is
-    kept and those connections are deleted through ``turn_patch``, a connection file the master loads; the next
-    master is checked again. A join that loses a mandatory turn, still changes a restriction after the deletion,
-    gives a centre a long program or leaves its controller in a series trap that no demotion resolves is dropped.
-    When the joins are settled, the passenger lanes narrower than
-    _MIN_PASSENGER_LANE_WIDTH_M are widened through ``lane_width_patch``, an edge file the master loads. The master is
-    rebuilt with the new files at most _SIGNAL_REBUILD_ROUNDS times; what the last check still finds stays in the
-    report.
+    series trap the demotion of _series_demotions. Once no centre is long, the passenger lanes narrower than
+    _MIN_PASSENGER_LANE_WIDTH_M are widened through ``lane_width_patch``, an edge file the master loads; wider lanes
+    grow the junction polygons (with _WIDEN_BEFORE_JOINS off, the widening waits for the joins). Then the split
+    junctions of the master (split_junctions.split_junction_groups) are joined, in up to _JOIN_ROUNDS rounds of
+    groups that touch no earlier join. A join that only opens turns an OSM restriction forbids is kept and those
+    connections are deleted through ``turn_patch``, a connection file the master loads; the next master is checked
+    again. A join that loses a mandatory turn, still changes a restriction after the deletion, gives a centre a long
+    program or leaves its controller in a series trap that no demotion resolves is dropped, and its nodes are left
+    out of the next round. When the joins are settled, the lanes that lost their connections get them back
+    (_dead_lane_repairs). The master is rebuilt with the new files at most _SIGNAL_REBUILD_ROUNDS times; what the
+    last check still finds stays in the report.
     """
     from .split_junctions import (cluster_id, osm_turn_restrictions, read_net, restriction_changes,
                                   split_junction_groups)
@@ -1780,12 +1836,14 @@ def _settle_master_signals(
     traps_seen: dict[tuple[str, ...], dict[str, Any]] = {}
     long_seen: set[str] = set()
     joins: list[list[str]] = []
-    join_state, joining, base_view, restrictions = "pending", {"status": "not_run"}, None, []
+    fresh: list[list[str]] = []
+    join_state, base_view, restrictions, excluded = "pending", None, [], set()
+    joining: dict[str, Any] = {"status": "not_run", "rounds": []}
     deletions: dict[str, list[dict[str, str]]] = {}
     dropped_joins: set[str] = set()
     lane_repair: dict[str, Any] = {"status": "not_run"}
     restored: dict[str, list[tuple[int, str, int]]] = {}
-    widening: dict[str, Any] = {"status": "not_run"}
+    widening: dict[str, Any] = {"status": "not_run" if lane_width_patch is not None else "not_applicable"}
     while result.get("status") == "pass" and net_file.is_file():
         check = _signal_node_file_master_check(Path(signal_grouping["node_file"]), net_file)
         traps = check.pop("series_traps")
@@ -1794,9 +1852,9 @@ def _settle_master_signals(
         new_traps = {key: row for row in traps if (key := tuple(row[name] for name in (
             "upstream_node", "downstream_node", "upstream_lane", "downstream_lane"))) not in traps_seen}
         long = sorted(set(check["long_centre_cycles"]) - long_seen)
-        joins_changed = False
+        changed = False
         if join_state == "guard":
-            changes = restriction_changes(base_view, read_net(net_file), joins, restrictions)
+            changes = restriction_changes(base_view, read_net(net_file), fresh, restrictions)
             by_cluster: dict[str, list[dict[str, Any]]] = {}
             for row in changes:
                 by_cluster.setdefault(cluster_id(row["group"]), []).append(row)
@@ -1813,64 +1871,81 @@ def _settle_master_signals(
                 deletions.pop(cluster, None)
             dropped_joins |= dropped
             if turn_patch is not None:
-                _write_turn_patch(turn_patch, deletions)
+                _write_turn_patch(turn_patch, deletions, restored)
                 joining.update(turn_patch_file=str(turn_patch.resolve()), turn_patch_sha256=_file_sha256(turn_patch))
-            if "restriction_changes" not in joining:
-                # The first check shows what the joins changed; a later check only confirms the deletions.
-                joining.update(restriction_change_count=len(changes),
-                               restriction_changes=changes[:_STOP_LINE_CENTRE_LIMIT])
-            joining.update(long_joined_cycles=check["long_joined_cycles"], dropped_joins=sorted(dropped_joins),
-                           deleted_turn_count=sum(len(rows) for rows in deletions.values()),
-                           deleted_turns=dict(sorted(deletions.items())))
+            current = joining["rounds"][-1]
+            if "restriction_changes" not in current:
+                # The first check of a round shows what its joins changed; a later check only confirms the deletions.
+                current.update(restriction_change_count=len(changes), restriction_changes=changes[:_STOP_LINE_CENTRE_LIMIT])
+            current.update(long_joined_cycles=check["long_joined_cycles"],
+                           dropped_joins=sorted({*current.get("dropped_joins", ()), *dropped}))
+            joining.update(
+                restriction_change_count=sum(row.get("restriction_change_count", 0) for row in joining["rounds"]),
+                restriction_changes=[change for row in joining["rounds"]
+                                     for change in row.get("restriction_changes", ())][:_STOP_LINE_CENTRE_LIMIT],
+                long_joined_cycles=check["long_joined_cycles"], dropped_joins=sorted(dropped_joins),
+                deleted_turn_count=sum(len(rows) for rows in deletions.values()),
+                deleted_turns=dict(sorted(deletions.items())))
             if dropped:
+                excluded |= {node_id for nodes in joins if cluster_id(nodes) in dropped for node_id in nodes}
                 joins = [nodes for nodes in joins if cluster_id(nodes) not in dropped]
-            joins_changed = bool(dropped or patched)
-            joining["join_count"] = len(joins)
+                fresh = [nodes for nodes in fresh if cluster_id(nodes) not in dropped]
+            changed = bool(dropped or patched)
             if not patched:
-                join_state, base_view = "done", None
-        elif join_state == "pending" and not long:
-            base_view = read_net(net_file)
-            found = split_junction_groups(base_view)
-            joins = [row["nodes"] for row in found["groups"]]
-            joining = {"status": "measured" if joins else "no_effect", "edge_m": found["edge_m"],
-                       "controller_edge_m": found["controller_edge_m"],
-                       "controller_linker_edge_count": found["controller_linker_edge_count"],
-                       "span_m": found["span_m"], "linker_edge_count": found["linker_edge_count"],
-                       "join_count": len(joins), "joined_node_count": sum(len(nodes) for nodes in joins),
-                       "skipped_groups": found["skipped"][:_STOP_LINE_CENTRE_LIMIT],
-                       "skipped_group_count": len(found["skipped"])}
-            if joins:
-                restrictions = osm_turn_restrictions(osm_file)
-                join_state, joins_changed = "guard", True
-            else:
-                join_state, base_view = "done", None
-        repairs_changed = False
-        if turn_patch is not None and join_state == "done" and not (new_traps or long or joins_changed):
-            if lane_repair["status"] == "not_run":
-                lane_repair = _dead_lane_repairs(net_file, Path(signal_grouping["node_file"]))
-                restored = lane_repair.pop("connections")
-                if restored:
-                    _write_turn_patch(turn_patch, deletions, restored)
-                    lane_repair.update(turn_patch_file=str(turn_patch.resolve()), turn_patch_sha256=_file_sha256(turn_patch))
-                    repairs_changed = True
-            elif lane_repair["status"] == "measured" and "remaining_dead_lane_count" not in lane_repair:
-                # The master after the repair: what the stated connections did not bring back.
-                after = _dead_lane_repairs(net_file, Path(signal_grouping["node_file"]))
-                lane_repair["remaining_dead_lane_count"] = after.get("dead_lane_count", 0)
-        widths_changed = False
-        if (lane_width_patch is not None and widening["status"] == "not_run" and join_state == "done"
-                and not (new_traps or long or joins_changed)):
+                join_state = "pending" if len(joining["rounds"]) < _JOIN_ROUNDS else "done"
+                base_view = None
+        quiet = not (new_traps or long or changed)
+        widened = False
+        if (lane_width_patch is not None and widening["status"] == "not_run" and quiet
+                and (_WIDEN_BEFORE_JOINS or join_state == "done")):
             narrow = _narrow_passenger_lanes(net_file, _MIN_PASSENGER_LANE_WIDTH_M)
             _write_lane_width_patch(lane_width_patch, narrow)
             widening = {"status": "measured" if narrow else "no_effect", "min_width_m": _MIN_PASSENGER_LANE_WIDTH_M,
                         "edge_count": len(narrow), "lane_count": sum(len(lanes) for lanes in narrow.values()),
                         "narrowest_m": min((width for lanes in narrow.values() for _, width in lanes), default=None),
                         "patch_file": str(lane_width_patch.resolve()), "patch_sha256": _file_sha256(lane_width_patch)}
-            widths_changed = bool(narrow)
+            widened = bool(narrow)
+        # A master without narrow lanes needs no rebuild for the widening: its joins are found in the same round.
+        if (not widened and join_state == "pending" and (widening["status"] != "not_run" or not _WIDEN_BEFORE_JOINS)
+                and not (long or changed)):
+            base_view = read_net(net_file)
+            found = split_junction_groups(base_view, excluded=excluded)
+            # Groups that touch an earlier join would need that join's restrictions checked again; they wait.
+            fresh = [row["nodes"] for row in found["groups"]
+                     if not any(node_id.startswith("cluster_") for node_id in row["nodes"])]
+            measured = {"edge_m": found["edge_m"], "controller_edge_m": found["controller_edge_m"],
+                        "span_m": found["span_m"], "linker_edge_count": found["linker_edge_count"],
+                        "controller_linker_edge_count": found["controller_linker_edge_count"],
+                        "skipped_groups": found["skipped"][:_STOP_LINE_CENTRE_LIMIT],
+                        "skipped_group_count": len(found["skipped"])}
+            joining["rounds"].append({**measured, "new_join_count": len(fresh),
+                                      "waiting_group_count": len(found["groups"]) - len(fresh)})
+            if len(joining["rounds"]) == 1:
+                joining.update(measured)
+            if fresh:
+                joins += fresh
+                restrictions = restrictions or osm_turn_restrictions(osm_file)
+                join_state, changed = "guard", True
+            else:
+                join_state, base_view = "done", None
+        repaired = False
+        if turn_patch is not None and join_state == "done" and quiet and not changed:
+            if lane_repair["status"] == "not_run":
+                lane_repair = _dead_lane_repairs(net_file, Path(signal_grouping["node_file"]))
+                restored = lane_repair.pop("connections")
+                if restored:
+                    _write_turn_patch(turn_patch, deletions, restored)
+                    lane_repair.update(turn_patch_file=str(turn_patch.resolve()), turn_patch_sha256=_file_sha256(turn_patch))
+                    repaired = True
+            elif lane_repair["status"] == "measured" and "remaining_dead_lane_count" not in lane_repair:
+                # The master after the repair: what the stated connections did not bring back.
+                after = _dead_lane_repairs(net_file, Path(signal_grouping["node_file"]))
+                lane_repair["remaining_dead_lane_count"] = after.get("dead_lane_count", 0)
+        joining.update(status="measured" if joins else "no_effect" if joining["rounds"] else "not_run",
+                       join_count=len(joins), joined_node_count=sum(len(nodes) for nodes in joins))
         rounds.append({"round": len(rounds) + 1, "node_file_sha256": signal_grouping["node_file_sha256"], **check,
                        "new_series_trap_count": len(new_traps), "series_traps_file": str(traps_file.resolve())})
-        if not (new_traps or long or joins_changed or widths_changed or repairs_changed) \
-                or len(rounds) > _SIGNAL_REBUILD_ROUNDS:
+        if not (new_traps or long or changed or widened or repaired) or len(rounds) > _SIGNAL_REBUILD_ROUNDS:
             break
         traps_seen.update(new_traps)
         long_seen.update(long)
@@ -1885,6 +1960,7 @@ def _settle_master_signals(
         trapped = {cluster_id(nodes) for nodes in joins} & set(
             (regrouped.get("stop_line_centres") or {}).get("unresolved_series_trap_controllers", ()))
         if trapped and regrouped.get("status") != "blocked":
+            excluded |= {node_id for nodes in joins if cluster_id(nodes) in trapped for node_id in nodes}
             joins = [nodes for nodes in joins if cluster_id(nodes) not in trapped]
             dropped_joins |= trapped
             for cluster in trapped:

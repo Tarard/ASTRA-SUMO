@@ -2491,6 +2491,54 @@ def test_narrow_passenger_lanes_are_widened_by_an_edge_patch(tmp_path: Path) -> 
             for edge in ET.parse(patch).getroot()] == [("a", [("0", "2.5")])]
 
 
+def _plain_graph(edges: dict[str, tuple[str, str, float]], nodes: dict[str, tuple[float, float]],
+                 signals: dict[str, str]):
+    """A reference road graph; ``signals`` maps an edge to the signal node whose connection leads into it."""
+    from astra_sumo.core.osm_network import _PlainRoadGraph
+
+    incoming, neighbours, pair_length = {}, {}, {}
+    for edge_id, (start, end, length) in edges.items():
+        incoming.setdefault(end, []).append(edge_id)
+        neighbours.setdefault(start, set()).add(end)
+        neighbours.setdefault(end, set()).add(start)
+        for pair in ((start, end), (end, start)):
+            pair_length[pair] = min(length, pair_length.get(pair, length))
+    return _PlainRoadGraph(
+        {node_id: (x, y, "traffic_light" if node_id in signals.values() else "priority",
+                   node_id if node_id in signals.values() else None) for node_id, (x, y) in nodes.items()},
+        {edge_id: (start, end, length, True) for edge_id, (start, end, length) in edges.items()},
+        incoming, neighbours, pair_length, {edge_id: {node_id} for edge_id, node_id in signals.items()})
+
+
+def test_stop_line_cluster_that_takes_in_a_side_junction_is_retried_in_parts() -> None:
+    from astra_sumo.core.osm_network import _stop_line_centres
+
+    # A and B are the two carriageways of a junction, 10 m apart, with a stop-line signal 15 m up each of their
+    # four arms; K is an unsignalised side junction 25 m beyond B, reached one way from B.
+    nodes = {"A": (0, 0), "B": (10, 0), "K": (35, 0)}
+    edges = {"ab": ("A", "B", 10.0), "ba": ("B", "A", 10.0), "bk": ("B", "K", 25.0),
+             "k1": ("K", "k1x", 100.0), "k1r": ("k1x", "K", 100.0), "k2": ("k2x", "K", 100.0)}
+    signals = {}
+    for node, arms in (("A", ("n", "s")), ("B", ("n", "s"))):
+        for arm in arms:
+            stop, far = f"{node}{arm}", f"{node}{arm}x"
+            nodes[stop], nodes[far] = (nodes[node][0], 15 if arm == "n" else -15), (nodes[node][0], 200)
+            edges.update({f"{far}-{stop}": (far, stop, 185.0), f"{stop}-{node}": (stop, node, 15.0),
+                          f"{node}-{stop}": (node, stop, 15.0), f"{stop}-{far}": (stop, far, 185.0)})
+            signals[f"{stop}-{node}"] = stop
+    for node_id in ("k1x", "k2x"):
+        nodes[node_id] = (35, 100)
+    graph = _plain_graph(edges, nodes, signals)
+    found = _stop_line_centres(graph, source_nodes=set(nodes), crossing_signals=set(), grouped_signals=set(),
+                               signal_distance_m=36.0, cluster_distance_m=30.0, slack=0, stub_m=30.0)
+
+    # The 30 m cluster {A, B, K} fails on K's arms and each half alone on the other half; its part {A, B} (the
+    # 20 m re-cluster, or the cluster with K peeled off) holds.
+    assert found["rejected_cluster_counts"] == {"unsignalised_approach": 1}
+    assert [row["nodes"] for row in found["centres"]] == [["A", "B"]]
+    assert found["demoted_signal_nodes"] == ["An", "As", "Bn", "Bs"]
+
+
 def test_multimodal_master_falls_back_to_netconvert_joining_when_the_reference_build_fails(tmp_path: Path) -> None:
     source = tmp_path / "input.osm.xml"
     source.write_text(_SIGNAL_GROUP_OSM, encoding="utf-8")
@@ -3070,7 +3118,8 @@ def test_settle_master_signals_keeps_a_join_and_deletes_the_turn_it_opened(tmp_p
     monkeypatch.setattr(osm_network, "_narrow_passenger_lanes", lambda *_: {})
     monkeypatch.setattr(split_junctions, "read_net", lambda *_: object())
     monkeypatch.setattr(split_junctions, "osm_turn_restrictions", lambda *_: [])
-    monkeypatch.setattr(split_junctions, "split_junction_groups", lambda *_: {
+    monkeypatch.setattr(osm_network, "_JOIN_ROUNDS", 1)
+    monkeypatch.setattr(split_junctions, "split_junction_groups", lambda *_, **__: {
         "edge_m": 1.0, "controller_edge_m": 7.5, "span_m": 30.0, "linker_edge_count": 2,
         "controller_linker_edge_count": 0, "skipped": [],
         "groups": [{"nodes": ["A", "B"]}, {"nodes": ["C", "D"]}]})
@@ -3118,7 +3167,8 @@ def test_settle_master_signals_drops_a_join_that_still_breaks_a_restriction_afte
     monkeypatch.setattr(osm_network, "_narrow_passenger_lanes", lambda *_: {})
     monkeypatch.setattr(split_junctions, "read_net", lambda *_: object())
     monkeypatch.setattr(split_junctions, "osm_turn_restrictions", lambda *_: [])
-    monkeypatch.setattr(split_junctions, "split_junction_groups", lambda *_: {
+    monkeypatch.setattr(osm_network, "_JOIN_ROUNDS", 1)
+    monkeypatch.setattr(split_junctions, "split_junction_groups", lambda *_, **__: {
         "edge_m": 1.0, "controller_edge_m": 7.5, "span_m": 30.0, "linker_edge_count": 1,
         "controller_linker_edge_count": 0, "skipped": [], "groups": [{"nodes": ["A", "B"]}]})
     monkeypatch.setattr(split_junctions, "restriction_changes", lambda *_: [change])
@@ -3160,7 +3210,8 @@ def test_settle_master_signals_drops_a_join_whose_controller_stays_in_a_series_t
     monkeypatch.setattr(split_junctions, "read_net", lambda *_: object())
     monkeypatch.setattr(split_junctions, "osm_turn_restrictions", lambda *_: [])
     monkeypatch.setattr(split_junctions, "restriction_changes", lambda *_: [])
-    monkeypatch.setattr(split_junctions, "split_junction_groups", lambda *_: {
+    monkeypatch.setattr(osm_network, "_JOIN_ROUNDS", 1)
+    monkeypatch.setattr(split_junctions, "split_junction_groups", lambda *_, **__: {
         "edge_m": 1.0, "controller_edge_m": 7.5, "span_m": 30.0, "linker_edge_count": 2,
         "controller_linker_edge_count": 0, "skipped": [], "groups": [{"nodes": ["A", "B"]}, {"nodes": ["C", "D"]}]})
     regroups = []
