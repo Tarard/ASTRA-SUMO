@@ -357,6 +357,10 @@ def _build_parser() -> argparse.ArgumentParser:
     render.add_argument("request_file")
     render.add_argument("output_dir")
     _add_output_argument(render)
+    motion = review_sub.add_parser("motion", help="Draw one or two SUMO runs side by side from their FCD output as a GIF.")
+    motion.add_argument("request_file")
+    motion.add_argument("output_dir")
+    _add_output_argument(motion)
     create = review_sub.add_parser("create", help="Create a network review HTML page.")
     create.add_argument("output_dir")
     create.add_argument("--net-file")
@@ -642,6 +646,11 @@ def _dispatch(args: argparse.Namespace) -> int:
         from .core.network_aerial_review import render_network_aerial_review
 
         return _emit(render_network_aerial_review(request_file=args.request_file, output_dir=args.output_dir),
+                     json_output=json_output)
+    if args.command == "review" and args.review_command == "motion":
+        from .core.motion_review import render_motion_review
+
+        return _emit(render_motion_review(request_file=args.request_file, output_dir=args.output_dir),
                      json_output=json_output)
     if args.command == "review" and args.review_command == "create":
         return _emit(

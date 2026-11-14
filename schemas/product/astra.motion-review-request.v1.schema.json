@@ -1,0 +1,152 @@
+{
+  "$defs": {
+    "_Artifact": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "title": "_Artifact",
+      "type": "object"
+    },
+    "_Panel": {
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "maxLength": 80,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "net": {
+          "$ref": "#/$defs/_Artifact"
+        },
+        "fcd": {
+          "$ref": "#/$defs/_Artifact"
+        },
+        "tls_states": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/_Artifact"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "summary": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/_Artifact"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "title",
+        "net",
+        "fcd"
+      ],
+      "title": "_Panel",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "astra.motion-review-request/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "panels": {
+      "items": {
+        "$ref": "#/$defs/_Panel"
+      },
+      "maxItems": 2,
+      "minItems": 1,
+      "title": "Panels",
+      "type": "array"
+    },
+    "bbox": {
+      "maxItems": 4,
+      "minItems": 4,
+      "prefixItems": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "title": "Bbox",
+      "type": "array"
+    },
+    "begin_s": {
+      "minimum": 0,
+      "title": "Begin S",
+      "type": "integer"
+    },
+    "end_s": {
+      "minimum": 0,
+      "title": "End S",
+      "type": "integer"
+    },
+    "buildings": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/_Artifact"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "pixels_per_metre": {
+      "default": 1.5,
+      "exclusiveMinimum": 0.2,
+      "maximum": 8.0,
+      "title": "Pixels Per Metre",
+      "type": "number"
+    },
+    "frame_ms": {
+      "default": 125,
+      "maximum": 2000,
+      "minimum": 20,
+      "title": "Frame Ms",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "schema",
+    "panels",
+    "bbox",
+    "begin_s",
+    "end_s"
+  ],
+  "title": "_Request",
+  "type": "object"
+}

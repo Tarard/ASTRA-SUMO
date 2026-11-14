@@ -28,6 +28,13 @@ Run routeability through the CLI:
 astra network routeability <network.net.xml> <output-dir> --json
 ```
 
+Draw the motion of one or two finished runs from their FCD output through the CLI
+(see [motion review](motion-review.md)):
+
+```powershell
+astra review motion <request.json> <new-dir> --json
+```
+
 Classify every passenger entry and exit (cut, dead end, interior gap), count the
 reachable entry-exit pairs and load every boundary endpoint in SUMO, which
 passes only when every vehicle arrives (`--static-only` skips SUMO):
