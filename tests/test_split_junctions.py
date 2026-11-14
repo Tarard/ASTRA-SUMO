@@ -26,7 +26,11 @@ def _split_net(path: Path, *, inner_m: float = 0.2) -> Path:
     text = "".join(edges) + "".join(f'<junction id="{node}" type="priority" x="{x}" y="{y}"/>'
                                     for node, (x, y) in junctions.items())
     text += ('<connection from="a1" to="ab" fromLane="0" toLane="0"/><connection from="ab" to="b3" fromLane="0" '
-             'toLane="0"/><connection from="ab" to="b4r" fromLane="0" toLane="0"/>')
+             'toLane="0"/><connection from="ab" to="b4r" fromLane="0" toLane="0"/>'
+             # A turn only buses may take and one closed to cars are no passenger links.
+             '<connection from="a2" to="ab" fromLane="0" toLane="0" allow="bus bicycle"/>'
+             '<connection from="b4" to="ba" fromLane="0" toLane="0" disallow="passenger"/>'
+             '<connection from="b4" to="b3" fromLane="0" toLane="0" disallow="bus"/>')
     path.write_text(f"<net>{text}</net>", encoding="utf-8")
     return path
 
@@ -37,7 +41,7 @@ def test_split_junction_groups_join_halves_linked_by_a_swallowed_edge(tmp_path: 
 
     assert (found["linker_edge_count"], [row["nodes"] for row in found["groups"]]) == (2, [["A", "B"]])
     assert found["groups"][0]["span_m"] == 12.0
-    assert view.passenger_links == {"a1": {"ab"}, "ab": {"b3", "b4r"}}
+    assert view.passenger_links == {"a1": {"ab"}, "ab": {"b3", "b4r"}, "b4": {"b3"}}
     # A longer inner edge links nothing.
     assert split_junction_groups(read_net(_split_net(tmp_path / "long.xml", inner_m=5.0)))["groups"] == []
     assert split_junction_groups(view, excluded={"B"})["skipped"][0]["reason"] == "excluded_after_check"

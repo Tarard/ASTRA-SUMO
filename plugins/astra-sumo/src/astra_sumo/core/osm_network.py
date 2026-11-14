@@ -932,13 +932,15 @@ _RAIL_NODE_TYPES = frozenset({"rail_crossing", "rail_signal"})
 # dropped. The vehicle-road check build catches most of them; the master catches the ones that its paths add.
 _STOP_LINE_CYCLE_LIMIT_S = 90.0
 _STOP_LINE_GUARD_ROUNDS = 3
-# Two controllers in series on a vehicle lane with less than one car of storage between them act as one stop line
-# whose green is the time both are green; with no common green at all the lane is blocked for good. When the common
-# green is under _SERIES_MIN_COMMON_GREEN_SHARE of the shorter green, the signal node of the pair is demoted
-# (_series_demotions) and the master rebuilt, at most _SIGNAL_REBUILD_ROUNDS times. On central Dresden, 0.5 left as
-# many signalised crossings in the core as no centres at all (436 against 420) and cleared the 0.5x boundary load as
-# well as 1.0 did (2-15 of 1224 vehicles unfinished against 4-12, 17-33 when only pairs without common green go).
-_SERIES_STORAGE_M = 7.5
+# Two controllers in series on a vehicle lane with less than two cars of storage between them (a car takes 7.5 m
+# with its gap) pass, per cycle, the cars their common green lets through and the one car the block holds; with no
+# common green and no storage the lane is blocked for good. When the common green is under
+# _SERIES_MIN_COMMON_GREEN_SHARE of the shorter green, the signal node of the pair is demoted (_series_demotions) and
+# the master rebuilt, at most _SIGNAL_REBUILD_ROUNDS times. On central Dresden, 0.5 left as many signalised crossings
+# in the core as no centres at all (436 against 420) and cleared the 0.5x boundary load as well as 1.0 did (2-15 of
+# 1224 vehicles unfinished against 4-12, 17-33 when only pairs without common green go). With one car (7.5 m) as the
+# limit, a cycle crossing signal 11 m behind a centre, in antiphase, passed one car per lane and cycle at 1x load.
+_SERIES_STORAGE_M = 15.0
 _SERIES_WALK_LANES = 4
 _SERIES_HORIZON_CAP_S = 3600
 _SERIES_MIN_COMMON_GREEN_SHARE = 0.5
@@ -1234,7 +1236,7 @@ def _series_demotions(
 
 
 def _series_signal_traps(net_file: Path) -> dict[str, Any]:
-    """Pairs of controllers in series on a vehicle lane with less than _SERIES_STORAGE_M between their stop lines.
+    """Pairs of controllers in series on a vehicle lane with less than _SERIES_STORAGE_M (two cars) between them.
 
     From each signalised vehicle link the walk follows the lane it leads into, and further through unsignalised
     connections, while the summed length of these normal lanes stays below _SERIES_STORAGE_M and at most
@@ -1485,6 +1487,8 @@ def _vehicle_signal_groups(
                      split_clusters=sorted(split_clusters, key=_node_order),
                      dropped_nodes=sorted(dropped_nodes, key=_node_order),
                      series_demoted_signal_nodes=series_demoted, unresolved_series_traps=unresolved,
+                     unresolved_series_trap_controllers=sorted(
+                         {trap[key] for trap in unresolved for key in ("upstream_tl", "downstream_tl")}),
                      dissolved_joined_controllers=dissolved)
         detail_file = work_dir / "stop_line_centres.json"
         write_json_atomic(detail_file, {**found, "centres": centres})
@@ -1762,8 +1766,9 @@ def _settle_master_signals(
     series trap the demotion of _series_demotions. Once no centre is long, the split junctions of the master
     (split_junctions.split_junction_groups) are joined. A join that only opens turns an OSM restriction forbids is
     kept and those connections are deleted through ``turn_patch``, a connection file the master loads; the next
-    master is checked again. A join that loses a mandatory turn, still changes a restriction after the deletion or
-    gives a centre a long program is dropped. When the joins are settled, the passenger lanes narrower than
+    master is checked again. A join that loses a mandatory turn, still changes a restriction after the deletion,
+    gives a centre a long program or leaves its controller in a series trap that no demotion resolves is dropped.
+    When the joins are settled, the passenger lanes narrower than
     _MIN_PASSENGER_LANE_WIDTH_M are widened through ``lane_width_patch``, an edge file the master loads. The master is
     rebuilt with the new files at most _SIGNAL_REBUILD_ROUNDS times; what the last check still finds stays in the
     report.
@@ -1869,9 +1874,31 @@ def _settle_master_signals(
             break
         traps_seen.update(new_traps)
         long_seen.update(long)
-        regrouped = regroup(split_clusters=signal_grouping.get("split_clusters", ()),
-                            dropped_nodes=signal_grouping.get("dropped_nodes", ()), long_centres=long,
-                            series_traps=list(traps_seen.values()), joins=joins)
+        def regrouped_with(joins: list[list[str]]) -> dict[str, Any]:
+            return regroup(split_clusters=signal_grouping.get("split_clusters", ()),
+                           dropped_nodes=signal_grouping.get("dropped_nodes", ()), long_centres=long,
+                           series_traps=list(traps_seen.values()), joins=joins)
+
+        regrouped = regrouped_with(joins)
+        # A joined junction gets a controller of its own. Where no demotion frees that controller from a series
+        # trap, the join goes and its nodes keep the controllers they had.
+        trapped = {cluster_id(nodes) for nodes in joins} & set(
+            (regrouped.get("stop_line_centres") or {}).get("unresolved_series_trap_controllers", ()))
+        if trapped and regrouped.get("status") != "blocked":
+            joins = [nodes for nodes in joins if cluster_id(nodes) not in trapped]
+            dropped_joins |= trapped
+            for cluster in trapped:
+                deletions.pop(cluster, None)
+            traps_seen = {key: row for key, row in traps_seen.items()
+                          if not {row.get("upstream_tl"), row.get("downstream_tl")} & trapped}
+            if turn_patch is not None:
+                _write_turn_patch(turn_patch, deletions, restored)
+                joining.update(turn_patch_file=str(turn_patch.resolve()), turn_patch_sha256=_file_sha256(turn_patch))
+            joining.update(join_count=len(joins), dropped_joins=sorted(dropped_joins),
+                           series_trap_joins=sorted({*joining.get("series_trap_joins", ()), *trapped}),
+                           deleted_turn_count=sum(len(rows) for rows in deletions.values()),
+                           deleted_turns=dict(sorted(deletions.items())))
+            regrouped = regrouped_with(joins)
         if regrouped.get("status") == "blocked":
             break
         signal_grouping = regrouped

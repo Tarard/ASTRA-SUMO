@@ -292,7 +292,7 @@ lines of a junction whose centre has none, the node file gives the centre one
 controller (`SL_<node>`) and demotes the stop-line signals within 36 m of it.
 A centre whose program is longer than 90 s in a vehicle-only build with the
 node file is split into its nodes or dropped. The master is then streamed: a
-centre above 90 s, or two controllers less than one car apart on a lane that
+centre above 90 s, or two controllers less than two cars (15 m) apart on a lane that
 are green together for less than half of the shorter green, changes the node
 file. Once no centre is long, the node file also joins split junctions: nodes
 with three or more vehicle-road neighbours linked by a vehicle edge that the
@@ -302,7 +302,8 @@ multi-node controller it touches (at most 30 m across). Where a join only opens
 a turn that an OSM restriction with its via node in the group forbids, the join
 stays and a connection file deletes that turn; the next master is checked
 again. A join that loses a mandatory turn, still changes a restriction after
-the deletion or gives a centre a program over 90 s is dropped. With the joins settled, every lane open
+the deletion, gives a centre a program over 90 s or leaves its own controller
+in a series trap that no demotion resolves is dropped. With the joins settled, every lane open
 to passenger cars that is narrower than 2.5 m (OSM width tags split over two
 directions give 1.2-1.75 m) is widened through an edge file the master loads, so
 that passing cars no longer overlap. In the same round, a passenger lane that

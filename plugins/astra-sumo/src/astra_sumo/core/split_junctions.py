@@ -87,7 +87,10 @@ def read_net(net_file: Path) -> NetView:
             from_edge, to_edge = element.get("from"), element.get("to")
             if element.get("tl"):
                 view.controller_nodes.setdefault(element.get("tl"), set()).add(view.edges[from_edge][1])
-            if to_edge in view.edges and "passenger" in lane_classes.get(f"{from_edge}_{element.get('fromLane')}", ()) \
+            # A connection with its own permissions (a turn only buses may take) is open to those classes only.
+            own = "passenger" in _permission_set(element.attrib) if {"allow", "disallow"} & element.attrib.keys() else True
+            if own and to_edge in view.edges \
+                    and "passenger" in lane_classes.get(f"{from_edge}_{element.get('fromLane')}", ()) \
                     and "passenger" in lane_classes.get(f"{to_edge}_{element.get('toLane')}", ()):
                 view.passenger_links.setdefault(from_edge, set()).add(to_edge)
     return view

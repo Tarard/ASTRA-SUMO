@@ -2365,11 +2365,11 @@ def test_stop_line_centre_with_a_long_program_is_dropped(tmp_path: Path) -> None
     assert "--node-files" not in calls[-1]
 
 
-def _series_master(down_state: str) -> str:
-    """A master where crossing signal 15 sits 0.2 m before centre SL_1 on the lane from arm 5."""
+def _series_master(down_state: str, gap_m: float = 0.2) -> str:
+    """A master where crossing signal 15 sits ``gap_m`` before centre SL_1 on the lane from arm 5."""
     return (
         '<net><edge id="5_15" from="5" to="15"><lane id="5_15_0" length="100"/></edge>'
-        '<edge id="15_1" from="15" to="1"><lane id="15_1_0" length="0.2"/></edge>'
+        f'<edge id="15_1" from="15" to="1"><lane id="15_1_0" length="{gap_m}"/></edge>'
         '<edge id="1_12" from="1" to="12"><lane id="1_12_0" length="15"/></edge>'
         '<tlLogic id="15" type="static" programID="0" offset="0"><phase duration="45" state="G"/>'
         '<phase duration="45" state="r"/></tlLogic>'
@@ -2394,6 +2394,18 @@ def test_series_signal_traps_need_common_green_below_one_car_of_storage(
         assert {key: series["traps"][0][key] for key in ("upstream_node", "downstream_node", "storage_m",
                                                           "common_green_s", "horizon_s")} == {
             "upstream_node": "15", "downstream_node": "1", "storage_m": 0.2, "common_green_s": 0, "horizon_s": 90}
+
+
+def test_series_signal_traps_reach_as_far_as_a_block_that_holds_one_car(tmp_path: Path) -> None:
+    from astra_sumo.core.osm_network import _series_signal_traps
+
+    net = tmp_path / "master.net.xml"
+    # 11 m between the two stop lines hold one car: with no common green one car passes per cycle.
+    net.write_text(_series_master("rG", gap_m=11.0), encoding="utf-8")
+    assert (_series_signal_traps(net)["trap_count"], _series_signal_traps(net)["traps"][0]["storage_m"]) == (1, 11.0)
+    # 16 m hold two cars: the pair is not looked at.
+    net.write_text(_series_master("rG", gap_m=16.0), encoding="utf-8")
+    assert _series_signal_traps(net)["pair_count"] == 0
 
 
 def test_master_is_rebuilt_once_with_the_crossing_signal_that_blocks_a_centre_demoted(tmp_path: Path) -> None:
@@ -3125,6 +3137,56 @@ def test_settle_master_signals_drops_a_join_that_still_breaks_a_restriction_afte
     assert joins_seen == [[["A", "B"]], [["A", "B"]], []]
     assert (joining["join_count"], joining["dropped_joins"], joining["deleted_turn_count"]) == (0, ["cluster_A_B"], 0)
     assert "<delete" not in turn_patch.read_text(encoding="utf-8")
+
+
+def test_settle_master_signals_drops_a_join_whose_controller_stays_in_a_series_trap(tmp_path: Path, monkeypatch) -> None:
+    from astra_sumo.core import osm_network, split_junctions
+
+    net_file = tmp_path / "master.net.xml"
+    net_file.write_text("<net/>", encoding="utf-8")
+    node_file = tmp_path / "groups.nod.xml"
+    node_file.write_text("<nodes/>", encoding="utf-8")
+    turn_patch = tmp_path / "turns.con.xml"
+    osm_network._write_turn_patch(turn_patch, {})
+    trap = {"upstream_node": "cluster_A_B", "downstream_node": "9", "upstream_lane": "in_0", "downstream_lane": "mid_0",
+            "upstream_tl": "cluster_A_B", "downstream_tl": "joinedS_9_10"}
+    joined = []
+    # The master with A+B and C+D joined shows the controller of A+B in a trap; later masters show none.
+    monkeypatch.setattr(osm_network, "_signal_node_file_master_check", lambda *_: {
+        "status": "pass", "not_applied_count": 0, "series_traps": [trap] if joined and len(joined[-1]) == 2 else [],
+        "long_centre_cycles": {}, "long_joined_cycles": {}})
+    monkeypatch.setattr(osm_network, "_narrow_passenger_lanes", lambda *_: {})
+    monkeypatch.setattr(osm_network, "_dead_lane_repairs", lambda *_: {"status": "no_effect", "connections": {}})
+    monkeypatch.setattr(split_junctions, "read_net", lambda *_: object())
+    monkeypatch.setattr(split_junctions, "osm_turn_restrictions", lambda *_: [])
+    monkeypatch.setattr(split_junctions, "restriction_changes", lambda *_: [])
+    monkeypatch.setattr(split_junctions, "split_junction_groups", lambda *_: {
+        "edge_m": 1.0, "controller_edge_m": 7.5, "span_m": 30.0, "linker_edge_count": 2,
+        "controller_linker_edge_count": 0, "skipped": [], "groups": [{"nodes": ["A", "B"]}, {"nodes": ["C", "D"]}]})
+    regroups = []
+
+    def regroup(**fallbacks):
+        regroups.append(([list(nodes) for nodes in fallbacks["joins"]], len(fallbacks["series_traps"])))
+        # No node of the trap can be demoted while the join stands.
+        stuck = ["cluster_A_B", "joinedS_9_10"] if fallbacks["series_traps"] else []
+        return {"status": "measured", "node_file": str(node_file), "node_file_sha256": "0" * 64,
+                "stop_line_centres": {"unresolved_series_trap_controllers": stuck}}
+
+    def rebuild():
+        joined.append(regroups[-1][0])
+        return {"status": "pass"}
+
+    grouping, _ = osm_network._settle_master_signals(
+        {"status": "measured", "node_file": str(node_file), "node_file_sha256": "0" * 64}, {"status": "pass"},
+        net_file=net_file, osm_file=tmp_path / "area.osm.xml", regroup=regroup, rebuild=rebuild,
+        lane_width_patch=tmp_path / "widths.edg.xml", turn_patch=turn_patch)
+
+    joining = grouping["split_junction_joins"]
+    # Both joins, then the trap with both joins, then C+D alone without the trap of the join that went.
+    assert regroups == [([["A", "B"], ["C", "D"]], 0), ([["A", "B"], ["C", "D"]], 1), ([["C", "D"]], 0)]
+    assert joined == [[["A", "B"], ["C", "D"]], [["C", "D"]]]
+    assert (joining["join_count"], joining["dropped_joins"], joining["series_trap_joins"]) == (
+        1, ["cluster_A_B"], ["cluster_A_B"])
 
 
 def test_extract_largest_passenger_component_core_writes_keep_and_discard_records(tmp_path: Path) -> None:
