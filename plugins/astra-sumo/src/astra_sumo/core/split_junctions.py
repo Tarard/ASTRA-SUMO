@@ -19,9 +19,12 @@ from pathlib import Path
 from typing import Any
 
 # A vehicle edge whose every lane is shorter than SPLIT_EDGE_M after netconvert cut the junction polygons links two
-# parts of one junction. A group that had to take in the rest of a multi-node controller and is then wider than
-# SPLIT_SPAN_M is left alone.
+# parts of one junction. Between two junctions of one signal controller the limit is CONTROLLER_SPLIT_EDGE_M, one
+# passenger car with its gap (5 m + 2.5 m): a shorter median edge stores no vehicle, so a car that turns into it
+# stands across the first half until the second half gets green and blocks the lane behind it. A group that had to
+# take in the rest of a multi-node controller and is then wider than SPLIT_SPAN_M is left alone.
 SPLIT_EDGE_M = 1.0
+CONTROLLER_SPLIT_EDGE_M = 7.5
 SPLIT_SPAN_M = 30.0
 _WAY_ID = re.compile(r"-?(\d+)")
 
@@ -98,12 +101,16 @@ def cluster_id(nodes: Iterable[str]) -> str:
 
 def split_junction_groups(
     view: NetView, *, edge_m: float = SPLIT_EDGE_M, span_m: float = SPLIT_SPAN_M, excluded: Iterable[str] = (),
+    controller_edge_m: float = CONTROLLER_SPLIT_EDGE_M,
 ) -> dict[str, Any]:
     """Node groups linked by vehicle edges shorter than ``edge_m`` between nodes with 3+ vehicle-road neighbours.
 
-    A group takes in every node of a controller that signals two or more junctions and has a node in the group, so
-    that a join never splits a controller; a group that grew that way to more than ``span_m`` across is skipped, and
-    so is every group with a node in ``excluded``.
+    An edge between two junctions that one controller signals links them when it is shorter than
+    ``controller_edge_m``. A group takes in every node of a controller that signals two or more junctions and has a
+    node in the group, so that a join never splits a controller; a group that grew that way to more than ``span_m``
+    across is skipped, and so is every group with a node in ``excluded``. A group that the controller edges made
+    wider than ``span_m`` is not joined as a whole: one junction that wide gridlocks. Its parts linked by the edges
+    under ``edge_m`` are judged on their own instead.
     """
     excluded = set(excluded)
     neighbours: dict[str, set[str]] = {}
@@ -111,51 +118,64 @@ def split_junction_groups(
         if vehicle and start != end:
             neighbours.setdefault(start, set()).add(end)
             neighbours.setdefault(end, set()).add(start)
-    parent: dict[str, str] = {}
-
-    def find(node_id: str) -> str:
-        parent.setdefault(node_id, node_id)
-        while parent[node_id] != node_id:
-            parent[node_id] = parent[parent[node_id]]
-            node_id = parent[node_id]
-        return node_id
-
-    linkers = []
-    for edge_id, (start, end, lengths, _, vehicle) in sorted(view.edges.items()):
-        if (vehicle and start != end and lengths and max(lengths) < edge_m
-                and len(neighbours.get(start, ())) >= 3 and len(neighbours.get(end, ())) >= 3):
-            parent[find(start)] = find(end)
-            linkers.append(edge_id)
-    grouped: dict[str, set[str]] = {}
-    for node_id in parent:
-        grouped.setdefault(find(node_id), set()).add(node_id)
-    seeds = [nodes for nodes in grouped.values() if len(nodes) > 1]
-    seeded = set().union(*seeds) if seeds else set()
+    signalled_by: dict[str, set[str]] = {}
+    for tl_id, nodes in view.controller_nodes.items():
+        for node_id in nodes:
+            signalled_by.setdefault(node_id, set()).add(tl_id)
     multi = {tl_id: nodes for tl_id, nodes in view.controller_nodes.items() if len(nodes) > 1}
     node_controllers: dict[str, set[str]] = {}
     for tl_id, nodes in multi.items():
         for node_id in nodes:
             node_controllers.setdefault(node_id, set()).add(tl_id)
-    groups = [set(nodes) for nodes in seeds]
-    changed = True
-    while changed:
-        changed = False
-        for index, nodes in enumerate(groups):
-            need = set().union(*(multi[tl_id] for node_id in nodes for tl_id in node_controllers.get(node_id, ())))
-            if not need <= nodes:
-                nodes |= need
-                changed = True
-            for other in range(len(groups) - 1, index, -1):
-                if groups[other] & nodes:
-                    nodes |= groups.pop(other)
+    plain, by_controller = [], []
+    for edge_id, (start, end, lengths, _, vehicle) in sorted(view.edges.items()):
+        if not (vehicle and start != end and lengths
+                and len(neighbours.get(start, ())) >= 3 and len(neighbours.get(end, ())) >= 3):
+            continue
+        if max(lengths) < edge_m:
+            plain.append((start, end))
+        elif max(lengths) < controller_edge_m and signalled_by.get(start, set()) & signalled_by.get(end, set()):
+            by_controller.append((start, end))
+
+    def grouping(pairs: list[tuple[str, str]]) -> tuple[list[set[str]], set[str]]:
+        """The node groups the linked pairs form, each closed over its multi-node controllers, and the linked nodes."""
+        parent: dict[str, str] = {}
+
+        def find(node_id: str) -> str:
+            parent.setdefault(node_id, node_id)
+            while parent[node_id] != node_id:
+                parent[node_id] = parent[parent[node_id]]
+                node_id = parent[node_id]
+            return node_id
+
+        for start, end in pairs:
+            parent[find(start)] = find(end)
+        grouped: dict[str, set[str]] = {}
+        for node_id in parent:
+            grouped.setdefault(find(node_id), set()).add(node_id)
+        groups = [set(nodes) for nodes in grouped.values() if len(nodes) > 1]
+        seeded = set().union(*groups) if groups else set()
+        changed = True
+        while changed:
+            changed = False
+            for index, nodes in enumerate(groups):
+                need = set().union(*(multi[tl_id] for node_id in nodes for tl_id in node_controllers.get(node_id, ())))
+                if not need <= nodes:
+                    nodes |= need
                     changed = True
+                for other in range(len(groups) - 1, index, -1):
+                    if groups[other] & nodes:
+                        nodes |= groups.pop(other)
+                        changed = True
+        return groups, seeded
 
     def span(nodes: set[str]) -> float:
         points = [view.junctions[node_id][1:] for node_id in nodes if node_id in view.junctions]
         return max((math.dist(a, b) for a in points for b in points), default=0.0)
 
     kept, skipped = [], []
-    for nodes in sorted(groups, key=lambda rows: sorted(rows)):
+
+    def judge(nodes: set[str], seeded: set[str]) -> None:
         row = {"nodes": sorted(nodes), "span_m": round(span(nodes), 2), "added_controller_nodes": sorted(nodes - seeded)}
         if nodes & excluded:
             skipped.append({**row, "reason": "excluded_after_check"})
@@ -163,8 +183,21 @@ def split_junction_groups(
             skipped.append({**row, "reason": "controller_closure_too_wide"})
         else:
             kept.append(row)
-    return {"edge_m": edge_m, "span_m": span_m, "linker_edge_count": len(linkers), "groups": kept,
-            "skipped": skipped}
+
+    plain_groups, plain_seeded = grouping(plain)
+    groups, seeded = grouping(plain + by_controller) if by_controller else (plain_groups, plain_seeded)
+    controller_linked = {node_id for pair in by_controller for node_id in pair}
+    for nodes in sorted(groups, key=lambda rows: sorted(rows)):
+        if nodes & controller_linked and span(nodes) > span_m:
+            skipped.append({"nodes": sorted(nodes), "span_m": round(span(nodes), 2),
+                            "added_controller_nodes": sorted(nodes - seeded), "reason": "controller_group_too_wide"})
+            for part in sorted((group for group in plain_groups if group <= nodes), key=lambda rows: sorted(rows)):
+                judge(part, plain_seeded)
+        else:
+            judge(nodes, seeded)
+    return {"edge_m": edge_m, "controller_edge_m": controller_edge_m, "span_m": span_m,
+            "linker_edge_count": len(plain) + len(by_controller), "controller_linker_edge_count": len(by_controller),
+            "groups": kept, "skipped": skipped}
 
 
 def osm_turn_restrictions(osm_file: Path) -> list[dict[str, Any]]:
@@ -203,6 +236,8 @@ def restriction_changes(
     In the base net, each entry edge of a group reaches a set of exits through the group's inner edges; the joined
     junction connects the entry to its exits directly. A ``no_*`` restriction breaks when the joined junction adds
     an exit on the to way, an ``only_*`` restriction when it adds an exit off the to way or drops one on it.
+    ``links`` lists the entry and exit edges of the turns a row newly allows; removing those connections restores
+    the restriction, so it stays empty when the row also lost its mandatory turn.
     """
     member = {node_id: frozenset(nodes) for nodes in map(frozenset, groups) for node_id in nodes}
     reach: dict[frozenset[str], dict[str, tuple[set[str], set[str]]]] = {}
@@ -254,17 +289,19 @@ def restriction_changes(
         entries = [entry for entry in entries if _way(entry) == row["from"]] or entries
         to_exits = set().union(*(exits_from(edge_id, nodes) for edge_id in to_edges))
         to_exits = {edge_id for edge_id in to_exits if _way(edge_id) == row["to"]} or to_exits
-        status = None
+        status, links, lost = None, set(), False
+        ban = row["restriction"].startswith("no_")
         for entry in entries:
             before = group_reach(nodes)[entry][1]
             after = joined.passenger_links.get(entry, set())
-            if row["restriction"].startswith("no_"):
-                if (after & to_exits) - before:
-                    status = "newly_allowed"
-            elif (after - to_exits) - before:
+            opened = ((after & to_exits) if ban else (after - to_exits)) - before
+            if opened:
                 status = "newly_allowed"
-            elif status is None and (to_exits & before) - after:
-                status = "mandatory_turn_lost"
+                links.update((entry, exit_edge) for exit_edge in opened)
+            if not ban and (to_exits & before) - after:
+                lost = True
+                status = status or "mandatory_turn_lost"
         if status:
-            changes.append({**row, "status": status, "group": sorted(nodes)})
+            changes.append({**row, "status": status, "group": sorted(nodes),
+                            "links": [] if lost else [list(link) for link in sorted(links)]})
     return changes

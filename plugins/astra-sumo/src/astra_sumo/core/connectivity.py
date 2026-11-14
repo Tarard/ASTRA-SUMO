@@ -193,9 +193,14 @@ def extract_largest_passenger_component_core(
     output_dir: Path,
     prefix: str = "sumo_osm_network",
     timeout_seconds: float = 240.0,
+    postload_timeout_seconds: float = 60.0,
     command_runner=run_command,
 ) -> dict[str, Any]:
-    """Build a valid SUMO network containing only the largest passenger component."""
+    """Build a valid SUMO network containing only the largest passenger component.
+
+    The ``--keep-edges.postload`` attempt gets at most ``postload_timeout_seconds``: on a city-centre network it
+    does not end within ten minutes, and the plain keep-edges rebuild that follows needs a few seconds.
+    """
     try:
         raw_summary, components = _passenger_components(net_file)
     except (OSError, ET.ParseError, KeyError, ValueError) as exc:
@@ -254,7 +259,8 @@ def extract_largest_passenger_component_core(
     command_record.write_text(" ".join(command) + "\n", encoding="utf-8")
     command_attempts = [list(command)]
     try:
-        result = _result_to_dict(command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds))
+        result = _result_to_dict(command_runner(command, cwd=output_dir,
+                                                timeout_seconds=min(timeout_seconds, postload_timeout_seconds)))
     except OSError as exc:
         return _failure(f"{type(exc).__name__}: {exc}")
 

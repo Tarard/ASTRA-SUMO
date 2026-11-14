@@ -1656,18 +1656,114 @@ def _write_lane_width_patch(path: Path, narrow: Mapping[str, Iterable[tuple[int,
     path.write_bytes(ET.tostring(edges, encoding="utf-8", xml_declaration=True))
 
 
+def _write_turn_patch(path: Path, deletions: Mapping[str, Iterable[Mapping[str, str]]],
+                      restored: Mapping[str, Iterable[tuple[int, str, int]]] | None = None) -> None:
+    """A connection file that deletes the turns a kept join would open against an OSM turn restriction and states
+    the connections of the edges whose dead lanes were restored (_dead_lane_repairs).
+
+    netconvert takes the stated connections of an edge as all of them, so a deleted turn is left out of that edge's
+    rows instead of being deleted afterwards.
+    """
+    restored = restored or {}
+    connections = ET.Element("connections")
+    banned = {(row["from"], row["to"]) for rows in deletions.values() for row in rows}
+    for _, rows in sorted(deletions.items()):
+        for row in rows:
+            if row["from"] not in restored:
+                ET.SubElement(connections, "delete", {"from": row["from"], "to": row["to"]})
+    for edge_id, rows in sorted(restored.items()):
+        for from_lane, to_edge, to_lane in rows:
+            if (edge_id, to_edge) not in banned:
+                ET.SubElement(connections, "connection", {"from": edge_id, "to": to_edge, "fromLane": str(from_lane),
+                                                          "toLane": str(to_lane)})
+    ET.indent(connections)
+    path.write_bytes(ET.tostring(connections, encoding="utf-8", xml_declaration=True))
+
+
+def _dead_lane_repairs(net_file: Path, node_file: Path) -> dict[str, Any]:
+    """Passenger lanes left without a connection at the junctions the node file signalises, and the connections
+    that give them back.
+
+    netconvert divides the lanes of an approach differently at a signalised node than at a priority node. Where the
+    node file made an inner node of a signal centre signalised, an approach can lose a lane: at Pirnaischer Platz one
+    of two left-turn lanes kept no connection, and every left-turning car queued in the other. The vehicle-road
+    reference build of the same input (before the node file) still connects that lane. A lane is matched by its
+    position among the vehicle lanes of its edge; an edge or target whose vehicle lane count differs from the
+    reference is left alone. ``connections`` holds, per repaired edge, all its connections for the turn patch.
+    """
+    from .network_layers import VEHICLE_LAYER_CLASSES
+    from .osm_access import _permission_set
+
+    reference_con, reference_edg = (node_file.with_name(f"vehicle_reference.{kind}.xml") for kind in ("con", "edg"))
+    signalised = {node.get("id") for node in ET.parse(node_file).getroot().findall("node")
+                  if node.get("type") == "traffic_light"}
+    if not signalised or not reference_con.is_file() or not reference_edg.is_file():
+        return {"status": "not_applicable", "reason": "no_signalised_node_or_reference", "connections": {}}
+    vehicle_classes = frozenset(VEHICLE_LAYER_CLASSES)
+    lanes: dict[str, tuple[str, list[int], set[int]]] = {}  # edge: to node, vehicle lane indices, passenger lane indices
+    links: dict[str, list[tuple[int, str, int]]] = {}
+    for element in _completed_elements(net_file.open("rb")):
+        if element.tag == "edge" and not element.get("function"):
+            vehicle, passenger = [], set()
+            for lane in element.findall("lane"):
+                attributes = lane.attrib if "allow" in lane.attrib or "disallow" in lane.attrib else element.attrib
+                classes = _permission_set(attributes)
+                if classes & vehicle_classes:
+                    vehicle.append(int(lane.get("index", "0")))
+                if "passenger" in classes:
+                    passenger.add(int(lane.get("index", "0")))
+            lanes[element.get("id")] = (element.get("to"), sorted(vehicle), passenger)
+        elif element.tag == "connection" and not element.get("from", ":").startswith(":") \
+                and not element.get("to", ":").startswith(":"):
+            links.setdefault(element.get("from"), []).append(
+                (int(element.get("fromLane", "0")), element.get("to"), int(element.get("toLane", "0"))))
+    reference_lanes = {edge.get("id"): int(edge.get("numLanes", "1")) for edge in ET.parse(reference_edg).getroot().findall("edge")}
+    reference_links: dict[str, list[tuple[int, str, int]]] = {}
+    for row in ET.parse(reference_con).getroot().findall("connection"):
+        if row.get("to") and row.get("fromLane") is not None and row.get("toLane") is not None:
+            reference_links.setdefault(row.get("from"), []).append((int(row.get("fromLane")), row.get("to"), int(row.get("toLane"))))
+    connections: dict[str, list[tuple[int, str, int]]] = {}
+    repaired, unmatched = [], []
+    for edge_id, (node_id, vehicle, passenger) in sorted(lanes.items()):
+        if node_id not in signalised or edge_id not in links:
+            continue
+        dead = sorted(passenger - {from_lane for from_lane, _, _ in links[edge_id]})
+        if not dead:
+            continue
+        row = {"edge": edge_id, "junction": node_id, "dead_lanes": dead}
+        if len(vehicle) != reference_lanes.get(edge_id):
+            unmatched.append({**row, "reason": "vehicle_lane_count_differs_from_reference"})
+            continue
+        targets = {to_edge for from_lane, to_edge, _ in reference_links.get(edge_id, ()) if vehicle[from_lane] in dead}
+        targets = {to_edge for to_edge in targets if to_edge in lanes and len(lanes[to_edge][1]) == reference_lanes.get(to_edge)}
+        if not targets:
+            unmatched.append({**row, "reason": "no_reference_connection_for_the_lane"})
+            continue
+        restored = [(vehicle[from_lane], to_edge, lanes[to_edge][1][to_lane])
+                    for from_lane, to_edge, to_lane in reference_links[edge_id] if to_edge in targets]
+        kept = [link for link in links[edge_id] if link[1] not in targets or link[0] not in vehicle]
+        connections[edge_id] = sorted(set(kept + restored))
+        repaired.append({**row, "targets": sorted(targets)})
+    return {"status": "measured" if repaired else "no_effect", "edge_count": len(repaired),
+            "dead_lane_count": sum(len(row["dead_lanes"]) for row in repaired), "edges": repaired[:_STOP_LINE_CENTRE_LIMIT],
+            "unmatched_edge_count": len(unmatched), "unmatched_edges": unmatched[:_STOP_LINE_CENTRE_LIMIT],
+            "connections": connections}
+
+
 def _settle_master_signals(
     signal_grouping: dict[str, Any], result: dict[str, Any], *, net_file: Path, osm_file: Path,
     regroup: Callable[..., dict[str, Any]], rebuild: Callable[[], dict[str, Any]],
-    lane_width_patch: Path | None = None,
+    lane_width_patch: Path | None = None, turn_patch: Path | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     """Check the master against its signal node file and rebuild it while the check finds something to change.
 
     The vehicle-road build cannot show the green groups that paths and crossings add, nor the programs of crossing
     signals, so each master is streamed: a centre program above the cycle limit gets the long-cycle fallback and a
     series trap the demotion of _series_demotions. Once no centre is long, the split junctions of the master
-    (split_junctions.split_junction_groups) are joined; the next master drops every join that changed an OSM turn
-    restriction or gave a centre a long program. When the joins are settled, the passenger lanes narrower than
+    (split_junctions.split_junction_groups) are joined. A join that only opens turns an OSM restriction forbids is
+    kept and those connections are deleted through ``turn_patch``, a connection file the master loads; the next
+    master is checked again. A join that loses a mandatory turn, still changes a restriction after the deletion or
+    gives a centre a long program is dropped. When the joins are settled, the passenger lanes narrower than
     _MIN_PASSENGER_LANE_WIDTH_M are widened through ``lane_width_patch``, an edge file the master loads. The master is
     rebuilt with the new files at most _SIGNAL_REBUILD_ROUNDS times; what the last check still finds stays in the
     report.
@@ -1680,6 +1776,10 @@ def _settle_master_signals(
     long_seen: set[str] = set()
     joins: list[list[str]] = []
     join_state, joining, base_view, restrictions = "pending", {"status": "not_run"}, None, []
+    deletions: dict[str, list[dict[str, str]]] = {}
+    dropped_joins: set[str] = set()
+    lane_repair: dict[str, Any] = {"status": "not_run"}
+    restored: dict[str, list[tuple[int, str, int]]] = {}
     widening: dict[str, Any] = {"status": "not_run"}
     while result.get("status") == "pass" and net_file.is_file():
         check = _signal_node_file_master_check(Path(signal_grouping["node_file"]), net_file)
@@ -1692,19 +1792,44 @@ def _settle_master_signals(
         joins_changed = False
         if join_state == "guard":
             changes = restriction_changes(base_view, read_net(net_file), joins, restrictions)
-            dropped = {cluster_id(row["group"]) for row in changes} | set(check["long_joined_cycles"])
-            joining.update(restriction_change_count=len(changes), restriction_changes=changes[:_STOP_LINE_CENTRE_LIMIT],
-                           long_joined_cycles=check["long_joined_cycles"], dropped_joins=sorted(dropped))
+            by_cluster: dict[str, list[dict[str, Any]]] = {}
+            for row in changes:
+                by_cluster.setdefault(cluster_id(row["group"]), []).append(row)
+            dropped, patched = set(check["long_joined_cycles"]), False
+            for cluster, rows in sorted(by_cluster.items()):
+                if (turn_patch is not None and cluster not in deletions and cluster not in dropped
+                        and all(row.get("links") for row in rows)):
+                    deletions[cluster] = [{"restriction": row["id"], "from": start, "to": end}
+                                          for row in rows for start, end in row["links"]]
+                    patched = True
+                else:
+                    dropped.add(cluster)
+            for cluster in dropped:
+                deletions.pop(cluster, None)
+            dropped_joins |= dropped
+            if turn_patch is not None:
+                _write_turn_patch(turn_patch, deletions)
+                joining.update(turn_patch_file=str(turn_patch.resolve()), turn_patch_sha256=_file_sha256(turn_patch))
+            if "restriction_changes" not in joining:
+                # The first check shows what the joins changed; a later check only confirms the deletions.
+                joining.update(restriction_change_count=len(changes),
+                               restriction_changes=changes[:_STOP_LINE_CENTRE_LIMIT])
+            joining.update(long_joined_cycles=check["long_joined_cycles"], dropped_joins=sorted(dropped_joins),
+                           deleted_turn_count=sum(len(rows) for rows in deletions.values()),
+                           deleted_turns=dict(sorted(deletions.items())))
             if dropped:
                 joins = [nodes for nodes in joins if cluster_id(nodes) not in dropped]
-                joins_changed = True
+            joins_changed = bool(dropped or patched)
             joining["join_count"] = len(joins)
-            join_state, base_view = "done", None
+            if not patched:
+                join_state, base_view = "done", None
         elif join_state == "pending" and not long:
             base_view = read_net(net_file)
             found = split_junction_groups(base_view)
             joins = [row["nodes"] for row in found["groups"]]
             joining = {"status": "measured" if joins else "no_effect", "edge_m": found["edge_m"],
+                       "controller_edge_m": found["controller_edge_m"],
+                       "controller_linker_edge_count": found["controller_linker_edge_count"],
                        "span_m": found["span_m"], "linker_edge_count": found["linker_edge_count"],
                        "join_count": len(joins), "joined_node_count": sum(len(nodes) for nodes in joins),
                        "skipped_groups": found["skipped"][:_STOP_LINE_CENTRE_LIMIT],
@@ -1714,6 +1839,19 @@ def _settle_master_signals(
                 join_state, joins_changed = "guard", True
             else:
                 join_state, base_view = "done", None
+        repairs_changed = False
+        if turn_patch is not None and join_state == "done" and not (new_traps or long or joins_changed):
+            if lane_repair["status"] == "not_run":
+                lane_repair = _dead_lane_repairs(net_file, Path(signal_grouping["node_file"]))
+                restored = lane_repair.pop("connections")
+                if restored:
+                    _write_turn_patch(turn_patch, deletions, restored)
+                    lane_repair.update(turn_patch_file=str(turn_patch.resolve()), turn_patch_sha256=_file_sha256(turn_patch))
+                    repairs_changed = True
+            elif lane_repair["status"] == "measured" and "remaining_dead_lane_count" not in lane_repair:
+                # The master after the repair: what the stated connections did not bring back.
+                after = _dead_lane_repairs(net_file, Path(signal_grouping["node_file"]))
+                lane_repair["remaining_dead_lane_count"] = after.get("dead_lane_count", 0)
         widths_changed = False
         if (lane_width_patch is not None and widening["status"] == "not_run" and join_state == "done"
                 and not (new_traps or long or joins_changed)):
@@ -1726,7 +1864,8 @@ def _settle_master_signals(
             widths_changed = bool(narrow)
         rounds.append({"round": len(rounds) + 1, "node_file_sha256": signal_grouping["node_file_sha256"], **check,
                        "new_series_trap_count": len(new_traps), "series_traps_file": str(traps_file.resolve())})
-        if not (new_traps or long or joins_changed or widths_changed) or len(rounds) > _SIGNAL_REBUILD_ROUNDS:
+        if not (new_traps or long or joins_changed or widths_changed or repairs_changed) \
+                or len(rounds) > _SIGNAL_REBUILD_ROUNDS:
             break
         traps_seen.update(new_traps)
         long_seen.update(long)
@@ -1739,7 +1878,8 @@ def _settle_master_signals(
         result = rebuild()
     final = rounds[-1] if rounds else {"status": "blocked", "reason": "master_build_failed"}
     return {**signal_grouping, "master_rebuild_count": max(len(rounds) - 1, 0), "master_rounds": rounds,
-            "master_check": final, "split_junction_joins": joining, "lane_widening": widening}, result
+            "master_check": final, "split_junction_joins": joining, "lane_widening": widening,
+            "lane_repair": lane_repair}, result
 
 
 def _normalized_netconvert_profile(profile: str | None) -> str:
@@ -1960,6 +2100,7 @@ def build_osm_network(
         tls_join_options = ["--tls.join", "--tls.join-dist", f"{tls_join_distance_m:g}"]
         signal_grouping: dict[str, Any] | None = None
         lane_width_patch: Path | None = None
+        turn_patch: Path | None = None
         signal_warnings: list[str] = []
         if normalized_profile == MULTIMODAL_NETCONVERT_PROFILE:
             def group_signals(**fallbacks: Any) -> dict[str, Any]:
@@ -1983,6 +2124,10 @@ def build_osm_network(
                     lane_width_patch = logs_dir / f"{prefix}_lane_widths.edg.xml"
                     _write_lane_width_patch(lane_width_patch, {})
                     tls_join_options += ["--edge-files", _relative_to_root(lane_width_patch, root)]
+                    # Filled by the same loop with the turns a kept join would open (_write_turn_patch).
+                    turn_patch = logs_dir / f"{prefix}_join_turns.con.xml"
+                    _write_turn_patch(turn_patch, {})
+                    tls_join_options += ["--connection-files", _relative_to_root(turn_patch, root)]
         from .local_network_conversion import with_geometry_precision
 
         command = with_geometry_precision([
@@ -2081,7 +2226,7 @@ def build_osm_network(
         if signal_grouping is not None and signal_grouping.get("node_file"):
             signal_grouping, result = _settle_master_signals(
                 signal_grouping, result, net_file=net_file, osm_file=filtered_osm, lane_width_patch=lane_width_patch,
-                regroup=group_signals,
+                turn_patch=turn_patch, regroup=group_signals,
                 rebuild=lambda: _result_to_dict(command_runner(command, cwd=root, timeout_seconds=timeout_seconds)))
             if signal_grouping["master_check"]["status"] != "pass":
                 signal_warnings.append(f"{signal_grouping['master_check']['not_applied_count']} signal node file "

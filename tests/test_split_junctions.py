@@ -57,6 +57,43 @@ def test_split_junction_groups_take_in_whole_controllers_and_skip_wide_ones() ->
     assert [row["nodes"] for row in split_junction_groups(view, span_m=50.0)["groups"]] == [["A", "B", "C"]]
 
 
+def test_split_junction_groups_join_a_short_median_edge_inside_one_controller() -> None:
+    def view(controllers: dict[str, set[str]], inner_m: float) -> NetView:
+        return NetView(
+            edges={"ab": ("A", "B", [inner_m], True, True),
+                   **{f"{node}{arm}": (node, f"{node}{arm}x", [50.0], True, True) for node in "AB" for arm in "123"}},
+            junctions={"A": ("traffic_light", 0, 0), "B": ("traffic_light", 10, 0)}, controller_nodes=controllers)
+
+    # A 2.6 m median edge stores no car: one controller on both halves makes them one junction.
+    found = split_junction_groups(view({"SL_A": {"A", "B"}}, 2.6))
+    assert [row["nodes"] for row in found["groups"]] == [["A", "B"]]
+    assert (found["linker_edge_count"], found["controller_linker_edge_count"]) == (1, 1)
+    # Two controllers, no controller, or an edge that holds a car: left alone.
+    assert split_junction_groups(view({"x": {"A"}, "y": {"B"}}, 2.6))["groups"] == []
+    assert split_junction_groups(view({}, 2.6))["groups"] == []
+    assert split_junction_groups(view({"SL_A": {"A", "B"}}, 8.0))["groups"] == []
+
+
+def test_split_junction_groups_keep_a_wide_controller_centre_apart_and_fall_back_to_its_short_edges() -> None:
+    # One controller on A, B, C, D in a row, 20 m apart. A-B is a 0.2 m edge, B-C and C-D are 3 m median edges.
+    arms = {f"{node}{arm}": (node, f"{node}{arm}x", [50.0], True, True) for node in "ABCD" for arm in "123"}
+    wide = NetView(
+        edges={"ab": ("A", "B", [0.2], True, True), "bc": ("B", "C", [3.0], True, True), "cd": ("C", "D", [3.0], True, True),
+               **arms},
+        junctions={node: ("traffic_light", 20.0 * index, 0.0) for index, node in enumerate("ABCD")},
+        controller_nodes={"SL_A": {"A", "B"}, "SL_B": {"B", "C"}, "SL_C": {"C", "D"}})
+    found = split_junction_groups(wide)
+
+    # All four as one junction would be 60 m across: only the part joined by the 0.2 m edge stays, and its two
+    # controllers pull C and D back in, so that part is skipped as before.
+    assert [row["reason"] for row in found["skipped"]] == ["controller_group_too_wide", "controller_closure_too_wide"]
+    assert found["groups"] == []
+    assert [row["nodes"] for row in split_junction_groups(wide, span_m=70.0)["groups"]] == [["A", "B", "C", "D"]]
+    # Without the controller on B and C, the 0.2 m pair is joined on its own.
+    narrow = NetView(edges=wide.edges, junctions=wide.junctions, controller_nodes={"SL_C": {"C", "D"}})
+    assert [row["nodes"] for row in split_junction_groups(narrow)["groups"]] == [["A", "B"], ["C", "D"]]
+
+
 def test_cluster_id_follows_netconvert() -> None:
     assert cluster_id(["2", "10", "1"]) == "cluster_1_10_2"
     assert cluster_id([str(n) for n in range(6)]) == "cluster_0_1_2_3_#2more"
@@ -82,10 +119,15 @@ def test_restriction_changes_find_a_join_that_lifts_a_ban_or_drops_the_only_turn
     lifted = _restriction_view({"10#0": {"30#0", "40#0"}})
     lost = _restriction_view({"10#0": set()})
     assert restriction_changes(base, kept, [["A", "B"]], ban + only) == []
-    assert [(row["id"], row["status"]) for row in restriction_changes(base, lifted, [["A", "B"]], ban + only)] == [
-        ("1", "newly_allowed"), ("2", "newly_allowed")]
-    assert [(row["id"], row["status"]) for row in restriction_changes(base, lost, [["A", "B"]], only)] == [
-        ("2", "mandatory_turn_lost")]
+    opened = restriction_changes(base, lifted, [["A", "B"]], ban + only)
+    assert [(row["id"], row["status"]) for row in opened] == [("1", "newly_allowed"), ("2", "newly_allowed")]
+    # Each row names the turn to delete; a row that lost its mandatory turn names none.
+    assert [row["links"] for row in opened] == [[["10#0", "40#0"]], [["10#0", "40#0"]]]
+    assert [(row["id"], row["status"], row["links"]) for row in restriction_changes(base, lost, [["A", "B"]], only)] == [
+        ("2", "mandatory_turn_lost", [])]
+    both = _restriction_view({"10#0": {"40#0"}})
+    assert [(row["status"], row["links"]) for row in restriction_changes(base, both, [["A", "B"]], only)] == [
+        ("newly_allowed", [])]
     # A via node outside every join is not compared.
     assert restriction_changes(base, lifted, [["X", "Y"]], ban) == []
 

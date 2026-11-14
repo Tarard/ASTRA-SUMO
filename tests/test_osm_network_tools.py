@@ -2978,6 +2978,155 @@ def test_summarize_passenger_connectivity_fails_disconnected_components(tmp_path
     assert "passenger network has 2 disconnected components" in report["warnings"]
 
 
+def test_dead_lane_repairs_restore_a_lane_the_signalised_node_lost_from_the_vehicle_reference(tmp_path: Path) -> None:
+    from astra_sumo.core.osm_network import _dead_lane_repairs, _write_turn_patch
+
+    # Approach "in": bike lane 0 and car lanes 1-3. The master connects lanes 1, 2 straight and only lane 3 left;
+    # the vehicle reference (car lanes 0-2) sends lanes 1 and 2 left, so master lane 2 gets "left" lane 0 back.
+    net = tmp_path / "master.net.xml"
+    net.write_text("""<net>
+  <edge id="in" from="a" to="c"><lane id="in_0" index="0" allow="bicycle" length="50"/>
+    <lane id="in_1" index="1" allow="passenger" length="50"/><lane id="in_2" index="2" allow="passenger" length="50"/>
+    <lane id="in_3" index="3" allow="passenger" length="50"/></edge>
+  <edge id="ahead" from="c" to="b"><lane id="ahead_0" index="0" allow="bicycle" length="50"/>
+    <lane id="ahead_1" index="1" allow="passenger" length="50"/></edge>
+  <edge id="left" from="c" to="d"><lane id="left_0" index="0" allow="passenger" length="50"/>
+    <lane id="left_1" index="1" allow="passenger" length="50"/></edge>
+  <edge id="other" from="e" to="x"><lane id="other_0" index="0" allow="passenger" length="50"/>
+    <lane id="other_1" index="1" allow="passenger" length="50"/></edge>
+  <connection from="in" to="ahead" fromLane="0" toLane="0"/>
+  <connection from="in" to="ahead" fromLane="1" toLane="1"/>
+  <connection from="in" to="left" fromLane="3" toLane="0"/>
+  <connection from="other" to="left" fromLane="0" toLane="0"/>
+</net>""", encoding="utf-8")
+    node_file = tmp_path / "groups.nod.xml"
+    node_file.write_text('<nodes><node id="c" type="traffic_light" tl="SL_c"/><node id="x" type="priority"/></nodes>',
+                         encoding="utf-8")
+    (tmp_path / "vehicle_reference.edg.xml").write_text(
+        '<edges><edge id="in" numLanes="3"/><edge id="ahead" numLanes="1"/><edge id="left" numLanes="2"/>'
+        '<edge id="other" numLanes="2"/></edges>', encoding="utf-8")
+    (tmp_path / "vehicle_reference.con.xml").write_text(
+        '<connections><connection from="in" to="ahead" fromLane="0" toLane="0"/>'
+        '<connection from="in" to="left" fromLane="1" toLane="0"/><connection from="in" to="left" fromLane="2" toLane="1"/>'
+        '<connection from="other" to="left" fromLane="1" toLane="1"/></connections>', encoding="utf-8")
+
+    found = _dead_lane_repairs(net, node_file)
+
+    # "other" also has a dead lane, but its junction is not one the node file signalised.
+    assert (found["status"], found["edge_count"], found["dead_lane_count"]) == ("measured", 1, 1)
+    assert found["edges"] == [{"edge": "in", "junction": "c", "dead_lanes": [2], "targets": ["left"]}]
+    assert found["connections"] == {"in": [(0, "ahead", 0), (1, "ahead", 1), (2, "left", 0), (3, "left", 1)]}
+
+    patch = tmp_path / "turns.con.xml"
+    _write_turn_patch(patch, {"cluster_c": [{"restriction": "9", "from": "in", "to": "ahead"},
+                                            {"restriction": "9", "from": "elsewhere", "to": "left"}]}, found["connections"])
+    text = patch.read_text(encoding="utf-8")
+    # An edge with stated connections leaves a banned turn out; other edges keep their delete row.
+    assert 'from="in" to="ahead"' not in text and '<delete from="elsewhere" to="left"' in text
+    assert '<connection from="in" to="left" fromLane="2" toLane="0"' in text
+
+    # A different vehicle lane count than the reference: the edge is left alone and reported.
+    (tmp_path / "vehicle_reference.edg.xml").write_text(
+        '<edges><edge id="in" numLanes="2"/><edge id="ahead" numLanes="1"/><edge id="left" numLanes="2"/></edges>',
+        encoding="utf-8")
+    skipped = _dead_lane_repairs(net, node_file)
+    assert skipped["status"] == "no_effect" and skipped["connections"] == {}
+    assert skipped["unmatched_edges"][0]["reason"] == "vehicle_lane_count_differs_from_reference"
+
+
+def test_settle_master_signals_keeps_a_join_and_deletes_the_turn_it_opened(tmp_path: Path, monkeypatch) -> None:
+    from astra_sumo.core import osm_network, split_junctions
+
+    net_file = tmp_path / "master.net.xml"
+    net_file.write_text("<net/>", encoding="utf-8")
+    node_file = tmp_path / "groups.nod.xml"
+    node_file.write_text("<nodes/>", encoding="utf-8")
+    turn_patch = tmp_path / "turns.con.xml"
+    osm_network._write_turn_patch(turn_patch, {})
+    builds = []
+    # Build 1 has no joins. Build 2 joins A+B and C+D: A+B opens one forbidden turn, C+D loses a mandatory turn.
+    # Build 3 keeps A+B with the turn deleted and shows no change.
+    changes_by_build = {
+        2: [{"id": "7", "restriction": "no_left_turn", "status": "newly_allowed", "group": ["A", "B"],
+             "links": [["in", "out"]]},
+            {"id": "8", "restriction": "only_straight_on", "status": "mandatory_turn_lost", "group": ["C", "D"],
+             "links": []}],
+        3: [],
+    }
+    monkeypatch.setattr(osm_network, "_signal_node_file_master_check", lambda *_: {
+        "status": "pass", "not_applied_count": 0, "series_traps": [], "long_centre_cycles": {}, "long_joined_cycles": {}})
+    monkeypatch.setattr(osm_network, "_narrow_passenger_lanes", lambda *_: {})
+    monkeypatch.setattr(split_junctions, "read_net", lambda *_: object())
+    monkeypatch.setattr(split_junctions, "osm_turn_restrictions", lambda *_: [])
+    monkeypatch.setattr(split_junctions, "split_junction_groups", lambda *_: {
+        "edge_m": 1.0, "controller_edge_m": 7.5, "span_m": 30.0, "linker_edge_count": 2,
+        "controller_linker_edge_count": 0, "skipped": [],
+        "groups": [{"nodes": ["A", "B"]}, {"nodes": ["C", "D"]}]})
+    monkeypatch.setattr(split_junctions, "restriction_changes", lambda *_: changes_by_build[len(builds) + 1])
+    joins_seen = []
+
+    def regroup(**fallbacks):
+        joins_seen.append([list(nodes) for nodes in fallbacks["joins"]])
+        return {"status": "measured", "node_file": str(node_file), "node_file_sha256": "0" * 64}
+
+    def rebuild():
+        builds.append(turn_patch.read_text(encoding="utf-8"))
+        return {"status": "pass"}
+
+    grouping, result = osm_network._settle_master_signals(
+        {"status": "measured", "node_file": str(node_file), "node_file_sha256": "0" * 64}, {"status": "pass"},
+        net_file=net_file, osm_file=tmp_path / "area.osm.xml", regroup=regroup, rebuild=rebuild,
+        lane_width_patch=tmp_path / "widths.edg.xml", turn_patch=turn_patch)
+
+    joining = grouping["split_junction_joins"]
+    assert result["status"] == "pass"
+    # The first rebuild joins both groups; the second drops C+D and deletes the turn of A+B.
+    assert joins_seen == [[["A", "B"], ["C", "D"]], [["A", "B"]]]
+    assert "<delete" not in builds[0] and '<delete from="in" to="out"' in builds[1]
+    assert (joining["join_count"], joining["dropped_joins"], joining["deleted_turn_count"]) == (1, ["cluster_C_D"], 1)
+    assert joining["deleted_turns"] == {"cluster_A_B": [{"restriction": "7", "from": "in", "to": "out"}]}
+    assert joining["restriction_change_count"] == 2
+
+
+def test_settle_master_signals_drops_a_join_that_still_breaks_a_restriction_after_the_deletion(
+    tmp_path: Path, monkeypatch,
+) -> None:
+    from astra_sumo.core import osm_network, split_junctions
+
+    net_file = tmp_path / "master.net.xml"
+    net_file.write_text("<net/>", encoding="utf-8")
+    node_file = tmp_path / "groups.nod.xml"
+    node_file.write_text("<nodes/>", encoding="utf-8")
+    turn_patch = tmp_path / "turns.con.xml"
+    change = {"id": "7", "restriction": "no_left_turn", "status": "newly_allowed", "group": ["A", "B"],
+              "links": [["in", "out"]]}
+    osm_network._write_turn_patch(turn_patch, {})
+    monkeypatch.setattr(osm_network, "_signal_node_file_master_check", lambda *_: {
+        "status": "pass", "not_applied_count": 0, "series_traps": [], "long_centre_cycles": {}, "long_joined_cycles": {}})
+    monkeypatch.setattr(osm_network, "_narrow_passenger_lanes", lambda *_: {})
+    monkeypatch.setattr(split_junctions, "read_net", lambda *_: object())
+    monkeypatch.setattr(split_junctions, "osm_turn_restrictions", lambda *_: [])
+    monkeypatch.setattr(split_junctions, "split_junction_groups", lambda *_: {
+        "edge_m": 1.0, "controller_edge_m": 7.5, "span_m": 30.0, "linker_edge_count": 1,
+        "controller_linker_edge_count": 0, "skipped": [], "groups": [{"nodes": ["A", "B"]}]})
+    monkeypatch.setattr(split_junctions, "restriction_changes", lambda *_: [change])
+    joins_seen = []
+
+    def regroup(**fallbacks):
+        joins_seen.append([list(nodes) for nodes in fallbacks["joins"]])
+        return {"status": "measured", "node_file": str(node_file), "node_file_sha256": "0" * 64}
+
+    grouping, _ = osm_network._settle_master_signals(
+        {"status": "measured", "node_file": str(node_file), "node_file_sha256": "0" * 64}, {"status": "pass"},
+        net_file=net_file, osm_file=tmp_path / "area.osm.xml", regroup=regroup, rebuild=lambda: {"status": "pass"},
+        lane_width_patch=tmp_path / "widths.edg.xml", turn_patch=turn_patch)
+
+    joining = grouping["split_junction_joins"]
+    assert joins_seen == [[["A", "B"]], [["A", "B"]], []]
+    assert (joining["join_count"], joining["dropped_joins"], joining["deleted_turn_count"]) == (0, ["cluster_A_B"], 0)
+    assert "<delete" not in turn_patch.read_text(encoding="utf-8")
+
+
 def test_extract_largest_passenger_component_core_writes_keep_and_discard_records(tmp_path: Path) -> None:
     net_file = tmp_path / "raw.net.xml"
     net_file.write_text(
@@ -3089,9 +3238,11 @@ def test_extract_largest_passenger_component_core_falls_back_without_postload(
     )
 
     calls = []
+    timeouts = []
 
     def fake_command_runner(command, **kwargs):
         calls.append(command)
+        timeouts.append(kwargs["timeout_seconds"])
         if "--keep-edges.postload" not in command:
             output_file = Path(kwargs["cwd"]) / command[command.index("--output-file") + 1]
             output_file.write_text("<net/>", encoding="utf-8")
@@ -3102,6 +3253,7 @@ def test_extract_largest_passenger_component_core_falls_back_without_postload(
         net_file,
         output_dir=tmp_path / "core",
         prefix="fallback",
+        timeout_seconds=600.0,
         command_runner=fake_command_runner,
     )
 
@@ -3110,6 +3262,8 @@ def test_extract_largest_passenger_component_core_falls_back_without_postload(
     assert len(report["command_attempts"]) == 2
     assert "--keep-edges.postload" in calls[0]
     assert "--keep-edges.postload" not in calls[1]
+    # The postload attempt is bounded; the rebuild that replaces it keeps the caller's timeout.
+    assert timeouts == [60.0, 600.0]
 
 
 def test_launch_netedit_reports_unavailable_when_binary_missing(tmp_path: Path) -> None:

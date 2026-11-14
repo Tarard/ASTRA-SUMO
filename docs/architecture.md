@@ -296,15 +296,23 @@ centre above 90 s, or two controllers less than one car apart on a lane that
 are green together for less than half of the shorter green, changes the node
 file. Once no centre is long, the node file also joins split junctions: nodes
 with three or more vehicle-road neighbours linked by a vehicle edge that the
-junction polygons cut to under 1 m, each group taking in the rest of any
-multi-node controller it touches (at most 30 m across). The next master drops
-every join that changes an OSM turn restriction with its via node in the group
-or gives a centre a program over 90 s. With the joins settled, every lane open
+junction polygons cut to under 1 m, or to under 7.5 m (one car with its gap)
+between two nodes of one controller, each group taking in the rest of any
+multi-node controller it touches (at most 30 m across). Where a join only opens
+a turn that an OSM restriction with its via node in the group forbids, the join
+stays and a connection file deletes that turn; the next master is checked
+again. A join that loses a mandatory turn, still changes a restriction after
+the deletion or gives a centre a program over 90 s is dropped. With the joins settled, every lane open
 to passenger cars that is narrower than 2.5 m (OSM width tags split over two
 directions give 1.2-1.75 m) is widened through an edge file the master loads, so
-that passing cars no longer overlap. The master is rebuilt at most six times.
-The build reports the node-file rows that did not take effect, the joins and the
-crossings that lost or gained a signal.
+that passing cars no longer overlap. In the same round, a passenger lane that
+kept no connection at a junction the node file signalised gets the connections
+of the vehicle-road build back through the connection file; lanes are matched
+by their position among the vehicle lanes, and an edge whose lane count differs
+is reported and left alone. The master is rebuilt at most six times.
+The build reports the node-file rows that did not take effect, the joins, the
+turns it deleted, the lanes it reconnected and the crossings that lost or
+gained a signal.
 
 ## Layer 3: Executor
 
