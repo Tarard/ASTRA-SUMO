@@ -57,4 +57,22 @@ vehicle has arrived.
 The status is `measured` when at least one network was replayed and `blocked` with a `reason` otherwise. A network that
 has none of the trips' edges is `blocked` in its own row.
 
-To look at a queue or a collision, draw it with [motion review](motion-review.md).
+## Draw a window of the replay
+
+To look at a queue or a collision, or to show two networks side by side, draw a window of the replay:
+
+```powershell
+astra review replay-motion <new-dir>/load-replay.json <another-new-dir> --bbox W,S,E,N --begin 1800 --end 1860 --json
+```
+
+It runs the routes of the replay again with the same seed and options, up to `--end`, and records the positions
+inside the window, the signal states there and the summary. It then writes `motion.request.json` with the hash of
+every file and renders it as [motion review](motion-review.md) does, into `motion/`. The replay folders are only
+read.
+
+- Without `--network`, the first two replayed networks are drawn; name one or two with `--network <name>`.
+- `--begin` to `--end` is at most 599 seconds and must end before the replay did.
+- `--buildings <file.poly.xml>` draws building footprints under the lanes; `--no-signals` leaves the signals out.
+- `--pixels-per-metre` sets the scale. For a whole district use about 0.2 and `--no-signals`.
+
+The status is `measured`, or `blocked` with a `reason` when SUMO is missing or a run fails.

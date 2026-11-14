@@ -48,6 +48,7 @@ arrivals, collisions and standing vehicles (see [load replay](load-replay.md)):
 
 ```powershell
 astra network load-replay <trips.xml> <new-dir> --net plain=<a.net.xml> --net astra=<b.net.xml> --json
+astra review replay-motion <new-dir>/load-replay.json <another-new-dir> --bbox W,S,E,N --begin 1800 --end 1860 --json
 ```
 
 Run an allowlisted long, batch, Hamburg-specific, or candidate-generation

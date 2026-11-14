@@ -41,6 +41,9 @@ Relative input paths resolve from the request directory. Record the actual SHA-2
 - `summary` is SUMO's `--summary-output`; with it each frame names the whole-network counts of that second.
 - `buildings` is a SUMO polygon file in the same coordinates.
 
+For the runs of a [load replay](load-replay.md), `astra review replay-motion` records these files, writes the
+request and renders it in one step.
+
 A run writes the two inputs with options such as:
 
 ```powershell

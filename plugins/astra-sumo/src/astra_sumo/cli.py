@@ -372,6 +372,20 @@ def _build_parser() -> argparse.ArgumentParser:
     motion.add_argument("request_file")
     motion.add_argument("output_dir")
     _add_output_argument(motion)
+    replay_motion = review_sub.add_parser(
+        "replay-motion", help="Record a window of one or two networks of a load replay and draw them side by side.")
+    replay_motion.add_argument("replay_report", help="load-replay.json of astra network load-replay")
+    replay_motion.add_argument("output_dir")
+    replay_motion.add_argument("--bbox", required=True, help="W,S,E,N WGS84 window to draw.")
+    replay_motion.add_argument("--begin", type=int, required=True, help="First simulated second to draw.")
+    replay_motion.add_argument("--end", type=int, required=True, help="Last simulated second to draw.")
+    replay_motion.add_argument("--network", action="append", metavar="NAME",
+                               help="A network of the report; repeat for a second panel. Default: the first two.")
+    replay_motion.add_argument("--buildings", help="SUMO polygon file drawn under the lanes.")
+    replay_motion.add_argument("--pixels-per-metre", type=float, default=1.5)
+    replay_motion.add_argument("--no-signals", action="store_true", help="Record and draw no signal states.")
+    replay_motion.add_argument("--timeout-seconds", type=float, default=1800.0)
+    _add_output_argument(replay_motion)
     create = review_sub.add_parser("create", help="Create a network review HTML page.")
     create.add_argument("output_dir")
     create.add_argument("--net-file")
@@ -666,6 +680,13 @@ def _dispatch(args: argparse.Namespace) -> int:
 
         return _emit(render_network_aerial_review(request_file=args.request_file, output_dir=args.output_dir),
                      json_output=json_output)
+    if args.command == "review" and args.review_command == "replay-motion":
+        from .core.replay_motion import record_replay_motion
+
+        return _emit(record_replay_motion(
+            replay_report=args.replay_report, output_dir=args.output_dir, bbox=args.bbox, begin_s=args.begin,
+            end_s=args.end, networks=args.network, buildings=args.buildings, pixels_per_metre=args.pixels_per_metre,
+            signals=not args.no_signals, timeout_seconds=args.timeout_seconds), json_output=json_output)
     if args.command == "review" and args.review_command == "motion":
         from .core.motion_review import render_motion_review
 
