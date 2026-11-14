@@ -333,6 +333,17 @@ def _build_parser() -> argparse.ArgumentParser:
     boundary.add_argument("--static-only", action="store_true", help="Classify and count reachable pairs without SUMO.")
     boundary.add_argument("--timeout-seconds", type=float, default=900.0)
     _add_output_argument(boundary)
+    replay = network_sub.add_parser(
+        "load-replay", help="Replay one frozen trip file on several networks and compare what the same demand did.")
+    replay.add_argument("trip_file")
+    replay.add_argument("output_dir")
+    replay.add_argument("--net", action="append", required=True, metavar="NAME=NET_FILE",
+                        help="A network to replay on; repeat it. The first one is the reference of the comparison.")
+    replay.add_argument("--seed", type=int, default=42)
+    replay.add_argument("--initial-end", type=int, default=2700)
+    replay.add_argument("--max-end", type=int, default=3600)
+    replay.add_argument("--timeout-seconds", type=float, default=2400.0)
+    _add_output_argument(replay)
     movements = network_sub.add_parser("movement-probes", help="Test every declared official movement through its full internal lane chain.")
     movements.add_argument("candidate_manifest")
     movements.add_argument("output_dir")
@@ -632,6 +643,14 @@ def _dispatch(args: argparse.Namespace) -> int:
             prefix=args.prefix, boundary=args.bbox, margin_m=args.margin_m, vehicles_per_entry=args.vehicles_per_entry,
             min_vehicles_per_exit=args.min_vehicles_per_exit, demand_seconds=args.demand_seconds, seed=args.seed,
             run_simulation=not args.static_only, timeout_seconds=args.timeout_seconds), json_output=json_output)
+    if args.command == "network" and args.network_command == "load-replay":
+        from .core.load_replay import run_load_replay
+
+        if any("=" not in item for item in args.net):
+            raise ValueError("Give every network as NAME=NET_FILE.")
+        return _emit(run_load_replay(trip_file=args.trip_file, networks=dict(item.split("=", 1) for item in args.net),
+                                     output_dir=args.output_dir, seed=args.seed, initial_end=args.initial_end,
+                                     max_end=args.max_end, timeout_seconds=args.timeout_seconds), json_output=json_output)
     if args.command == "demand" and args.demand_command == "audit":
         return _emit(
             astra_demand_audit(

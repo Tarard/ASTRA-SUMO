@@ -49,7 +49,8 @@
   turnaround, unreachable cut endpoints, edges on no boundary path or a vehicle that does not arrive (collided and
   teleported vehicles count as not arrived) set it to `review_required`; the endpoints are in
   `boundary_completeness_endpoints_file`. Without the SUMO binaries only the load is `blocked`, as for
-  `routeability_audit`.
+  `routeability_audit`. Its load is four vehicles per entry and finds unreachable endpoints, not queues; for a
+  heavier load or a comparison with another build under the same trips use `astra network load-replay`.
 - `status: fail` means a broken build or structure. Open review items cap a sound run at `review_required` (exit code
   1); `review_required_gates` lists each such gate with its `reason`.
 - `network_layers` has one entry per layer with `net_file`, `sha256`, `derived_from_sha256`, `modes`, `edge_count`,

@@ -43,6 +43,13 @@ passes only when every vehicle arrives (`--static-only` skips SUMO):
 astra network boundary-completeness <network.net.xml> <output-dir> --bbox W,S,E,N --json
 ```
 
+Replay one frozen trip file on several networks with the same seed and compare
+arrivals, collisions and standing vehicles (see [load replay](load-replay.md)):
+
+```powershell
+astra network load-replay <trips.xml> <new-dir> --net plain=<a.net.xml> --net astra=<b.net.xml> --json
+```
+
 Run an allowlisted long, batch, Hamburg-specific, or candidate-generation
 capability with a JSON request:
 
