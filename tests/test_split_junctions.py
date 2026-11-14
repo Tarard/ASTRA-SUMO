@@ -149,7 +149,11 @@ def test_osm_turn_restrictions_keep_relations_with_one_via_node(tmp_path: Path) 
         {"id": "1", "restriction": "no_left_turn", "from": "10", "via": "5", "to": "20"}]
 
 
-def test_split_junction_groups_attach_unsignalised_two_neighbour_nodes_only() -> None:
+def test_split_junction_groups_attach_unsignalised_two_neighbour_nodes_only(monkeypatch) -> None:
+    from astra_sumo.core import split_junctions
+
+    # The rule is off by default; this is what it does when switched on.
+    monkeypatch.setattr(split_junctions, "SPLIT_ATTACH_TWO_NEIGHBOUR_NODES", True)
     edges = {"jx": ("J", "X", [0.2], True, True), "xj": ("X", "J", [0.2], True, True),
              "js": ("J", "S", [0.3], True, True), "sj": ("S", "J", [0.3], True, True),
              "xa": ("X", "A", [80.0], True, True), "sb": ("S", "B", [80.0], True, True),

@@ -2510,8 +2510,12 @@ def _plain_graph(edges: dict[str, tuple[str, str, float]], nodes: dict[str, tupl
         incoming, neighbours, pair_length, {edge_id: {node_id} for edge_id, node_id in signals.items()})
 
 
-def test_stop_line_cluster_that_takes_in_a_side_junction_is_retried_in_parts() -> None:
+def test_stop_line_cluster_that_takes_in_a_side_junction_is_retried_in_parts(monkeypatch) -> None:
+    from astra_sumo.core import osm_network
     from astra_sumo.core.osm_network import _stop_line_centres
+
+    # The retry in parts is off by default; this is what it does when switched on.
+    monkeypatch.setattr(osm_network, "_STOP_LINE_SUB_CLUSTERS", True)
 
     # A and B are the two carriageways of a junction, 10 m apart, with a stop-line signal 15 m up each of their
     # four arms; K is an unsignalised side junction 25 m beyond B, reached one way from B.

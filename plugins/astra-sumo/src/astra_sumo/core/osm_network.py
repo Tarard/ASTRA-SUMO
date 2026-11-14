@@ -918,6 +918,10 @@ def _carries_crossing(tags: Mapping[str, str]) -> bool:
 _STOP_LINE_SIGNAL_DISTANCE_M = 36.0
 _STOP_LINE_CLUSTER_DISTANCE_M = 30.0
 _STOP_LINE_SUB_CLUSTER_DISTANCE_M = 20.0
+# Whether a cluster that does not qualify as a whole is tried in parts (sub-clusters at the distance above, then
+# without its members whose approaches all lack a signal) before its single nodes. Off, like the other parts of
+# the v10 trial: see split_junctions.SPLIT_ATTACH_TWO_NEIGHBOUR_NODES for the measurement.
+_STOP_LINE_SUB_CLUSTERS = False
 _STOP_LINE_STUB_M = 30.0
 _STOP_LINE_SIGNAL_SLACK = 0
 # What happens to the crossing signals that served a centre: "keep" their own controller, "join" the centre's
@@ -946,7 +950,7 @@ _SERIES_WALK_LANES = 4
 _SERIES_HORIZON_CAP_S = 3600
 _SERIES_MIN_COMMON_GREEN_SHARE = 0.5
 _SIGNAL_REBUILD_ROUNDS = 8
-_JOIN_ROUNDS = 2
+_JOIN_ROUNDS = 1
 
 
 class _PlainRoadGraph(NamedTuple):
@@ -1207,7 +1211,8 @@ def _stop_line_centres(
             # A cluster that does not qualify as a whole: its parts, then each of its nodes may still qualify. A
             # cluster the long-cycle guard split goes to single nodes at once. A node that already has a
             # controller keeps it.
-            found, rest = ([], members) if tl_id in split_clusters else parts(members)
+            found, rest = (parts(members) if _STOP_LINE_SUB_CLUSTERS and tl_id not in split_clusters
+                           else ([], members))
             singles = [row for row, _ in (centre([node_id]) for node_id in rest
                                           if graph.nodes[node_id][3] is None and node_id not in dropped_nodes)
                        if row is not None]
@@ -1684,8 +1689,9 @@ def _signal_node_file_master_check(node_file: Path, net_file: Path) -> dict[str,
 # such a lane overlaps the opposite lane, and SUMO reports the passing vehicles as junction collisions (central
 # Dresden: 16 of 22 at low load). Lanes open to passenger cars are widened to this width.
 _MIN_PASSENGER_LANE_WIDTH_M = 2.5
-# Widening grows the junction polygons, so more edges are swallowed when the joins come after it.
-_WIDEN_BEFORE_JOINS = True
+# Widening grows the junction polygons, so more edges are swallowed when the joins come after it. Off: see
+# split_junctions.SPLIT_ATTACH_TWO_NEIGHBOUR_NODES for the measurement.
+_WIDEN_BEFORE_JOINS = False
 
 
 def _narrow_passenger_lanes(net_file: Path, min_width_m: float) -> dict[str, list[tuple[int, float]]]:

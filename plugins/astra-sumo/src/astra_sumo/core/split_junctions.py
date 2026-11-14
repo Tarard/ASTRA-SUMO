@@ -24,11 +24,16 @@ from typing import Any
 # (5 m + 2.5 m): a shorter median edge stores no vehicle, so a car that turns into it stands across the first half
 # until the second half gets green and blocks the lane behind it. A group that had to take in the rest of a
 # multi-node controller and is then wider than SPLIT_SPAN_M is left alone.
-SPLIT_EDGE_M = 1.5
+SPLIT_EDGE_M = 1.0
 CONTROLLER_SPLIT_EDGE_M = 7.5
 SPLIT_SPAN_M = 30.0
-# Whether an unsignalised node with two neighbours inside a junction polygon joins that junction.
-SPLIT_ATTACH_TWO_NEIGHBOUR_NODES = True
+# Whether an unsignalised node with two neighbours inside a junction polygon joins that junction. Off: on central
+# Dresden it joined 759 groups instead of 106 and removed the first or last edge of 105 of 2,265 boundary trips. With
+# it, a 1.5 m edge limit, _WIDEN_BEFORE_JOINS, two join rounds and _STOP_LINE_SUB_CLUSTERS together, 92.9-98.8 % of the
+# remaining 1x boundary load arrived and up to 136 vehicles stood still, against 98.4-99.7 % and up to 9 without them.
+# The five were measured together, not one by one. The 1.5 m limit did not keep the Koenneritzstrasse join either:
+# the turn-restriction check dropped it.
+SPLIT_ATTACH_TWO_NEIGHBOUR_NODES = False
 _WAY_ID = re.compile(r"-?(\d+)")
 
 
