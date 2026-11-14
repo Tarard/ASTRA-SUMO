@@ -35,6 +35,12 @@
 
 ## Reading the cleanup result
 
+- Read `<output_dir>/workflow.manifest.json` first. It lists the inputs with their SHA-256, one row per stage
+  (`pass`, `review_required`, `blocked` or `not_applicable`, with the reason and the artifact hash),
+  `first_incomplete_stage`, `next_action` and the counts of what the build changed (signal centres, demoted
+  signals, joined junctions, deleted turns, widened lanes). `network-handoff.json` names the networks to pass on.
+  Both repeat the gates below; they add no decision. The result also carries `workflow_record_file`,
+  `network_handoff_file`, `first_incomplete_stage` and `next_action`.
 - `gate_status` holds one value per check: `network_build`, `connectivity`, `topology_audit`, `routeability_audit`,
   `connection_mode_audit`, `boundary_completeness`, `tls_reality_audit`, `tls_aggregation`, `network_layers`,
   `master_tls_cycles`, plus `reference_*` gates for `reference_matched`.

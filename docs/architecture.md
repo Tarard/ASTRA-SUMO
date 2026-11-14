@@ -319,6 +319,13 @@ gained a signal.
 The executor runs bounded stages that transform or audit artifacts. Each stage
 should eventually accept a `WorkflowState` and return a `StageResult`.
 
+The OSM cleanup workflow ends by writing a project record next to its outputs:
+`workflow.manifest.json` (inputs with hashes, one row per stage with status,
+reason and artifact hash, `first_incomplete_stage`, `next_action`, counts of
+what the build changed) and `network-handoff.json` (the networks to pass on).
+`core/osm_workflow_record.py` derives both from the gates of the finished run
+and decides nothing.
+
 Current state: `WorkflowState` and most `StageResult` values are reporting
 adapters built after the legacy OSM workflow has run.  They are not yet the
 authoritative execution state.  New work must not add more orchestration to the

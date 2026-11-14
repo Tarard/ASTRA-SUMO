@@ -7,6 +7,7 @@ from typing import Any, Callable, Literal, Mapping, Sequence
 
 from .osm_area import osm_map_url_bbox, osm_preview_url, resolve_osm_place
 from .connectivity import extract_largest_passenger_component_core, summarize_passenger_connectivity
+from .osm_workflow_record import write_osm_workflow_record
 from .connection_mode_audit import build_network_connection_mode_audit
 from .boundary_completeness import run_boundary_completeness_audit
 from .corridor_edit_ledger import build_corridor_edit_ledger
@@ -7421,4 +7422,6 @@ def run_osm_cleanup_workflow(
             "workflow_review_html": workflow_review_html_report,
         }
     )
+    # The one-screen project record: stage rows, first incomplete stage, next action and the network handoff.
+    report.update(write_osm_workflow_record(report, output_dir=output_dir))
     return report
