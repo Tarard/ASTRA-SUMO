@@ -109,7 +109,7 @@ The guard checks each action against the constraints of the scenario:
 
 Each intervention is written to the guard log with time, traffic light, requested action, applied action, and reason. The run record reports the number of interventions per controller.
 
-**Source of timing constraints.** ASTRA does not yet hold an intergreen matrix. Official program rebuilds use an all-red placeholder, and the NEMA binding uses generic yellow values that are not reviewed. The guard therefore uses this order:
+**Source of timing constraints.** On `main` (release 1.3.1, 2026-11-16), ASTRA holds no intergreen data. Official program rebuilds use an all-red placeholder, and the NEMA binding uses generic yellow values that are not reviewed. The development branches go further: an OCIT-C reader (`core/ocit_c_programs.py`) reads the source's safety intergreen matrix and checks the source timelines against it, for the five frozen Hamburg Ring1 sites. It checks source consistency only and does not bind intergreens to SUMO control. The guard therefore uses this order:
 
 1. official intergreen or clearance data, when a reviewed source exists (for example OCIT supply data);
 2. the clearance phases of the source program;
@@ -170,7 +170,7 @@ The placement follows [`AGENTS.md`](../../AGENTS.md):
 | Baseline controllers | `plugins/astra-sumo/src/astra_sumo/core/control/baselines/` |
 | sumo-rl adapter (optional dependency) | `plugins/astra-sumo/src/astra_sumo/core/control/adapters/` |
 | MCP tools (thin) | `plugins/astra-sumo/src/astra_sumo/tools/` and `docs/mcp-tool-catalog.md` |
-| CLI entry point | `plugins/astra-sumo/scripts/` |
+| CLI command | an `astra` subcommand in `plugins/astra-sumo/src/astra_sumo/cli.py`; any script in `plugins/astra-sumo/scripts/` only calls package code |
 | Run record schema | `schemas/product/` |
 | Scenario manifests | `benchmarks/` |
 | Tests with a test TraCI object | `tests/` |
@@ -185,7 +185,7 @@ The placement follows [`AGENTS.md`](../../AGENTS.md):
 
 ## Open Questions
 
-1. Which reviewed source can provide intergreen data first: OCIT supply data or the Hamburg official program data?
+1. The OCIT-C reader on the development branches is the first candidate source. How does its intergreen check output become guard constraints, and which source covers intersections without OCIT supply data?
 2. Should the sumo-rl adapter be an optional dependency, or should ASTRA copy only the interface types?
 3. Does the guard insert clearance phases itself, or does it only reject unsafe actions and leave clearance to the controller?
 4. Which pedestrian rules must the guard enforce in the first stage?
