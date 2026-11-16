@@ -20,6 +20,10 @@ This index separates research evidence from current product documentation. The l
 - [Held-out corridor blind-review protocol v2](../held-out-corridor-blind-review-protocol-v2.md)
 - [Ingolstadt human-cleaning teacher protocol](../ingolstadt-human-cleaning-teacher-protocol.md)
 
+## Landscape Snapshots
+
+- [Benchmark and evaluation landscape (2026-11)](benchmark-landscape-2026-11.md)
+
 ## Evidence Assets
 
 Frozen benchmark inputs and adjudication artifacts live under [`benchmarks/`](../../benchmarks/). Research documents may describe a historical state, while benchmark manifests and hashes identify the exact evaluation artifacts used at that point.
