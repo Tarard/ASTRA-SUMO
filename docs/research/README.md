@@ -10,6 +10,10 @@ This index separates research evidence from current product documentation. The l
 - [Corridor research implementation status](../torii-corridor-research-implementation-status.md)
 - [Stage 1-M machine review-ready plan](../stage1-machine-review-ready-plan.md)
 
+## Design Proposals
+
+- [Controller interface design proposal (2026-11)](control-interface-design-2026-11.md)
+
 ## Reproducible Protocols
 
 - [Standard small-network v1](../standard-small-network-v1.md)
