@@ -71,12 +71,14 @@ Sources: [SWE-bench](https://www.swebench.com/original.html), [τ-bench](https:/
 
 ## Current ASTRA Position
 
+This section describes `main` (release 1.3.1) on 2026-11-16. The development branches are ahead of it; the differences that matter here are noted.
+
 ASTRA already has several benchmark parts:
 
 - XS-1 and XS-2 (`examples/03_xs1_four_way_tls`, `examples/04_xs2_three_way_tls`) start from frozen OSM extracts, run named checks, and keep committed golden outputs (`golden/`) for rerun comparison.
 - Project records bind inputs to SHA-256 hashes and keep stage status, rollback, and signal ownership evidence.
 - `examples/01_signal_control_audit` defines fixed-time, max-pressure, and data-informed audit cases. It requires completion, unfinished vehicles, teleports, pairing, and controller identity before metric averages.
-- `benchmarks/` is the declared place for frozen evaluation assets. The public snapshot omits these datasets.
+- `benchmarks/` is the declared place for frozen evaluation assets. The release omits these datasets. The development branches hold calibration and diagnosis packages for the Hamburg Ring1 corridor, but none is a scenario set for controller comparison.
 
 ASTRA does not yet have:
 
@@ -87,7 +89,7 @@ ASTRA does not yet have:
 
 ## Candidate Improvements
 
-Each item names the capability group from `AGENTS.md`. The order is a suggestion, not a release plan.
+Each item names its capability group (Build, Calibrate, or Simulate). The order is a suggestion, not a release plan.
 
 1. **Controller interface (Simulate).** Define a small controller contract on top of TraCI. Keep it compatible with the sumo-rl Gymnasium/PettingZoo interface, so that existing RL and rule-based controllers run without changes. Record controller identity, version, and parameters in the run record.
 2. **Baseline controllers (Simulate).** Provide at least: the official or source signal plan from the signal ownership record, SUMO actuated control, Max Pressure, and a Webster-type fixed-time plan. Each baseline passes the existing signal-control audit before it is used as a reference.
@@ -97,7 +99,7 @@ Each item names the capability group from `AGENTS.md`. The order is a suggestion
 6. **Per-case checklist (all groups).** Add the ABC task-validity and outcome-validity questions to each frozen case.
 7. **Results table.** Keep a versioned results file per scenario set, so that new methods can be compared with the baselines.
 
-Practices not adopted as the only verdict: an LLM judge (SimSkill). It conflicts with the Evidence Invariants in `AGENTS.md`, because a verdict must bind to exact hashes and deterministic checks. An LLM judge can add a secondary review.
+Practices not adopted as the only verdict: an LLM judge (SimSkill). It conflicts with ASTRA's evidence rules in `AGENTS.md`, because a verdict must bind to exact hashes and deterministic checks. An LLM judge can add a secondary review.
 
 ## Interpretation Rule
 
