@@ -24,6 +24,10 @@ This index separates research evidence from current product documentation. The l
 
 Frozen benchmark inputs and adjudication artifacts live under [`benchmarks/`](../../benchmarks/). Research documents may describe a historical state, while benchmark manifests and hashes identify the exact evaluation artifacts used at that point.
 
+## Project Surveys
+
+- [AI and SUMO project survey (2026-11)](ai-sumo-project-survey-2026-11.md)
+
 ## Interpretation Rule
 
 Research documents are evidence snapshots, protocols, or plans. They may contain dated tool counts, experiment states, or claim boundaries. For current user-facing behavior, use the top-level [`README.md`](../../README.md), [Architecture](../architecture.md), and [`docs/README.md`](../README.md).
